@@ -17,11 +17,11 @@ public class Mitarbeiter {
 	
 	private Berechtigung berechtigung;
 	private Arbeitszeitkonto azk;
-	private Status status;
+	private Statustyp status;
 	private Zugehoerigkeit zugehoerigkeit;
 	
 	// KONSTRUKTOR
-	public Mitarbeiter(String name, String vorname, String passwort, char geschlecht, Date geburtstag, Berechtigung berechtigung, Status status, Zugehoerigkeit zugehoerigkeit, int personalnummer) {
+	public Mitarbeiter(String name, String vorname, String passwort, char geschlecht, Date geburtstag, Berechtigung berechtigung, Statustyp status, Zugehoerigkeit zugehoerigkeit, int personalnummer) {
 	this.name = name;
 	this.vorname = vorname;
 	this.passwort = passwort;
@@ -132,11 +132,11 @@ public class Mitarbeiter {
 		this.azk = azk;
 	}
 
-	public Status getStatus() {
+	public Statustyp getStatus() {
 		return status;
 	}
 
-	public void setStatus(Status status) {
+	public void setStatus(Statustyp status) {
 		this.status = status;
 	}
 

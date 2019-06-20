@@ -1,24 +1,24 @@
 package logik;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.Date;
 
 import interfaces.*;
 
-// SINGLETON!!!
+// SINGLETON!
 public class Personalverwaltung implements Verwaltung {
 
 	// PRIVAT
 	private static Mitarbeiter[] aktiveMA; //MA Liste
 	private static Personalverwaltung uniqueInstance; //Einzigartige Instanz
 	private static int personalnummer;
-	//public static Personalverwaltung getInstance; 
+	
 	
 	public static Personalverwaltung getInstance() {
+		/*@author: 		Jakob Küchler
+		 *@date: 		20.06.2019
+		 *@description:	Gibt die einzige Instanz von Personalverwaltung aus (Singleton)
+		 */
+			
 		if(uniqueInstance == null) {
 			uniqueInstance = new Personalverwaltung();
 		}
@@ -35,12 +35,21 @@ public class Personalverwaltung implements Verwaltung {
 	// PRIVATE METHODEN (HILFSMITTEL)
 	
 	private void extendListAktiveMA() {
+		/*@author: 		Jakob Küchler
+		 *@date: 		20.06.2019
+		 *@description:	Erweitert die Liste aktiveMA um ein Feld 
+		 */
 		Mitarbeiter[] newList =	new Mitarbeiter[(aktiveMA.length+1)];
 		System.arraycopy(aktiveMA, 0, newList, 0, aktiveMA.length);
 		this.aktiveMA = newList;
 	}
 	
 	private int createPersonalnummer() {
+		/*@author: 		Jakob Küchler
+		 *@date: 		20.06.2019
+		 *@description:	Erstellt automatisiert eine Personalnummer und gibt diese zurück. 
+		 */
+		
 		return personalnummer+1;
 	}
 	
@@ -61,7 +70,10 @@ public class Personalverwaltung implements Verwaltung {
 	}
 	
 	private void createMAonTerminal() throws Exception {
-		// für Terminal
+		/*@author: 		Jakob Küchler
+		 *@date: 		20.06.2019
+		 *@description:	Fügt neuen Mitarbeiter per Terminal hinzu. Benötigt mehrere Eingaben durch User. Standardberechtigung: User 
+		 */
 		
 		// Liste um 1 Mitarbeiter erweitern
 		extendListAktiveMA();
@@ -103,7 +115,11 @@ public class Personalverwaltung implements Verwaltung {
 
 	@Override
 	public void speichern(String dateiname) throws Exception{
-		// TODO Auto-generated method stub
+		/*@author: 		Jakob Küchler
+		 *@date: 		20.06.2019
+		 *@description:	Speichert die gesamte Objektstruktur der Personalverwaltung in gewünschtem Dateinamen. 
+		 */
+		
 		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(dateiname));
 		out.writeObject(uniqueInstance);
 		out.close();
@@ -112,15 +128,26 @@ public class Personalverwaltung implements Verwaltung {
 
 	@Override
 	public void laden(String dateiname) throws Exception {
-		// TODO Auto-generated method stub
+		/*@author: 		Jakob Küchler
+		 *@date: 		20.06.2019
+		 *@description: Lädt die gesamte Objektstruktur der Personalverwaltung aus gewünschter Datei
+		 */
+		try {
 		ObjectInputStream in = new ObjectInputStream(new FileInputStream(dateiname));
 		this.uniqueInstance = (Personalverwaltung) in.readObject();
 		in.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("Die angegebene Datei wurde nicht gefunden!");
+		}
 	}
 
 	@Override
 	public Object suchen(int nummer) {
-		// TODO Auto-generated method stub
+		/*@author: 		Jakob Küchler
+		 *@date: 		20.06.2019
+		 *@description:	Bekommt eine Personalnummer und durchsucht aktiveMA anhand dessen.
+		 */
+		
 		for(int i=0; i<aktiveMA.length;i++) {
 			if(aktiveMA[i].getPersonalnummer() == nummer) {
 				return aktiveMA[i];
@@ -130,6 +157,11 @@ public class Personalverwaltung implements Verwaltung {
 	}
 	
 	public void show() {
+		/*@author: 		Jakob Küchler
+		 *@date: 		20.06.2019
+		 *@description:	Zeigt alle MA der Liste aktiveMA an. 
+		 */
+		
 		for(int i = 0; i<aktiveMA.length;i++) {
 			System.out.println("Mitarbeiter: "+aktiveMA[i]);
 		}

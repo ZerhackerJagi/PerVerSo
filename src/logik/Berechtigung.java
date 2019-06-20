@@ -5,6 +5,8 @@ public abstract class Berechtigung {
 	public void zeigePlan(int kw) {}
 	
 	               
-	public void zeigeArbeitszeitkonto() {}
+	public void zeigeArbeitszeitkonto() {
+		
+	}
 	
 }
