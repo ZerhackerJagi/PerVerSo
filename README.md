@@ -1,6 +1,6 @@
 # PerVerSo
 
-Personalverwaltungssoftware im Rahmen des 2. Semesters in Wirtschaftsinformatik - Modul: Objektorientierte Programmierung
+### Personalverwaltungssoftware im Rahmen des 2. Semesters in Wirtschaftsinformatik - Modul: Objektorientierte Programmierung
 Studiengang: Wirtschaftsinformatik
 Modul: Objektorientierte Programmierung
 Hochschule: Hochschule für Wirtschaft und Recht Berlin
@@ -11,9 +11,9 @@ Contributors: ShinyFoster, ZerhackerJagi
 
 # INSTALLATION
 
-[ git clone https://github.com/ZerhackerJagi/PerVerSo.git ]
-
-
+```sh
+$ git clone https://github.com/ZerhackerJagi/PerVerSo.git
+```
 
 # FEATURES
 
