@@ -21,7 +21,7 @@ public class Mitarbeiter {
 	private Zugehoerigkeit zugehoerigkeit;
 	
 	// KONSTRUKTOR
-	public Mitarbeiter(String name, String vorname, String passwort, char geschlecht, Date geburtstag, Berechtigung berechtigung, Status status, Zugehoerigkeit zugehoerigkeit) {
+	public Mitarbeiter(String name, String vorname, String passwort, char geschlecht, Date geburtstag, Berechtigung berechtigung, Status status, Zugehoerigkeit zugehoerigkeit, int personalnummer) {
 	this.name = name;
 	this.vorname = vorname;
 	this.passwort = passwort;
@@ -31,12 +31,15 @@ public class Mitarbeiter {
 	this.zugehoerigkeit = zugehoerigkeit;
 	this.geburtsdatum = geburtstag;
 	this.einstellungsdatum = new Date();
+	this.personalnummer = personalnummer;
 	
 	}
 
 	
 	
-	
+	public String toString() {
+		return  this.vorname+" "+this.name +" geboren am "+this.geburtsdatum;
+	}
 	
 	// GETTER & SETTER
 	

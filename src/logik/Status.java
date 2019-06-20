@@ -1,5 +1,5 @@
 package logik;
 
-public class Status {
+public abstract class Status {
 
 }
