@@ -6,6 +6,7 @@ public class Hauptmenue {
 		// TODO Auto-generated method stub
 		System.out.println("Hallo Welt!");
 		System.out.println("Du bist doof");
+		System.out.println("WARUM FUNKTIONIERT DAS NICHT?!?!?!?");
 	}
 
 }
