@@ -11,7 +11,8 @@ Contributors: ShinyFoster, ZerhackerJagi
 
 # INSTALLATION
 
-< git clone https://github.com/ZerhackerJagi/PerVerSo.git >
+[ git clone https://github.com/ZerhackerJagi/PerVerSo.git ]
+
 
 
 # FEATURES
