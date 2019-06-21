@@ -1,8 +1,8 @@
 package logik;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 
+import gui.*;
 import interfaces.*;
 import speicher.Dateizugriff;
 
@@ -69,7 +69,7 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 	@Override
 	public void start() {
 		// TODO Auto-generated method stub
-		
+		new Hauptmenue();
 	}
 	
 
