@@ -13,7 +13,7 @@ import logik.Arbeitsbereich;
 import logik.Mitarbeiter;
 
 
-public class Dateizugriff implements Speichern, Laden{
+public class Dateizugriff implements DateizugriffIF{
 
 //******************** LADEN ********************
 	
@@ -96,7 +96,7 @@ public class Dateizugriff implements Speichern, Laden{
 	private boolean savePV(Object obj) throws Exception {
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		21.06.2019
-		 *@description:	speichert uebergebene Daten in der PV-Datei 
+		 *@description:	legt Backup an und speichert uebergebene Daten in der PV-Datei 
 		 */
 		
 		System.out.println(backup("DataPV"));
@@ -114,13 +114,13 @@ public class Dateizugriff implements Speichern, Laden{
 	private boolean saveABV(Object obj) throws Exception {
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		21.06.2019
-		 *@description:	speichert uebergebene Daten in der PV-Datei 
+		 *@description:	legt Backup an und speichert uebergebene Daten in der ABV-Datei 
 		 */
 		
 		System.out.println(backup("DataABV"));
 		try {
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("DataABV.dat"));
-			out.writeObject((Arbeitsbereich)obj);
+			out.writeObject((ArrayList<Arbeitsbereich>) obj);
 			out.close();
 			return true;
 		} catch (Exception e) {
@@ -130,6 +130,11 @@ public class Dateizugriff implements Speichern, Laden{
 	
 	
 	private boolean backup(String name) {
+		/*@author: 		Soeren Hebestreit
+		 *@date: 		21.06.2019
+		 *@description:	legt Backup an 
+		 */
+		
 		File alt = new File(name+".dat");
 		File neu = new File(name+"_old.dat");
 		neu.delete();
