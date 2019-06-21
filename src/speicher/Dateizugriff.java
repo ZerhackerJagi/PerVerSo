@@ -10,10 +10,31 @@ import java.util.ArrayList;
 
 import interfaces.*;
 import logik.Arbeitsbereich;
+import logik.Arbeitsbereichverwaltung;
 import logik.Mitarbeiter;
 
 
 public class Dateizugriff implements DateizugriffIF{
+	
+//******************** PARAMETER ********************
+	
+	private static Dateizugriff uniqueInstance;
+	
+	
+//******************** KONSTRUKTOR ********************
+	
+	public static Dateizugriff getInstance() {
+		/*@author: 		Soeren Hebestreit
+		 *@date: 		21.06.2019
+		 *@description:	gibt die einzige Instanz von Dateizugriff aus (Singleton)
+		 */
+			
+		if(uniqueInstance == null) {
+			uniqueInstance = new Dateizugriff();
+		}
+		return uniqueInstance;
+	}
+	
 
 //******************** LADEN ********************
 	

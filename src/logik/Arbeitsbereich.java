@@ -1,7 +1,7 @@
 package logik;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+
 
 public class Arbeitsbereich implements Serializable{
 	
@@ -11,7 +11,6 @@ public class Arbeitsbereich implements Serializable{
 	private int arbeitsbereichnummer;
 	private String name;
 	private String beschreibung;
-	private ArrayList <Zugehoerigkeit> inabteilung;
 	
 	
 //******************** KONSTRUKTOR ********************
@@ -25,7 +24,6 @@ public class Arbeitsbereich implements Serializable{
 		this.arbeitsbereichnummer = arbeitsbereichnummer;
 		this.name = name;
 		this.beschreibung = beschreibung;
-		inabteilung = new ArrayList <Zugehoerigkeit> ();
 	}
 
 
@@ -50,20 +48,7 @@ public class Arbeitsbereich implements Serializable{
 		System.out.println(arbeitsbereichnummer+"\t"+name+"\t\t"+beschreibung);
 	}
 	
-	
-	public void showMitarbeiter() {
-		if (inabteilung.size()!=0) {
-			for (int i = 0; i < bereiche.size(); i++) {
-				bereiche.get(i).display();
-				
-			}	
-		} else {
-			System.out.println("keine Mitarbeiter vorhanden");
-		}
-	}
-	
 
-	
 //******************** GETTER & SETTER ********************
 	
 	public int getArbeitsbereichnummer() {
@@ -94,16 +79,6 @@ public class Arbeitsbereich implements Serializable{
 	public void setBeschreibung(String beschreibung) {
 		this.beschreibung = beschreibung;
 	}
-	
-	
-	public ArrayList<Zugehoerigkeit> getInabteilung() {
-		return inabteilung;
-	}
 
-
-	public void setInabteilung(ArrayList<Zugehoerigkeit> inabteilung) {
-		this.inabteilung = inabteilung;
-	}	
-	
 	
 }

@@ -20,7 +20,7 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 	
 	
 	public static Personalverwaltung getInstance() {
-		/*@author: 		Jakob Küchler
+		/*@author: 		Jakob Kuechler
 		 *@date: 		20.06.2019
 		 *@description:	Gibt die einzige Instanz von Personalverwaltung aus (Singleton)
 		 */
