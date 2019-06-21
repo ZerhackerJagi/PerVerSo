@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package gui;
 
 public class AdminGUI {
@@ -10,3 +11,10 @@ public class AdminGUI {
 	}
 	
 }
+=======
+package gui;
+
+public class AdminGUI {
+
+}
+>>>>>>> branch 'master' of https://github.com/ZerhackerJagi/PerVerSo.git
