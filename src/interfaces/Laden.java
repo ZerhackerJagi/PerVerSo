@@ -2,5 +2,5 @@ package interfaces;
 
 public interface Laden {
 
-	boolean laden();
+	Object laden() throws Exception;
 }

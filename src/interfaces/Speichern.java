@@ -2,5 +2,5 @@ package interfaces;
 
 public interface Speichern {
 
-	boolean speichern();
+	boolean speichern(Object obj) throws Exception;
 }

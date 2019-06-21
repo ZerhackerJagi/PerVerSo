@@ -1,6 +1,8 @@
 package logik;
 
-public class User extends Berechtigung {
+import java.io.Serializable;
+
+public class User extends Berechtigung implements Serializable {
 
 	public User() {
 		

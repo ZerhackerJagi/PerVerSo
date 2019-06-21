@@ -1,14 +1,20 @@
 package logik;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 import interfaces.*;
+import speicher.Dateizugriff;
+
+
 
 // SINGLETON!
-public class Personalverwaltung implements Verwaltung {
+public class Personalverwaltung implements Verwaltung,Serializable {
 
 	// PRIVAT
 	private static Mitarbeiter[] aktiveMA; //MA Liste
+	private static ArrayList <Mitarbeiter> aMA;
 	private static Personalverwaltung uniqueInstance; //Einzigartige Instanz
 	private static int personalnummer;
 	
@@ -30,6 +36,7 @@ public class Personalverwaltung implements Verwaltung {
 	private Personalverwaltung() {
 		aktiveMA = new Mitarbeiter[1];
 		aktiveMA[0] = new Mitarbeiter("minda","admin","passwort",'d',new Date(),new Admin(),new Default(),new Zugehoerigkeit(), createPersonalnummer());
+		aMA = new ArrayList <Mitarbeiter> ();
 	}
 	
 	// PRIVATE METHODEN (HILFSMITTEL)
@@ -61,6 +68,7 @@ public class Personalverwaltung implements Verwaltung {
 		// TODO Auto-generated method stub
 		
 	}
+	
 
 	@Override
 	public void create() throws Exception {
@@ -68,6 +76,25 @@ public class Personalverwaltung implements Verwaltung {
 		createMAonTerminal();
 		
 	}
+	
+	
+	public void add(String name,String vorname,String passwort,char gender,int bdayyear,int bdaymonth,int bdayday) throws Exception {
+		Date bday = new Date(bdayyear,bdaymonth,bdayday);
+		aMA.add(new Mitarbeiter(name, vorname, passwort, gender, bday, new User(),new Default(), new Zugehoerigkeit(), createPersonalnummer()));
+	}
+	public void display () {
+		// alle Konten anzeigen
+		
+		if (aMA.size()!=0) {
+			for (int i = 0; i < aMA.size(); i++) {
+				System.out.println(aMA.get(i));
+				
+			}	
+		} else {
+			System.out.println("Empty");
+		}
+	}
+	
 	
 	private void createMAonTerminal() throws Exception {
 		/*@author: 		Jakob Küchler
@@ -113,33 +140,7 @@ public class Personalverwaltung implements Verwaltung {
 		
 	}
 
-	@Override
-	public void speichern(String dateiname) throws Exception{
-		/*@author: 		Jakob Küchler
-		 *@date: 		20.06.2019
-		 *@description:	Speichert die gesamte Objektstruktur der Personalverwaltung in gewünschtem Dateinamen. 
-		 */
-		
-		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(dateiname));
-		out.writeObject(uniqueInstance);
-		out.close();
-		
-	}
-
-	@Override
-	public void laden(String dateiname) throws Exception {
-		/*@author: 		Jakob Küchler
-		 *@date: 		20.06.2019
-		 *@description: Lädt die gesamte Objektstruktur der Personalverwaltung aus gewünschter Datei
-		 */
-		try {
-		ObjectInputStream in = new ObjectInputStream(new FileInputStream(dateiname));
-		this.uniqueInstance = (Personalverwaltung) in.readObject();
-		in.close();
-		} catch (FileNotFoundException e) {
-			System.out.println("Die angegebene Datei wurde nicht gefunden!");
-		}
-	}
+	
 
 	@Override
 	public Object suchen(int nummer) {
@@ -167,7 +168,35 @@ public class Personalverwaltung implements Verwaltung {
 		}
 	}
 
-// GETTER & SETTER
+
+//******************** LOAD & SAVE ********************
+	
+	@Override
+	public void speichern() throws Exception {
+		/*@author: 		Soeren Hebestreit
+		 *@date: 		21.06.2019
+		 *@description:	erzeugt ein Dateizugriff und uebergibt die zu speichernden Daten 
+		 */
+		
+		Dateizugriff data = new Dateizugriff();
+		data.speichern(aMA);	
+	}
+	
+	
+	@Override
+	public void laden() throws Exception {
+		/*@author: 		Soeren Hebestreit
+		 *@date: 		21.06.2019
+		 *@description:	erzeugt ein Dateizugriff und laedt Daten in die Mitarbeiterliste
+		 */
+		
+		Dateizugriff data = new Dateizugriff();
+		aMA = (ArrayList<Mitarbeiter>) data.laden();
+	}
+	
+
+//******************** GETTER & SETTER ********************
+	
 	public static Mitarbeiter[] getAktiveMA() {
 		return aktiveMA;
 	}
@@ -176,6 +205,6 @@ public class Personalverwaltung implements Verwaltung {
 	public static void setAktiveMA(Mitarbeiter[] aktiveMA) {
 		Personalverwaltung.aktiveMA = aktiveMA;
 	}
-	
+
 	
 }

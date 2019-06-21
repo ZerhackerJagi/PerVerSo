@@ -1,8 +1,9 @@
 package logik;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Mitarbeiter {
+public class Mitarbeiter implements Serializable {
 
 	// PRIVATE ATTRIBUTE
 	private String name;

@@ -50,22 +50,36 @@ public class Arbeitsbereichverwaltung implements Verwaltung {
 		
 	}
 
-	@Override
-	public void speichern(String dateiname) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void laden(String dateiname) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public Object suchen(int nummer) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+
+
+
+
+
+	@Override
+	public void speichern() throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+
+	@Override
+	public void laden() throws Exception {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
