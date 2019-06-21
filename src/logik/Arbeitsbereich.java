@@ -48,6 +48,21 @@ public class Arbeitsbereich implements Serializable{
 		System.out.println(arbeitsbereichnummer+"\t"+name+"\t\t"+beschreibung);
 	}
 	
+<<<<<<< HEAD
+=======
+	/*
+	public void showMitarbeiter() {
+		if (inabteilung.size()!=0) {
+			for (int i = 0; i < bereiche.size(); i++) {
+				bereiche.get(i).display();
+				
+			}	
+		} else {
+			System.out.println("keine Mitarbeiter vorhanden");
+		}
+	}
+	*/
+>>>>>>> branch 'master' of https://github.com/ZerhackerJagi/PerVerSo.git
 
 //******************** GETTER & SETTER ********************
 	
@@ -56,9 +71,9 @@ public class Arbeitsbereich implements Serializable{
 	}
 
 
-//	public void setArbeitsbereichnummer(int arbeitsbereichnummer) {
-//		this.arbeitsbereichnummer = arbeitsbereichnummer;
-//	}
+	public void setArbeitsbereichnummer(int arbeitsbereichnummer) {
+		this.arbeitsbereichnummer = arbeitsbereichnummer;
+	}
 
 
 	public String getName() {

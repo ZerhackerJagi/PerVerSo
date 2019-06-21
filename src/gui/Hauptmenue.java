@@ -101,12 +101,18 @@ public class Hauptmenue extends JFrame{
 		lblPerverso.setFont(new Font("Dialog", Font.BOLD, 20));
 		lblPerverso.setBounds(85, 42, 288, 45);
 		getContentPane().add(lblPerverso);
+		
+		setVisible(true);
 	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+<<<<<<< HEAD
 		
 		
+=======
+		new Hauptmenue();
+>>>>>>> branch 'master' of https://github.com/ZerhackerJagi/PerVerSo.git
 	}
 
 }
