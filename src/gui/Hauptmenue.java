@@ -6,50 +6,38 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JPanel;
+import javax.swing.ImageIcon;
+import javax.swing.border.BevelBorder;
+import javax.swing.JMenuBar;
+import javax.swing.border.LineBorder;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class Hauptmenue extends JFrame{
 	public Hauptmenue() {
-		getContentPane().setBackground(new Color(0, 139, 139));
+		getContentPane().setBackground(new Color(51, 204, 0));
 		getContentPane().setLayout(null);
 		
-		JLabel lblMitarbeiterVerwalten = new JLabel("Mitarbeiter verwalten");
-		lblMitarbeiterVerwalten.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// VERKNÜPFUNG MITARBEITER VERWALTEN
-				
-				
-			}
-		});
-		lblMitarbeiterVerwalten.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblMitarbeiterVerwalten.setBounds(85, 126, 251, 30);
-		getContentPane().add(lblMitarbeiterVerwalten);
+		JLabel lblPerverso = new JLabel("Hauptmenue");
+		lblPerverso.setForeground(new Color(255, 245, 238));
+		lblPerverso.setFont(new Font("Dialog", Font.BOLD, 20));
+		lblPerverso.setBounds(86, 37, 238, 45);
+		getContentPane().add(lblPerverso);
 		
-		JLabel lblArbeitsbereicheVerwalten = new JLabel("Arbeitsbereiche verwalten");
-		lblArbeitsbereicheVerwalten.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// VERKNÜPFUNG ARBEITSBEREICH VERWALTEN
-				
-			}
-		});
-		lblArbeitsbereicheVerwalten.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblArbeitsbereicheVerwalten.setBounds(85, 168, 251, 30);
-		getContentPane().add(lblArbeitsbereicheVerwalten);
-		
-		JLabel lblAuswertungenAnzeigen = new JLabel("Auswertungen anzeigen");
-		lblAuswertungenAnzeigen.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// VERKNÜPFUNG AUSWERTUNG ANZEIGEN 
-			
-			}
-		});
-		lblAuswertungenAnzeigen.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblAuswertungenAnzeigen.setBounds(83, 210, 253, 30);
-		getContentPane().add(lblAuswertungenAnzeigen);
+		JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(102, 255, 51)));
+		panel.setBackground(new Color(51, 204, 0));
+		panel.setBounds(86, 108, 231, 240);
+		getContentPane().add(panel);
+		panel.setLayout(null);
 		
 		JLabel lblArbeitsplaeneVerwalten = new JLabel("Arbeitsplaene verwalten");
+
+		lblArbeitsplaeneVerwalten.setBounds(4, 16, 174, 17);
+		panel.add(lblArbeitsplaeneVerwalten);
+		lblArbeitsplaeneVerwalten.setForeground(Color.WHITE);
 		lblArbeitsplaeneVerwalten.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -57,24 +45,117 @@ public class Hauptmenue extends JFrame{
 				
 				
 			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblArbeitsplaeneVerwalten.setForeground(new Color(0,0,0));
+				
+			}
+			public void mouseExited(MouseEvent e) {
+				lblArbeitsplaeneVerwalten.setForeground(new Color(255,255,255));
+				
+			}
 		});
 		lblArbeitsplaeneVerwalten.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblArbeitsplaeneVerwalten.setBounds(85, 252, 251, 30);
-		getContentPane().add(lblArbeitsplaeneVerwalten);
+		
+		JLabel lblAuswertungenAnzeigen = new JLabel("Auswertungen anzeigen");
+		lblAuswertungenAnzeigen.setBounds(4, 45, 172, 17);
+		panel.add(lblAuswertungenAnzeigen);
+		lblAuswertungenAnzeigen.setForeground(Color.WHITE);
+		lblAuswertungenAnzeigen.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// VERKNÜPFUNG AUSWERTUNG ANZEIGEN 
+			
+			}
+			public void mouseEntered(MouseEvent e) {
+				lblAuswertungenAnzeigen.setForeground(new Color(0,0,0));
+				
+			}
+			public void mouseExited(MouseEvent e) {
+				lblAuswertungenAnzeigen.setForeground(new Color(255,255,255));
+				
+			}
+		});
+		lblAuswertungenAnzeigen.setFont(new Font("Dialog", Font.BOLD, 14));
+		
+		JLabel lblArbeitsbereicheVerwalten = new JLabel("Arbeitsbereiche verwalten");
+		lblArbeitsbereicheVerwalten.setBounds(4, 74, 187, 17);
+		panel.add(lblArbeitsbereicheVerwalten);
+		lblArbeitsbereicheVerwalten.setForeground(Color.WHITE);
+		lblArbeitsbereicheVerwalten.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// VERKNÜPFUNG ARBEITSBEREICH VERWALTEN
+				
+			}
+			public void mouseEntered(MouseEvent e) {
+				lblArbeitsbereicheVerwalten.setForeground(new Color(0,0,0));
+				
+			}
+			public void mouseExited(MouseEvent e) {
+				lblArbeitsbereicheVerwalten.setForeground(new Color(255,255,255));
+				
+			}
+		});
+		lblArbeitsbereicheVerwalten.setFont(new Font("Dialog", Font.BOLD, 14));
+		
+		JLabel lblMitarbeiterVerwalten = new JLabel("Mitarbeiter verwalten");
+		lblMitarbeiterVerwalten.setBounds(4, 103, 155, 17);
+		panel.add(lblMitarbeiterVerwalten);
+		lblMitarbeiterVerwalten.setForeground(Color.WHITE);
+		lblMitarbeiterVerwalten.setBackground(Color.WHITE);
+		lblMitarbeiterVerwalten.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// VERKNÜPFUNG MITARBEITER VERWALTEN
+				
+				
+			}
+			public void mouseEntered(MouseEvent e) {
+				lblMitarbeiterVerwalten.setForeground(new Color(0,0,0));
+				
+			}
+			public void mouseExited(MouseEvent e) {
+				lblMitarbeiterVerwalten.setForeground(new Color(255,255,255));
+				
+			}
+		});
+		lblMitarbeiterVerwalten.setFont(new Font("Dialog", Font.BOLD, 14));
 		
 		JLabel lblProgrammBeenden = new JLabel("Programm beenden");
+		lblProgrammBeenden.setBounds(4, 198, 140, 17);
+		panel.add(lblProgrammBeenden);
+		lblProgrammBeenden.setForeground(Color.WHITE);
 		lblProgrammBeenden.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// PROGRAMM BEENDEN
-				System.exit(EXIT_ON_CLOSE);	
+				System.exit(0);	
+			}
+			public void mouseEntered(MouseEvent e) {
+				lblProgrammBeenden.setForeground(new Color(0,0,0));
+				
+			}
+			public void mouseExited(MouseEvent e) {
+				lblProgrammBeenden.setForeground(new Color(255,255,255));
+				
 			}
 		});
 		lblProgrammBeenden.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblProgrammBeenden.setBounds(85, 294, 251, 30);
-		getContentPane().add(lblProgrammBeenden);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon("/Users/jakobkuchler/Downloads/HWR-Logo_black_small.png"));
+		lblNewLabel.setBounds(6, 416, 150, 34);
+		getContentPane().add(lblNewLabel);
+		
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		JLabel lblLaden = new JLabel("Laden ...");
+		menuBar.add(lblLaden);
 		
 		JLabel lblSpeichernUnter = new JLabel("Speichern unter ...");
+		menuBar.add(lblSpeichernUnter);
 		lblSpeichernUnter.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -82,32 +163,40 @@ public class Hauptmenue extends JFrame{
 				
 				
 			}
+			public void mouseEntered(MouseEvent e) {
+				lblSpeichernUnter.setForeground(new Color(51, 204, 0));
+				
+			}
+			public void mouseExited(MouseEvent e) {
+				lblSpeichernUnter.setForeground(new Color(0,0,0));
+				
+			}
 		});
-		lblSpeichernUnter.setBounds(304, 0, 156, 30);
-		getContentPane().add(lblSpeichernUnter);
-		
-		JLabel lblLaden = new JLabel("Laden ...");
 		lblLaden.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// VERKNÜPFUNG LADEN TO DO
 				
 			}
+			public void mouseEntered(MouseEvent e) {
+				lblLaden.setForeground(new Color(51, 204, 0));
+				
+			}
+			public void mouseExited(MouseEvent e) {
+				lblLaden.setForeground(new Color(0,0,0));
+				
+			}
 		});
-		lblLaden.setBounds(12, 0, 156, 30);
-		getContentPane().add(lblLaden);
 		
-		JLabel lblPerverso = new JLabel("PerVerSo Hauptmenue");
-		lblPerverso.setFont(new Font("Dialog", Font.BOLD, 20));
-		lblPerverso.setBounds(85, 42, 288, 45);
-		getContentPane().add(lblPerverso);
-		
+		setSize(450, 500);
+		getContentPane().add(panel);
 		setVisible(true);
 	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-	}
+		new Hauptmenue();
 
+	}
 }

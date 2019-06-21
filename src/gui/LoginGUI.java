@@ -8,7 +8,7 @@ public class LoginGUI extends JFrame{
 	private JTextField tfUsername;
 	private JPasswordField passwordField;
 	public LoginGUI() {
-		getContentPane().setBackground(new Color(32, 178, 170));
+		getContentPane().setBackground(new Color(0, 204, 0));
 		getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Benutzername: ");

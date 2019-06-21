@@ -1,14 +1,18 @@
 package logik;
-import java.io.*;
+
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
 import comparatoren.*;
 import extern.Datum;
+import gui.*;
 import interfaces.*;
 import speicher.Dateizugriff;
-
 
 
 // SINGLETON!
@@ -73,7 +77,7 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 	@Override
 	public void start() {
 		// TODO Auto-generated method stub
-		
+		new Hauptmenue();
 	}
 	
 
