@@ -1,150 +1,196 @@
 package logik;
 
+
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
+
+import extern.Datum;
+
 
 public class Mitarbeiter implements Serializable {
 
-	// PRIVATE ATTRIBUTE
+//******************** PARAMETER ********************
+	
 	private static final long serialVersionUID = 1L;
+	
+	private int personalnummer;
 	private String name;
 	private String vorname;
-	private int personalnummer;
+	private char geschlecht;
+	private Datum geburtsdatum;
+	
 	private String benutzername;
 	private String passwort;
-	private char geschlecht;
-	private Date geburtsdatum;
-	private Date einstellungsdatum;
-	private Date ausscheidungsdatum;
-	
 	private Berechtigung berechtigung;
+	
+	private Datum einstellungsdatum;
+	private Datum ausscheidungsdatum;
 	private Arbeitszeitkonto azk;
-	private Statustyp status;
 	private ArrayList<Zugehoerigkeit> zugehoerigkeit;
+	private Statustyp status;
 	
-	// KONSTRUKTOR
-	public Mitarbeiter(String name, String vorname, String passwort, char geschlecht, Date geburtstag, Berechtigung berechtigung, Statustyp status, Zugehoerigkeit zugehoerigkeit, int personalnummer) {
-	this.zugehoerigkeit=new ArrayList<Zugehoerigkeit>();
+	
+//******************** KONSTRUKTOR ********************
+	
+	public Mitarbeiter(int personalnummer, String name, String vorname, char geschlecht, Datum geburtstag, 
+			String benutzername, String passwort, Berechtigung berechtigung, 
+			Datum einstellungsdatum, Arbeitszeitkonto azk, Zugehoerigkeit zugehoerigkeit, Statustyp status) {
+		/*@author: 		Soeren Hebestreit
+		 *@date: 		21.06.2019
+		 *@description:	Konstruktor Mitarbeiter komplett
+		 */
 		
-	this.name = name;
-	this.vorname = vorname;
-	this.passwort = passwort;
-	this.geschlecht = geschlecht;
-	this.berechtigung = berechtigung;
-	this.status = status;
-	this.zugehoerigkeit.add(zugehoerigkeit);
-	this.geburtsdatum = geburtstag;
-	this.einstellungsdatum = new Date();
-	this.personalnummer = personalnummer;
-	
+		this.personalnummer = personalnummer;
+		this.name = name;
+		this.vorname = vorname;
+		this.geschlecht = geschlecht;
+		this.geburtsdatum = geburtstag;
+		
+		this.benutzername = benutzername;
+		this.passwort = passwort;
+		this.berechtigung = berechtigung;
+		
+		this.einstellungsdatum = einstellungsdatum;
+		this.ausscheidungsdatum = null;
+		this.azk = azk;
+		this.zugehoerigkeit = new ArrayList<Zugehoerigkeit>();
+		this.zugehoerigkeit.add(zugehoerigkeit);
+		this.status = status;
 	}
 
-	
+
+//******************** AUSGABE ********************
 	
 	public String toString() {
-		return  this.vorname+" "+this.name +" geboren am "+this.geburtsdatum;
+		/*@author: 		Soeren Hebestreit
+		 *@date: 		21.06.2019
+		 *@description:	Textrueckgabe String
+		 */
+		
+		return  personalnummer+"\t"+name+" "+vorname;
 	}
 	
-	// GETTER & SETTER
 	
+	public void display() {
+		/*@author: 		Soeren Hebestreit
+		 *@date: 		21.06.2019
+		 *@description:	Textausgabe Konsole
+		 */
+		
+		System.out.println(personalnummer+"\t"+name+" "+vorname+"\t"+geschlecht+"\t"+geburtsdatum);
+	}
+
+
+//******************** GETTER & SETTER ********************
 	
+	public int getPersonalnummer() {
+		return personalnummer;
+	}
+
+
+	//public void setPersonalnummer(int personalnummer) {
+	//	this.personalnummer = personalnummer;
+	//}
+
+
 	public String getName() {
 		return name;
 	}
+
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
+
 	public String getVorname() {
 		return vorname;
 	}
+
 
 	public void setVorname(String vorname) {
 		this.vorname = vorname;
 	}
 
-	public int getPersonalnummer() {
-		return personalnummer;
-	}
-
-	public void setPersonalnummer(int personalnummer) {
-		this.personalnummer = personalnummer;
-	}
-
-	public String getBenutzername() {
-		return benutzername;
-	}
-
-	public void setBenutzername(String benutzername) {
-		this.benutzername = benutzername;
-	}
-
-	public String getPasswort() {
-		return passwort;
-	}
-
-	public void setPasswort(String passwort) {
-		this.passwort = passwort;
-	}
 
 	public char getGeschlecht() {
 		return geschlecht;
 	}
 
+
 	public void setGeschlecht(char geschlecht) {
 		this.geschlecht = geschlecht;
 	}
 
-	public Date getGeburtsdatum() {
+
+	public Datum getGeburtsdatum() {
 		return geburtsdatum;
 	}
 
-	public void setGeburtsdatum(Date geburtsdatum) {
+
+	public void setGeburtsdatum(Datum geburtsdatum) {
 		this.geburtsdatum = geburtsdatum;
 	}
 
-	public Date getEinstellungsdatum() {
-		return einstellungsdatum;
+
+	public String getBenutzername() {
+		return benutzername;
 	}
 
-	public void setEinstellungsdatum(Date einstellungsdatum) {
-		this.einstellungsdatum = einstellungsdatum;
+
+	public void setBenutzername(String benutzername) {
+		this.benutzername = benutzername;
 	}
 
-	public Date getAusscheidungsdatum() {
-		return ausscheidungsdatum;
+
+	public String getPasswort() {
+		return passwort;
 	}
 
-	public void setAusscheidungsdatum(Date ausscheidungsdatum) {
-		this.ausscheidungsdatum = ausscheidungsdatum;
+
+	public void setPasswort(String passwort) {
+		this.passwort = passwort;
 	}
+
 
 	public Berechtigung getBerechtigung() {
 		return berechtigung;
 	}
 
+
 	public void setBerechtigung(Berechtigung berechtigung) {
 		this.berechtigung = berechtigung;
 	}
+
+
+	public Datum getEinstellungsdatum() {
+		return einstellungsdatum;
+	}
+
+
+	public void setEinstellungsdatum(Datum einstellungsdatum) {
+		this.einstellungsdatum = einstellungsdatum;
+	}
+
+
+	public Datum getAusscheidungsdatum() {
+		return ausscheidungsdatum;
+	}
+
+
+	public void setAusscheidungsdatum(Datum ausscheidungsdatum) {
+		this.ausscheidungsdatum = ausscheidungsdatum;
+	}
+
 
 	public Arbeitszeitkonto getAzk() {
 		return azk;
 	}
 
+
 	public void setAzk(Arbeitszeitkonto azk) {
 		this.azk = azk;
 	}
-
-	public Statustyp getStatus() {
-		return status;
-	}
-
-	public void setStatus(Statustyp status) {
-		this.status = status;
-	}
-
 
 
 	public ArrayList<Zugehoerigkeit> getZugehoerigkeit() {
@@ -152,21 +198,24 @@ public class Mitarbeiter implements Serializable {
 	}
 
 
-
 	public void setZugehoerigkeit(ArrayList<Zugehoerigkeit> zugehoerigkeit) {
 		this.zugehoerigkeit = zugehoerigkeit;
 	}
+	
+	
+	public Zugehoerigkeit getActualAB () {
+		return zugehoerigkeit.get(zugehoerigkeit.size()-1);
+	}
 
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public Statustyp getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(Statustyp status) {
+		this.status = status;
+	}
 
 	
 }

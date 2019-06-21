@@ -10,6 +10,8 @@ public interface VerwaltungIF {
 	public void create();
 	public void edit();
 	public void delete();
+	
+	public void show();
 	public void speichern() throws Exception;
 	public void laden() throws Exception;
 	public Object suchen(int nummer);

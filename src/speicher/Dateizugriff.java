@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 import interfaces.*;
 import logik.Arbeitsbereich;
-import logik.Arbeitsbereichverwaltung;
 import logik.Mitarbeiter;
 
 

@@ -1,5 +1,8 @@
 package tests;
 
+import java.util.Collections;
+
+import comparatoren.*;
 import logik.Arbeitsbereichverwaltung;
 import logik.Personalverwaltung;
 
@@ -11,29 +14,41 @@ public class TestdatenAnlegen {
 		anlegenAB();
 		
 		Personalverwaltung pv = Personalverwaltung.getInstance();
-		pv.display();
+		pv.show();
 		System.out.println("--------");
 		pv.speichern();
 		System.out.println("--------");
-		pv.add("Test", "Test", "x", 'd', 00, 1, 1);
-		pv.display();
+		pv.add("Test", "Test", 'd', 2000, 1, 1);
+		pv.show();
 		System.out.println("--------");
 		pv.laden();
-		pv.display();
+		pv.show();
+		System.out.println("--------");
+		pv.sortName();
+		pv.show();
+		System.out.println("--------");
+		pv.sortNumber();
+		pv.show();
 		
 		System.out.println("--------");
 		System.out.println("--------");
 		
 		Arbeitsbereichverwaltung av = Arbeitsbereichverwaltung.getInstance();
-		av.display();
+		av.show();
 		System.out.println("--------");
 		av.speichern();
 		System.out.println("--------");
 		av.add("Test", "Testabteilung");
-		av.display();
+		av.show();
 		System.out.println("--------");
 		av.laden();
-		av.display();
+		av.show();
+		System.out.println("--------");
+		av.sortName();
+		av.show();
+		System.out.println("--------");
+		av.sortNumber();
+		av.show();
 	}
 
 	
@@ -41,14 +56,14 @@ public class TestdatenAnlegen {
 		
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		
-		pv.add("Mitarbeiter", "A", "maA83", 'm', 83, 8, 15);
-		pv.add("Mitarbeiter", "B", "maB85", 'm', 85, 5, 9);
-		pv.add("Mitarbeiter", "C", "maC84", 'w', 84, 7, 29);
-		pv.add("Mitarbeiter", "D", "maC85", 'w', 85, 2, 4);
-		pv.add("Mitarbeiter", "E", "maC84", 'w', 84, 10, 9);
-		pv.add("Mitarbeiter", "F", "maC85", 'm', 85, 1, 22);
-		pv.add("Mitarbeiter", "G", "maC92", 'd', 92, 3, 14);
-		pv.add("Mitarbeiter", "H", "maC97", 'w', 97, 7, 21);
+		pv.add("Mueller", "Michael", 'm', 15, 8, 1984);
+		pv.add("Maier", "Boris", 'm', 9, 5, 1985);
+		pv.add("Mueller", "Katrin", 'w', 29, 7, 1984);
+		pv.add("Runge", "Dieter", 'm', 4, 2, 1985);
+		pv.add("Guelzow", "Klaus", 'm', 9, 10, 1984);
+		pv.add("Bunk", "Sabrina", 'w', 22, 1, 1985);
+		pv.add("Bechler", "Dietmar", 'd', 14, 3, 1992);
+		pv.add("Ludewig", "Julia", 'w', 21, 7, 1997);
 		
 	}
 	

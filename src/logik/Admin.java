@@ -3,6 +3,8 @@ package logik;
 import java.util.ArrayList;
 import java.util.Date;
 
+import extern.Datum;
+
 public class Admin extends Berechtigung{
 
 	public Admin() {
@@ -70,19 +72,13 @@ public class Admin extends Berechtigung{
 		//@date: 		21.06.2019
 		//@description: 
 		Personalverwaltung pv = Personalverwaltung.getInstance();
-		Arbeitsbereichverwaltung av = Arbeitsbereichverwaltung.getInstance();
 		
 		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
-		Arbeitsbereich ab = (Arbeitsbereich) av.suchen(abteilungsnummer);
 		
-		Zugehoerigkeit z = new Zugehoerigkeit(new Date(), personalnummer, abteilungsnummer);
+		Zugehoerigkeit z = new Zugehoerigkeit(new Datum(), personalnummer);
 		
 		ArrayList<Zugehoerigkeit> listMA = ma.getZugehoerigkeit();
-		ArrayList<Zugehoerigkeit> listAB = ab.getInabteilung();
-		
-		listAB.add(z);
-		ab.setInabteilung(listAB);
-		
+
 		listMA.add(z);
 		ma.setZugehoerigkeit(listMA);
 		

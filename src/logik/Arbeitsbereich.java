@@ -1,5 +1,6 @@
 package logik;
 
+
 import java.io.Serializable;
 
 
@@ -45,25 +46,10 @@ public class Arbeitsbereich implements Serializable{
 		 *@description:	Textausgabe Konsole
 		 */
 		
-		System.out.println(arbeitsbereichnummer+"\t"+name+"\t\t"+beschreibung);
+		System.out.println(arbeitsbereichnummer+"\t"+name+"\t"+beschreibung);
 	}
 	
-<<<<<<< HEAD
-=======
-	/*
-	public void showMitarbeiter() {
-		if (inabteilung.size()!=0) {
-			for (int i = 0; i < bereiche.size(); i++) {
-				bereiche.get(i).display();
-				
-			}	
-		} else {
-			System.out.println("keine Mitarbeiter vorhanden");
-		}
-	}
-	*/
->>>>>>> branch 'master' of https://github.com/ZerhackerJagi/PerVerSo.git
-
+	
 //******************** GETTER & SETTER ********************
 	
 	public int getArbeitsbereichnummer() {

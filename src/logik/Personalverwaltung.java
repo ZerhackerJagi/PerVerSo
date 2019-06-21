@@ -1,8 +1,11 @@
 package logik;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
+import comparatoren.*;
+import extern.Datum;
 import interfaces.*;
 import speicher.Dateizugriff;
 
@@ -19,6 +22,9 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 	private static int personalnummer;
 	
 	
+	
+
+
 	public static Personalverwaltung getInstance() {
 		/*@author: 		Jakob Kuechler
 		 *@date: 		20.06.2019
@@ -35,9 +41,7 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 	// KONSTRUKTOR
 	private Personalverwaltung() {
 		aktiveMA = new Mitarbeiter[1];
-		int personalnummer = createPersonalnummer();
-		int abteilungsnummer = 0;
-		aktiveMA[0] = new Mitarbeiter("minda","admin","passwort",'d',new Date(),new Admin(),new Default(),new Zugehoerigkeit(new Date(),personalnummer,abteilungsnummer), personalnummer);
+		aktiveMA[0] = new Mitarbeiter(createPersonalnummer(),"nimda","admin",'d',new Datum(),"admin","passwort",new Admin(),new Datum(),new Arbeitszeitkonto(),new Zugehoerigkeit(new Datum(),0), new Default());
 		aMA = new ArrayList <Mitarbeiter> ();
 		
 	}
@@ -60,7 +64,7 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 		 *@description:	Erstellt automatisiert eine Personalnummer und gibt diese zurück. 
 		 */
 		
-		return personalnummer+1;
+		return personalnummer++;
 	}
 	
 	
@@ -81,24 +85,11 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 	}
 	
 	
-	public void add(String name,String vorname,String passwort,char gender,int bdayyear,int bdaymonth,int bdayday) throws Exception {
-		Date bday = new Date(bdayyear,bdaymonth,bdayday);
-		int personalnummer = createPersonalnummer();
-		int abteilungsnummer = 0;
-		aMA.add(new Mitarbeiter(name, vorname, passwort, gender, bday, new User(),new Default(), new Zugehoerigkeit(new Date(), personalnummer, abteilungsnummer), personalnummer));
+	public void add(String name,String vorname,char gender,int day,int month,int year) throws Exception {
+		Datum bday = new Datum(day,month,year);
+		aMA.add(new Mitarbeiter(createPersonalnummer(),name,vorname,gender,bday,"user","passwort",new User(),new Datum(),new Arbeitszeitkonto(),new Zugehoerigkeit(new Datum(),0), new Default()));
 	}
-	public void display () {
-		// alle Konten anzeigen
-		
-		if (aMA.size()!=0) {
-			for (int i = 0; i < aMA.size(); i++) {
-				System.out.println(aMA.get(i));
-				
-			}	
-		} else {
-			System.out.println("Empty");
-		}
-	}
+	
 	
 	
 	private void createMAonTerminal() {
@@ -150,33 +141,69 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 
 	
 
-	@Override
-	public Object suchen(int nummer) {
-		/*@author: 		Jakob Küchler
-		 *@date: 		20.06.2019
-		 *@description:	Bekommt eine Personalnummer und durchsucht aktiveMA anhand dessen.
+//******************** AUSGABE ********************	
+	
+	public void show() {
+		/*@author: 		Soeren Hebestreit
+		 *@date: 		22.06.2019
+		 *@description:	Mitarbeiter anzeigen (Konsole) 
 		 */
 		
-		for(int i=0; i<aktiveMA.length;i++) {
-			if(aktiveMA[i].getPersonalnummer() == nummer) {
-				return aktiveMA[i];
+		if (aMA.size()!=0) {
+			for (int i = 0; i < aMA.size(); i++) {
+				aMA.get(i).display();
+			}	
+		} else {
+			System.out.println("Empty");
+		}
+	}
+
+
+
+//******************** SORTIEREN & SUCHEN ********************
+	
+	@Override
+	public void sortName() {
+		// TODO Auto-generated method stub
+		/*@author: 		Soeren Hebestreit
+		 *@date: 		21.06.2019
+		 *@description:	Mitarbeiterliste nach Name, Vorname sortieren
+		 */
+		
+		Collections.sort(aMA,new MitarbeiterNameComparator());
+	}
+
+
+	@Override
+	public void sortNumber() {
+		// TODO Auto-generated method stub
+		/*@author: 		Soeren Hebestreit
+		 *@date: 		21.06.2019
+		 *@description:	Mitarbeiterliste nach Personalnummer sortieren
+		 */
+		
+		Collections.sort(aMA,new MitarbeiterNummerComparator());
+	}
+	
+	
+	@Override
+	public Object suchen(int nummer) {
+		/*@author: 		Soeren Hebestreit
+		 *@date: 		22.06.2019
+		 *@description:	bekommt eine Personalnummer und durchsucht Mitarbeiterliste anhand dessen
+		 */
+		
+		if (aMA.size()!=0) {
+			for (int i = 0; i < aMA.size(); i++) {
+				if (aMA.get(i).getPersonalnummer() == nummer) {
+					return aMA.get(i);
+				}
 			}
 		}
 		return null;
 	}
 	
-	public void show() {
-		/*@author: 		Jakob Küchler
-		 *@date: 		20.06.2019
-		 *@description:	Zeigt alle MA der Liste aktiveMA an. 
-		 */
-		
-		for(int i = 0; i<aktiveMA.length;i++) {
-			System.out.println("Mitarbeiter: "+aktiveMA[i]);
-		}
-	}
-
-
+	
 //******************** LOAD & SAVE ********************
 	
 	@Override
@@ -189,19 +216,19 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 		Dateizugriff data = new Dateizugriff();
 		data.speichern(aMA);	
 	}
-	
-	
+		
+		
 	@Override
 	public void laden() throws Exception {
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		21.06.2019
 		 *@description:	erzeugt ein Dateizugriff und laedt Daten in die Mitarbeiterliste
 		 */
-		
+			
 		Dateizugriff data = new Dateizugriff();
 		aMA = (ArrayList<Mitarbeiter>) data.laden();
 	}
-	
+			
 
 //******************** GETTER & SETTER ********************
 	
@@ -215,17 +242,13 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 	}
 
 
-	@Override
-	public void sortName() {
-		// TODO Auto-generated method stub
-		
+	public static ArrayList<Mitarbeiter> getaMA() {
+		return aMA;
 	}
 
 
-	@Override
-	public void sortNumber() {
-		// TODO Auto-generated method stub
-		
+	public static void setaMA(ArrayList<Mitarbeiter> aMA) {
+		Personalverwaltung.aMA = aMA;
 	}
 
 	

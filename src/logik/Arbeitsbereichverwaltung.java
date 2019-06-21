@@ -2,7 +2,9 @@ package logik;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 
+import comparatoren.*;
 import interfaces.*;
 import speicher.Dateizugriff;
 
@@ -11,11 +13,11 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 //******************** PARAMETER ********************
 
 	private static final long serialVersionUID = 1L;
-	private static ArrayList <Arbeitsbereich> bereiche;
 	private static Arbeitsbereichverwaltung uniqueInstance;
 	private static int arbeitsbereichnummer;
-	
+	private static ArrayList <Arbeitsbereich> bereiche;
 
+	
 //******************** KONSTRUKTOR ********************
 		
 	public static Arbeitsbereichverwaltung getInstance() {
@@ -79,15 +81,18 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 	}
 	
 	
-	//******************** AUSGABE ********************
+//******************** AUSGABE ********************
 	
-	public void display () {
-		// alle Konten anzeigen
+	@Override
+	public void show () {
+		/*@author: 		Soeren Hebestreit
+		 *@date: 		22.06.2019
+		 *@description:	Bereiche anzeigen (Konsole)
+		 */
 		
 		if (bereiche.size()!=0) {
 			for (int i = 0; i < bereiche.size(); i++) {
 				bereiche.get(i).display();
-				
 			}	
 		} else {
 			System.out.println("Empty");
@@ -100,20 +105,42 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 	@Override
 	public void sortName() {
 		// TODO Auto-generated method stub
-		//Collections.sort(bereiche.getName(), (String)bereiche.getName());
+		/*@author: 		Soeren Hebestreit
+		 *@date: 		21.06.2019
+		 *@description:	Arbeitsbereiche nach Name sortieren
+		 */
+		
+		Collections.sort(bereiche,new ArbeitsbereichNameComparator());
 	}
 
 
 	@Override
 	public void sortNumber() {
 		// TODO Auto-generated method stub
+		/*@author: 		Soeren Hebestreit
+		 *@date: 		21.06.2019
+		 *@description:	Mitarbeiterliste nach Personalnummer sortieren
+		 */
 		
+		Collections.sort(bereiche,new ArbeitsbereichNummerComparator());
 	}
 
 
 	@Override
 	public Object suchen(int nummer) {
 		// TODO Auto-generated method stub
+		/*@author: 		Soeren Hebestreit
+		 *@date: 		22.06.2019
+		 *@description:	bekommt eine Arbeitsbereichnummer und durchsucht Bereiche anhand dessen
+		 */
+		
+		if (bereiche.size()!=0) {
+			for (int i = 0; i < bereiche.size(); i++) {
+				if (bereiche.get(i).getArbeitsbereichnummer() == nummer) {
+					return bereiche.get(i);
+				}
+			}
+		}
 		return null;
 	}
 
@@ -141,6 +168,28 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 			
 		Dateizugriff data = new Dateizugriff();
 		bereiche = (ArrayList<Arbeitsbereich>) data.laden();
+	}
+
+
+//******************** GETTER & SETTER ********************
+	
+	public static int getArbeitsbereichnummer() {
+		return arbeitsbereichnummer;
+	}
+
+
+	public static void setArbeitsbereichnummer(int arbeitsbereichnummer) {
+		Arbeitsbereichverwaltung.arbeitsbereichnummer = arbeitsbereichnummer;
+	}
+	
+	
+	public static ArrayList<Arbeitsbereich> getBereiche() {
+		return bereiche;
+	}
+
+
+	public static void setBereiche(ArrayList<Arbeitsbereich> bereiche) {
+		Arbeitsbereichverwaltung.bereiche = bereiche;
 	}
 
 
