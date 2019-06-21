@@ -6,6 +6,7 @@ import java.util.Date;
 public class Mitarbeiter implements Serializable {
 
 	// PRIVATE ATTRIBUTE
+	private static final long serialVersionUID = 1L;
 	private String name;
 	private String vorname;
 	private int personalnummer;

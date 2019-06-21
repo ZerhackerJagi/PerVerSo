@@ -1,7 +1,6 @@
 package logik;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 
 import interfaces.*;
@@ -10,9 +9,10 @@ import speicher.Dateizugriff;
 
 
 // SINGLETON!
-public class Personalverwaltung implements Verwaltung,Serializable {
+public class Personalverwaltung implements VerwaltungIF,Serializable {
 
 	// PRIVAT
+	private static final long serialVersionUID = 1L;
 	private static Mitarbeiter[] aktiveMA; //MA Liste
 	private static ArrayList <Mitarbeiter> aMA;
 	private static Personalverwaltung uniqueInstance; //Einzigartige Instanz
@@ -71,7 +71,7 @@ public class Personalverwaltung implements Verwaltung,Serializable {
 	
 
 	@Override
-	public void create() throws Exception {
+	public void create() {
 		// 
 		createMAonTerminal();
 		
@@ -96,7 +96,7 @@ public class Personalverwaltung implements Verwaltung,Serializable {
 	}
 	
 	
-	private void createMAonTerminal() throws Exception {
+	private void createMAonTerminal() {
 		/*@author: 		Jakob Küchler
 		 *@date: 		20.06.2019
 		 *@description:	Fügt neuen Mitarbeiter per Terminal hinzu. Benötigt mehrere Eingaben durch User. Standardberechtigung: User 
@@ -106,6 +106,7 @@ public class Personalverwaltung implements Verwaltung,Serializable {
 		extendListAktiveMA();
 		
 		// Abfrage essentieller Infos für Konstruktor
+		try {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		System.out.print("Nachname: ");
 		String name = br.readLine();
@@ -126,6 +127,8 @@ public class Personalverwaltung implements Verwaltung,Serializable {
 		
 		//String name, String vorname, String passwort, char geschlecht, Date geburtstag, Berechtigung berechtigung, Status status, Zugehoerigkeit zugehoerigkeit)		
 		aktiveMA[aktiveMA.length-1] = new Mitarbeiter(name, vorname, passwort, gender, bday, new User(),new Default(), new Zugehoerigkeit(), createPersonalnummer());
+	}catch (Exception e) {
+		}
 	}
 
 	@Override
@@ -204,6 +207,20 @@ public class Personalverwaltung implements Verwaltung,Serializable {
 
 	public static void setAktiveMA(Mitarbeiter[] aktiveMA) {
 		Personalverwaltung.aktiveMA = aktiveMA;
+	}
+
+
+	@Override
+	public void sortName() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void sortNumber() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	
