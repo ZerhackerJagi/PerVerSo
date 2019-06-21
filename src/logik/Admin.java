@@ -1,5 +1,6 @@
 package logik;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Admin extends Berechtigung{
@@ -65,7 +66,26 @@ public class Admin extends Berechtigung{
 	}
 	
 	public void lnkMAtoAB(int personalnummer, int abteilungsnummer) {
-		// TO DO
+		//@author:		Jakob Küchler
+		//@date: 		21.06.2019
+		//@description: 
+		Personalverwaltung pv = Personalverwaltung.getInstance();
+		Arbeitsbereichverwaltung av = Arbeitsbereichverwaltung.getInstance();
+		
+		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
+		Arbeitsbereich ab = (Arbeitsbereich) av.suchen(abteilungsnummer);
+		
+		Zugehoerigkeit z = new Zugehoerigkeit(new Date(), personalnummer, abteilungsnummer);
+		
+		ArrayList<Zugehoerigkeit> listMA = ma.getZugehoerigkeit();
+		ArrayList<Zugehoerigkeit> listAB = ab.getInabteilung();
+		
+		listAB.add(z);
+		ab.setInabteilung(listAB);
+		
+		listMA.add(z);
+		ma.setZugehoerigkeit(listMA);
+		
 	}
 	
 	public void showStatistics(int position, int abteilungsnummer) {

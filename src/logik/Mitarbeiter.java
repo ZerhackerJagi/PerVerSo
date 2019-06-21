@@ -1,6 +1,7 @@
 package logik;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Mitarbeiter implements Serializable {
@@ -20,17 +21,19 @@ public class Mitarbeiter implements Serializable {
 	private Berechtigung berechtigung;
 	private Arbeitszeitkonto azk;
 	private Statustyp status;
-	private Zugehoerigkeit zugehoerigkeit;
+	private ArrayList<Zugehoerigkeit> zugehoerigkeit;
 	
 	// KONSTRUKTOR
 	public Mitarbeiter(String name, String vorname, String passwort, char geschlecht, Date geburtstag, Berechtigung berechtigung, Statustyp status, Zugehoerigkeit zugehoerigkeit, int personalnummer) {
+	this.zugehoerigkeit=new ArrayList<Zugehoerigkeit>();
+		
 	this.name = name;
 	this.vorname = vorname;
 	this.passwort = passwort;
 	this.geschlecht = geschlecht;
 	this.berechtigung = berechtigung;
 	this.status = status;
-	this.zugehoerigkeit = zugehoerigkeit;
+	this.zugehoerigkeit.add(zugehoerigkeit);
 	this.geburtsdatum = geburtstag;
 	this.einstellungsdatum = new Date();
 	this.personalnummer = personalnummer;
@@ -142,13 +145,19 @@ public class Mitarbeiter implements Serializable {
 		this.status = status;
 	}
 
-	public Zugehoerigkeit getZugehoerigkeit() {
+
+
+	public ArrayList<Zugehoerigkeit> getZugehoerigkeit() {
 		return zugehoerigkeit;
 	}
 
-	public void setZugehoerigkeit(Zugehoerigkeit zugehoerigkeit) {
+
+
+	public void setZugehoerigkeit(ArrayList<Zugehoerigkeit> zugehoerigkeit) {
 		this.zugehoerigkeit = zugehoerigkeit;
 	}
+
+
 	
 	
 	

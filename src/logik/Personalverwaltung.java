@@ -35,8 +35,11 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 	// KONSTRUKTOR
 	private Personalverwaltung() {
 		aktiveMA = new Mitarbeiter[1];
-		aktiveMA[0] = new Mitarbeiter("minda","admin","passwort",'d',new Date(),new Admin(),new Default(),new Zugehoerigkeit(), createPersonalnummer());
+		int personalnummer = createPersonalnummer();
+		int abteilungsnummer = 0;
+		aktiveMA[0] = new Mitarbeiter("minda","admin","passwort",'d',new Date(),new Admin(),new Default(),new Zugehoerigkeit(new Date(),personalnummer,abteilungsnummer), personalnummer);
 		aMA = new ArrayList <Mitarbeiter> ();
+		
 	}
 	
 	// PRIVATE METHODEN (HILFSMITTEL)
@@ -80,7 +83,9 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 	
 	public void add(String name,String vorname,String passwort,char gender,int bdayyear,int bdaymonth,int bdayday) throws Exception {
 		Date bday = new Date(bdayyear,bdaymonth,bdayday);
-		aMA.add(new Mitarbeiter(name, vorname, passwort, gender, bday, new User(),new Default(), new Zugehoerigkeit(), createPersonalnummer()));
+		int personalnummer = createPersonalnummer();
+		int abteilungsnummer = 0;
+		aMA.add(new Mitarbeiter(name, vorname, passwort, gender, bday, new User(),new Default(), new Zugehoerigkeit(new Date(), personalnummer, abteilungsnummer), personalnummer));
 	}
 	public void display () {
 		// alle Konten anzeigen
@@ -126,7 +131,7 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 		Date bday = new Date(bdayyear,bdaymonth,bdayday);
 		
 		//String name, String vorname, String passwort, char geschlecht, Date geburtstag, Berechtigung berechtigung, Status status, Zugehoerigkeit zugehoerigkeit)		
-		aktiveMA[aktiveMA.length-1] = new Mitarbeiter(name, vorname, passwort, gender, bday, new User(),new Default(), new Zugehoerigkeit(), createPersonalnummer());
+		//aktiveMA[aktiveMA.length-1] = new Mitarbeiter(name, vorname, passwort, gender, bday, new User(),new Default(), new ArrayList<Zugehoerigkeit>(), createPersonalnummer());
 	}catch (Exception e) {
 		}
 	}
