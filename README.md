@@ -6,7 +6,7 @@
 - Hochschule: Hochschule für Wirtschaft und Recht Berlin
 - Semester: 2
 - Dozent: Prof. Dr. Faustmann
-- Contributors: ShinyFoster, ZerhackerJagi
+- Contributors: ShinyFoster (Coding), ZerhackerJagi (Coding), Charlynator (Testing)
 
 
 # INSTALLATION
@@ -21,4 +21,5 @@ $ git clone https://github.com/ZerhackerJagi/PerVerSo.git
 - Erstellung von Arbeitsplänen
 - Anschauen von Arbeitsplänen
 - Anschauen von Statistiken
+- Stündliche Speicherung des Zwischenstandes
 - tbc
