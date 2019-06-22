@@ -1,12 +1,18 @@
 package gui;
 
 import javax.swing.*;
+
+import logik.*;
+
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class LoginGUI extends JFrame{
 	private JTextField tfUsername;
 	private JPasswordField passwordField;
+	private Mitarbeiter user;
 	public LoginGUI() {
 		getContentPane().setBackground(new Color(0, 204, 0));
 		getContentPane().setLayout(null);
@@ -32,5 +38,49 @@ public class LoginGUI extends JFrame{
 		lblLoginPerverso.setFont(new Font("Dialog", Font.BOLD, 17));
 		lblLoginPerverso.setBounds(174, 38, 253, 34);
 		getContentPane().add(lblLoginPerverso);
+		
+		JButton btnAnmelden = new JButton("Anmelden");
+		btnAnmelden.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(checkAnmeldung(tfUsername.getText(), passwordField.getText())) {
+					setVisible(false);
+					if(user.getBerechtigung() instanceof Admin) {
+						new AdminGUI();
+					}else {
+						new MitarbeiterGUI();
+					}
+				}
+				
+			}
+		});
+		btnAnmelden.setBounds(174, 164, 172, 29);
+		getContentPane().add(btnAnmelden);
+		
+		setSize(500,250);
+		setLocationRelativeTo(null);
+		setVisible(true);
+	}
+	
+	
+	private boolean checkAnmeldung(String username, String password) {
+		Personalverwaltung pv = Personalverwaltung.getInstance();
+		Mitarbeiter ma;
+		for(int i = 0;i<pv.getaMA().size();i++) {
+			ma = pv.getaMA().get(i);
+			if(username.equals(ma.getBenutzername())){
+				if(password.equals(ma.getPasswort())) {
+					user = ma;
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
+		return false;
+	}
+	
+	public static void main(String[] args) {
+		Personalverwaltung.getInstance().start();
 	}
 }

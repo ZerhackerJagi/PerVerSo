@@ -20,7 +20,7 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 
 	// PRIVAT
 	private static final long serialVersionUID = 1L;
-	private static Mitarbeiter[] aktiveMA; //MA Liste
+	//private static Mitarbeiter[] aktiveMA; //MA Liste
 	private static ArrayList <Mitarbeiter> aMA;
 	private static Personalverwaltung uniqueInstance; //Einzigartige Instanz
 	private static int personalnummer;
@@ -44,23 +44,15 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 	
 	// KONSTRUKTOR
 	private Personalverwaltung() {
-		aktiveMA = new Mitarbeiter[1];
-		aktiveMA[0] = new Mitarbeiter(createPersonalnummer(),"nimda","admin",'d',new Datum(),"admin","passwort",new Admin(),new Datum(),new Arbeitszeitkonto(),new Zugehoerigkeit(new Datum(),0), new Default());
+		//aktiveMA = new Mitarbeiter[1];
+		//aktiveMA[0] = new Mitarbeiter(createPersonalnummer(),"nimda","admin",'d',new Datum(),"admin","passwort",new Admin(),new Datum(),new Arbeitszeitkonto(),new Zugehoerigkeit(new Datum(),0), new Default());
 		aMA = new ArrayList <Mitarbeiter> ();
+		aMA.add(new Mitarbeiter(createPersonalnummer(),"nimda","admin",'d',new Datum(),"admin","passwort",new Admin(),new Datum(),new Arbeitszeitkonto(),new Zugehoerigkeit(new Datum(),0), new Default()));
 		
 	}
 	
 	// PRIVATE METHODEN (HILFSMITTEL)
 	
-	private void extendListAktiveMA() {
-		/*@author: 		Jakob Küchler
-		 *@date: 		20.06.2019
-		 *@description:	Erweitert die Liste aktiveMA um ein Feld 
-		 */
-		Mitarbeiter[] newList =	new Mitarbeiter[(aktiveMA.length+1)];
-		System.arraycopy(aktiveMA, 0, newList, 0, aktiveMA.length);
-		this.aktiveMA = newList;
-	}
 	
 	private int createPersonalnummer() {
 		/*@author: 		Jakob Küchler
@@ -77,7 +69,7 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 	@Override
 	public void start() {
 		// TODO Auto-generated method stub
-		new Hauptmenue();
+		new LoginGUI();
 	}
 	
 
@@ -103,7 +95,7 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 		 */
 		
 		// Liste um 1 Mitarbeiter erweitern
-		extendListAktiveMA();
+		//extendListAktiveMA();
 		
 		// Abfrage essentieller Infos für Konstruktor
 		try {
@@ -236,6 +228,7 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 
 //******************** GETTER & SETTER ********************
 	
+	/*
 	public static Mitarbeiter[] getAktiveMA() {
 		return aktiveMA;
 	}
@@ -244,7 +237,7 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 	public static void setAktiveMA(Mitarbeiter[] aktiveMA) {
 		Personalverwaltung.aktiveMA = aktiveMA;
 	}
-
+*/
 
 	public static ArrayList<Mitarbeiter> getaMA() {
 		return aMA;
