@@ -47,8 +47,10 @@ public class LoginGUI extends JFrame{
 					setVisible(false);
 					if(user.getBerechtigung() instanceof Admin) {
 						new AdminGUI();
+						dispose();
 					}else {
 						new MitarbeiterGUI();
+						dispose();
 					}
 				}
 				

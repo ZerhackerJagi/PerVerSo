@@ -37,6 +37,36 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 		arbeitsbereichnummer = 0;
 		bereiche = new ArrayList <Arbeitsbereich> ();
 		add("undefined","unzugeordnete Mitarbeiter");
+		add("Test123","Beschreibung");
+		add("Test123","Beschreibung");
+		add("Test123","Beschreibung");
+		add("Test123","Beschreibung");
+		add("Test123","Beschreibung");
+		add("Test123","Beschreibung");
+		add("Test123","Beschreibung");
+		add("Test123","Beschreibung");
+		add("Test123","Beschreibung");
+		add("Test123","Beschreibung");
+		add("Test123","Beschreibung");
+		add("Test123","Beschreibung");
+		add("Test123","Beschreibung");
+		add("Test123","Beschreibung");
+		add("Test123","Beschreibung");
+		add("Test123","Beschreibung");
+		add("Test123","Beschreibung");
+		add("Test123","Beschreibung");
+		add("Test123","Beschreibung");
+		add("Test123","Beschreibung");
+		add("Test123","Beschreibung");
+		add("Test123","Beschreibung");
+		add("Test123","Beschreibung");
+		add("Test123","Beschreibung");
+		add("Test123","Beschreibung");
+		add("Test123","Beschreibung");
+		add("Test123","Beschreibung");
+		add("Test123","Beschreibung");
+		add("Test123","Beschreibung");
+		add("Test1234","Beschreibung");
 	}
 	
 	

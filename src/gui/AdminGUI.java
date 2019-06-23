@@ -86,6 +86,9 @@ public class AdminGUI extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// VERKNÜPFUNG ARBEITSBEREICH VERWALTEN
+				new ABUebersichtGUI();
+				setVisible(false);
+				dispose();
 				
 			}
 			public void mouseEntered(MouseEvent e) {
@@ -197,11 +200,11 @@ public class AdminGUI extends JFrame{
 			public void mouseClicked(MouseEvent e) {
 			}
 			public void mouseEntered(MouseEvent e) {
-				label.setForeground(new Color(255, 255, 255));
+				label.setForeground(new Color(0,0,0));
 				
 			}
 			public void mouseExited(MouseEvent e) {
-				label.setForeground(new Color(0,0,0));
+				label.setForeground(new Color(255,255,255));
 				
 			}
 		});
