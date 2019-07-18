@@ -7,9 +7,7 @@ public interface VerwaltungIF {
 	 */
 	
 	public void start();
-	public void create();
-	public void edit();
-	public void delete();
+	public boolean delete(int nummer);
 	
 	public void show();
 	public void speichern() throws Exception;

@@ -24,7 +24,14 @@ public class Zugehoerigkeit implements Serializable {
 		 */ 
 		
 		this.start = start;
-		this.arbeitsbereichnummer = arbeitsbereichnummer;
+		// Probe ob Bereich existiert, wenn nicht dann auf Grundbereich setzen
+		Arbeitsbereichverwaltung abv = Arbeitsbereichverwaltung.getInstance();
+		Arbeitsbereich bereich = (Arbeitsbereich) abv.suchen(arbeitsbereichnummer);
+		if (bereich == null) {
+			this.arbeitsbereichnummer = 0;
+		} else {
+			this.arbeitsbereichnummer = arbeitsbereichnummer;
+		}
 	}
 	
 	
@@ -79,6 +86,5 @@ public class Zugehoerigkeit implements Serializable {
 	public void setArbeitsbereichnummer(int arbeitsbereichnummer) {
 		this.arbeitsbereichnummer = arbeitsbereichnummer;
 	}
-
 
 }

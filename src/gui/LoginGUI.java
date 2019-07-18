@@ -14,7 +14,7 @@ public class LoginGUI extends JFrame{
 	private JPasswordField passwordField;
 	private Mitarbeiter user;
 	public LoginGUI() {
-		getContentPane().setBackground(new Color(0, 204, 0));
+		getContentPane().setBackground(new Color(100, 150, 200));
 		getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Benutzername: ");
@@ -83,6 +83,6 @@ public class LoginGUI extends JFrame{
 	}
 	
 	public static void main(String[] args) {
-		Personalverwaltung.getInstance().start();
+		//Personalverwaltung.getInstance().start(); //start geht so im moment nicht
 	}
 }

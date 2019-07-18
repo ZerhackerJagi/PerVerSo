@@ -36,78 +36,48 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 	private Arbeitsbereichverwaltung() {
 		arbeitsbereichnummer = 0;
 		bereiche = new ArrayList <Arbeitsbereich> ();
-		add("undefined","unzugeordnete Mitarbeiter");
-		add("Test123","Beschreibung");
-		add("Test123","Beschreibung");
-		add("Test123","Beschreibung");
-		add("Test123","Beschreibung");
-		add("Test123","Beschreibung");
-		add("Test123","Beschreibung");
-		add("Test123","Beschreibung");
-		add("Test123","Beschreibung");
-		add("Test123","Beschreibung");
-		add("Test123","Beschreibung");
-		add("Test123","Beschreibung");
-		add("Test123","Beschreibung");
-		add("Test123","Beschreibung");
-		add("Test123","Beschreibung");
-		add("Test123","Beschreibung");
-		add("Test123","Beschreibung");
-		add("Test123","Beschreibung");
-		add("Test123","Beschreibung");
-		add("Test123","Beschreibung");
-		add("Test123","Beschreibung");
-		add("Test123","Beschreibung");
-		add("Test123","Beschreibung");
-		add("Test123","Beschreibung");
-		add("Test123","Beschreibung");
-		add("Test123","Beschreibung");
-		add("Test123","Beschreibung");
-		add("Test123","Beschreibung");
-		add("Test123","Beschreibung");
-		add("Test123","Beschreibung");
-		add("Test1234","Beschreibung");
+		start();
 	}
 	
 	
 	@Override
 	public void start() {
-		// TODO Auto-generated method stub
-	
+		/*@author: 		Soeren Hebestreit
+		 *@date: 		18.07.2019
+		 *@description:	fuegt Grundbereiche bei der Ersterstellung ein 
+		 */
+		
+		add("undefined","unzugeordnete Mitarbeiter");
+		add("ausgeschieden","ausgeschiedene Mitarbeiter");
 	}
 	
 	
 //******************** VERWALTUNG ********************
 	
-	
 	public void add(String name, String beschreibung) {
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		21.06.2019
-		 *@description:	fuegt einen Arbeitsbereich zu 
+		 *@description:	fuegt einen Arbeitsbereich hinzu 
 		 */
 		
 		bereiche.add(new Arbeitsbereich(arbeitsbereichnummer, name, beschreibung));
 		arbeitsbereichnummer++;
 	}
-	
-	@Override
-	public void create() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	
 	@Override
-	public void edit() {
-		// TODO Auto-generated method stub
+	public boolean delete(int nummer) {
+		/*@author: 		Soeren Hebestreit
+		 *@date: 		18.07.2019
+		 *@description:	Bereiche an Hand der uebergebenen Nummer suchen und loeschen
+		 */
 		
-	}
-
-	
-	@Override
-	public void delete() {
-		// TODO Auto-generated method stub
-		
+		Arbeitsbereich bereich = (Arbeitsbereich) suchen(nummer);
+		if (bereich != null) {
+			bereiche.remove(bereich);
+			return true;
+		}
+		return false;
 	}
 	
 	
@@ -149,7 +119,7 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 		// TODO Auto-generated method stub
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		21.06.2019
-		 *@description:	Mitarbeiterliste nach Personalnummer sortieren
+		 *@description:	Arbeitsbereich nach Nummer sortieren
 		 */
 		
 		Collections.sort(bereiche,new ArbeitsbereichNummerComparator());
@@ -201,17 +171,7 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 	}
 
 
-//******************** GETTER & SETTER ********************
-	
-	public static int getArbeitsbereichnummer() {
-		return arbeitsbereichnummer;
-	}
-
-
-	public static void setArbeitsbereichnummer(int arbeitsbereichnummer) {
-		Arbeitsbereichverwaltung.arbeitsbereichnummer = arbeitsbereichnummer;
-	}
-	
+//******************** GETTER & SETTER ********************	
 	
 	public static ArrayList<Arbeitsbereich> getBereiche() {
 		return bereiche;

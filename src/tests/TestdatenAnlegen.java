@@ -1,8 +1,5 @@
 package tests;
 
-import java.util.Collections;
-
-import comparatoren.*;
 import logik.Arbeitsbereichverwaltung;
 import logik.Personalverwaltung;
 
@@ -18,8 +15,9 @@ public class TestdatenAnlegen {
 		System.out.println("--------");
 		pv.speichern();
 		System.out.println("--------");
-		pv.add("Test", "Test", 'd', 2000, 1, 1);
+		pv.add("Test", "Test", 'd', 1, 1, 2000, 18, 7, 2019, 9);
 		pv.show();
+		System.out.println("\nZugehörigkeit von Test: "+pv.getaMA().get(7).getActualAB());
 		System.out.println("--------");
 		pv.laden();
 		pv.show();
@@ -56,16 +54,15 @@ public class TestdatenAnlegen {
 		
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		
-		pv.add("Mueller", "Michael", 'm', 15, 8, 1984);
-		pv.add("Maier", "Boris", 'm', 9, 5, 1985);
-		pv.add("Mueller", "Katrin", 'w', 29, 7, 1984);
-		pv.add("Runge", "Dieter", 'm', 4, 2, 1985);
-		pv.add("Guelzow", "Klaus", 'm', 9, 10, 1984);
-		pv.add("Bunk", "Sabrina", 'w', 22, 1, 1985);
-		pv.add("Bechler", "Dietmar", 'd', 14, 3, 1992);
-		pv.add("Ludewig", "Julia", 'w', 21, 7, 1997);
+		pv.add("Kuechler", "Jakob", 'm', 15, 5, 1997, 18, 6, 2019, 2, "admin", "auchAdmin");
+		pv.add("Hebestreit", "Soeren", 'm', 15, 8, 1984, 18, 6, 2019, 3);
+		pv.add("Spina", "Charly", 'm', 9, 9, 1996, 18, 6, 2019, 4);
+		pv.add("Ossowski", "Armin", 'm', 4, 10, 1996, 18, 6, 2019, 5);
+		pv.add("Jones", "Olivia", 'd', 9, 10, 1984, 18, 6, 2019, 1);
+		pv.add("Bunk", "Sabrina", 'w', 22, 1, 1985, 18, 7, 2019, 2);
 		
 	}
+	
 	
 	public static void anlegenAB() {
 		
@@ -75,7 +72,6 @@ public class TestdatenAnlegen {
 		av.add("Development", "Entwickler und Designer");
 		av.add("Vertrieb", "Kundenbetreuung, Handel");
 		av.add("Support", "Kundenbetreuung, Telefondienst, Außendienst");
-		av.add("Ausgeschieden", "ehemalige Mitarbeiter");
 		
 	}
 	

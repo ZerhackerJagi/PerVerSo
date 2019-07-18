@@ -2,11 +2,30 @@ package logik;
 
 public abstract class Berechtigung {
 
-	public void zeigePlan(int kw) {}
+//******************** PARAMETER ********************
 	
-	               
-	public void zeigeArbeitszeitkonto() {
+	
+
+	
+//******************** KONSTRUKTOR ********************	
+	
+	
+	
+	
+//******************** FUNKTIONEN ********************	
+	
+	public void showAZK() {
 		
 	}
+
+
+	public void showPlan(int kw) {
+		
+	}
+
+	
+
+		
+	
 	
 }
