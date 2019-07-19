@@ -51,6 +51,8 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 		
 		aMA.add(new Mitarbeiter(personalnummer, "admin", "nimda", 'd', new Datum(), "admin", "passwort", new Admin(personalnummer), new Datum(), new Arbeitszeitkonto(), new Zugehoerigkeit(new Datum(),0), new Default()));
 		personalnummer ++;
+		aMA.add(new Mitarbeiter(personalnummer, "user", "test", 'd', new Datum(), "user", "passwort", new User(personalnummer), new Datum(), new Arbeitszeitkonto(), new Zugehoerigkeit(new Datum(),0), new Default()));
+		personalnummer ++;
 	}
 	
 	

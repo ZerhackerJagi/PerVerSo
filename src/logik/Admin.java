@@ -23,38 +23,6 @@ public class Admin extends Berechtigung implements Serializable {
 	
 //******************** VERWALTUNG MITARBEITER ********************
 	
-	public boolean changeBerechtigung(int personalnummer) {
-		/* 
-		 *@author:		Jakob Kuechler, Soeren Hebestreit
-		 *@date: 		20.06.2019, 18.07.2019
-		 *@description: bekommt Personalnummer (Integer) und aendert die Berechtigung des Mitarbeiters
-		 *				in die bisher nicht vorhandene (Admin -> User und User -> Admin)
-		 *				angegebene Personalnummer darf nicht der angemeldeten entsprechen, um sich nicht auszusperren
-		 */
-		
-		if (personalnummer == personalID) {
-			return false;
-		}
-		
-		// MA suchen
-		Personalverwaltung pv = Personalverwaltung.getInstance();
-		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
-		
-		// MA Berechtigung neu setzen
-		try {	
-			if(ma.getBerechtigung() instanceof User) {
-				ma.setBerechtigung(new Admin(personalnummer));
-			} else {
-				ma.setBerechtigung(new User(personalnummer));
-			}
-		} catch(NullPointerException e) {
-			System.out.println("Mitarbeiternummer nicht vergeben");
-			return false;
-		}
-		return true;
-	}
-	
-	
 	public void addMA(String name, String vorname, char gender, int bday, int bmonth, int byear, int sday, int smonth, int syear, int bereichsnummer, String user, String pwd) throws Exception{
 		/*@author:		Soeren Hebestreit
 		 *@date: 		18.07.2019
@@ -77,93 +45,288 @@ public class Admin extends Berechtigung implements Serializable {
 	}
 	
 	
-	public void editMAName(int personalnummer) {
-		// TO DO
+	public boolean editMAName(int personalnummer, String name) {
+		/*@author:		Soeren Hebestreit
+		 *@date: 		19.07.2019
+		 *@description: Mitarbeitername bearbeiten
+		 */
+		
+		// MA suchen
+		Personalverwaltung pv = Personalverwaltung.getInstance();
+		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
+				
+		// MA nicht existent
+		if (ma == null) return false;
+				
+		// MA existent
+		ma.setName(name);
+		return true;
 	}
 	
 	
-	public void editMAVorname(int personalnummer) {
-		// TO DO
+	public boolean editMAVorname(int personalnummer, String vorname) {
+		/*@author:		Soeren Hebestreit
+		 *@date: 		19.07.2019
+		 *@description: Mitarbeitervorname bearbeiten
+		 */
+		
+		// MA suchen
+		Personalverwaltung pv = Personalverwaltung.getInstance();
+		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
+				
+		// MA nicht existent
+		if (ma == null) return false;
+				
+		// MA existent
+		ma.setVorname(vorname);
+		return true;
 	}
 	
 	
-	public void editMAGeburtstag(int personalnummer) {
-		// TO DO
+	public boolean editMAGeburtstag(int personalnummer, int day, int month, int year) {
+		/*@author:		Soeren Hebestreit
+		 *@date: 		19.07.2019
+		 *@description: Mitarbeitergeburtsdatum bearbeiten
+		 */
+		
+		// MA suchen
+		Personalverwaltung pv = Personalverwaltung.getInstance();
+		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
+				
+		// MA nicht existent
+		if (ma == null) return false;
+				
+		// MA existent
+		ma.setGeburtsdatum(new Datum(day, month, year));
+		return true;
 	}
 	
 	
-	public void editMAGender(int personalnummer) {
-		// TO DO
+	public boolean editMAGeschlecht(int personalnummer, char gender) {
+		/*@author:		Soeren Hebestreit
+		 *@date: 		19.07.2019
+		 *@description: Mitarbeitergeschlecht bearbeiten
+		 */
+		
+		// MA suchen
+		Personalverwaltung pv = Personalverwaltung.getInstance();
+		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
+				
+		// MA nicht existent
+		if (ma == null) return false;
+				
+		// MA existent
+		ma.setGeschlecht(gender);
+		return true;
 	}
 	
 	
-	public void editMAUsername(int personalnummer) {
-		// TO DO
+	public boolean editMABenutzername(int personalnummer, String benutzername) {
+		/*@author:		Soeren Hebestreit
+		 *@date: 		19.07.2019
+		 *@description: Mitarbeiterkennung bearbeiten
+		 */
+		
+		// MA suchen
+		Personalverwaltung pv = Personalverwaltung.getInstance();
+		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
+				
+		// MA nicht existent
+		if (ma == null) return false;
+				
+		// MA existent
+		ma.setBenutzername(benutzername);
+		return true;
 	}
 	
 	
-	public void editMAPasswort(int personalnummer) {
-		// TO DO
+	public boolean editMAPasswort(int personalnummer, String passwort) {
+		/*@author:		Soeren Hebestreit
+		 *@date: 		19.07.2019
+		 *@description: Mitarbeiterpasswort bearbeiten
+		 */
+		
+		// MA suchen
+		Personalverwaltung pv = Personalverwaltung.getInstance();
+		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
+				
+		// MA nicht existent
+		if (ma == null) return false;
+				
+		// MA existent
+		ma.setPasswort(passwort);
+		return true;
 	}
 	
 	
-	public void editMABerechtigung(int personalnummer) {
-		// TO DO
+	public boolean resetMABerechtigung(int personalnummer) {
+		/*@author:		Soeren Hebestreit
+		 *@date: 		19.07.2019
+		 *@description: Mitarbeiterberechtigung zuruecksetzen oder als User wieder einsetzen 
+		 *				angegebene Personalnummer darf nicht der angemeldeten entsprechen, um sich nicht auszusperren
+		 */
+		
+		if (personalnummer == personalID) return false;
+		
+		// MA suchen
+		Personalverwaltung pv = Personalverwaltung.getInstance();
+		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
+				
+		// MA nicht existent
+		if (ma == null) return false;
+				
+		// MA existent
+		if(ma.getBerechtigung() == null) {
+			ma.setBerechtigung(new User(personalnummer));
+		} else {
+			ma.setBerechtigung(null);
+		}
+		return true;
 	}
 	
 	
-	public void editMAStartdatum(int personalnummer) {
-		// TO DO
+	public boolean changeBerechtigung(int personalnummer) {
+		/* 
+		 *@author:		Jakob Kuechler, Soeren Hebestreit
+		 *@date: 		20.06.2019, 18.07.2019
+		 *@description: bekommt Personalnummer (Integer) und aendert die Berechtigung des Mitarbeiters
+		 *				in die bisher nicht vorhandene (Admin -> User und User -> Admin)
+		 *				angegebene Personalnummer darf nicht der angemeldeten entsprechen, um sich nicht auszusperren
+		 */
+		
+		if (personalnummer == personalID) return false;
+		
+		// MA suchen
+		Personalverwaltung pv = Personalverwaltung.getInstance();
+		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
+		
+		// MA Berechtigung neu setzen
+		try {	
+			if(ma.getBerechtigung() instanceof User) {
+				ma.setBerechtigung(new Admin(personalnummer));
+			} else {
+				ma.setBerechtigung(new User(personalnummer));
+			}
+		} catch(NullPointerException e) {
+			//System.out.println("Mitarbeiternummer nicht vergeben");
+			return false;
+		}
+		return true;
 	}
 	
 	
-	public void editMAEnddatum(int personalnummer) {
-		// TO DO
+	public boolean editMAEinstellungsdatum(int personalnummer, int day, int month, int year) {
+		/*@author:		Soeren Hebestreit
+		 *@date: 		19.07.2019
+		 *@description: Mitarbeitereinstellungsdatum bearbeiten
+		 */
+		
+		// MA suchen
+		Personalverwaltung pv = Personalverwaltung.getInstance();
+		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
+				
+		// MA nicht existent
+		if (ma == null) return false;
+				
+		// MA existent
+		ma.setEinstellungsdatum(new Datum(day, month, year));
+		return true;
 	}
 	
 	
-	public void editMAAzk(int personalnummer) {
-		// TO DO
+	public boolean editMAAusscheidungsdatum(int personalnummer, int day, int month, int year) {
+		/*@author:		Soeren Hebestreit
+		 *@date: 		19.07.2019
+		 *@description: Mitarbeiterausscheidungsdatum bearbeiten
+		 */
+		
+		// MA suchen
+		Personalverwaltung pv = Personalverwaltung.getInstance();
+		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
+				
+		// MA nicht existent
+		if (ma == null) return false;
+				
+		// MA existent
+		Datum endday = new Datum(day, month, year);
+		ma.setAusscheidungsdatum(endday);
+		
+		// falls MA bereits in Grundbereich 1 - ausgeschieden verschoben wurde dort das Startdatum aendern
+		Zugehoerigkeit last = ma.getActualAB();
+		if (last.getArbeitsbereichnummer() == 1) {
+			last.setStart(endday);
+		}
+		return true;
 	}
 	
 	
-	public void editMAStatus(int personalnummer) {
-		// TO DO
+	public boolean resetMAAzk(int personalnummer) {
+		/*@author:		Soeren Hebestreit
+		 *@date: 		19.07.2019
+		 *@description: Mitarbeiter-AZK zuruecksetzen oder wieder einsetzen (leer)
+		 */
+		
+		// MA suchen
+		Personalverwaltung pv = Personalverwaltung.getInstance();
+		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
+				
+		// MA nicht existent
+		if (ma == null) return false;
+				
+		// MA existent
+		if(ma.getAzk() == null) {
+			ma.setAzk(new Arbeitszeitkonto());
+		} else {
+			ma.setAzk(null);
+		}
+		return true;
 	}
 	
 	
-	public boolean delMA(int personalnummer, int eday, int emonth, int eyear) {
+	public boolean editMAStatus(int personalnummer, Statustyp status) {
+		/*@author:		Soeren Hebestreit
+		 *@date: 		19.07.2019
+		 *@description: Mitarbeiter-AZK zuruecksetzen oder wieder einsetzen (leer)
+		 */
+		
+		// MA suchen
+		Personalverwaltung pv = Personalverwaltung.getInstance();
+		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
+				
+		// MA nicht existent
+		if (ma == null) return false;
+				
+		// MA existent
+		ma.setStatus(status);
+		return true;
+	}
+	
+	
+	public boolean deleteMA(int personalnummer, int day, int month, int year) {
 		/*@author:		Soeren Hebestreit
 		 *@date: 		18.07.2019
 		 *@description: Mitarbeiter nach ausgeschieden verschieben, Berechtigung etc. loeschen
 		 *				angegebene Personalnummer darf nicht der angemeldeten entsprechen, um sich nicht auszusperren
 		 */
 		
-		if (personalnummer == personalID) {
-			return false;
-		}
+		if (personalnummer == personalID) return false;
+		
+		// Loeschen nur moeglich, falls Ausscheiden in der Vergangenheit
+		Datum today = new Datum();
+		Datum endday = new Datum(day, month, year);
+		if (today.compareTo(endday) < 1) return false;
 		
 		// MA suchen
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
 		
 		// MA nicht existent
-		if (ma == null) {
-			return false;
-		} 
+		if (ma == null) return false; 
 		
-		// MA existent, neu zuordnen nach ausgeschieden (Grundbereich 1)
-		linkMAtoAB(personalnummer, 1, eday, emonth, eyear);
-		
-		// Ausscheidungsdatum setzen
-		Datum endday = new Datum(eday, emonth, eyear);
+		// MA existent, Ausscheidungsdatum setzen, neu zuordnen Grundbereich 1 - ausgeschieden, Reset 
 		ma.setAusscheidungsdatum(endday);
-		
-		// wenn Ausscheidungsdatum in der Vergangenheit liegt, loesche AZK, Status und Berechtigung
-		Datum today = new Datum();
-		if (today.compareTo(endday) > 0) {
-			resetMA(personalnummer);
-		}
+		linkMAtoAB(personalnummer, 1, day, month, year);
+		resetMA(personalnummer);
 		return true;	
 	}
 	
@@ -175,24 +338,35 @@ public class Admin extends Berechtigung implements Serializable {
 		 *				angegebene Personalnummer darf nicht der angemeldeten entsprechen, um sich nicht auszusperren
 		 */
 		
-		if (personalnummer == personalID) {
-			return false;
-		}
+		if (personalnummer == personalID) return false;
 		
 		// MA suchen
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
 		
 		// MA nicht existent
-		if (ma == null) {
-			return false;
-		} 
+		if (ma == null) return false; 
 		
 		// MA existent
 		ma.setAzk(null);
 		ma.setBerechtigung(null);
 		ma.setStatus(null);
 		return true;	
+	}
+	
+	
+	public boolean removeMA(int personalnummer) {
+		/*@author:		Soeren Hebestreit
+		 *@date: 		18.07.2019
+		 *@description: Mitarbeiter komplett entfernen
+		 *				angegebene Personalnummer darf nicht der angemeldeten entsprechen, um sich nicht auszusperren
+		 */
+		
+		if (personalnummer == personalID) return false;
+		
+		// MA suchen
+		Personalverwaltung pv = Personalverwaltung.getInstance();
+		return pv.delete(personalnummer);	
 	}
 	
 	
@@ -265,11 +439,14 @@ public class Admin extends Berechtigung implements Serializable {
 	public boolean delAB(int arbeitsbereichnummer) {
 		/*@author:		Soeren Hebestreit
 		 *@date: 		18.07.2019
-		 *@description: Arbeitsbereich loeschen
+		 *@description: Arbeitsbereich loeschen, Bereich 0 und 1 sind geschuetzt
 		 */
 		
-		Arbeitsbereichverwaltung abv = Arbeitsbereichverwaltung.getInstance();
-		return abv.delete(arbeitsbereichnummer);
+		if (arbeitsbereichnummer > 1) {
+			Arbeitsbereichverwaltung abv = Arbeitsbereichverwaltung.getInstance();
+			return abv.delete(arbeitsbereichnummer);
+		}
+		return false;
 	}
 	
 	

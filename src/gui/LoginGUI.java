@@ -8,12 +8,28 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 
 public class LoginGUI extends JFrame{
+	
+//******************** PARAMETER ********************
+	
+	private static final long serialVersionUID = 1L;
 	private JTextField tfUsername;
 	private JPasswordField passwordField;
 	private Mitarbeiter user;
+	
+	
+//******************** KONSTRUKTOR ********************
+	
 	public LoginGUI() {
+		/*@author:		Jakob Kuechler, Soeren Hebestreit
+		 *@date: 		xx.xx.2019, 19.07.2019
+		 *@description: Login GUI
+		 */
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		getContentPane().setBackground(new Color(100, 150, 200));
 		getContentPane().setLayout(null);
 		
@@ -40,7 +56,7 @@ public class LoginGUI extends JFrame{
 		getContentPane().add(lblLoginPerverso);
 		
 		JButton btnAnmelden = new JButton("Anmelden");
-		btnAnmelden.addMouseListener(new MouseAdapter() {
+		btnAnmelden.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(checkAnmeldung(tfUsername.getText(), passwordField.getText())) {
@@ -56,6 +72,7 @@ public class LoginGUI extends JFrame{
 				
 			}
 		});
+		
 		btnAnmelden.setBounds(174, 164, 172, 29);
 		getContentPane().add(btnAnmelden);
 		
@@ -65,24 +82,30 @@ public class LoginGUI extends JFrame{
 	}
 	
 	
+//******************** INTERNE FUNKTIONEN ********************
+	
 	private boolean checkAnmeldung(String username, String password) {
+		/*@author:		Jakob Kuechler
+		 *@date: 		xx.xx.2019
+		 *@description: Passwortkontrolle
+		 */
+		
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Mitarbeiter ma;
-		for(int i = 0;i<pv.getaMA().size();i++) {
+		for(int i = 0; i < pv.getaMA().size(); i++) {
 			ma = pv.getaMA().get(i);
 			if(username.equals(ma.getBenutzername())){
 				if(password.equals(ma.getPasswort())) {
 					user = ma;
 					return true;
 				} else {
+					JOptionPane.showMessageDialog(null, "Ungültiger Benutzername oder Passwort.", "Anmeldung", JOptionPane.INFORMATION_MESSAGE); 
 					return false;
 				}
 			}
 		}
+		JOptionPane.showMessageDialog(null, "Ungültiger Benutzername oder Passwort.", "Anmeldung", JOptionPane.INFORMATION_MESSAGE);
 		return false;
 	}
-	
-	public static void main(String[] args) {
-		//Personalverwaltung.getInstance().start(); //start geht so im moment nicht
-	}
+
 }
