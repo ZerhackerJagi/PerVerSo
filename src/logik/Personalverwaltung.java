@@ -8,6 +8,7 @@ import comparatoren.*;
 import extern.Datum;
 import interfaces.*;
 import speicher.Dateizugriff;
+import status.Default;
 
 
 // SINGLETON!

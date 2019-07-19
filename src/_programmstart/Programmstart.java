@@ -19,7 +19,7 @@ public class Programmstart {
 		pv.laden();
 		abv.laden();
 		
-		LoginGUI start = new LoginGUI();
+		new LoginGUI();
 	}
 
 }

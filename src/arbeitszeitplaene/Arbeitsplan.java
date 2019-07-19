@@ -1,4 +1,6 @@
-package logik;
+package arbeitszeitplaene;
+
+import logik.Arbeitsbereich;
 
 public class Arbeitsplan {
 	private int kw;

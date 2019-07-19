@@ -1,4 +1,4 @@
-package logik;
+package arbeitszeitplaene;
 
 public class Woche {
 	private int kw;

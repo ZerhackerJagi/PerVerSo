@@ -17,6 +17,7 @@ import java.awt.event.FocusEvent;
 
 public class AdminGUI extends JFrame{
 	public AdminGUI() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setBackground(new Color(51, 204, 0));
 		getContentPane().setLayout(null);
 		

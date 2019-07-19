@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import extern.Datum;
+import status.Statustyp;
 
 
 public class Mitarbeiter implements Serializable {

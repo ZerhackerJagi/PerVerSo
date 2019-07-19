@@ -2,7 +2,6 @@ package gui;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JPanel;
@@ -12,11 +11,26 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class MitarbeiterGUI extends JFrame{
+	
+//******************** PARAMETER ********************
+
+	private static final long serialVersionUID = 1L;
+	
+	
+//******************** KONSTRUKTOR ********************
+	
 	public MitarbeiterGUI() {
-		getContentPane().setBackground(new Color(51, 204, 0));
+		/*@author:		Jakob Kuechler, Soeren Hebestreit
+		 *@date: 		xx.xx.2019, 19.07.2019
+		 *@description: Mitarbeiter GUI
+		 */
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getContentPane().setBackground(new Color(100, 150, 200));
+		getContentPane().setLayout(null);
+		//getContentPane().setBackground(new Color(51, 204, 0));
 		setBackground(Color.GREEN);
 		getContentPane().setForeground(Color.GREEN);
-		getContentPane().setLayout(null);
 		
 		JLabel label = new JLabel("Hauptmenue");
 		label.setForeground(new Color(255, 245, 238));

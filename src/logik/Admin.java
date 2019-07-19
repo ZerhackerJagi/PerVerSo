@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
+import arbeitszeitplaene.Schicht;
 import extern.Datum;
+import status.Statustyp;
 
 public class Admin extends Berechtigung implements Serializable {
 
@@ -45,10 +47,10 @@ public class Admin extends Berechtigung implements Serializable {
 	}
 	
 	
-	public boolean editMAName(int personalnummer, String name) {
+	public boolean editMAStammdaten(int personalnummer, String name, String vorname, char gender, int day, int month, int year) {
 		/*@author:		Soeren Hebestreit
 		 *@date: 		19.07.2019
-		 *@description: Mitarbeitername bearbeiten
+		 *@description: Mitarbeiterstammdaten bearbeiten (Name, Vorname, Geschlecht, Geburtstag)
 		 */
 		
 		// MA suchen
@@ -60,62 +62,8 @@ public class Admin extends Berechtigung implements Serializable {
 				
 		// MA existent
 		ma.setName(name);
-		return true;
-	}
-	
-	
-	public boolean editMAVorname(int personalnummer, String vorname) {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		19.07.2019
-		 *@description: Mitarbeitervorname bearbeiten
-		 */
-		
-		// MA suchen
-		Personalverwaltung pv = Personalverwaltung.getInstance();
-		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
-				
-		// MA nicht existent
-		if (ma == null) return false;
-				
-		// MA existent
 		ma.setVorname(vorname);
-		return true;
-	}
-	
-	
-	public boolean editMAGeburtstag(int personalnummer, int day, int month, int year) {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		19.07.2019
-		 *@description: Mitarbeitergeburtsdatum bearbeiten
-		 */
-		
-		// MA suchen
-		Personalverwaltung pv = Personalverwaltung.getInstance();
-		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
-				
-		// MA nicht existent
-		if (ma == null) return false;
-				
-		// MA existent
 		ma.setGeburtsdatum(new Datum(day, month, year));
-		return true;
-	}
-	
-	
-	public boolean editMAGeschlecht(int personalnummer, char gender) {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		19.07.2019
-		 *@description: Mitarbeitergeschlecht bearbeiten
-		 */
-		
-		// MA suchen
-		Personalverwaltung pv = Personalverwaltung.getInstance();
-		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
-				
-		// MA nicht existent
-		if (ma == null) return false;
-				
-		// MA existent
 		ma.setGeschlecht(gender);
 		return true;
 	}
@@ -185,7 +133,7 @@ public class Admin extends Berechtigung implements Serializable {
 	}
 	
 	
-	public boolean changeBerechtigung(int personalnummer) {
+	public boolean changeMABerechtigung(int personalnummer) {
 		/* 
 		 *@author:		Jakob Kuechler, Soeren Hebestreit
 		 *@date: 		20.06.2019, 18.07.2019
@@ -372,20 +320,163 @@ public class Admin extends Berechtigung implements Serializable {
 	
 //******************** VERWALTUNG ARBEITSZEITKONTEN ******************** 	
 	
-	public void addUrlaub(int personalnummer, Date startDatum, Date endDatum) {
-		// TO DO
+	public boolean editAZKVertragsdaten(int personalnummer, int sollstunden, int urlaubbasis, int ueberminutenmin, int ueberminutenmax) {
+		/*@author:		Soeren Hebestreit
+		 *@date: 		18.07.2019
+		 *@description: Vertragsdaten bzgl. AZK anpassen 
+		 */
+		
+		// MA suchen
+		Personalverwaltung pv = Personalverwaltung.getInstance();
+		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
+				
+		// MA nicht existent
+		if (ma == null) return false; 
+				
+		// MA existent
+		ma.getAzk().setSollstunden(sollstunden);
+		ma.getAzk().setUrlaubbasis(urlaubbasis);
+		ma.getAzk().setUeberminutenmin(ueberminutenmin);
+		ma.getAzk().setUeberminutenmax(ueberminutenmax);
+		return true;	
 	}
 	
-	public void rmUrlaub(int personalnummer, int auswahl) {
-		// TO DO
+	
+	public boolean addAZKUeberminuten(int personalnummer, int betrag) {
+		/*@author:		Soeren Hebestreit
+		 *@date: 		18.07.2019
+		 *@description: Ueberminuten hinzufuegen 
+		 */
+		
+		// MA suchen
+		Personalverwaltung pv = Personalverwaltung.getInstance();
+		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
+				
+		// MA nicht existent
+		if (ma == null) return false; 
+				
+		// MA existent
+		if (betrag < 0) {
+			ma.getAzk().addPlus(betrag);
+		} else {
+			ma.getAzk().addMinus(betrag);
+		}
+		return true;	
 	}
 	
-	public void changeSOLL(int personalnummer, int newSOLL) {
-		// TO DO
+	
+	public boolean starteAZKJahr(int personalnummer) {
+		/*@author:		Soeren Hebestreit
+		 *@date: 		18.07.2019
+		 *@description: Ueberminuten hinzufuegen 
+		 */
+		
+		// MA suchen
+		Personalverwaltung pv = Personalverwaltung.getInstance();
+		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
+				
+		// MA nicht existent
+		if (ma == null) return false; 
+				
+		// MA existent
+		ma.getAzk().neuesJahr();
+		return true;	
 	}
 	
-	public void changeDARF_Urlaub(int personalnummer, int newDARF) {
-		// TO DO
+	
+	public boolean editAZKUrlaubsberechnung(int personalnummer, int urlaubskontingent, int urlaubgenommen) {
+		/*@author:		Soeren Hebestreit
+		 *@date: 		18.07.2019
+		 *@description: Kontingent und genommenen Urlaub bearbeiten (Noteingriff falls z.B. voreilig neues AZK-Jahr ausgefuehrt wurde) 
+		 */
+		
+		// MA suchen
+		Personalverwaltung pv = Personalverwaltung.getInstance();
+		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
+				
+		// MA nicht existent
+		if (ma == null) return false; 
+				
+		// MA existent
+		ma.getAzk().setUrlaubskontingent(urlaubskontingent);
+		ma.getAzk().setUrlaubgenommen(urlaubgenommen);
+		return true;	
+	}
+	
+	
+	public boolean addAZKUrlaub(int personalnummer, int sday, int smonth, int syear, int eday, int emonth, int eyear, int tage) throws Exception {
+		/*@author:		Soeren Hebestreit
+		 *@date: 		18.07.2019
+		 *@description: Urlaubseintrag erstellen 
+		 */
+		
+		// MA suchen
+		Personalverwaltung pv = Personalverwaltung.getInstance();
+		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
+				
+		// MA nicht existent
+		if (ma == null) return false; 
+				
+		// MA existent
+		ma.getAzk().addUrlaub(new Datum(sday, smonth, syear), new Datum(eday, emonth, eyear), tage);
+		return true;
+	}
+	
+	
+	public boolean addAZKKrankheit(int personalnummer, int sday, int smonth, int syear, int eday, int emonth, int eyear, int tage) throws Exception {
+		/*@author:		Soeren Hebestreit
+		 *@date: 		18.07.2019
+		 *@description: Krankheitseintrag erstellen 
+		 */
+		
+		// MA suchen
+		Personalverwaltung pv = Personalverwaltung.getInstance();
+		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
+				
+		// MA nicht existent
+		if (ma == null) return false; 
+				
+		// MA existent
+		ma.getAzk().addKrankheit(new Datum(sday, smonth, syear), new Datum(eday, emonth, eyear), tage);
+		return true;
+	}
+	
+	
+	public boolean removeAZKUrlaub(int personalnummer, int eintrag) throws Exception {
+		/*@author:		Soeren Hebestreit
+		 *@date: 		18.07.2019
+		 *@description: Urlaubseintrag loeschen 
+		 */
+		
+		// MA suchen
+		Personalverwaltung pv = Personalverwaltung.getInstance();
+		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
+				
+		// MA nicht existent
+		if (ma == null) return false; 
+				
+		// MA existent
+		ma.getAzk().deleteUrlaub(eintrag);
+		return true;
+	}
+	
+	
+	public boolean removeAZKKrankheit(int personalnummer, int eintrag) throws Exception {
+		/*@author:		Soeren Hebestreit
+		 *@date: 		18.07.2019
+		 *@description: Krankheitseintrag loeschen 
+		 */
+		
+		// MA suchen
+		Personalverwaltung pv = Personalverwaltung.getInstance();
+		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
+				
+		// MA nicht existent
+		if (ma == null) return false; 
+				
+		// MA existent
+		ma.getAzk().deleteKrankheit(eintrag);
+		return true;
 	}
 	
 	

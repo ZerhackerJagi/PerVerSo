@@ -17,7 +17,7 @@ public class TestdatenAnlegen {
 		System.out.println("--------");
 		pv.add("Test", "Test", 'd', 1, 1, 2000, 18, 7, 2019, 9);
 		pv.show();
-		System.out.println("\nZugehörigkeit von Test: "+pv.getaMA().get(7).getActualAB());
+		System.out.println("\nZugehörigkeit von Test: "+Personalverwaltung.getaMA().get(7).getActualAB());
 		System.out.println("--------");
 		pv.laden();
 		pv.show();

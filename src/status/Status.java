@@ -1,4 +1,4 @@
-package logik;
+package status;
 
 import java.util.Date;
 

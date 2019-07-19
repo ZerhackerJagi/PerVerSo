@@ -1,4 +1,4 @@
-package logik;
+package status;
 
 public abstract class Statustyp {
 

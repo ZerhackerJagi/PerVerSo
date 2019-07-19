@@ -8,7 +8,6 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowEvent;
 
 public class LoginGUI extends JFrame{
 	
@@ -59,7 +58,7 @@ public class LoginGUI extends JFrame{
 		btnAnmelden.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(checkAnmeldung(tfUsername.getText(), passwordField.getText())) {
+				if(checkAnmeldung(tfUsername.getText(), new String(passwordField.getPassword()))) {
 					setVisible(false);
 					if(user.getBerechtigung() instanceof Admin) {
 						new AdminGUI();
@@ -85,15 +84,14 @@ public class LoginGUI extends JFrame{
 //******************** INTERNE FUNKTIONEN ********************
 	
 	private boolean checkAnmeldung(String username, String password) {
-		/*@author:		Jakob Kuechler
-		 *@date: 		xx.xx.2019
+		/*@author:		Jakob Kuechler, Soeren Hebestreit
+		 *@date: 		xx.xx.2019, 19.07.2019
 		 *@description: Passwortkontrolle
 		 */
 		
-		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Mitarbeiter ma;
-		for(int i = 0; i < pv.getaMA().size(); i++) {
-			ma = pv.getaMA().get(i);
+		for(int i = 0; i < Personalverwaltung.getaMA().size(); i++) {
+			ma = Personalverwaltung.getaMA().get(i);
 			if(username.equals(ma.getBenutzername())){
 				if(password.equals(ma.getPasswort())) {
 					user = ma;

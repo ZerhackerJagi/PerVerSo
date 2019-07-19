@@ -1,6 +1,8 @@
-package logik;
+package arbeitszeitplaene;
 
 import java.util.*;
+
+import logik.Mitarbeiter;
 
 public class Schicht {
 	private Date date;
