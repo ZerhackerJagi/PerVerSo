@@ -209,6 +209,26 @@ public class Arbeitszeitkonto implements Serializable {
 	}
 	
 	
+	public void showUrlaub(int jahr) {
+		/*@author: 		Soeren Hebestreit
+		 *@date: 		19.07.2019
+		 *@description:	Urlaubseintraege anzeigen (Konsole), mit Jahreseingrenzung
+		 */
+		
+		if (liste.size()!=0) {
+			for (int i = 0; i < liste.size(); i++) {
+				if (liste.get(i) instanceof Urlaubseintrag) {
+					if (liste.get(i).getStart().getJahr() == jahr) {
+						liste.get(i).display();
+					}
+				}
+			}	
+		} else {
+			System.out.println("Empty");
+		}
+	}
+	
+	
 	public void showKrankheit() {
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		19.07.2019

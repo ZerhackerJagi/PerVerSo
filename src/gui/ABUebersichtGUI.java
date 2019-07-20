@@ -17,6 +17,10 @@ import logik.Arbeitsbereichverwaltung;
 
 public class ABUebersichtGUI extends JFrame{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int nmb;
 	
 	public ABUebersichtGUI() {
@@ -25,7 +29,7 @@ public class ABUebersichtGUI extends JFrame{
 		getContentPane().setBackground(new Color(51, 204, 0));
 		getContentPane().setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Arbeitsbereich ausw√§hlen");
+		JLabel lblNewLabel = new JLabel("Arbeitsbereich ausw‰hlen");
 		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 24));
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setBounds(50, 25, 303, 54);
@@ -45,10 +49,10 @@ public class ABUebersichtGUI extends JFrame{
 		
 		// dynamisches Erzeugen der Label
 		Arbeitsbereichverwaltung av = Arbeitsbereichverwaltung.getInstance();
-		JLabel[] lable = new JLabel[av.getBereiche().size()];
+		JLabel[] lable = new JLabel[Arbeitsbereichverwaltung.getBereiche().size()];
 		int k = 5;
-		for(int i=0;i<av.getBereiche().size();i++) {
-			lable[i] = new JLabel(av.getBereiche().get(i).getName());
+		for(int i=0;i<Arbeitsbereichverwaltung.getBereiche().size();i++) {
+			lable[i] = new JLabel(Arbeitsbereichverwaltung.getBereiche().get(i).getName());
 			lable[i].setForeground(new Color(255,255,255));
 			lable[i].setBounds(6, k , 250, 20);
 			k+=20;
@@ -77,6 +81,12 @@ public class ABUebersichtGUI extends JFrame{
 		setSize(450,500);
 		setLocationRelativeTo(null);
 		setVisible(true);
+	}
+	
+	public static void main(String[] args) throws Exception {
+		// TODO Auto-generated method stub
+				
+		new ABUebersichtGUI();
 	}
 }
 

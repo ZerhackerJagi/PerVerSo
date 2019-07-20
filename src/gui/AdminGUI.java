@@ -16,7 +16,12 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
 public class AdminGUI extends JFrame{
-	public AdminGUI() {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public AdminGUI(int PID) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setBackground(new Color(51, 204, 0));
 		getContentPane().setLayout(null);
@@ -218,10 +223,10 @@ public class AdminGUI extends JFrame{
 		setVisible(true);
 	}
 
-	public static void main(String[] args) {
+	
+	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
-
-		new AdminGUI();
-
+				
+		new AdminGUI(0);
 	}
 }

@@ -27,33 +27,39 @@ public class LoginGUI extends JFrame{
 		 *@description: Login GUI
 		 */
 		
+		setSize(480,240);
+		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
 		getContentPane().setBackground(new Color(100, 150, 200));
 		getContentPane().setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Benutzername: ");
-		lblNewLabel.setBounds(45, 95, 125, 30);
-		getContentPane().add(lblNewLabel);
+		JLabel lblLoginPerverso = new JLabel("PerVerSo - Login");
+		lblLoginPerverso.setForeground(new Color(255, 245, 235));
+		lblLoginPerverso.setFont(new Font("Dialog", Font.BOLD, 21));
+		lblLoginPerverso.setBounds(164, 20, 240, 40);
+		getContentPane().add(lblLoginPerverso);
+		
+		JLabel lblBenutzername = new JLabel("Benutzername: ");
+		lblBenutzername.setForeground(new Color(255, 245, 235));
+		lblBenutzername.setFont(new Font("Dialog", Font.BOLD, 14));
+		lblBenutzername.setBounds(40, 80, 120, 20);
+		getContentPane().add(lblBenutzername);
 		
 		JLabel lblPasswort = new JLabel("Passwort: ");
-		lblPasswort.setBounds(45, 124, 125, 30);
+		lblPasswort.setForeground(new Color(255, 245, 235));
+		lblPasswort.setFont(new Font("Dialog", Font.BOLD, 14));
+		lblPasswort.setBounds(40, 120, 120, 20);
 		getContentPane().add(lblPasswort);
 		
 		tfUsername = new JTextField();
-		tfUsername.setBounds(174, 101, 172, 24);
+		tfUsername.setBounds(160, 78, 180, 24);
 		getContentPane().add(tfUsername);
 		tfUsername.setColumns(10);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(174, 128, 172, 24);
+		passwordField.setBounds(160, 118, 180, 24);
 		getContentPane().add(passwordField);
-		
-		JLabel lblLoginPerverso = new JLabel("Login - PerVerSo");
-		lblLoginPerverso.setFont(new Font("Dialog", Font.BOLD, 17));
-		lblLoginPerverso.setBounds(174, 38, 253, 34);
-		getContentPane().add(lblLoginPerverso);
-		
+			
 		JButton btnAnmelden = new JButton("Anmelden");
 		btnAnmelden.addMouseListener(new MouseAdapter() {				
 			@Override
@@ -61,22 +67,19 @@ public class LoginGUI extends JFrame{
 				if(checkAnmeldung(tfUsername.getText(), new String(passwordField.getPassword()))) {
 					setVisible(false);
 					if(user.getBerechtigung() instanceof Admin) {
-						new AdminGUI();
+						new AdminGUI(user.getPersonalnummer());
 						dispose();
 					}else {
-						new MitarbeiterGUI();
+						new MitarbeiterGUI(user.getPersonalnummer());
 						dispose();
 					}
 				}
 				
 			}
 		});
-		
-		btnAnmelden.setBounds(174, 164, 172, 29);
+		btnAnmelden.setBounds(160, 158, 180, 24);
 		getContentPane().add(btnAnmelden);
 		
-		setSize(500,250);
-		setLocationRelativeTo(null);
 		setVisible(true);
 	}
 	
@@ -104,6 +107,13 @@ public class LoginGUI extends JFrame{
 		}
 		JOptionPane.showMessageDialog(null, "Ungültiger Benutzername oder Passwort.", "Anmeldung", JOptionPane.INFORMATION_MESSAGE);
 		return false;
+	}
+	
+	
+	public static void main(String[] args) throws Exception {
+		// TODO Auto-generated method stub
+				
+		new LoginGUI();
 	}
 
 }

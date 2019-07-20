@@ -18,7 +18,7 @@ class Test {
 			Admin blub = (Admin) test;
 			System.out.println(blub.getPersonalID());
 			System.out.println("Aendere Berechtigung von Nummer Zwei...");
-			blub.changeBerechtigung(1);
+			blub.changeMABerechtigung(1);
 			System.out.println("Geaendert.");
 		}
 		test = zwei.getBerechtigung();
