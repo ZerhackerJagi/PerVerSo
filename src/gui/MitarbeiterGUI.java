@@ -53,11 +53,10 @@ public class MitarbeiterGUI extends JFrame{
 		btnPlan.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//setVisible(false);
-				
+				new ShowPlanGUI(PID);
 			}
 		});
-		btnPlan.setBounds(12, 240, 200, 24);
+		btnPlan.setBounds(12, 220, 200, 24);
 		getContentPane().add(btnPlan);
 		
 		JButton btnAZK = new JButton("Arbeitszeitkonto");
@@ -65,11 +64,10 @@ public class MitarbeiterGUI extends JFrame{
 		btnAZK.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//setVisible(false);
-				
+				new ShowAzkGUI(PID);
 			}
 		});
-		btnAZK.setBounds(12, 264, 200, 24);
+		btnAZK.setBounds(12, 244, 200, 24);
 		getContentPane().add(btnAZK);
 		
 		JButton btnExit = new JButton("Exit");
@@ -80,7 +78,7 @@ public class MitarbeiterGUI extends JFrame{
 				System.exit(0);	
 			}
 		});
-		btnExit.setBounds(12, 384, 200, 24);
+		btnExit.setBounds(12, 396, 200, 24);
 		getContentPane().add(btnExit);
 		
 		JPanel rahmenOben = new JPanel();
