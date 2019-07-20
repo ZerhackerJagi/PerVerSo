@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-import arbeitszeitplaene.Schicht;
 import extern.Datum;
 import status.Statustyp;
 
@@ -606,6 +605,22 @@ public class Admin extends Berechtigung implements Serializable {
 		// TO DO
 	}
 
+	
+//******************** FUNKTIONEN ********************	
+	
+	public void showAZK() {
+		/*@author: 		Soeren Hebestreit
+		 *@date: 		19.07.2019
+		 *@description:	Arbeitszeitkonto anzeigen, Urlaub aktuelles Jahr anzeigen
+		 */
+			
+		Personalverwaltung pv = Personalverwaltung.getInstance();
+		Arbeitszeitkonto azk = ((Mitarbeiter) pv.suchen(personalID)).getAzk();		
+		azk.display();
+		System.out.println("\n--------Urlaub--------");
+		azk.showUrlaub(new Datum().getJahr());
+	}
+	
 	
 //******************** GETTER & SETTER ********************
 	
