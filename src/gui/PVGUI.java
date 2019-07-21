@@ -10,7 +10,7 @@ import logik.*;
 import java.awt.Font;
 import java.awt.Color;
 
-public class ShowPlanGUI extends JFrame{
+public class PVGUI extends JFrame{
 	
 //******************** PARAMETER ********************
 
@@ -19,22 +19,22 @@ public class ShowPlanGUI extends JFrame{
 	
 //******************** KONSTRUKTOR ********************
 	
-	public ShowPlanGUI(int PID) {
+	public PVGUI(int PID) {
 		/*@author:		Soeren Hebestreit
-		 *@date: 		20.07.2019
-		 *@description: GUI zur Ansicht des Arbeitsplanes, Wochenauswahl
+		 *@date: 		21.07.2019
+		 *@description: Hauptmenue Personalverwaltung, Mitarbeiterauswahl
 		 */
 		
 		setSize(360, 640);
 		setLocationRelativeTo(null);
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setBackground(new Color(255, 255, 255));
 		getContentPane().setLayout(null);
 		
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Mitarbeiter ma = ((Mitarbeiter) pv.suchen(PID));
 		
-		JLabel lblAZK = new JLabel("Arbeitsplan");
+		JLabel lblAZK = new JLabel("Mitarbeiterverwaltung");
 		lblAZK.setFont(new Font("Dialog", Font.BOLD, 21));
 		lblAZK.setForeground(new Color(255, 255, 255));
 		lblAZK.setBounds(24, 20, 360, 24);
@@ -88,6 +88,6 @@ public class ShowPlanGUI extends JFrame{
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 				
-		new ShowPlanGUI(1);
+		new PVGUI(1);
 	}
 }

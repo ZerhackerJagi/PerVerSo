@@ -73,8 +73,7 @@ public class AdminGUI extends JFrame{
 		btnPV.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//setVisible(false);
-				
+				new PVGUI(PID);
 			}
 		});
 		btnPV.setBounds(12, 284, 200, 24);
@@ -85,9 +84,7 @@ public class AdminGUI extends JFrame{
 		btnABV.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//setVisible(false);
-				
-			}
+				new ABVGUI(PID);}
 		});
 		btnABV.setBounds(12, 308, 200, 24);
 		getContentPane().add(btnABV);
@@ -97,7 +94,7 @@ public class AdminGUI extends JFrame{
 		btnAP.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.exit(0);	
+				new APlanGUI(PID);	
 			}
 		});
 		btnAP.setBounds(12, 332, 200, 24);
@@ -108,8 +105,7 @@ public class AdminGUI extends JFrame{
 		btnStatistik.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//setVisible(false);
-				
+				new StatistikGUI(PID);
 			}
 		});
 		btnStatistik.setBounds(12, 356, 200, 24);

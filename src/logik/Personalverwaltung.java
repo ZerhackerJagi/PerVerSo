@@ -73,36 +73,32 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 	
 //******************** VERWALTUNG ********************
 	
-	public void add(String name, String vorname, char gender, int bday, int bmonth, int byear, int sday, int smonth, int syear, int bereichsnummer, String user, String pwd) throws Exception {
+	public void add(String name, String vorname, char gender, Datum geburtstag, Datum einstellung, int bereichsnummer, String user, String pwd) throws Exception {
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		18.07.2019
 		 *@description:	fuegt einen Mitarbeiter hinzu, komplette Angabe
 		 */
 	
-		Datum birthday = new Datum(bday,bmonth,byear);
-		Datum startday = new Datum(sday,smonth,syear);
 		String username = user;
 		String password = pwd;
-		Zugehoerigkeit wo = new Zugehoerigkeit(startday,bereichsnummer);
-		aMA.add(new Mitarbeiter(personalnummer,name,vorname,gender,birthday,username,password,new User(personalnummer),startday,new Arbeitszeitkonto(),wo, new Default()));
+		Zugehoerigkeit wo = new Zugehoerigkeit(einstellung,bereichsnummer);
+		aMA.add(new Mitarbeiter(personalnummer,name,vorname,gender,geburtstag,username,password,new User(personalnummer),einstellung,new Arbeitszeitkonto(),wo, new Default()));
 		personalnummer ++;
 	}
 	
 	
-	public void add(String name, String vorname, char gender, int bday, int bmonth, int byear, int sday, int smonth, int syear, int bereichsnummer) throws Exception {
+	public void add(String name, String vorname, char gender, Datum geburtstag, Datum einstellung, int bereichsnummer) throws Exception {
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		18.07.2019
 		 *@description:	fuegt einen Mitarbeiter hinzu, autogenerierter Username und Passwort
 		 */
 	
-		Datum birthday = new Datum(bday,bmonth,byear);
-		Datum startday = new Datum(sday,smonth,syear);
 		// Beispiel Username: Hebestreit2
 		String username = name+personalnummer;
 		// Beispiel Passwort: sH_715re
-		String password = vorname.substring(0,1).toLowerCase()+name.substring(0,1).toUpperCase()+"_"+smonth+bday+vorname.charAt(vorname.length()/2)+name.charAt(name.length()/3);
-		Zugehoerigkeit wo = new Zugehoerigkeit(startday,bereichsnummer);
-		aMA.add(new Mitarbeiter(personalnummer,name,vorname,gender,birthday,username,password,new User(personalnummer),startday,new Arbeitszeitkonto(),wo, new Default()));
+		String password = vorname.substring(0,1).toLowerCase()+name.substring(0,1).toUpperCase()+"_"+einstellung.getMonat()+geburtstag.getTag()+vorname.charAt(vorname.length()/2)+name.charAt(name.length()/3);
+		Zugehoerigkeit wo = new Zugehoerigkeit(einstellung,bereichsnummer);
+		aMA.add(new Mitarbeiter(personalnummer,name,vorname,gender,geburtstag,username,password,new User(personalnummer),einstellung,new Arbeitszeitkonto(),wo, new Default()));
 		personalnummer ++;
 	}
 

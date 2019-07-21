@@ -2,8 +2,6 @@ package logik;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
-
 import extern.Datum;
 import status.Statustyp;
 
@@ -24,25 +22,25 @@ public class Admin extends Berechtigung implements Serializable {
 	
 //******************** VERWALTUNG MITARBEITER ********************
 	
-	public void addMA(String name, String vorname, char gender, int bday, int bmonth, int byear, int sday, int smonth, int syear, int bereichsnummer, String user, String pwd) throws Exception{
+	public void addMA(String name, String vorname, char gender, Datum geburtstag, Datum einstellung, int bereichsnummer, String user, String pwd) throws Exception{
 		/*@author:		Soeren Hebestreit
 		 *@date: 		18.07.2019
 		 *@description: Mitarbeiter hinzufuegen, mit Kennung
 		 */
 		
 		Personalverwaltung pv = Personalverwaltung.getInstance();
-		pv.add(name, vorname, gender, bday, bmonth, byear, sday, smonth, syear, bereichsnummer, user, pwd);
+		pv.add(name, vorname, gender, geburtstag, einstellung, bereichsnummer, user, pwd);
 	}
 	
 	
-	public void addMA(String name, String vorname, char gender, int bday, int bmonth, int byear, int sday, int smonth, int syear, int bereichsnummer) throws Exception{
+	public void addMA(String name, String vorname, char gender, Datum geburtstag, Datum einstellung, int bereichsnummer) throws Exception{
 		/*@author:		Soeren Hebestreit
 		 *@date: 		18.07.2019
 		 *@description: Mitarbeiter hinzufuegen, ohne Kennung
 		 */
 		
 		Personalverwaltung pv = Personalverwaltung.getInstance();
-		pv.add(name, vorname, gender, bday, bmonth, byear, sday, smonth, syear, bereichsnummer);
+		pv.add(name, vorname, gender, geburtstag, einstellung, bereichsnummer);
 	}
 	
 	
@@ -162,7 +160,7 @@ public class Admin extends Berechtigung implements Serializable {
 	}
 	
 	
-	public boolean editMAEinstellungsdatum(int personalnummer, int day, int month, int year) {
+	public boolean editMAEinstellungsdatum(int personalnummer, Datum einstellung) {
 		/*@author:		Soeren Hebestreit
 		 *@date: 		19.07.2019
 		 *@description: Mitarbeitereinstellungsdatum bearbeiten
@@ -176,12 +174,12 @@ public class Admin extends Berechtigung implements Serializable {
 		if (ma == null) return false;
 				
 		// MA existent
-		ma.setEinstellungsdatum(new Datum(day, month, year));
+		ma.setEinstellungsdatum(einstellung);
 		return true;
 	}
 	
 	
-	public boolean editMAAusscheidungsdatum(int personalnummer, int day, int month, int year) {
+	public boolean editMAAusscheidungsdatum(int personalnummer, Datum ausscheiden) {
 		/*@author:		Soeren Hebestreit
 		 *@date: 		19.07.2019
 		 *@description: Mitarbeiterausscheidungsdatum bearbeiten
@@ -195,13 +193,12 @@ public class Admin extends Berechtigung implements Serializable {
 		if (ma == null) return false;
 				
 		// MA existent
-		Datum endday = new Datum(day, month, year);
-		ma.setAusscheidungsdatum(endday);
+		ma.setAusscheidungsdatum(ausscheiden);
 		
 		// falls MA bereits in Grundbereich 1 - ausgeschieden verschoben wurde dort das Startdatum aendern
 		Zugehoerigkeit last = ma.getActualAB();
-		if (last.getArbeitsbereichnummer() == 1) {
-			last.setStart(endday);
+		if (last.getArbeitsbereichnummer() == 1 || ausscheiden != null) {
+			last.setStart(ausscheiden);
 		}
 		return true;
 	}
@@ -249,7 +246,7 @@ public class Admin extends Berechtigung implements Serializable {
 	}
 	
 	
-	public boolean deleteMA(int personalnummer, int day, int month, int year) {
+	public boolean deleteMA(int personalnummer, Datum ausscheiden) {
 		/*@author:		Soeren Hebestreit
 		 *@date: 		18.07.2019
 		 *@description: Mitarbeiter nach ausgeschieden verschieben, Berechtigung etc. loeschen
@@ -260,8 +257,7 @@ public class Admin extends Berechtigung implements Serializable {
 		
 		// Loeschen nur moeglich, falls Ausscheiden in der Vergangenheit
 		Datum today = new Datum();
-		Datum endday = new Datum(day, month, year);
-		if (today.compareTo(endday) < 1) return false;
+		if (today.compareTo(ausscheiden) < 1) return false;
 		
 		// MA suchen
 		Personalverwaltung pv = Personalverwaltung.getInstance();
@@ -271,8 +267,8 @@ public class Admin extends Berechtigung implements Serializable {
 		if (ma == null) return false; 
 		
 		// MA existent, Ausscheidungsdatum setzen, neu zuordnen Grundbereich 1 - ausgeschieden, Reset 
-		ma.setAusscheidungsdatum(endday);
-		linkMAtoAB(personalnummer, 1, day, month, year);
+		ma.setAusscheidungsdatum(ausscheiden);
+		linkMAtoAB(personalnummer, 1, ausscheiden);
 		resetMA(personalnummer);
 		return true;	
 	}
@@ -403,7 +399,7 @@ public class Admin extends Berechtigung implements Serializable {
 	}
 	
 	
-	public boolean addAZKUrlaub(int personalnummer, int sday, int smonth, int syear, int eday, int emonth, int eyear, int tage) throws Exception {
+	public boolean addAZKUrlaub(int personalnummer, Datum start, Datum ende, int tage) throws Exception {
 		/*@author:		Soeren Hebestreit
 		 *@date: 		18.07.2019
 		 *@description: Urlaubseintrag erstellen 
@@ -417,12 +413,12 @@ public class Admin extends Berechtigung implements Serializable {
 		if (ma == null) return false; 
 				
 		// MA existent
-		ma.getAzk().addUrlaub(new Datum(sday, smonth, syear), new Datum(eday, emonth, eyear), tage);
+		ma.getAzk().addUrlaub(start, ende, tage);
 		return true;
 	}
 	
 	
-	public boolean addAZKKrankheit(int personalnummer, int sday, int smonth, int syear, int eday, int emonth, int eyear, int tage) throws Exception {
+	public boolean addAZKKrankheit(int personalnummer, Datum start, Datum ende, int tage) throws Exception {
 		/*@author:		Soeren Hebestreit
 		 *@date: 		18.07.2019
 		 *@description: Krankheitseintrag erstellen 
@@ -436,7 +432,7 @@ public class Admin extends Berechtigung implements Serializable {
 		if (ma == null) return false; 
 				
 		// MA existent
-		ma.getAzk().addKrankheit(new Datum(sday, smonth, syear), new Datum(eday, emonth, eyear), tage);
+		ma.getAzk().addKrankheit(start, ende, tage);
 		return true;
 	}
 	
@@ -561,7 +557,7 @@ public class Admin extends Berechtigung implements Serializable {
 	}
 	
 	
-	public void linkMAtoAB(int personalnummer, int arbeitsbereichnummer, int sday, int smonth, int syear) {
+	public void linkMAtoAB(int personalnummer, int arbeitsbereichnummer, Datum datum) {
 		/*@author:		Soeren Hebestreit
 		 *@date: 		18.07.2019
 		 *@description: Mitarbeiter einem (neuen) Bereich zuordnen, mit Datumsangabe
@@ -571,7 +567,7 @@ public class Admin extends Berechtigung implements Serializable {
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
 		
-		Zugehoerigkeit z = new Zugehoerigkeit(new Datum(sday, smonth, syear), arbeitsbereichnummer);
+		Zugehoerigkeit z = new Zugehoerigkeit(datum, arbeitsbereichnummer);
 		
 		// Zugehoerigkeit hinzufuegen
 		ArrayList<Zugehoerigkeit> zlist = ma.getZugehoerigkeit();

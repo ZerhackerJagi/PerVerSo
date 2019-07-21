@@ -2,13 +2,14 @@ package tests;
 
 import java.util.ArrayList;
 
+import extern.Datum;
 import logik.*;
 
 class Test {
 
 	public static void main(String[] args) throws Exception {
 		Personalverwaltung pv = Personalverwaltung.getInstance();
-		pv.add("Test", "User", 'd', 1, 1, 2000, 1, 1, 2000, 0);
+		pv.add("Test", "User", 'd', new Datum(1, 1, 2000), new Datum(1, 1, 2000), 0);
 		pv.show();
 		ArrayList<Mitarbeiter> liste = Personalverwaltung.getaMA();
 		Mitarbeiter eins = liste.get(0);
