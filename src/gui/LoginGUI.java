@@ -100,12 +100,12 @@ public class LoginGUI extends JFrame{
 					user = ma;
 					return true;
 				} else {
-					JOptionPane.showMessageDialog(null, "Ungültiger Benutzername oder Passwort.", "Anmeldung", JOptionPane.INFORMATION_MESSAGE); 
+					JOptionPane.showMessageDialog(null, "Ungültiger Benutzername oder Passwort.", null, JOptionPane.INFORMATION_MESSAGE); 
 					return false;
 				}
 			}
 		}
-		JOptionPane.showMessageDialog(null, "Ungültiger Benutzername oder Passwort.", "Anmeldung", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Ungültiger Benutzername oder Passwort.", null, JOptionPane.INFORMATION_MESSAGE);
 		return false;
 	}
 	

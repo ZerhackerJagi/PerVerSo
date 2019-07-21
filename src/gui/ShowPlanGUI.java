@@ -34,11 +34,11 @@ public class ShowPlanGUI extends JFrame{
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Mitarbeiter ma = ((Mitarbeiter) pv.suchen(PID));
 		
-		JLabel lblAZK = new JLabel("Arbeitsplan");
-		lblAZK.setFont(new Font("Dialog", Font.BOLD, 21));
-		lblAZK.setForeground(new Color(255, 255, 255));
-		lblAZK.setBounds(24, 20, 360, 24);
-		getContentPane().add(lblAZK);
+		JLabel lblAP = new JLabel("Arbeitsplan");
+		lblAP.setFont(new Font("Dialog", Font.BOLD, 21));
+		lblAP.setForeground(new Color(255, 255, 255));
+		lblAP.setBounds(24, 20, 360, 24);
+		getContentPane().add(lblAP);
 		
 		JLabel lblName = new JLabel(ma.getVorname()+" "+ma.getName());
 		lblName.setFont(new Font("Dialog", Font.BOLD, 21));
