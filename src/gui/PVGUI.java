@@ -8,16 +8,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.TableModel;
-
 import logik.*;
 
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.BorderLayout;
 import java.awt.Color;
 
 public class PVGUI extends JFrame{
@@ -39,20 +34,20 @@ public class PVGUI extends JFrame{
 		// Haupt- und Steuerungsbereich
 		setSize(800, 640);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setBackground(new Color(255, 255, 255));
 		getContentPane().setLayout(null);
 		
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Arbeitsbereichverwaltung abv = Arbeitsbereichverwaltung.getInstance();
-		Mitarbeiter ma = ((Mitarbeiter) pv.suchen(PID));
-		
 		try {
 			pv.laden();
+			abv.laden();
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		Mitarbeiter ma = ((Mitarbeiter) pv.suchen(PID));
 		
 		JLabel lblPV = new JLabel("Mitarbeiterverwaltung");
 		lblPV.setFont(new Font("Dialog", Font.BOLD, 21));
@@ -71,7 +66,7 @@ public class PVGUI extends JFrame{
 		btnBack.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new StatistikGUI(PID);
+				dispose();
 			}
 		});
 		btnBack.setBounds(680, 24, 80, 40);

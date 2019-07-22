@@ -44,7 +44,7 @@ public class Admin extends Berechtigung implements Serializable {
 	}
 	
 	
-	public boolean editMAStammdaten(int personalnummer, String name, String vorname, char gender, int day, int month, int year) {
+	public boolean editMAStammdaten(int personalnummer, String name, String vorname, char gender, Datum geburtstag) {
 		/*@author:		Soeren Hebestreit
 		 *@date: 		19.07.2019
 		 *@description: Mitarbeiterstammdaten bearbeiten (Name, Vorname, Geschlecht, Geburtstag)
@@ -60,7 +60,7 @@ public class Admin extends Berechtigung implements Serializable {
 		// MA existent
 		ma.setName(name);
 		ma.setVorname(vorname);
-		ma.setGeburtsdatum(new Datum(day, month, year));
+		ma.setGeburtsdatum(geburtstag);
 		ma.setGeschlecht(gender);
 		return true;
 	}

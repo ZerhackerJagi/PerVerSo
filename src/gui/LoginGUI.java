@@ -34,19 +34,19 @@ public class LoginGUI extends JFrame{
 		getContentPane().setLayout(null);
 		
 		JLabel lblLoginPerverso = new JLabel("PerVerSo - Login");
-		lblLoginPerverso.setForeground(new Color(255, 245, 235));
+		lblLoginPerverso.setForeground(new Color(255, 255, 255));
 		lblLoginPerverso.setFont(new Font("Dialog", Font.BOLD, 21));
 		lblLoginPerverso.setBounds(164, 20, 240, 40);
 		getContentPane().add(lblLoginPerverso);
 		
 		JLabel lblBenutzername = new JLabel("Benutzername: ");
-		lblBenutzername.setForeground(new Color(255, 245, 235));
+		lblBenutzername.setForeground(new Color(255, 255, 255));
 		lblBenutzername.setFont(new Font("Dialog", Font.BOLD, 14));
 		lblBenutzername.setBounds(40, 80, 120, 20);
 		getContentPane().add(lblBenutzername);
 		
 		JLabel lblPasswort = new JLabel("Passwort: ");
-		lblPasswort.setForeground(new Color(255, 245, 235));
+		lblPasswort.setForeground(new Color(255, 255, 255));
 		lblPasswort.setFont(new Font("Dialog", Font.BOLD, 14));
 		lblPasswort.setBounds(40, 120, 120, 20);
 		getContentPane().add(lblPasswort);
@@ -54,7 +54,6 @@ public class LoginGUI extends JFrame{
 		tfUsername = new JTextField();
 		tfUsername.setBounds(160, 78, 180, 24);
 		getContentPane().add(tfUsername);
-		tfUsername.setColumns(10);
 		
 		passwordField = new JPasswordField();
 		passwordField.setBounds(160, 118, 180, 24);
