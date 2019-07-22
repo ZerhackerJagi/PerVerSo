@@ -99,11 +99,13 @@ public class PVGUI extends JFrame{
 		btnAnlegen.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
+
 				
 				setVisible(false);
 				
 				new EditMaGUI(PID,0,false);
 				setVisible(true);
+
 			}
 		});
 		btnAnlegen.setBounds(24, 140, 200, 24);
