@@ -7,7 +7,9 @@ import org.junit.runners.Suite;
 
 @Suite.SuiteClasses({
 	ArbeitsbereichComparatorTest.class,
-	MitarbeiterComparatorTest.class
+	MitarbeiterComparatorTest.class,
+	PersonalverwaltungTest.class
+
 })
 
 public class TestSuite {   
