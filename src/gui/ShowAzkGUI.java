@@ -34,6 +34,7 @@ public class ShowAzkGUI extends JFrame{
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setBackground(new Color(255, 255, 255));
 		getContentPane().setLayout(null);
+		setResizable(false);
 		
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Mitarbeiter ma = ((Mitarbeiter) pv.suchen(PID));

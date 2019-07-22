@@ -5,7 +5,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import extern.Datum;
-import status.Statustyp;
 
 
 public class Mitarbeiter implements Serializable {
@@ -28,14 +27,13 @@ public class Mitarbeiter implements Serializable {
 	private Datum ausscheidungsdatum;
 	private Arbeitszeitkonto azk;
 	private ArrayList<Zugehoerigkeit> zugehoerigkeit;
-	private Statustyp status;
 	
 	
 //******************** KONSTRUKTOR ********************
 	
 	public Mitarbeiter(int personalnummer, String name, String vorname, char geschlecht, Datum geburtstag, 
 			String benutzername, String passwort, Berechtigung berechtigung, 
-			Datum einstellungsdatum, Arbeitszeitkonto azk, Zugehoerigkeit zugehoerigkeit, Statustyp status) {
+			Datum einstellungsdatum, Arbeitszeitkonto azk, Zugehoerigkeit zugehoerigkeit) {
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		21.06.2019
 		 *@description:	Konstruktor Mitarbeiter komplett
@@ -56,7 +54,6 @@ public class Mitarbeiter implements Serializable {
 		this.azk = azk;
 		this.zugehoerigkeit = new ArrayList<Zugehoerigkeit>();
 		this.zugehoerigkeit.add(zugehoerigkeit);
-		this.status = status;
 	}
 
 
@@ -207,16 +204,5 @@ public class Mitarbeiter implements Serializable {
 	public Zugehoerigkeit getActualAB () {
 		return zugehoerigkeit.get(zugehoerigkeit.size()-1);
 	}
-
-
-	public Statustyp getStatus() {
-		return status;
-	}
-
-
-	public void setStatus(Statustyp status) {
-		this.status = status;
-	}
-
 	
 }

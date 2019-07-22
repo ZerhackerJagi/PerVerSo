@@ -32,6 +32,7 @@ public class MitarbeiterGUI extends JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setBackground(new Color(255, 255, 255));
 		getContentPane().setLayout(null);
+		setResizable(false);
 		
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setIcon(new ImageIcon("pictures/HWR-Logo_black_small.png"));
@@ -48,17 +49,6 @@ public class MitarbeiterGUI extends JFrame{
 		labelHauptmenu.setBounds(12, 144, 160, 24);
 		getContentPane().add(labelHauptmenu);
 		
-		JButton btnPlan = new JButton("Arbeitsplan");
-		btnPlan.setBackground(new Color(255, 255, 255));
-		btnPlan.addMouseListener(new MouseAdapter() {				
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				new ShowPlanGUI(PID);
-			}
-		});
-		btnPlan.setBounds(12, 220, 200, 24);
-		getContentPane().add(btnPlan);
-		
 		JButton btnAZK = new JButton("Arbeitszeitkonto");
 		btnAZK.setBackground(new Color(255, 255, 255));
 		btnAZK.addMouseListener(new MouseAdapter() {				
@@ -67,7 +57,7 @@ public class MitarbeiterGUI extends JFrame{
 				new ShowAzkGUI(PID);
 			}
 		});
-		btnAZK.setBounds(12, 244, 200, 24);
+		btnAZK.setBounds(12, 220, 200, 24);
 		getContentPane().add(btnAZK);
 		
 		JButton btnExit = new JButton("Exit");

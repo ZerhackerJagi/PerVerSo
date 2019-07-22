@@ -34,6 +34,7 @@ public class EditMaGUI extends JFrame{
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setBackground(new Color(100, 150, 200));
 		getContentPane().setLayout(null);
+		setResizable(false);
 		
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		try {
@@ -169,7 +170,7 @@ public class EditMaGUI extends JFrame{
 					gender = 'w';
 				}
 				Datum einstellung = new Datum(Integer.parseInt(tfEinstellung.getText().substring(0, tfEinstellung.getText().indexOf("."))),Integer.parseInt(tfEinstellung.getText().substring(tfEinstellung.getText().indexOf(".")+1,tfEinstellung.getText().lastIndexOf("."))),Integer.parseInt(tfEinstellung.getText().substring(tfEinstellung.getText().lastIndexOf(".")+1)));
-				Datum ausscheiden = new Datum(Integer.parseInt(tfAusscheiden.getText().substring(0, tfAusscheiden.getText().indexOf("."))),Integer.parseInt(tfAusscheiden.getText().substring(tfAusscheiden.getText().indexOf(".")+1,tfAusscheiden.getText().lastIndexOf("."))),Integer.parseInt(tfAusscheiden.getText().substring(tfAusscheiden.getText().lastIndexOf(".")+1)));
+				
 //				if(edit == true) {
 //					admin.editMAStammdaten(wer, tfName.getText(), tfVorname.getText(), gender, geburtstag);
 //					admin.editMAEinstellungsdatum(wer, einstellung);

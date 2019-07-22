@@ -35,6 +35,7 @@ public class AddMAGUI2 extends JFrame{
 	private JTextField textField_3;
 	public AddMAGUI2() {
 		getContentPane().setLayout(null);
+		setResizable(false);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(100, 150, 200));
@@ -219,5 +220,11 @@ public class AddMAGUI2 extends JFrame{
 		setLocationRelativeTo(null);
 //		add(panel);
 		setVisible(true);
+	}
+	
+	public static void main(String[] args) throws Exception {
+		// TODO Auto-generated method stub
+				
+		new AddMAGUI2();
 	}
 }

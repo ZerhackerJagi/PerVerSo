@@ -32,6 +32,7 @@ public class LoginGUI extends JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setBackground(new Color(100, 150, 200));
 		getContentPane().setLayout(null);
+		setResizable(false);
 		
 		JLabel lblLoginPerverso = new JLabel("PerVerSo - Login");
 		lblLoginPerverso.setForeground(new Color(255, 255, 255));

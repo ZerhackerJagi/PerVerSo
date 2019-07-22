@@ -3,7 +3,6 @@ package logik;
 import java.io.Serializable;
 import java.util.ArrayList;
 import extern.Datum;
-import status.Statustyp;
 
 public class Admin extends Berechtigung implements Serializable {
 
@@ -179,31 +178,6 @@ public class Admin extends Berechtigung implements Serializable {
 	}
 	
 	
-	public boolean editMAAusscheidungsdatum(int personalnummer, Datum ausscheiden) {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		19.07.2019
-		 *@description: Mitarbeiterausscheidungsdatum bearbeiten
-		 */
-		
-		// MA suchen
-		Personalverwaltung pv = Personalverwaltung.getInstance();
-		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
-				
-		// MA nicht existent
-		if (ma == null) return false;
-				
-		// MA existent
-		ma.setAusscheidungsdatum(ausscheiden);
-		
-		// falls MA bereits in Grundbereich 1 - ausgeschieden verschoben wurde dort das Startdatum aendern
-		Zugehoerigkeit last = ma.getActualAB();
-		if (last.getArbeitsbereichnummer() == 1 || ausscheiden != null) {
-			last.setStart(ausscheiden);
-		}
-		return true;
-	}
-	
-	
 	public boolean resetMAAzk(int personalnummer) {
 		/*@author:		Soeren Hebestreit
 		 *@date: 		19.07.2019
@@ -223,25 +197,6 @@ public class Admin extends Berechtigung implements Serializable {
 		} else {
 			ma.setAzk(null);
 		}
-		return true;
-	}
-	
-	
-	public boolean editMAStatus(int personalnummer, Statustyp status) {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		19.07.2019
-		 *@description: Mitarbeiter-AZK zuruecksetzen oder wieder einsetzen (leer)
-		 */
-		
-		// MA suchen
-		Personalverwaltung pv = Personalverwaltung.getInstance();
-		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
-				
-		// MA nicht existent
-		if (ma == null) return false;
-				
-		// MA existent
-		ma.setStatus(status);
 		return true;
 	}
 	
@@ -293,7 +248,6 @@ public class Admin extends Berechtigung implements Serializable {
 		// MA existent
 		ma.setAzk(null);
 		ma.setBerechtigung(null);
-		ma.setStatus(null);
 		return true;	
 	}
 	
@@ -554,6 +508,10 @@ public class Admin extends Berechtigung implements Serializable {
 		ArrayList<Zugehoerigkeit> zlist = ma.getZugehoerigkeit();
 		zlist.add(z);
 		ma.setZugehoerigkeit(zlist);
+		
+		if(arbeitsbereichnummer == 1) {
+			ma.setAusscheidungsdatum(new Datum());
+		}
 	}
 	
 	
@@ -573,6 +531,10 @@ public class Admin extends Berechtigung implements Serializable {
 		ArrayList<Zugehoerigkeit> zlist = ma.getZugehoerigkeit();
 		zlist.add(z);
 		ma.setZugehoerigkeit(zlist);
+		
+		if(arbeitsbereichnummer == 1) {
+			ma.setAusscheidungsdatum(datum);
+		}
 	}
 	
 	
@@ -582,25 +544,6 @@ public class Admin extends Berechtigung implements Serializable {
 		// TO DO
 	}
 	
-	
-//******************** VERWALTUNG ARBEITSPLAENE ********************
-	
-	public void addArbeitsplan(int kw, int abteilungsnummer) {
-		// TO DO
-	}
-	
-	public void rmArbeitsplan(int kw, int abteilungsnummer) {
-		// TO DO
-	}
-	
-	public void addMAtoSchicht(int kw, int abteilungsnummer, Schicht schicht) {
-		// TO DO
-	}
-	
-	public void rmMA(int kw, int abteilungsnummer, Schicht schicht) {
-		// TO DO
-	}
-
 	
 //******************** FUNKTIONEN ********************	
 	
