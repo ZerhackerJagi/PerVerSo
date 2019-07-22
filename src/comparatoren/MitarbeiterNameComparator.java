@@ -19,6 +19,7 @@ public class MitarbeiterNameComparator implements Comparator <Mitarbeiter> {
 	
    public int compare(Mitarbeiter m1, Mitarbeiter m2) {
 
+	   		
     		int x = m1.getName().compareTo(m2.getName());
     		if (x == 0) {
     			return m1.getVorname().compareTo(m2.getVorname());
