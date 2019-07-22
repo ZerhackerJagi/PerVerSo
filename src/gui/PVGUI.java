@@ -19,6 +19,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PVGUI extends JFrame{
 	
@@ -93,11 +95,16 @@ public class PVGUI extends JFrame{
 		getContentPane().add(lblStammdaten);
 		
 		JButton btnAnlegen = new JButton("Mitarbeiter anlegen");
+		btnAnlegen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		btnAnlegen.setBackground(new Color(255, 255, 255));
 		btnAnlegen.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new StatistikGUI(PID);
+				setVisible(false);
+				new AddMAGUI2();
 			}
 		});
 		btnAnlegen.setBounds(24, 140, 200, 24);
