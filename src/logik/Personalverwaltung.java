@@ -1,26 +1,30 @@
 package logik;
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import comparatoren.*;
+import extern.Datum;
 import interfaces.*;
 import speicher.Dateizugriff;
-
+import status.Default;
 
 
 // SINGLETON!
-public class Personalverwaltung implements Verwaltung,Serializable {
+public class Personalverwaltung implements VerwaltungIF,Serializable {
+	
+//******************** PARAMETER ********************
 
-	// PRIVAT
-	private static Mitarbeiter[] aktiveMA; //MA Liste
-	private static ArrayList <Mitarbeiter> aMA;
-	private static Personalverwaltung uniqueInstance; //Einzigartige Instanz
+	private static final long serialVersionUID = 1L;
+	private static Personalverwaltung uniqueInstance; 	
 	private static int personalnummer;
+	private static ArrayList <Mitarbeiter> aMA;
 	
-	
+//******************** KONSTRUKTOR ********************
+
 	public static Personalverwaltung getInstance() {
-		/*@author: 		Jakob Küchler
+		/*@author: 		Jakob Kuechler
 		 *@date: 		20.06.2019
 		 *@description:	Gibt die einzige Instanz von Personalverwaltung aus (Singleton)
 		 */
@@ -32,143 +36,151 @@ public class Personalverwaltung implements Verwaltung,Serializable {
 	}
 	
 	
-	// KONSTRUKTOR
 	private Personalverwaltung() {
-		aktiveMA = new Mitarbeiter[1];
-		aktiveMA[0] = new Mitarbeiter("minda","admin","passwort",'d',new Date(),new Admin(),new Default(),new Zugehoerigkeit(), createPersonalnummer());
+		personalnummer = 0;
 		aMA = new ArrayList <Mitarbeiter> ();
+		start();
 	}
 	
-	// PRIVATE METHODEN (HILFSMITTEL)
-	
-	private void extendListAktiveMA() {
-		/*@author: 		Jakob Küchler
-		 *@date: 		20.06.2019
-		 *@description:	Erweitert die Liste aktiveMA um ein Feld 
-		 */
-		Mitarbeiter[] newList =	new Mitarbeiter[(aktiveMA.length+1)];
-		System.arraycopy(aktiveMA, 0, newList, 0, aktiveMA.length);
-		this.aktiveMA = newList;
-	}
-	
-	private int createPersonalnummer() {
-		/*@author: 		Jakob Küchler
-		 *@date: 		20.06.2019
-		 *@description:	Erstellt automatisiert eine Personalnummer und gibt diese zurück. 
-		 */
-		
-		return personalnummer+1;
-	}
-	
-	
-	// ÖFFENTLICHE METHODEN
 	
 	@Override
 	public void start() {
-		// TODO Auto-generated method stub
+		/*@author: 		Soeren Hebestreit
+		 *@date: 		18.07.2019
+		 *@description:	fuegt Standardadmin bei der Ersterstellung ein 
+		 */
 		
+		aMA.add(new Mitarbeiter(personalnummer, "admin", "nimda", 'd', new Datum(), "admin", "passwort", new Admin(personalnummer), new Datum(), new Arbeitszeitkonto(), new Zugehoerigkeit(new Datum(),0), new Default()));
+		personalnummer ++;
+		aMA.add(new Mitarbeiter(personalnummer, "user", "test", 'd', new Datum(), "user", "passwort", new User(personalnummer), new Datum(), new Arbeitszeitkonto(), new Zugehoerigkeit(new Datum(),0), new Default()));
+		personalnummer ++;
+		Arbeitszeitkonto azk = aMA.get(1).getAzk();
+		azk.addPlus(5000);
+		try {
+			azk.addUrlaub(new Datum(1,1,2019), new Datum(5,1,2019), 4);
+			azk.addKrankheit(new Datum(3,3,2019), new Datum(5,3,2019), 3);
+			azk.addUrlaub(new Datum(26,4,2019), new Datum(2,5,2019), 4);
+			azk.addUrlaub(new Datum(7,7,2019), new Datum(26,7,2019), 15);
+			azk.addKrankheit(new Datum(1,1,2019), new Datum(5,1,2019), 4);
+			azk.addUrlaub(new Datum(23,12,2019), new Datum(31,12,2019), 5);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+//******************** VERWALTUNG ********************
+	
+	public void add(String name, String vorname, char gender, Datum geburtstag, Datum einstellung, int bereichsnummer, String user, String pwd) throws Exception {
+		/*@author: 		Soeren Hebestreit
+		 *@date: 		18.07.2019
+		 *@description:	fuegt einen Mitarbeiter hinzu, komplette Angabe
+		 */
+	
+		String username = user;
+		String password = pwd;
+		Zugehoerigkeit wo = new Zugehoerigkeit(einstellung,bereichsnummer);
+		aMA.add(new Mitarbeiter(personalnummer,name,vorname,gender,geburtstag,username,password,new User(personalnummer),einstellung,new Arbeitszeitkonto(),wo, new Default()));
+		personalnummer ++;
+	}
+	
+	
+	public void add(String name, String vorname, char gender, Datum geburtstag, Datum einstellung, int bereichsnummer) throws Exception {
+		/*@author: 		Soeren Hebestreit
+		 *@date: 		18.07.2019
+		 *@description:	fuegt einen Mitarbeiter hinzu, autogenerierter Username und Passwort
+		 */
+	
+		// Beispiel Username: Hebestreit2
+		String username = name+personalnummer;
+		// Beispiel Passwort: sH_715re
+		String password = vorname.substring(0,1).toLowerCase()+name.substring(0,1).toUpperCase()+"_"+einstellung.getMonat()+geburtstag.getTag()+vorname.charAt(vorname.length()/2)+name.charAt(name.length()/3);
+		Zugehoerigkeit wo = new Zugehoerigkeit(einstellung,bereichsnummer);
+		aMA.add(new Mitarbeiter(personalnummer,name,vorname,gender,geburtstag,username,password,new User(personalnummer),einstellung,new Arbeitszeitkonto(),wo, new Default()));
+		personalnummer ++;
+	}
+
+
+	@Override
+	public boolean delete(int nummer) {
+		/*@author: 		Soeren Hebestreit
+		 *@date: 		18.07.2019
+		 *@description:	Bereiche an Hand der uebergebenen Nummer suchen und loeschen
+		 */
+		
+		Mitarbeiter wen = (Mitarbeiter) suchen(nummer);
+		if (wen != null) {
+			aMA.remove(wen);
+			return true;
+		}
+		return false;
 	}
 	
 
-	@Override
-	public void create() throws Exception {
-		// 
-		createMAonTerminal();
-		
-	}
+//******************** AUSGABE ********************	
 	
-	
-	public void add(String name,String vorname,String passwort,char gender,int bdayyear,int bdaymonth,int bdayday) throws Exception {
-		Date bday = new Date(bdayyear,bdaymonth,bdayday);
-		aMA.add(new Mitarbeiter(name, vorname, passwort, gender, bday, new User(),new Default(), new Zugehoerigkeit(), createPersonalnummer()));
-	}
-	public void display () {
-		// alle Konten anzeigen
+	public void show() {
+		/*@author: 		Soeren Hebestreit
+		 *@date: 		22.06.2019
+		 *@description:	Mitarbeiter anzeigen (Konsole) 
+		 */
 		
 		if (aMA.size()!=0) {
 			for (int i = 0; i < aMA.size(); i++) {
-				System.out.println(aMA.get(i));
-				
+				aMA.get(i).display();
 			}	
 		} else {
 			System.out.println("Empty");
 		}
 	}
+
+
+//******************** SORTIEREN & SUCHEN ********************
 	
-	
-	private void createMAonTerminal() throws Exception {
-		/*@author: 		Jakob Küchler
-		 *@date: 		20.06.2019
-		 *@description:	Fügt neuen Mitarbeiter per Terminal hinzu. Benötigt mehrere Eingaben durch User. Standardberechtigung: User 
+	@Override
+	public void sortName() {
+		// TODO Auto-generated method stub
+		/*@author: 		Soeren Hebestreit
+		 *@date: 		21.06.2019
+		 *@description:	Mitarbeiterliste nach Name, Vorname sortieren
 		 */
 		
-		// Liste um 1 Mitarbeiter erweitern
-		extendListAktiveMA();
-		
-		// Abfrage essentieller Infos für Konstruktor
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		System.out.print("Nachname: ");
-		String name = br.readLine();
-		System.out.print("Vorname: ");
-		String vorname = br.readLine();
-		System.out.print("Passwort eingeben: ");
-		String passwort = br.readLine();
-		System.out.print("Geschlecht (m/w/d): ");
-		String eingabe = br.readLine();
-		char gender = eingabe.charAt(0);
-		System.out.print("Geburtsjahr: ");
-		int bdayyear = Integer.parseInt(br.readLine());
-		System.out.print("Geburtsmonat: ");
-		int bdaymonth = Integer.parseInt(br.readLine());
-		System.out.print("Geburtstag: ");
-		int bdayday = Integer.parseInt(br.readLine());
-		Date bday = new Date(bdayyear,bdaymonth,bdayday);
-		
-		//String name, String vorname, String passwort, char geschlecht, Date geburtstag, Berechtigung berechtigung, Status status, Zugehoerigkeit zugehoerigkeit)		
-		aktiveMA[aktiveMA.length-1] = new Mitarbeiter(name, vorname, passwort, gender, bday, new User(),new Default(), new Zugehoerigkeit(), createPersonalnummer());
+		Collections.sort(aMA,new MitarbeiterNameComparator());
 	}
+
 
 	@Override
-	public void edit() {
+	public void sortNumber() {
 		// TODO Auto-generated method stub
+		/*@author: 		Soeren Hebestreit
+		 *@date: 		21.06.2019
+		 *@description:	Mitarbeiterliste nach Personalnummer sortieren
+		 */
 		
+		Collections.sort(aMA,new MitarbeiterNummerComparator());
 	}
-
-	@Override
-	public void delete() {
-		// TODO Auto-generated method stub
-		
-	}
-
 	
-
+	
 	@Override
 	public Object suchen(int nummer) {
-		/*@author: 		Jakob Küchler
-		 *@date: 		20.06.2019
-		 *@description:	Bekommt eine Personalnummer und durchsucht aktiveMA anhand dessen.
+		/*@author: 		Soeren Hebestreit
+		 *@date: 		22.06.2019
+		 *@description:	bekommt eine Personalnummer und durchsucht Mitarbeiterliste anhand dessen
 		 */
 		
-		for(int i=0; i<aktiveMA.length;i++) {
-			if(aktiveMA[i].getPersonalnummer() == nummer) {
-				return aktiveMA[i];
+		if (aMA.size()!=0) {
+			for (int i = 0; i < aMA.size(); i++) {
+				if (aMA.get(i).getPersonalnummer() == nummer) {
+					return aMA.get(i);
+				}
 			}
 		}
 		return null;
 	}
 	
-	public void show() {
-		/*@author: 		Jakob Küchler
-		 *@date: 		20.06.2019
-		 *@description:	Zeigt alle MA der Liste aktiveMA an. 
-		 */
-		
-		for(int i = 0; i<aktiveMA.length;i++) {
-			System.out.println("Mitarbeiter: "+aktiveMA[i]);
-		}
-	}
-
-
+	
 //******************** LOAD & SAVE ********************
 	
 	@Override
@@ -181,29 +193,29 @@ public class Personalverwaltung implements Verwaltung,Serializable {
 		Dateizugriff data = new Dateizugriff();
 		data.speichern(aMA);	
 	}
-	
-	
+		
+		
 	@Override
 	public void laden() throws Exception {
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		21.06.2019
 		 *@description:	erzeugt ein Dateizugriff und laedt Daten in die Mitarbeiterliste
 		 */
-		
+			
 		Dateizugriff data = new Dateizugriff();
 		aMA = (ArrayList<Mitarbeiter>) data.laden();
 	}
-	
+			
 
 //******************** GETTER & SETTER ********************
-	
-	public static Mitarbeiter[] getAktiveMA() {
-		return aktiveMA;
+
+	public static ArrayList<Mitarbeiter> getaMA() {
+		return aMA;
 	}
 
 
-	public static void setAktiveMA(Mitarbeiter[] aktiveMA) {
-		Personalverwaltung.aktiveMA = aktiveMA;
+	public static void setaMA(ArrayList<Mitarbeiter> aMA) {
+		Personalverwaltung.aMA = aMA;
 	}
 
 	

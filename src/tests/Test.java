@@ -1,26 +1,32 @@
 package tests;
 
+import java.util.ArrayList;
+
+import extern.Datum;
 import logik.*;
 
 class Test {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		Personalverwaltung pv = Personalverwaltung.getInstance();
+		pv.add("Test", "User", 'd', new Datum(1, 1, 2000), new Datum(1, 1, 2000), 0);
 		pv.show();
-		Mitarbeiter[] liste = pv.getAktiveMA();
-		Mitarbeiter eins = liste[0];
+		ArrayList<Mitarbeiter> liste = Personalverwaltung.getaMA();
+		Mitarbeiter eins = liste.get(0);
+		Mitarbeiter zwei = liste.get(1);
 		Berechtigung test = eins.getBerechtigung();
 		if(test instanceof Admin) {
 			Admin blub = (Admin) test;
-			System.out.println("Ändere Berechtigung...");
-			blub.changeBerechtigung(00001);
-			System.out.println("Geändert.");
+			System.out.println(blub.getPersonalID());
+			System.out.println("Aendere Berechtigung von Nummer Zwei...");
+			blub.changeMABerechtigung(1);
+			System.out.println("Geaendert.");
 		}
-		test = eins.getBerechtigung();
-		if(test instanceof User) {
-			System.out.println("Bin jetzt User :(");
+		test = zwei.getBerechtigung();
+		if(test instanceof Admin) {
+			System.out.println("Bin jetzt Admin :)");
 		}
-		
-		
+	
+	
 	}
 }
