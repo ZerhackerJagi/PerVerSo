@@ -20,6 +20,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JComboBox;
 
 public class AddMAGUI2 extends JFrame{
 	private JTextField tFVorname;
@@ -175,12 +176,7 @@ public class AddMAGUI2 extends JFrame{
 		JLabel lblAbteilung = new JLabel("Abteilung");
 		lblAbteilung.setBounds(10, 345, 85, 30);
 		getContentPane().add(lblAbteilung);
-//		panel.add(lblAbteilung);
-		
-		JList list = new JList();
-		list.setBounds(175, 352, 140, 23);
-		getContentPane().add(list);
-		Arbeitsbereichverwaltung av = Arbeitsbereichverwaltung.getInstance();
+
 		
 //		panel.add(list);
 		
@@ -210,6 +206,15 @@ public class AddMAGUI2 extends JFrame{
 				panel_2.add(lblMitarbeiterHinzufgen);
 				lblMitarbeiterHinzufgen.setForeground(new Color(255, 255, 255));
 				lblMitarbeiterHinzufgen.setFont(new Font("Tahoma", Font.BOLD, 14));
+				
+				Arbeitsbereichverwaltung av = Arbeitsbereichverwaltung.getInstance();
+				String[] auswahl = new String[av.getBereiche().size()];
+				for(int i = 0;i<av.getBereiche().size();i++) {
+					auswahl[i] = av.getBereiche().get(i).toString();
+				}
+				JComboBox comboBox = new JComboBox(auswahl);
+				comboBox.setBounds(174, 350, 180, 20);
+				getContentPane().add(comboBox);
 //		panel.add(lblMitarbeiterHinzufgen);
 		
 //		getContentPane().add(panel);
