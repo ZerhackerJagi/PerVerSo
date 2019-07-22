@@ -98,7 +98,6 @@ public class PVGUI extends JFrame{
 		btnAnlegen.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				setVisible(false);
 				new AddMAGUI2();
 			}
 		});
