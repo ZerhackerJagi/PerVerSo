@@ -4,6 +4,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -20,7 +21,7 @@ public class EditMaGUI extends JFrame{
 //******************** PARAMETER ********************
 
 	private static final long serialVersionUID = 1L;
-	private int Mitarbeiter;
+	//private int wer;
 	
 	
 //******************** KONSTRUKTOR ********************
@@ -41,21 +42,6 @@ public class EditMaGUI extends JFrame{
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Arbeitsbereichverwaltung av = Arbeitsbereichverwaltung.getInstance();
 		Mitarbeiter ma = ((Mitarbeiter) pv.suchen(wer));
-		try {
-			pv.laden();
-			av.laden();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		if(edit == true) {
-			
-			Mitarbeiter = wer;
-			
-		} else {
-			Mitarbeiter = Personalverwaltung.getaMA().size();
-		}
 		
 		// Stammdaten
 		JLabel lblFunktion = new JLabel("");
@@ -69,7 +55,7 @@ public class EditMaGUI extends JFrame{
 		lblFunktion.setBounds(24, 8, 380, 36);
 		getContentPane().add(lblFunktion);
 		
-		JLabel lblPNr = new JLabel("PNr. "+Mitarbeiter);
+		JLabel lblPNr = new JLabel("PNr. "+wer);
 		lblPNr.setForeground(new Color(255, 255, 255));
 		lblPNr.setFont(new Font("Dialog", Font.BOLD, 14));
 		lblPNr.setBounds(24, 36, 240, 24);
@@ -251,23 +237,34 @@ public class EditMaGUI extends JFrame{
 		btnConfirm.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Admin admin = new Admin(PID);
-				Character gender = (Character)genderBox.getSelectedItem();
-				if(gender == ' ') {
-					gender = 'd';
-				}
-				if(edit == true) {
-					admin.editMAStammdaten(wer, tfName.getText(), tfVorname.getText(), gender, new Datum(Integer.parseInt(tfGeburtstagT.getText()),Integer.parseInt(tfGeburtstagM.getText()),Integer.parseInt(tfGeburtstagJ.getText())));
-					admin.editAZKVertragsdaten(wer, Integer.parseInt(tfSollstunden.getText()), Integer.parseInt(tfUrlaub.getText()), ma.getAzk().getUeberminutenmin(), ma.getAzk().getUeberminutenmax());			
+				if(tfName.getText().isEmpty() || tfVorname.getText().isEmpty() || tfGeburtstagT.getText().isEmpty() || tfGeburtstagM.getText().isEmpty() || tfGeburtstagJ.getText().isEmpty() || tfEinstellungT.getText().isEmpty() || tfEinstellungM.getText().isEmpty() || tfEinstellungJ.getText().isEmpty() || tfSollstunden.getText().isEmpty() || tfUrlaub.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Bitte alle Felder ausfüllen.", null, JOptionPane.INFORMATION_MESSAGE);
 				} else {
+					Admin admin = new Admin(PID);
+					Character gender = (Character)genderBox.getSelectedItem();
+					if(gender == ' ') {
+						gender = 'd';
+					}
+					if(edit == true) {
+						admin.editMAStammdaten(wer, tfName.getText(), tfVorname.getText(), gender, new Datum(Integer.parseInt(tfGeburtstagT.getText()),Integer.parseInt(tfGeburtstagM.getText()),Integer.parseInt(tfGeburtstagJ.getText())));
+						admin.editAZKVertragsdaten(wer, Integer.parseInt(tfSollstunden.getText()), Integer.parseInt(tfUrlaub.getText()));			
+					} else {
+						try {
+							admin.addMA(tfName.getText(), tfVorname.getText(), gender, new Datum(Integer.parseInt(tfGeburtstagT.getText()),Integer.parseInt(tfGeburtstagM.getText()),Integer.parseInt(tfGeburtstagJ.getText())), new Datum(Integer.parseInt(tfEinstellungT.getText()),Integer.parseInt(tfEinstellungM.getText()),Integer.parseInt(tfEinstellungJ.getText())), Integer.parseInt(((String)bereicheBox.getSelectedItem()).substring(0,((String)bereicheBox.getSelectedItem()).indexOf(" "))));
+							admin.editAZKVertragsdaten(wer, Integer.parseInt(tfSollstunden.getText()), Integer.parseInt(tfUrlaub.getText()));			
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
 					try {
-						admin.addMA(tfName.getText(), tfVorname.getText(), gender, new Datum(Integer.parseInt(tfGeburtstagT.getText()),Integer.parseInt(tfGeburtstagM.getText()),Integer.parseInt(tfGeburtstagJ.getText())), new Datum(Integer.parseInt(tfEinstellungT.getText()),Integer.parseInt(tfEinstellungM.getText()),Integer.parseInt(tfEinstellungJ.getText())), Integer.parseInt(((String)bereicheBox.getSelectedItem()).substring(0,((String)bereicheBox.getSelectedItem()).indexOf(" "))));
+						pv.speichern();
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+					dispose();
 				}
-				pv.show();				
 			}
 		});
 		btnConfirm.setBounds(x, y+392, 64, 24);
@@ -288,8 +285,9 @@ public class EditMaGUI extends JFrame{
 
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
-				
-		new EditMaGUI(0,12,false);
-		new EditMaGUI(0,12,true);
+		
+		Personalverwaltung.getInstance().laden();
+		new EditMaGUI(0,Personalverwaltung.getaMA().size(),false);
+		new EditMaGUI(0,1,true);
 	}
 }

@@ -319,7 +319,7 @@ public class Admin extends Berechtigung implements Serializable {
 		 * 
 		 * @date: 18.07.2019
 		 * 
-		 * @description: Vertragsdaten bzgl. AZK anpassen
+		 * @description: Vertragsdaten bzgl. AZK anpassen (Vertrag + Dienstvereinbarung)
 		 */
 
 		// MA suchen
@@ -339,7 +339,32 @@ public class Admin extends Berechtigung implements Serializable {
 		ma.getAzk().setUrlaubskontingent(ma.getAzk().getUrlaubskontingent()-differenz);
 		return true;
 	}
+	
+	public boolean editAZKVertragsdaten(int personalnummer, int sollstunden, int urlaubbasis) {
+		/*
+		 * @author: Soeren Hebestreit
+		 * 
+		 * @date: 22.07.2019
+		 * 
+		 * @description: Vertragsdaten bzgl. AZK anpassen (Vertrag)
+		 */
 
+		// MA suchen
+		Personalverwaltung pv = Personalverwaltung.getInstance();
+		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
+
+		// MA nicht existent
+		if (ma == null)
+			return false;
+
+		// MA existent
+		ma.getAzk().setSollstunden(sollstunden);
+		int differenz = ma.getAzk().getUrlaubbasis()-urlaubbasis;
+		ma.getAzk().setUrlaubbasis(urlaubbasis);
+		ma.getAzk().setUrlaubskontingent(ma.getAzk().getUrlaubskontingent()-differenz);
+		return true;
+	}
+	
 	public boolean addAZKUeberminuten(int personalnummer, int betrag) {
 		/*
 		 * @author: Soeren Hebestreit
