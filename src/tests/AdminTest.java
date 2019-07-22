@@ -70,4 +70,38 @@ public class AdminTest {
 		assertTrue(ad1.resetMAAzk(2));
 		assertFalse(ad1.resetMAAzk(4));
 	}
+	
+	@Test
+	public void ItestdeleteMA() {
+		Admin ad1 = new Admin(0);
+		assertFalse(ad1.deleteMA(0,new Datum(12,3,2029)));
+		assertFalse(ad1.deleteMA(2, new Datum(12,3,2020)));
+		assertFalse(ad1.deleteMA(4, new Datum(1,2,2018)));
+		assertTrue(ad1.deleteMA(2,new Datum(1,2,2017)));
+	}
+	
+	@Test
+	public void JtestremoveMA() {
+		Admin ad1 = new Admin(0);
+		assertFalse(ad1.removeMA(0));
+		assertTrue(ad1.removeMA(3));
+	}
+	
+	@Test
+	public void KtestEditAZKVertragsdaten() throws Exception {
+		Admin ad1 = new Admin(0);
+		assertFalse(ad1.editAZKVertragsdaten(4,40,25,30,100));
+		ad1.addMA("Spina","Charly",'d',new Datum(9,9,1996), new Datum(12,2,2019),1); //4
+		assertTrue(ad1.editAZKVertragsdaten(4,40,25,30,100));
+	}
+	
+	@Test
+	public void LtestaddAZKUeberminuten() throws Exception {
+		Admin ad1 = new Admin(0);
+		assertFalse(ad1.addAZKUeberminuten(5,40));
+		ad1.addMA("Spina","Charly",'d',new Datum(9,9,1996), new Datum(12,2,2019),1); //5
+		assertTrue(ad1.addAZKUeberminuten(5,40));
+		assertTrue(ad1.addAZKUeberminuten(5,-20));
+	}
+	
 }

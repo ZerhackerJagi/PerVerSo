@@ -54,7 +54,7 @@ public class PersonalverwaltungTest {
 	@Test
 	public void FtestDeleteFalse() {
 		pv = Personalverwaltung.getInstance();
-		assertFalse(pv.delete(10));
+		assertFalse(pv.delete(100));
 	}
 	
 	@Test
@@ -66,7 +66,7 @@ public class PersonalverwaltungTest {
 		assertNotNull(pv.suchen(8));
 		assertNull(pv.suchen(9));
 		pv.speichern();
-		pv.add("Wolf","Burki",'B',new Datum(12,8,1970), new Datum(10,9,2019),1); // 8
+		pv.add("Wolf","Burki",'B',new Datum(12,8,1970), new Datum(10,9,2019),1); 
 		pv.laden();
 		assertNull(pv.suchen(9));
 	}
@@ -87,8 +87,5 @@ public class PersonalverwaltungTest {
 		pv.sortNumber();
 		assertEquals("admin",pv.getaMA().get(0).getName());
 	}
-	
-	
-	
-	
+		
 }
