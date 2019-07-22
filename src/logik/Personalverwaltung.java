@@ -202,6 +202,7 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 			
 		Dateizugriff data = new Dateizugriff();
 		aMA = (ArrayList<Mitarbeiter>) data.laden();
+		personalnummer = aMA.size();
 	}
 			
 

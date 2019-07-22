@@ -168,6 +168,7 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 			
 		Dateizugriff data = new Dateizugriff();
 		bereiche = (ArrayList<Arbeitsbereich>) data.laden();
+		arbeitsbereichnummer = bereiche.size();
 	}
 
 

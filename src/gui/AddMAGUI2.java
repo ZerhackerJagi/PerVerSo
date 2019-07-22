@@ -3,18 +3,14 @@ package gui;
 import javax.swing.JFrame;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
 import logik.Arbeitsbereichverwaltung;
 
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JList;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -23,6 +19,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.JComboBox;
 
 public class AddMAGUI2 extends JFrame{
+
+	private static final long serialVersionUID = 1L;
 	private JTextField tFVorname;
 	private JTextField tFNachname;
 	private JTextField tFUrlaub;
@@ -215,6 +213,7 @@ public class AddMAGUI2 extends JFrame{
 				}
 				JComboBox comboBox = new JComboBox(auswahl);
 				comboBox.setBounds(174, 350, 180, 20);
+				comboBox.setMaximumRowCount(4);
 				getContentPane().add(comboBox);
 //		panel.add(lblMitarbeiterHinzufgen);
 		

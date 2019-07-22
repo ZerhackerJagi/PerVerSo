@@ -99,8 +99,11 @@ public class PVGUI extends JFrame{
 		btnAnlegen.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
 				setVisible(false);
-				new AddMAGUI2();
+				
+				new EditMaGUI(PID,0,false);
+				setVisible(true);
 			}
 		});
 		btnAnlegen.setBounds(24, 140, 200, 24);
@@ -275,7 +278,7 @@ public class PVGUI extends JFrame{
 		JScrollPane sp = new JScrollPane(panel);
 		sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		sp.setLocation(244, 88);
-		sp.setSize(540, 354);//514
+		sp.setSize(540, 354);
 		sp.setViewportView(panel);
 		getContentPane().add(sp);
 		
@@ -359,13 +362,7 @@ public class PVGUI extends JFrame{
 		return Data;
 	}
 		
-	
-		
-	
-	
-	
-	
-	
+
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 				

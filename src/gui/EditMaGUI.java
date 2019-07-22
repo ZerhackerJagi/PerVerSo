@@ -1,8 +1,10 @@
 package gui;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import extern.Datum;
@@ -18,6 +20,7 @@ public class EditMaGUI extends JFrame{
 //******************** PARAMETER ********************
 
 	private static final long serialVersionUID = 1L;
+	private int Mitarbeiter;
 	
 	
 //******************** KONSTRUKTOR ********************
@@ -28,166 +31,246 @@ public class EditMaGUI extends JFrame{
 		 *@description: Mitarbeiter editieren oder anlegen
 		 */	
 		
-		Color schrift = new Color(255, 255, 255);
-		setSize(480, 480);
+		setSize(400, 500);
 		setLocationRelativeTo(null);
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		getContentPane().setBackground(new Color(100, 150, 200));
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		getContentPane().setBackground(new Color(255, 255, 255));
 		getContentPane().setLayout(null);
 		setResizable(false);
 		
 		Personalverwaltung pv = Personalverwaltung.getInstance();
+		Arbeitsbereichverwaltung av = Arbeitsbereichverwaltung.getInstance();
+		Mitarbeiter ma = ((Mitarbeiter) pv.suchen(wer));
 		try {
 			pv.laden();
+			av.laden();
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		Mitarbeiter ma = ((Mitarbeiter) pv.suchen(wer));
 		
+		if(edit == true) {
+			
+			Mitarbeiter = wer;
+			
+		} else {
+			Mitarbeiter = Personalverwaltung.getaMA().size();
+		}
+		
+		// Stammdaten
 		JLabel lblFunktion = new JLabel("");
 		if(edit == true) {
 			lblFunktion.setText("Mitarbeiter editieren");
 		} else {
 			lblFunktion.setText("Mitarbeiter anlegen");
 		}
-		lblFunktion.setForeground(schrift);
+		lblFunktion.setForeground(new Color(255, 255, 255));
 		lblFunktion.setFont(new Font("Dialog", Font.BOLD, 21));
-		lblFunktion.setBounds(40, 20, 380, 40);
+		lblFunktion.setBounds(24, 8, 380, 36);
 		getContentPane().add(lblFunktion);
 		
-		int k = 88;
-		
-		JLabel lblPNr = new JLabel("Personalnummer:");
-		lblPNr.setForeground(schrift);
+		JLabel lblPNr = new JLabel("PNr. "+Mitarbeiter);
+		lblPNr.setForeground(new Color(255, 255, 255));
 		lblPNr.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblPNr.setBounds(40, k, 200, 20);
+		lblPNr.setBounds(24, 36, 240, 24);
 		getContentPane().add(lblPNr);
 		
-		JTextField tfPNr = new JTextField();
-		if(edit == true) {
-			tfPNr.setText(PID+"");
-		} else {
-			tfPNr.setText(Personalverwaltung.getaMA().size()+"");
-		}
-		tfPNr.setBounds(220, k, 200, 24);
-		tfPNr.setEditable(false);
-		tfPNr.setBackground(schrift);
-		getContentPane().add(tfPNr);
+		JPanel rahmenOben = new JPanel();
+		rahmenOben.setBackground(new Color(100, 150, 200));
+		rahmenOben.setBounds(0, 0, 480, 64);
+		getContentPane().add(rahmenOben);
+		
+		int y = 40;
+		int x = 172;
 		
 		JLabel lblName = new JLabel("Name:");
-		lblName.setForeground(schrift);
-		lblName.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblName.setBounds(40, k+40, 200, 20);
+		lblName.setBounds(40, y+40, 120, 20);
 		getContentPane().add(lblName);
 		
 		JTextField tfName = new JTextField();
 		if(edit == true) {
 			tfName.setText(ma.getName());
 		}
-		tfName.setBounds(220, k+38, 200, 24);
+		tfName.setBounds(x, y+38, 180, 24);
 		getContentPane().add(tfName);
 			
 		JLabel lblVorname = new JLabel("Vorname:");
-		lblVorname.setForeground(schrift);
-		lblVorname.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblVorname.setBounds(40, k+80, 200, 20);
+		lblVorname.setBounds(40, y+80, 120, 20);
 		getContentPane().add(lblVorname);
 		
 		JTextField tfVorname = new JTextField();
 		if(edit == true) {
 			tfVorname.setText(ma.getVorname());
 		}
-		tfVorname.setBounds(220, k+78, 200, 24);
+		tfVorname.setBounds(x, y+78, 180, 24);
 		getContentPane().add(tfVorname);
 		
-		JLabel lblGender = new JLabel("Geschlecht (m/w/d):");
-		lblGender.setForeground(schrift);
-		lblGender.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblGender.setBounds(40, k+120, 200, 20);
+		JLabel lblGender = new JLabel("Geschlecht:");
+		lblGender.setBounds(40, y+120, 120, 20);
 		getContentPane().add(lblGender);
 		
-		JTextField tfGender = new JTextField();
+		Character [] genderListe = {' ','d','m','w'};
+		JComboBox<Character> genderBox = new JComboBox<Character>(genderListe);
 		if(edit == true) {
-			tfGender.setText(ma.getGeschlecht()+"");
+			genderBox.setSelectedItem(ma.getGeschlecht());
 		}
-		tfGender.setBounds(220, k+118, 200, 24);
-		getContentPane().add(tfGender);
+		genderBox.setBackground(new Color(255, 255, 255));
+		genderBox.setFont(new Font("Dialog", Font.PLAIN, 12));
+		genderBox.setBounds(x, y+118, 180, 24);
+		genderBox.setMaximumRowCount(4);
+		getContentPane().add(genderBox);
 		
 		JLabel lblGeburtstag = new JLabel("Geburtstag:");
-		lblGeburtstag.setForeground(schrift);
-		lblGeburtstag.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblGeburtstag.setBounds(40, k+160, 200, 20);
+		lblGeburtstag.setBounds(40, y+160, 120, 20);
 		getContentPane().add(lblGeburtstag);
 		
-		JTextField tfGeburtstag = new JTextField();
+		JTextField tfGeburtstagT = new JTextField();
 		if(edit == true) {
-			tfGeburtstag.setText(ma.getGeburtsdatum()+"");
+			tfGeburtstagT.setText(ma.getGeburtsdatum().getTag()+"");
 		}
-		tfGeburtstag.setBounds(220, k+158, 200, 24);
-		getContentPane().add(tfGeburtstag);
+		tfGeburtstagT.setBounds(x, y+158, 40, 24);
+		getContentPane().add(tfGeburtstagT);
 		
-		JLabel lblEinstellung = new JLabel("Einstellungsdatum:");
-		lblEinstellung.setForeground(schrift);
-		lblEinstellung.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblEinstellung.setBounds(40, k+200, 200, 20);
+		JLabel lblGebPunkt1 = new JLabel(".",0);
+		lblGebPunkt1.setBounds(x+40, y+160, 10, 20);
+		getContentPane().add(lblGebPunkt1);
+		
+		JTextField tfGeburtstagM = new JTextField();
+		if(edit == true) {
+			tfGeburtstagM.setText(ma.getGeburtsdatum().getMonat()+"");
+		}
+		tfGeburtstagM.setBounds(x+50, y+158, 40, 24);
+		getContentPane().add(tfGeburtstagM);
+		
+		JLabel lblGebPunkt2 = new JLabel(".",0);
+		lblGebPunkt2.setBounds(x+90, y+160, 10, 20);
+		getContentPane().add(lblGebPunkt2);
+		
+		JTextField tfGeburtstagJ = new JTextField();
+		if(edit == true) {
+			tfGeburtstagJ.setText(ma.getGeburtsdatum().getJahr()+"");
+		}
+		tfGeburtstagJ.setBounds(x+100, y+158, 80, 24);
+		getContentPane().add(tfGeburtstagJ);
+		
+		// Vertragsdaten
+		JPanel rahmenMitte = new JPanel();
+		rahmenMitte.setBackground(new Color(100, 150, 200));
+		rahmenMitte.setBounds(0, y+196, 400, 4);
+		getContentPane().add(rahmenMitte);
+		
+		JLabel lblSollstunden = new JLabel("Arbeitsstunden:");
+		lblSollstunden.setBounds(40, y+216, 120, 20);
+		getContentPane().add(lblSollstunden);
+		
+		JTextField tfSollstunden = new JTextField();
+		if(edit == true) {
+			tfSollstunden.setText(ma.getAzk().getSollstunden()+"");
+		}
+		tfSollstunden.setBounds(x, y+214, 180, 24);
+		getContentPane().add(tfSollstunden);
+		
+		JLabel lblUrlaub = new JLabel("Urlaubstage:");
+		lblUrlaub.setBounds(40, y+256, 120, 20);
+		getContentPane().add(lblUrlaub);
+		
+		JTextField tfUrlaub = new JTextField();
+		if(edit == true) {
+			tfUrlaub.setText(ma.getAzk().getUrlaubbasis()+"");
+		}
+		tfUrlaub.setBounds(x, y+254, 180, 24);
+		getContentPane().add(tfUrlaub);
+		
+		JLabel lblEinstellung = new JLabel("Engestellt zum:");
+		lblEinstellung.setBounds(40, y+296, 120, 20);
 		getContentPane().add(lblEinstellung);
 		
-		JTextField tfEinstellung = new JTextField();
+		JTextField tfEinstellungT = new JTextField();
 		if(edit == true) {
-			tfEinstellung.setText(ma.getEinstellungsdatum()+"");
+			tfEinstellungT.setText(ma.getEinstellungsdatum().getTag()+"");
+			tfEinstellungT.setEditable(false);
 		}
-		tfEinstellung.setBounds(220, k+198, 200, 24);
-		getContentPane().add(tfEinstellung);
+		tfEinstellungT.setBounds(x, y+294, 40, 24);
+		getContentPane().add(tfEinstellungT);
 		
-		JLabel lblAusscheiden = new JLabel("Ausscheidungsdatum:");
-		lblAusscheiden.setForeground(schrift);
-		lblAusscheiden.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblAusscheiden.setBounds(40, k+240, 200, 20);
-		getContentPane().add(lblAusscheiden);
+		JLabel lblEinstellungPunkt1 = new JLabel(".",0);
+		lblEinstellungPunkt1.setBounds(x+40, y+294, 10, 20);
+		getContentPane().add(lblEinstellungPunkt1);
 		
-		JTextField tfAusscheiden = new JTextField();
+		JTextField tfEinstellungM = new JTextField();
 		if(edit == true) {
-			tfAusscheiden.setText(ma.getAusscheidungsdatum()+"");
+			tfEinstellungM.setText(ma.getEinstellungsdatum().getMonat()+"");
+			tfEinstellungM.setEditable(false);
 		}
-		tfAusscheiden.setBounds(220, k+238, 200, 24);
-		getContentPane().add(tfAusscheiden);
+		tfEinstellungM.setBounds(x+50, y+294, 40, 24);
+		getContentPane().add(tfEinstellungM);
+		
+		JLabel lblEinstellungPunkt2 = new JLabel(".",0);
+		lblEinstellungPunkt2.setBounds(x+90, y+294, 10, 20);
+		getContentPane().add(lblEinstellungPunkt2);
+		
+		JTextField tfEinstellungJ = new JTextField();
+		if(edit == true) {
+			tfEinstellungJ.setText(ma.getEinstellungsdatum().getJahr()+"");
+			tfEinstellungJ.setEditable(false);
+		}
+		tfEinstellungJ.setBounds(x+100, y+294, 80, 24);
+		getContentPane().add(tfEinstellungJ);
+		
+		JLabel lblBereich = new JLabel("Arbeitsbereich:");
+		lblBereich.setBounds(40, y+336, 120, 20);
+		getContentPane().add(lblBereich);		
+		
+		String[] bereiche = new String[Arbeitsbereichverwaltung.getBereiche().size()];
+		for(int i = 0;i<Arbeitsbereichverwaltung.getBereiche().size();i++) {
+			bereiche[i] = Arbeitsbereichverwaltung.getBereiche().get(i).toString();
+		}
+		JComboBox<String> bereicheBox = new JComboBox<String>(bereiche);
+		
+		if(edit == true) {
+			JTextField tfBereich = new JTextField();
+			tfBereich.setText(ma.getActualAB().getArbeitsbereichnummer()+" "+((Arbeitsbereich)av.suchen(ma.getActualAB().getArbeitsbereichnummer())).getName());
+			tfBereich.setEditable(false);
+			tfBereich.setBounds(x, y+334, 180, 24);
+			getContentPane().add(tfBereich);
+		} else {
+			bereicheBox.setBackground(new Color(255, 255, 255));
+			bereicheBox.setFont(new Font("Dialog", Font.PLAIN, 12));
+			bereicheBox.setBounds(x, y+334, 180, 24);
+			bereicheBox.setMaximumRowCount(8);
+			getContentPane().add(bereicheBox);
+		}
+		
+		// Buttons
+		JPanel rahmenUnten = new JPanel();
+		rahmenUnten.setBackground(new Color(100, 150, 200));
+		rahmenUnten.setBounds(0, y+372, 400, 4);
+		getContentPane().add(rahmenUnten);
 		
 		JButton btnConfirm = new JButton("OK");
 		btnConfirm.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Admin admin = new Admin(PID);
-				//String geb = tfGeburtstag.getText();
-				//System.out.println(geb.substring(0, geb.indexOf("."))+"\t"+geb.substring(geb.indexOf(".")+1,geb.lastIndexOf("."))+"\t"+geb.substring(geb.lastIndexOf(".")+1));
-				//int x = Integer.parseInt(geb.substring(geb.indexOf(".")+1,geb.lastIndexOf(".")));
-				//System.out.println(x);
-				Datum geburtstag = new Datum(Integer.parseInt(tfGeburtstag.getText().substring(0, tfGeburtstag.getText().indexOf("."))),Integer.parseInt(tfGeburtstag.getText().substring(tfGeburtstag.getText().indexOf(".")+1,tfGeburtstag.getText().lastIndexOf("."))),Integer.parseInt(tfGeburtstag.getText().substring(tfGeburtstag.getText().lastIndexOf(".")+1)));
-				char gender = 'd';
-				if(tfGender.getText().charAt(0)=='m') {
-					gender = 'm';
-				} else if(tfGender.getText().charAt(0)=='w') {
-					gender = 'w';
+				Character gender = (Character)genderBox.getSelectedItem();
+				if(gender == ' ') {
+					gender = 'd';
 				}
-				Datum einstellung = new Datum(Integer.parseInt(tfEinstellung.getText().substring(0, tfEinstellung.getText().indexOf("."))),Integer.parseInt(tfEinstellung.getText().substring(tfEinstellung.getText().indexOf(".")+1,tfEinstellung.getText().lastIndexOf("."))),Integer.parseInt(tfEinstellung.getText().substring(tfEinstellung.getText().lastIndexOf(".")+1)));
-				
-//				if(edit == true) {
-//					admin.editMAStammdaten(wer, tfName.getText(), tfVorname.getText(), gender, geburtstag);
-//					admin.editMAEinstellungsdatum(wer, einstellung);
-//					admin.editMAAusscheidungsdatum(wer, ausscheiden);					
-//				} else {
-//					try {
-//						admin.addMA(tfName.getText(), tfVorname.getText(), gender, geburtstag, einstellung, 0);
-//					} catch (Exception e1) {
-//						// TODO Auto-generated catch block
-//						e1.printStackTrace();
-//					}
-//				}
-				pv.show();
-				
+				if(edit == true) {
+					admin.editMAStammdaten(wer, tfName.getText(), tfVorname.getText(), gender, new Datum(Integer.parseInt(tfGeburtstagT.getText()),Integer.parseInt(tfGeburtstagM.getText()),Integer.parseInt(tfGeburtstagJ.getText())));
+					admin.editAZKVertragsdaten(wer, Integer.parseInt(tfSollstunden.getText()), Integer.parseInt(tfUrlaub.getText()), ma.getAzk().getUeberminutenmin(), ma.getAzk().getUeberminutenmax());			
+				} else {
+					try {
+						admin.addMA(tfName.getText(), tfVorname.getText(), gender, new Datum(Integer.parseInt(tfGeburtstagT.getText()),Integer.parseInt(tfGeburtstagM.getText()),Integer.parseInt(tfGeburtstagJ.getText())), new Datum(Integer.parseInt(tfEinstellungT.getText()),Integer.parseInt(tfEinstellungM.getText()),Integer.parseInt(tfEinstellungJ.getText())), Integer.parseInt(((String)bereicheBox.getSelectedItem()).substring(0,((String)bereicheBox.getSelectedItem()).indexOf(" "))));
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				pv.show();				
 			}
 		});
-		btnConfirm.setBounds(220, k+292, 84, 24);
+		btnConfirm.setBounds(x, y+392, 64, 24);
 		getContentPane().add(btnConfirm);
 		
 		JButton btnCancel = new JButton("Abbrechen");
@@ -197,16 +280,16 @@ public class EditMaGUI extends JFrame{
 				dispose();
 			}
 		});
-		btnCancel.setBounds(316, k+292, 104, 24);
+		btnCancel.setBounds(x+80, y+392, 100, 24);
 		getContentPane().add(btnCancel);
 		
 		setVisible(true);	
 	}		
 
-
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 				
-		new EditMaGUI(1,12,true);
+		new EditMaGUI(0,12,false);
+		new EditMaGUI(0,12,true);
 	}
 }
