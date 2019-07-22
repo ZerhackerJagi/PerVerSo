@@ -59,6 +59,9 @@ public class Mitarbeiter implements Serializable {
 		this.status = status;
 	}
 
+	public Mitarbeiter() {
+		//Leerer Konstructor für die Tests
+	}
 
 //******************** AUSGABE ********************
 	
