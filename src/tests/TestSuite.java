@@ -9,6 +9,7 @@ import org.junit.runners.Suite;
 	ArbeitsbereichComparatorTest.class,
 	MitarbeiterComparatorTest.class,
 	PersonalverwaltungTest.class,
+	ArbeitsbereichverwaltungTest.class,
 	AdminTest.class
 
 })
