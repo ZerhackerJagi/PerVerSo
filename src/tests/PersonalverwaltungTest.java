@@ -87,5 +87,11 @@ public class PersonalverwaltungTest {
 		pv.sortNumber();
 		assertEquals("admin",pv.getaMA().get(0).getName());
 	}
+	
+	@Test
+	public void JresetPV() {
+		pv = Personalverwaltung.getInstance();
+		pv.resetPersonalverwaltung();
+	}
 		
 }

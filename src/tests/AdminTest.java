@@ -77,14 +77,14 @@ public class AdminTest {
 		assertFalse(ad1.deleteMA(0,new Datum(12,3,2029)));
 		assertFalse(ad1.deleteMA(2, new Datum(12,3,2020)));
 		assertFalse(ad1.deleteMA(4, new Datum(1,2,2018)));
-		assertTrue(ad1.deleteMA(2,new Datum(1,2,2017)));
+		assertTrue(ad1.deleteMA(2,new Datum(1,2,2017))); // 2 weg
 	}
 	
 	@Test
 	public void JtestremoveMA() {
 		Admin ad1 = new Admin(0);
 		assertFalse(ad1.removeMA(0));
-		assertTrue(ad1.removeMA(3));
+		assertTrue(ad1.removeMA(3)); // 3 weg 
 	}
 	
 	@Test
@@ -103,5 +103,15 @@ public class AdminTest {
 		assertTrue(ad1.addAZKUeberminuten(5,40));
 		assertTrue(ad1.addAZKUeberminuten(5,-20));
 	}
+	
+	@Test
+	public void MteststarteAZKJahr() throws Exception {
+		Admin ad1 = new Admin(0);
+		assertFalse(ad1.starteAZKJahr(6));
+		ad1.addMA("Spina","Charly",'d',new Datum(9,9,1996), new Datum(12,2,2019),1); //6
+		assertTrue(ad1.starteAZKJahr(6));
+	}
+	
+	
 	
 }

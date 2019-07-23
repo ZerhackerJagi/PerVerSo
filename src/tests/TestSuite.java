@@ -8,7 +8,8 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
 	ArbeitsbereichComparatorTest.class,
 	MitarbeiterComparatorTest.class,
-	PersonalverwaltungTest.class
+	PersonalverwaltungTest.class,
+	AdminTest.class
 
 })
 

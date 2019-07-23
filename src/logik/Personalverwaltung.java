@@ -217,6 +217,11 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 	public static void setaMA(ArrayList<Mitarbeiter> aMA) {
 		Personalverwaltung.aMA = aMA;
 	}
+	
+	//Author: Charly nur für die Tests 
+	public void resetPersonalverwaltung() {
+		uniqueInstance = new Personalverwaltung();
+	}
 
 	
 }
