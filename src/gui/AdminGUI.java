@@ -30,6 +30,7 @@ public class AdminGUI extends JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setBackground(new Color(255, 255, 255));
 		getContentPane().setLayout(null);
+		setResizable(false);
 		
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setIcon(new ImageIcon("pictures/HWR-Logo_black_small.png"));
@@ -46,17 +47,6 @@ public class AdminGUI extends JFrame{
 		labelHauptmenu.setBounds(12, 144, 160, 24);
 		getContentPane().add(labelHauptmenu);
 		
-		JButton btnPlan = new JButton("Arbeitsplan");
-		btnPlan.setBackground(new Color(255, 255, 255));
-		btnPlan.addMouseListener(new MouseAdapter() {				
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				new ShowPlanGUI(PID);
-			}
-		});
-		btnPlan.setBounds(12, 220, 200, 24);
-		getContentPane().add(btnPlan);
-		
 		JButton btnAZK = new JButton("Arbeitszeitkonto");
 		btnAZK.setBackground(new Color(255, 255, 255));
 		btnAZK.addMouseListener(new MouseAdapter() {				
@@ -65,7 +55,7 @@ public class AdminGUI extends JFrame{
 				new ShowAzkGUI(PID);
 			}
 		});
-		btnAZK.setBounds(12, 244, 200, 24);
+		btnAZK.setBounds(12, 220, 200, 24);
 		getContentPane().add(btnAZK);
 		
 		JButton btnPV = new JButton("Mitarbeiter verwalten");
@@ -76,7 +66,7 @@ public class AdminGUI extends JFrame{
 				new PVGUI(PID);
 			}
 		});
-		btnPV.setBounds(12, 284, 200, 24);
+		btnPV.setBounds(12, 264, 200, 24);
 		getContentPane().add(btnPV);
 		
 		JButton btnABV = new JButton("Arbeitsbereich verwalten");
@@ -86,19 +76,8 @@ public class AdminGUI extends JFrame{
 			public void mouseClicked(MouseEvent e) {
 				new ABVGUI(PID);}
 		});
-		btnABV.setBounds(12, 308, 200, 24);
+		btnABV.setBounds(12, 288, 200, 24);
 		getContentPane().add(btnABV);
-		
-		JButton btnAP = new JButton("Arbeitspläne verwalten");
-		btnAP.setBackground(new Color(255, 255, 255));
-		btnAP.addMouseListener(new MouseAdapter() {				
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				new APlanGUI(PID);	
-			}
-		});
-		btnAP.setBounds(12, 332, 200, 24);
-		getContentPane().add(btnAP);
 		
 		JButton btnStatistik = new JButton("Statistiken");
 		btnStatistik.setBackground(new Color(255, 255, 255));

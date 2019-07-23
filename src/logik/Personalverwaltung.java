@@ -8,7 +8,6 @@ import comparatoren.*;
 import extern.Datum;
 import interfaces.*;
 import speicher.Dateizugriff;
-import status.Default;
 
 
 // SINGLETON!
@@ -20,6 +19,7 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 	private static Personalverwaltung uniqueInstance; 	
 	private static int personalnummer;
 	private static ArrayList <Mitarbeiter> aMA;
+	
 	
 //******************** KONSTRUKTOR ********************
 
@@ -50,9 +50,9 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 		 *@description:	fuegt Standardadmin bei der Ersterstellung ein 
 		 */
 		
-		aMA.add(new Mitarbeiter(personalnummer, "admin", "nimda", 'd', new Datum(), "admin", "passwort", new Admin(personalnummer), new Datum(), new Arbeitszeitkonto(), new Zugehoerigkeit(new Datum(),0), new Default()));
+		aMA.add(new Mitarbeiter(personalnummer, "admin", "nimda", 'd', new Datum(), "admin", "passwort", new Admin(personalnummer), new Datum(), new Arbeitszeitkonto(), new Zugehoerigkeit(new Datum(),0)));
 		personalnummer ++;
-		aMA.add(new Mitarbeiter(personalnummer, "user", "test", 'd', new Datum(), "user", "passwort", new User(personalnummer), new Datum(), new Arbeitszeitkonto(), new Zugehoerigkeit(new Datum(),0), new Default()));
+		aMA.add(new Mitarbeiter(personalnummer, "user", "test", 'd', new Datum(), "user", "passwort", new User(personalnummer), new Datum(), new Arbeitszeitkonto(), new Zugehoerigkeit(new Datum(),0)));
 		personalnummer ++;
 		Arbeitszeitkonto azk = aMA.get(1).getAzk();
 		azk.addPlus(5000);
@@ -79,10 +79,8 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 		 *@description:	fuegt einen Mitarbeiter hinzu, komplette Angabe
 		 */
 	
-		String username = user;
-		String password = pwd;
 		Zugehoerigkeit wo = new Zugehoerigkeit(einstellung,bereichsnummer);
-		aMA.add(new Mitarbeiter(personalnummer,name,vorname,gender,geburtstag,username,password,new User(personalnummer),einstellung,new Arbeitszeitkonto(),wo, new Default()));
+		aMA.add(new Mitarbeiter(personalnummer,name,vorname,gender,geburtstag,user,pwd,new User(personalnummer),einstellung,new Arbeitszeitkonto(),wo));
 		personalnummer ++;
 	}
 	
@@ -94,11 +92,11 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 		 */
 	
 		// Beispiel Username: Hebestreit2
-		String username = name+personalnummer;
+		String benutzername = name+personalnummer;
 		// Beispiel Passwort: sH_715re
-		String password = vorname.substring(0,1).toLowerCase()+name.substring(0,1).toUpperCase()+"_"+einstellung.getMonat()+geburtstag.getTag()+vorname.charAt(vorname.length()/2)+name.charAt(name.length()/3);
+		String passwort = vorname.substring(0,1).toLowerCase()+name.substring(0,1).toUpperCase()+"_"+einstellung.getMonat()+geburtstag.getTag()+vorname.charAt(vorname.length()/2)+name.charAt(name.length()/3);
 		Zugehoerigkeit wo = new Zugehoerigkeit(einstellung,bereichsnummer);
-		aMA.add(new Mitarbeiter(personalnummer,name,vorname,gender,geburtstag,username,password,new User(personalnummer),einstellung,new Arbeitszeitkonto(),wo, new Default()));
+		aMA.add(new Mitarbeiter(personalnummer,name,vorname,gender,geburtstag,benutzername,passwort,new User(personalnummer),einstellung,new Arbeitszeitkonto(),wo));
 		personalnummer ++;
 	}
 
@@ -204,6 +202,7 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 			
 		Dateizugriff data = new Dateizugriff();
 		aMA = (ArrayList<Mitarbeiter>) data.laden();
+		personalnummer = aMA.size();
 	}
 			
 

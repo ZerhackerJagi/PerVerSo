@@ -28,6 +28,7 @@ public class ABUebersichtGUI extends JFrame{
 		
 		getContentPane().setBackground(new Color(51, 204, 0));
 		getContentPane().setLayout(null);
+		setResizable(false);
 		
 		JLabel lblNewLabel = new JLabel("Arbeitsbereich auswählen");
 		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 24));

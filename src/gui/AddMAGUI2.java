@@ -1,20 +1,19 @@
 package gui;
 
 import javax.swing.JFrame;
+import extern.*;
+import javafx.scene.control.ComboBox;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
 import logik.Arbeitsbereichverwaltung;
+import logik.Personalverwaltung;
 
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JList;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -23,6 +22,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.JComboBox;
 
 public class AddMAGUI2 extends JFrame{
+
+	private static final long serialVersionUID = 1L;
 	private JTextField tFVorname;
 	private JTextField tFNachname;
 	private JTextField tFUrlaub;
@@ -30,12 +31,14 @@ public class AddMAGUI2 extends JFrame{
 	private JTextField tfBdayTag;
 	private JTextField tfBdayMonat;
 	private JTextField tfBdayJahr;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField tfEinstellTag;
+	private JTextField tfEinstellMonat;
+	private JTextField tfEinstellJahr;
 	private JTextField textField_3;
+	private JTextField tfGeschlecht;
 	public AddMAGUI2() {
 		getContentPane().setLayout(null);
+		setResizable(false);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(100, 150, 200));
@@ -64,7 +67,7 @@ public class AddMAGUI2 extends JFrame{
 //		panel.add(lblUrlaubstage);
 		
 		JLabel lblArbeitsstundenwoche = new JLabel("Arbeitsstunden (Woche)");
-		lblArbeitsstundenwoche.setBounds(10, 263, 123, 30);
+		lblArbeitsstundenwoche.setBounds(10, 263, 155, 30);
 		getContentPane().add(lblArbeitsstundenwoche);
 //		panel.add(lblArbeitsstundenwoche);
 		
@@ -110,6 +113,15 @@ public class AddMAGUI2 extends JFrame{
 		getContentPane().add(tfBdayJahr);
 //		panel.add(tfBdayJahr);
 		
+		Arbeitsbereichverwaltung av = Arbeitsbereichverwaltung.getInstance();
+		String[] auswahl = new String[av.getBereiche().size()];
+		for(int i = 0;i<av.getBereiche().size();i++) {
+			auswahl[i] = av.getBereiche().get(i).toString();
+		}
+		JComboBox comboBox = new JComboBox(auswahl);
+		comboBox.setMaximumRowCount(5);
+		comboBox.setBounds(174, 350, 180, 20);
+		getContentPane().add(comboBox);
 		
 		ButtonGroup group = new ButtonGroup();
 		JRadioButton rdbtnAdministrator = new JRadioButton("Administrator");
@@ -122,16 +134,21 @@ public class AddMAGUI2 extends JFrame{
 		rdbtnStandarduser.setBounds(212, 192, 109, 23);
 		getContentPane().add(rdbtnStandarduser);
 		group.add(rdbtnStandarduser);
+		rdbtnStandarduser.setSelected(true);
 //		panel.add(rdbtnStandarduser);
 //		pack();
 		
-		JButton btnHinzufgen = new JButton("Add");
-		btnHinzufgen.setBounds(27, 409, 89, 23);
-		getContentPane().add(btnHinzufgen);
+		
+		
+		
+		
 //		panel.add(btnHinzufgen);
 		
+		
+		
+		
 		JButton btnAddMore = new JButton("Add More");
-		btnAddMore.setBounds(126, 409, 89, 23);
+		btnAddMore.setBounds(126, 409, 114, 23);
 		getContentPane().add(btnAddMore);
 //		panel.add(btnAddMore);
 		
@@ -139,14 +156,15 @@ public class AddMAGUI2 extends JFrame{
 		btnAbbrechen.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				System.exit(EXIT_ON_CLOSE);
+				setVisible(false);
+				
 			}
 		});
 		btnAbbrechen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnAbbrechen.setBounds(225, 409, 89, 23);
+		btnAbbrechen.setBounds(250, 409, 104, 23);
 		getContentPane().add(btnAbbrechen);
 //		panel.add(btnAbbrechen);
 		
@@ -155,22 +173,22 @@ public class AddMAGUI2 extends JFrame{
 		getContentPane().add(lblEinstellungZumddmmjjjj);
 //		panel.add(lblEinstellungZumddmmjjjj);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(175, 309, 40, 20);
-		getContentPane().add(textField);
+		tfEinstellTag = new JTextField();
+		tfEinstellTag.setColumns(10);
+		tfEinstellTag.setBounds(175, 309, 40, 20);
+		getContentPane().add(tfEinstellTag);
 		 
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(225, 309, 40, 20);
-		getContentPane().add(textField_1);
+		tfEinstellMonat = new JTextField();
+		tfEinstellMonat.setColumns(10);
+		tfEinstellMonat.setBounds(225, 309, 40, 20);
+		getContentPane().add(tfEinstellMonat);
 //		panel.add(textField_1);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(275, 309, 79, 20);
-		getContentPane().add(textField_2);
+		tfEinstellJahr = new JTextField();
+		tfEinstellJahr.setColumns(10);
+		tfEinstellJahr.setBounds(275, 309, 79, 20);
+		getContentPane().add(tfEinstellJahr);
 //		panel.add(textField_2);
 		
 		JLabel lblAbteilung = new JLabel("Abteilung");
@@ -185,11 +203,11 @@ public class AddMAGUI2 extends JFrame{
 		getContentPane().add(lblGeschlecht);
 //		panel.add(lblGeschlecht);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(175, 114, 27, 20);
-		getContentPane().add(textField_3);
-//		panel.add(textField_3);
+//		tfGeschlecht = new JTextField();
+//		tfGeschlecht.setColumns(10);
+//		tfGeschlecht.setBounds(175, 114, 27, 20);
+//		getContentPane().add(tfGeschlecht);
+////		panel.add(textField_3);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(100, 150, 200));
@@ -207,16 +225,52 @@ public class AddMAGUI2 extends JFrame{
 				lblMitarbeiterHinzufgen.setForeground(new Color(255, 255, 255));
 				lblMitarbeiterHinzufgen.setFont(new Font("Tahoma", Font.BOLD, 14));
 				
-				Arbeitsbereichverwaltung av = Arbeitsbereichverwaltung.getInstance();
-				String[] auswahl = new String[av.getBereiche().size()];
-				for(int i = 0;i<av.getBereiche().size();i++) {
-					auswahl[i] = av.getBereiche().get(i).toString();
-				}
-				JComboBox comboBox = new JComboBox(auswahl);
-				comboBox.setBounds(174, 350, 180, 20);
-				getContentPane().add(comboBox);
+
+				
+				tfGeschlecht = new JTextField();
+				tfGeschlecht.setBounds(175, 114, 31, 20);
+				getContentPane().add(tfGeschlecht);
+				tfGeschlecht.setColumns(10);
+
 //		panel.add(lblMitarbeiterHinzufgen);
 		
+				
+				JButton btnHinzufgen = new JButton("Add");
+				btnHinzufgen.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent arg0) {
+						
+						int bereichsnummer = 0;
+						Arbeitsbereichverwaltung av = Arbeitsbereichverwaltung.getInstance();
+						for(int i = 0; i< av.getBereiche().size();i++) {
+							if(av.getBereiche().get(i).toString().equals(comboBox.getSelectedItem())){
+								bereichsnummer = av.getBereiche().get(i).getArbeitsbereichnummer();
+							}
+						}
+						System.out.println(tfBdayTag.getText());
+						System.out.println(tfBdayMonat);
+						System.out.println(tfBdayJahr);
+						
+						
+						Datum Bday = new Datum(Integer.parseInt(tfBdayTag.getText()),Integer.parseInt(tfBdayMonat.getText()), Integer.parseInt(tfBdayJahr.getText()));
+						
+						Datum Einstelldatum = new Datum(Integer.parseInt(tfEinstellTag.getText()),Integer.parseInt(tfEinstellMonat.getText()), Integer.parseInt(tfEinstellJahr.getText()));
+						Personalverwaltung pv = Personalverwaltung.getInstance();
+						try {
+							pv.add(tFNachname.getText(), tFVorname.getText(), (char) tfGeschlecht.getText().charAt(0),Bday, Einstelldatum,bereichsnummer);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					
+					}
+				});
+				btnHinzufgen.setBounds(27, 409, 89, 23);
+				getContentPane().add(btnHinzufgen);
+				
+				
+				
+				
 //		getContentPane().add(panel);
 		setBackground(new Color(100, 150, 200));
 		setResizable(false);
@@ -224,5 +278,11 @@ public class AddMAGUI2 extends JFrame{
 		setLocationRelativeTo(null);
 //		add(panel);
 		setVisible(true);
+	}
+	
+	public static void main(String[] args) throws Exception {
+		// TODO Auto-generated method stub
+				
+		new AddMAGUI2();
 	}
 }

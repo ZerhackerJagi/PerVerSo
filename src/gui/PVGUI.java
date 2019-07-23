@@ -8,21 +8,24 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
+
 import logik.*;
 
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class PVGUI extends JFrame{
 	
 //******************** PARAMETER ********************
 
 	private static final long serialVersionUID = 1L;
-	private int wahl;
+	private static int wahl;
+	private static JTable table;
 	
 	
 //******************** KONSTRUKTOR ********************
@@ -36,9 +39,10 @@ public class PVGUI extends JFrame{
 		// Haupt- und Steuerungsbereich
 		setSize(800, 640);
 		setLocationRelativeTo(null);
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		getContentPane().setBackground(new Color(255, 255, 255));
 		getContentPane().setLayout(null);
+		setResizable(false);
 		
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Arbeitsbereichverwaltung abv = Arbeitsbereichverwaltung.getInstance();
@@ -90,16 +94,18 @@ public class PVGUI extends JFrame{
 		getContentPane().add(lblStammdaten);
 		
 		JButton btnAnlegen = new JButton("Mitarbeiter anlegen");
-		btnAnlegen.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
 		btnAnlegen.setBackground(new Color(255, 255, 255));
 		btnAnlegen.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				setVisible(false);
-				new AddMAGUI2();
+				EditMaGUI editMa = new EditMaGUI(PID,Personalverwaltung.getaMA().size(),false);
+				editMa.addWindowListener(new WindowAdapter() {
+					@Override
+					public void windowClosed(WindowEvent e) {
+						table.setModel(getModel());
+						setColWidth();
+					}
+				});
 			}
 		});
 		btnAnlegen.setBounds(24, 140, 200, 24);
@@ -110,7 +116,14 @@ public class PVGUI extends JFrame{
 		btnBearbeiten.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new StatistikGUI(PID);
+				EditMaGUI editMa = new EditMaGUI(PID,wahl,true);
+				editMa.addWindowListener(new WindowAdapter() {
+					@Override
+					public void windowClosed(WindowEvent e) {
+						table.setModel(getModel());
+						setColWidth();
+					}
+				});
 			}
 		});
 		btnBearbeiten.setBounds(24, 164, 200, 24);
@@ -211,7 +224,7 @@ public class PVGUI extends JFrame{
 		// Auswahl-Anzeige
 		JPanel rahmenUnten = new JPanel();
 		rahmenUnten.setBackground(new Color(100, 150, 200));
-		rahmenUnten.setBounds(244, 442, 540, 4);//464
+		rahmenUnten.setBounds(244, 442, 640, 4);//464
 		getContentPane().add(rahmenUnten);
 		
 		JLabel[][] lblData = new JLabel[6][2];
@@ -264,38 +277,33 @@ public class PVGUI extends JFrame{
 		lblData[5][1].setBounds(400, 552, 240, 24);
 		getContentPane().add(lblData[5][1]);
 		
-		setVisible(true);
-		
 		// Auswahlbereich
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
 		panel.setBorder(new LineBorder(new Color(255, 255, 255)));
-		panel.setBounds(244, 88, 540, 354);
+		panel.setBounds(244, 88, 640, 354);
+		
 		JScrollPane sp = new JScrollPane(panel);
 		sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		sp.setLocation(244, 88);
-		sp.setSize(540, 354);//514
+		sp.setSize(550, 354);
 		sp.setViewportView(panel);
 		getContentPane().add(sp);
 		
-		// Auswahl
-		String[][] rowData = getData();
-		String[] columnNames = {"PID","Name","Vorname"};	
-		JTable table = new JTable(rowData, columnNames);
-		table.setBounds(244, 88, 20, 300);
-		table.setAutoResizeMode(0);
-		table.getColumnModel().getColumn( 0 ).setPreferredWidth( 50 );
-		table.getColumnModel().getColumn( 1 ).setPreferredWidth( 200 );
-		table.getColumnModel().getColumn( 2 ).setPreferredWidth( 250 );
-		table.setShowGrid( false ); 
-		table.setShowHorizontalLines( true );
+		// Auswahl Mitarbeiter
+		table = new JTable(getModel()) {
+			private static final long serialVersionUID = 1L;
+			public boolean isCellEditable(int rowIndex, int columnIndex) {
+				return false;
+			}
+		};
+		table.setShowVerticalLines(false);
 		table.setRowHeight( 20 );
+		setColWidth();
 		table.setSelectionMode( javax.swing.ListSelectionModel.SINGLE_SELECTION);
-
-		JTable x = table;
-		x.addMouseListener(new MouseAdapter(){
+		table.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				wahl = Integer.parseInt((String) x.getValueAt(x.rowAtPoint(e.getPoint()),0));
+				wahl = Integer.parseInt((String) table.getValueAt(table.rowAtPoint(e.getPoint()),0));
 				lblData[0][1].setText(Personalverwaltung.getaMA().get(wahl).getPersonalnummer()+"");
 				lblData[1][1].setText(Personalverwaltung.getaMA().get(wahl).getName()+", "+Personalverwaltung.getaMA().get(wahl).getVorname());
 				lblData[2][1].setText(Personalverwaltung.getaMA().get(wahl).getGeburtsdatum()+"");
@@ -304,70 +312,46 @@ public class PVGUI extends JFrame{
 				lblData[5][1].setText(((Arbeitsbereich)abv.suchen(Personalverwaltung.getaMA().get(wahl).getActualAB().getArbeitsbereichnummer())).getName());
 			}
 		});
-		panel.add(table);
-		getContentPane().add(sp);
+		panel.add(table);	
+
+		setVisible(true);	
+	}	
+	
+	
+	private static DefaultTableModel getModel() {
+		/*@author:		Soeren Hebestreit
+		 *@date: 		22.07.2019
+		 *@description: Tabellenmodell (inkl. Daten) erzeugen
+		 */
 		
-		
-//			Arbeitsbereichverwaltung abv = Arbeitsbereichverwaltung.getInstance();
-//			// dynamisches Erzeugen der Label
-//			JLabel[] label = new JLabel[Personalverwaltung.getaMA().size()];
-//			int k = 5;
-//			for(int i=0; i < Personalverwaltung.getaMA().size(); i++) {
-//				label[i] = new JLabel("<html><table><tr><td width=80>"+Personalverwaltung.getaMA().get(i).getPersonalnummer()+"</td><td>"+Personalverwaltung.getaMA().get(i).getName()+", "+Personalverwaltung.getaMA().get(i).getVorname()+"</td></tr></html>");
-//				label[i].setBounds(8, k , 400, 20);
-//				k+=20;
-//				label[i].addMouseListener(new MouseAdapter() {
-//					public void mouseClicked(MouseEvent e) {
-//						JLabel label = (JLabel)e.getSource();
-//						lblWahl.setText("ausgewählt: "+label.getText().substring(label.getText().lastIndexOf("</td><td>")+9,label.getText().lastIndexOf("</td></tr></html>")));
-//						wahl = Integer.parseInt(label.getText().substring(30,label.getText().lastIndexOf("</td><td>")));
-//						//System.out.println(wahl);
-//						lblData[0][1].setText(Personalverwaltung.getaMA().get(wahl).getPersonalnummer()+"");
-//						lblData[1][1].setText(Personalverwaltung.getaMA().get(wahl).getName()+", "+Personalverwaltung.getaMA().get(wahl).getVorname());
-//						lblData[2][1].setText(Personalverwaltung.getaMA().get(wahl).getGeburtsdatum()+"");
-//						lblData[3][1].setText(Personalverwaltung.getaMA().get(wahl).getEinstellungsdatum()+"");
-//						lblData[4][1].setText(Personalverwaltung.getaMA().get(wahl).getAusscheidungsdatum()+"");
-//						lblData[5][1].setText(((Arbeitsbereich)abv.suchen(Personalverwaltung.getaMA().get(wahl).getActualAB().getArbeitsbereichnummer())).getName());
-//						label.setForeground(Color.RED);
-//					}
-//					public void mouseEntered(MouseEvent e) {
-//						JLabel label = (JLabel)e.getSource();
-//						label.setForeground(new Color(100,150,200));
-//					}
-//					public void mouseExited(MouseEvent e) {
-//						JLabel label = (JLabel)e.getSource();
-//						label.setForeground(Color.DARK_GRAY);
-//					}
-//				});
-//				panel.add(label[i]);
-//			}
-						
-			setVisible(true);	
-			rowData = getData();
-			table = new JTable( rowData, columnNames );
-			setVisible(true);	
-		}		
-		
-	private static String [][] getData() {
 		String [][] Data = new String [Personalverwaltung.getaMA().size()][3];
 		for(int i=0; i < Personalverwaltung.getaMA().size(); i++) {
 			Data[i][0] = Personalverwaltung.getaMA().get(i).getPersonalnummer()+"";
 			Data[i][1] = Personalverwaltung.getaMA().get(i).getName();
 			Data[i][2] = Personalverwaltung.getaMA().get(i).getVorname();
 		}
-		return Data;
+		String[] columnNames = {"PID","Name","Vorname"};
+		DefaultTableModel model = new DefaultTableModel(Data, columnNames);
+		
+		return model;
+	}
+	
+	
+	private static void setColWidth() {
+		/*@author:		Soeren Hebestreit
+		 *@date: 		22.07.2019
+		 *@description: Spaltenbreite der Tabelle aendern
+		 */
+		
+		table.getColumnModel().getColumn( 0 ).setPreferredWidth( 50 );
+		table.getColumnModel().getColumn( 1 ).setPreferredWidth( 200 );
+		table.getColumnModel().getColumn( 2 ).setPreferredWidth( 250 );
 	}
 		
-	
-		
-	
-	
-	
-	
-	
+
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 				
-		new PVGUI(1);
+		new PVGUI(0);
 	}
 }

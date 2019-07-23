@@ -36,7 +36,7 @@ public class Arbeitsbereich implements Serializable{
 		 *@description:	Textrueckgabe String
 		 */
 		
-		return arbeitsbereichnummer+"\t"+" "+name;
+		return arbeitsbereichnummer+" \t"+name;
 	}
 	
 	
