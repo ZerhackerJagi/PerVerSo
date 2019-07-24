@@ -2,10 +2,15 @@ package gui;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -15,6 +20,10 @@ public class AdminGUI extends JFrame{
 //******************** PARAMETER ********************
 
 	private static final long serialVersionUID = 1L;
+	public boolean openShowAzk = false;
+	public boolean openShowPV = false;
+	public boolean openShowABV = false;
+	public boolean openShowStatistik = false;
 
 	
 //******************** KONSTRUKTOR ********************	
@@ -52,7 +61,18 @@ public class AdminGUI extends JFrame{
 		btnAZK.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new ShowAzkGUI(PID);
+				if (openShowAzk == false) {
+					openShowAzk = true;
+					ShowAzkGUI showAzk = new ShowAzkGUI(PID);
+					showAzk.addWindowListener(new WindowAdapter() {
+						@Override
+						public void windowClosed(WindowEvent e) {
+							openShowAzk = false;
+						}
+					});
+				} else {
+					JOptionPane.showMessageDialog(null, "Arbeitszeitkontenansicht bereits offen.", null, JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 		});
 		btnAZK.setBounds(12, 220, 200, 24);
@@ -63,7 +83,18 @@ public class AdminGUI extends JFrame{
 		btnPV.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new PVGUI(PID);
+				if (openShowPV == false) {
+					openShowPV = true;
+					PVGUI showPV = new PVGUI(PID);
+					showPV.addWindowListener(new WindowAdapter() {
+						@Override
+						public void windowClosed(WindowEvent e) {
+							openShowPV = false;
+						}
+					});
+				} else {
+					JOptionPane.showMessageDialog(null, "Mitarbeiterverwaltung bereits offen.", null, JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 		});
 		btnPV.setBounds(12, 264, 200, 24);
@@ -74,7 +105,19 @@ public class AdminGUI extends JFrame{
 		btnABV.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new ABVGUI(PID);}
+				if (openShowABV == false) {
+					openShowABV = true;
+					ABVGUI showABV = new ABVGUI(PID);
+					showABV.addWindowListener(new WindowAdapter() {
+						@Override
+						public void windowClosed(WindowEvent e) {
+							openShowABV = false;
+						}
+					});
+				} else {
+					JOptionPane.showMessageDialog(null, "Arbeitsbereichverwaltung bereits offen.", null, JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
 		});
 		btnABV.setBounds(12, 288, 200, 24);
 		getContentPane().add(btnABV);
@@ -84,7 +127,18 @@ public class AdminGUI extends JFrame{
 		btnStatistik.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new StatistikGUI(PID);
+				if (openShowStatistik == false) {
+					openShowStatistik = true;
+					StatistikGUI showStatistik = new StatistikGUI(PID);
+					showStatistik.addWindowListener(new WindowAdapter() {
+						@Override
+						public void windowClosed(WindowEvent e) {
+							openShowStatistik = false;
+						}
+					});
+				} else {
+					JOptionPane.showMessageDialog(null, "Statistikfenster bereits offen.", null, JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 		});
 		btnStatistik.setBounds(12, 356, 200, 24);

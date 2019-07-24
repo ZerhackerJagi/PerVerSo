@@ -117,11 +117,11 @@ public class Admin extends Berechtigung implements Serializable {
 		return true;
 	}
 
-	public boolean resetMABerechtigung(int personalnummer) {
+	public boolean editMABerechtigung(int personalnummer, Berechtigung berechtigung) {
 		/*
 		 * @author: Soeren Hebestreit
 		 * 
-		 * @date: 19.07.2019
+		 * @date: 24.07.2019
 		 * 
 		 * @description: Mitarbeiterberechtigung zuruecksetzen oder als User wieder
 		 * einsetzen angegebene Personalnummer darf nicht der angemeldeten entsprechen,
@@ -140,11 +140,7 @@ public class Admin extends Berechtigung implements Serializable {
 			return false;
 
 		// MA existent
-		if (ma.getBerechtigung() == null) {
-			ma.setBerechtigung(new User(personalnummer));
-		} else {
-			ma.setBerechtigung(null);
-		}
+		ma.setBerechtigung(berechtigung);
 		return true;
 	}
 
@@ -203,47 +199,21 @@ public class Admin extends Berechtigung implements Serializable {
 		return true;
 	}
 
-	public boolean resetMAAzk(int personalnummer) {
-		/*
-		 * @author: Soeren Hebestreit
-		 * 
-		 * @date: 19.07.2019
-		 * 
-		 * @description: Mitarbeiter-AZK zuruecksetzen oder wieder einsetzen (leer)
-		 */
-
-		// MA suchen
-		Personalverwaltung pv = Personalverwaltung.getInstance();
-		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
-
-		// MA nicht existent
-		if (ma == null)
-			return false;
-
-		// MA existent
-		if (ma.getAzk() == null) {
-			ma.setAzk(new Arbeitszeitkonto());
-		} else {
-			ma.setAzk(null);
-		}
-		return true;
-	}
-
-	public boolean deleteMA(int personalnummer, Datum ausscheiden) {
+	public boolean ausscheidenMA(int personalnummer, Datum ausscheiden) {
 		/*
 		 * @author: Soeren Hebestreit
 		 * 
 		 * @date: 18.07.2019
 		 * 
-		 * @description: Mitarbeiter nach ausgeschieden verschieben, Berechtigung etc.
-		 * loeschen angegebene Personalnummer darf nicht der angemeldeten entsprechen,
+		 * @description: Mitarbeiter nach ausgeschieden verschieben, Berechtigung loeschen,
+		 * angegebene Personalnummer darf nicht der angemeldeten entsprechen,
 		 * um sich nicht auszusperren
 		 */
 
 		if (personalnummer == personalID)
 			return false;
 
-		// Loeschen nur moeglich, falls Ausscheiden in der Vergangenheit
+		// verschieben nur moeglich, falls Ausscheiden in der Vergangenheit
 		Datum today = new Datum();
 		if (today.compareTo(ausscheiden) < 1)
 			return false;
@@ -256,38 +226,10 @@ public class Admin extends Berechtigung implements Serializable {
 		if (ma == null)
 			return false;
 
-		// MA existent, Ausscheidungsdatum setzen, neu zuordnen Grundbereich 1 -
-		// ausgeschieden, Reset
+		// MA existent, Ausscheidungsdatum setzen, 
+		// neu zuordnen Grundbereich 1 - ausgeschieden, Berechtigung zuruecksetzen
 		ma.setAusscheidungsdatum(ausscheiden);
 		linkMAtoAB(personalnummer, 1, ausscheiden);
-		resetMA(personalnummer);
-		return true;
-	}
-
-	public boolean resetMA(int personalnummer) {
-		/*
-		 * @author: Soeren Hebestreit
-		 * 
-		 * @date: 18.07.2019
-		 * 
-		 * @description: Berechtigung etc. eines Mitarbeiters loeschen angegebene
-		 * Personalnummer darf nicht der angemeldeten entsprechen, um sich nicht
-		 * auszusperren
-		 */
-
-		if (personalnummer == personalID)
-			return false;
-
-		// MA suchen
-		Personalverwaltung pv = Personalverwaltung.getInstance();
-		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
-
-		// MA nicht existent
-		if (ma == null)
-			return false;
-
-		// MA existent
-		ma.setAzk(null);
 		ma.setBerechtigung(null);
 		return true;
 	}
@@ -298,7 +240,7 @@ public class Admin extends Berechtigung implements Serializable {
 		 * 
 		 * @date: 18.07.2019
 		 * 
-		 * @description: Mitarbeiter komplett entfernen angegebene Personalnummer darf
+		 * @description: Mitarbeiter komplett entfernen, angegebene Personalnummer darf
 		 * nicht der angemeldeten entsprechen, um sich nicht auszusperren
 		 */
 

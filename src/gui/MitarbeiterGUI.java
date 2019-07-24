@@ -2,6 +2,7 @@ package gui;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import java.awt.Font;
@@ -11,12 +12,15 @@ import javax.swing.JButton;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class MitarbeiterGUI extends JFrame{
 	
 //******************** PARAMETER ********************
 
 	private static final long serialVersionUID = 1L;
+	public boolean openShowAzk = false;
 	
 	
 //******************** KONSTRUKTOR ********************
@@ -50,11 +54,22 @@ public class MitarbeiterGUI extends JFrame{
 		getContentPane().add(labelHauptmenu);
 		
 		JButton btnAZK = new JButton("Arbeitszeitkonto");
-		btnAZK.setBackground(new Color(255, 255, 255));
+		btnAZK.setBackground(new Color(255, 255, 255));	
 		btnAZK.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new ShowAzkGUI(PID);
+				if (openShowAzk == false) {
+					openShowAzk = true;
+					ShowAzkGUI showAzk = new ShowAzkGUI(PID);
+					showAzk.addWindowListener(new WindowAdapter() {
+						@Override
+						public void windowClosed(WindowEvent e) {
+							openShowAzk = false;
+						}
+					});
+				} else {
+					JOptionPane.showMessageDialog(null, "Arbeitszeitkontenansicht bereits offen.", null, JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 		});
 		btnAZK.setBounds(12, 220, 200, 24);
