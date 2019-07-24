@@ -9,7 +9,6 @@ public class Krankheitseintrag extends Eintrag implements Serializable{
 //******************** PARAMETER ********************
 
 	private static final long serialVersionUID = 1L;
-
 			
 //******************** KONSTRUKTOR ********************
 			
@@ -21,5 +20,4 @@ public class Krankheitseintrag extends Eintrag implements Serializable{
 				
 		super(start, ende, arbeitstage);
 	}
-
 }

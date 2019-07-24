@@ -1,6 +1,5 @@
 package speicher;
 
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -8,17 +7,15 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-import interfaces.*;
+import interfaces.DateizugriffIF;
 import logik.Arbeitsbereich;
 import logik.Mitarbeiter;
-
 
 public class Dateizugriff implements DateizugriffIF{
 	
 //******************** PARAMETER ********************
 	
 	private static Dateizugriff uniqueInstance;
-	
 	
 //******************** KONSTRUKTOR ********************
 	
@@ -34,7 +31,6 @@ public class Dateizugriff implements DateizugriffIF{
 		return uniqueInstance;
 	}
 	
-
 //******************** LADEN ********************
 	
 	@Override
@@ -56,7 +52,6 @@ public class Dateizugriff implements DateizugriffIF{
 		}
 	}
 	
-	
 	private Object loadPV() throws Exception {
 		// TODO Auto-generated method stub
 		/*@author: 		Soeren Hebestreit
@@ -74,7 +69,6 @@ public class Dateizugriff implements DateizugriffIF{
 		}
 	}
 	
-	
 	private Object loadABV() throws Exception {
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		21.06.2019
@@ -90,7 +84,6 @@ public class Dateizugriff implements DateizugriffIF{
 			throw new Exception("Datei nicht gefunden! "+e);
 		}
 	}
-
 	
 //******************** SPEICHERN ********************	
 	
@@ -112,14 +105,13 @@ public class Dateizugriff implements DateizugriffIF{
 		}
 	}
 	
-	
 	private boolean savePV(Object obj) throws Exception {
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		21.06.2019
 		 *@description:	legt Backup an und speichert uebergebene Daten in der PV-Datei 
 		 */
 		
-		System.out.println(backup("DataPV"));
+		backup("DataPV");
 		try {
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("DataPV.dat"));
 			out.writeObject((ArrayList<Mitarbeiter>) obj);
@@ -129,15 +121,14 @@ public class Dateizugriff implements DateizugriffIF{
 			throw new Exception("Personalverwaltungsdaten konnten nicht gespeichert werden! "+e);
 		}	
 	}
-	
-	
+		
 	private boolean saveABV(Object obj) throws Exception {
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		21.06.2019
 		 *@description:	legt Backup an und speichert uebergebene Daten in der ABV-Datei 
 		 */
 		
-		System.out.println(backup("DataABV"));
+		backup("DataABV");
 		try {
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("DataABV.dat"));
 			out.writeObject((ArrayList<Arbeitsbereich>) obj);
@@ -147,12 +138,11 @@ public class Dateizugriff implements DateizugriffIF{
 			throw new Exception("Arbeitsbereichsdaten konnten nicht gespeichert werden! "+e);
 		}	
 	}
-	
-	
+		
 	private boolean backup(String name) {
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		21.06.2019
-		 *@description:	legt Backup an 
+		 *@description:	legt ein Backup an 
 		 */
 		
 		File alt = new File(name+".dat");
@@ -160,6 +150,5 @@ public class Dateizugriff implements DateizugriffIF{
 		neu.delete();
 		return alt.renameTo(neu);
 	}
-	
 	
 }

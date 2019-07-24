@@ -20,8 +20,7 @@ public class Arbeitszeitkonto implements Serializable {
 	private int urlaubskontingent;
 	private int urlaubgenommen;
 	private ArrayList <Eintrag> liste;
-		
-		
+				
 //******************** KONSTRUKTOR ********************
 		
 	public Arbeitszeitkonto() {
@@ -39,8 +38,7 @@ public class Arbeitszeitkonto implements Serializable {
 		urlaubgenommen = 0;
 		liste = new ArrayList <Eintrag>();
 	}
-	
-	
+		
 	public Arbeitszeitkonto(int sollstunden, int min, int max, int kontingent) {
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		19.07.2019
@@ -62,7 +60,6 @@ public class Arbeitszeitkonto implements Serializable {
 		liste = new ArrayList <Eintrag>();
 	}
 
-	
 //******************** VERWALTUNG ********************	
 	
 	public void addUrlaub (Datum start, Datum ende, int tage) throws Exception {
@@ -84,7 +81,6 @@ public class Arbeitszeitkonto implements Serializable {
 		}
 	}
 	
-	
 	public void addKrankheit (Datum start, Datum ende, int tage) throws Exception {
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		19.07.2019
@@ -100,7 +96,6 @@ public class Arbeitszeitkonto implements Serializable {
 		}
 	}
 	
-	
 	public boolean deleteUrlaub (int eintrag) {
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		19.07.2019
@@ -109,7 +104,6 @@ public class Arbeitszeitkonto implements Serializable {
 
 		if (liste.size() > eintrag) {
 			if(liste.get(eintrag) instanceof Urlaubseintrag) {
-				// Urlaubstage zurueckgeben
 				urlaubgenommen = urlaubgenommen - liste.get(eintrag).getArbeitstage();
 				liste.remove(liste.get(eintrag));
 				return true;
@@ -117,7 +111,6 @@ public class Arbeitszeitkonto implements Serializable {
 		}
 		return false;
 	}
-	
 	
 	public boolean deleteKrankheit (int eintrag) {
 		/*@author: 		Soeren Hebestreit
@@ -133,7 +126,6 @@ public class Arbeitszeitkonto implements Serializable {
 		}
 		return false;
 	}
-	
 	
 	public void addPlus (int betrag) {
 		/*@author: 		Soeren Hebestreit
@@ -164,7 +156,6 @@ public class Arbeitszeitkonto implements Serializable {
 		urlaubskontingent = urlaubbasis + urlaubskontingent - urlaubgenommen;
 		urlaubgenommen = 0;
 	}
-	
 
 //******************** AUSGABE ********************
 
@@ -176,8 +167,7 @@ public class Arbeitszeitkonto implements Serializable {
 			
 		return "Soll: "+sollstunden+"\tUeberminuten: "+ueberminuten+"\tUrlaub: "+urlaubskontingent+"\tResturlaub: "+(urlaubskontingent-urlaubgenommen);
 	}
-		
-		
+			
 	public void display() {
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		19.07.2019
@@ -189,7 +179,6 @@ public class Arbeitszeitkonto implements Serializable {
 		System.out.println("Urlaub: \t"+urlaubskontingent);
 		System.out.println("Resturlaub: "+(urlaubskontingent-urlaubgenommen));
 	}
-	
 	
 	public void showUrlaub() {
 		/*@author: 		Soeren Hebestreit
@@ -207,7 +196,6 @@ public class Arbeitszeitkonto implements Serializable {
 			System.out.println("Empty");
 		}
 	}
-	
 	
 	public void showUrlaub(int jahr) {
 		/*@author: 		Soeren Hebestreit
@@ -228,7 +216,6 @@ public class Arbeitszeitkonto implements Serializable {
 		}
 	}
 	
-	
 	public void showKrankheit() {
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		19.07.2019
@@ -246,7 +233,6 @@ public class Arbeitszeitkonto implements Serializable {
 		}
 	}
 	
-	
 //******************** SORTIEREN & SUCHEN ********************
 	
 	public void sort() {
@@ -257,7 +243,6 @@ public class Arbeitszeitkonto implements Serializable {
 		
 		Collections.sort(liste, new EintragStartComparator());
 	}
-
 	
 //******************** GETTER & SETTER ********************	
 	
@@ -265,76 +250,57 @@ public class Arbeitszeitkonto implements Serializable {
 		return sollstunden;
 	}
 
-
 	public void setSollstunden(int sollstunden) {
 		this.sollstunden = sollstunden;
 	}
-
 
 	public int getUeberminuten() {
 		return ueberminuten;
 	}
 
-
-//	public void setUeberminuten(int ueberminuten) {
-//		this.ueberminuten = ueberminuten;
-//	}
-
-
 	public int getUeberminutenmin() {
 		return ueberminutenmin;
 	}
-
 
 	public void setUeberminutenmin(int ueberminutenmin) {
 		this.ueberminutenmin = ueberminutenmin;
 	}
 
-
 	public int getUeberminutenmax() {
 		return ueberminutenmax;
 	}
-
 
 	public void setUeberminutenmax(int ueberminutenmax) {
 		this.ueberminutenmax = ueberminutenmax;
 	}
 
-	
 	public int getUrlaubbasis() {
 		return urlaubbasis;
 	}
-
 
 	public void setUrlaubbasis(int urlaubbasis) {
 		this.urlaubbasis = urlaubbasis;
 	}
 	
-	
 	public int getUrlaubskontingent() {
 		return urlaubskontingent;
 	}
-
 
 	public void setUrlaubskontingent(int urlaubskontingent) {
 		this.urlaubskontingent = urlaubskontingent;
 	}
 
-
 	public int getUrlaubgenommen() {
 		return urlaubgenommen;
 	}
-
 
 	public void setUrlaubgenommen(int urlaubgenommen) {
 		this.urlaubgenommen = urlaubgenommen;
 	}
 
-
 	public ArrayList<Eintrag> getListe() {
 		return liste;
 	}
-
 
 	public void setListe(ArrayList<Eintrag> liste) {
 		this.liste = liste;

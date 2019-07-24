@@ -9,23 +9,26 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import extern.Datum;
-import logik.*;
+import logik.Admin;
+import logik.Arbeitsbereich;
+import logik.Arbeitsbereichverwaltung;
+import logik.Mitarbeiter;
+import logik.Personalverwaltung;
 
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
 
-public class EditMaGUI extends JFrame{
+public class EditMitarbeiterGUI extends JFrame{
 	
 //******************** PARAMETER ********************
 
 	private static final long serialVersionUID = 1L;
 	
-	
 //******************** KONSTRUKTOR ********************
 	
-	public EditMaGUI(int PID, int wer, boolean edit) {
+	public EditMitarbeiterGUI(int PID, int wer, boolean edit) {
 		/*@author:		Soeren Hebestreit
 		 *@date: 		22.07.2019
 		 *@description: Mitarbeiter editieren oder anlegen
@@ -40,9 +43,8 @@ public class EditMaGUI extends JFrame{
 		
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Arbeitsbereichverwaltung av = Arbeitsbereichverwaltung.getInstance();
-		Mitarbeiter ma = ((Mitarbeiter) pv.suchen(wer));
+		Mitarbeiter ma = (Mitarbeiter) pv.suchen(wer);
 		
-		// Stammdaten
 		JLabel lblFunktion = new JLabel("");
 		if(edit == true) {
 			lblFunktion.setText("Mitarbeiter editieren");
@@ -138,7 +140,6 @@ public class EditMaGUI extends JFrame{
 		tfGeburtstagJ.setBounds(x+100, y+158, 80, 24);
 		getContentPane().add(tfGeburtstagJ);
 		
-		// Vertragsdaten
 		JPanel rahmenMitte = new JPanel();
 		rahmenMitte.setBackground(new Color(100, 150, 200));
 		rahmenMitte.setBounds(0, y+196, 400, 4);
@@ -226,7 +227,6 @@ public class EditMaGUI extends JFrame{
 			getContentPane().add(bereicheBox);
 		}
 		
-		// Buttons
 		JPanel rahmenUnten = new JPanel();
 		rahmenUnten.setBackground(new Color(100, 150, 200));
 		rahmenUnten.setBounds(0, y+372, 400, 4);
@@ -253,14 +253,12 @@ public class EditMaGUI extends JFrame{
 							admin.addMA(tfName.getText(), tfVorname.getText(), gender, new Datum(Integer.parseInt(tfGeburtstagT.getText()),Integer.parseInt(tfGeburtstagM.getText()),Integer.parseInt(tfGeburtstagJ.getText())), new Datum(Integer.parseInt(tfEinstellungT.getText()),Integer.parseInt(tfEinstellungM.getText()),Integer.parseInt(tfEinstellungJ.getText())), Integer.parseInt(((String)bereicheBox.getSelectedItem()).substring(0,((String)bereicheBox.getSelectedItem()).indexOf(" "))));
 							admin.editAZKVertragsdaten(wer, Integer.parseInt(tfSollstunden.getText()), Integer.parseInt(tfUrlaub.getText()));			
 						} catch (Exception e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 					}
 					try {
 						pv.speichern();
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					dispose();
@@ -285,10 +283,9 @@ public class EditMaGUI extends JFrame{
 	}		
 
 	public static void main(String[] args) throws Exception {
-		// TODO Auto-generated method stub
 		
 		Personalverwaltung.getInstance().laden();
-		new EditMaGUI(0,Personalverwaltung.getaMA().size(),false);
-		new EditMaGUI(0,1,true);
+		new EditMitarbeiterGUI(0,Personalverwaltung.getaMA().size(),false);
+		new EditMitarbeiterGUI(0,1,true);
 	}
 }

@@ -1,16 +1,15 @@
 package logik;
 
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import comparatoren.*;
+
+import comparatoren.MitarbeiterNameComparator;
+import comparatoren.MitarbeiterNummerComparator;
 import extern.Datum;
-import interfaces.*;
+import interfaces.VerwaltungIF;
 import speicher.Dateizugriff;
 
-
-// SINGLETON!
 public class Personalverwaltung implements VerwaltungIF,Serializable {
 	
 //******************** PARAMETER ********************
@@ -19,8 +18,7 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 	private static Personalverwaltung uniqueInstance; 	
 	private static int personalnummer;
 	private static ArrayList <Mitarbeiter> aMA;
-	
-	
+		
 //******************** KONSTRUKTOR ********************
 
 	public static Personalverwaltung getInstance() {
@@ -35,13 +33,11 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 		return uniqueInstance;
 	}
 	
-	
 	private Personalverwaltung() {
 		personalnummer = 0;
 		aMA = new ArrayList <Mitarbeiter> ();
 		start();
 	}
-	
 	
 	@Override
 	public void start() {
@@ -64,12 +60,9 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 			azk.addKrankheit(new Datum(1,1,2019), new Datum(5,1,2019), 4);
 			azk.addUrlaub(new Datum(23,12,2019), new Datum(31,12,2019), 5);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
+		}	
 	}
-	
 	
 //******************** VERWALTUNG ********************
 	
@@ -83,7 +76,6 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 		aMA.add(new Mitarbeiter(personalnummer,name,vorname,gender,geburtstag,user,pwd,new User(personalnummer),einstellung,new Arbeitszeitkonto(),wo));
 		personalnummer ++;
 	}
-	
 	
 	public void add(String name, String vorname, char gender, Datum geburtstag, Datum einstellung, int bereichsnummer) throws Exception {
 		/*@author: 		Soeren Hebestreit
@@ -100,7 +92,6 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 		personalnummer ++;
 	}
 
-
 	@Override
 	public boolean delete(int nummer) {
 		/*@author: 		Soeren Hebestreit
@@ -116,7 +107,6 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 		return false;
 	}
 	
-
 //******************** AUSGABE ********************	
 	
 	public void show() {
@@ -134,7 +124,6 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 		}
 	}
 
-
 //******************** SORTIEREN & SUCHEN ********************
 	
 	@Override
@@ -148,7 +137,6 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 		Collections.sort(aMA,new MitarbeiterNameComparator());
 	}
 
-
 	@Override
 	public void sortNumber() {
 		// TODO Auto-generated method stub
@@ -159,7 +147,6 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 		
 		Collections.sort(aMA,new MitarbeiterNummerComparator());
 	}
-	
 	
 	@Override
 	public Object suchen(int nummer) {
@@ -178,7 +165,6 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 		return null;
 	}
 	
-	
 //******************** LOAD & SAVE ********************
 	
 	@Override
@@ -190,8 +176,7 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 		
 		Dateizugriff data = new Dateizugriff();
 		data.speichern(aMA);	
-	}
-		
+	}	
 		
 	@Override
 	public void laden() throws Exception {
@@ -205,17 +190,14 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 		personalnummer = aMA.get(aMA.size()-1).getPersonalnummer()+1;
 	}
 			
-
 //******************** GETTER & SETTER ********************
 
 	public static ArrayList<Mitarbeiter> getaMA() {
 		return aMA;
 	}
 
-
 	public static void setaMA(ArrayList<Mitarbeiter> aMA) {
 		Personalverwaltung.aMA = aMA;
 	}
 
-	
 }

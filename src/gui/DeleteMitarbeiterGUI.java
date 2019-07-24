@@ -6,24 +6,28 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 import extern.Datum;
-import logik.*;
+import logik.Admin;
+import logik.Arbeitsbereich;
+import logik.Arbeitsbereichverwaltung;
+import logik.Mitarbeiter;
+import logik.Personalverwaltung;
 
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
 
-public class DeleteMaGUI extends JFrame{
+public class DeleteMitarbeiterGUI extends JFrame{
 	
 //******************** PARAMETER ********************
 
 	private static final long serialVersionUID = 1L;
 	
-	
 //******************** KONSTRUKTOR ********************
 	
-	public DeleteMaGUI(int PID, int wer) {
+	public DeleteMitarbeiterGUI(int PID, int wer) {
 		/*@author:		Soeren Hebestreit
 		 *@date: 		24.07.2019
 		 *@description: Mitarbeiter loeschen oder ausscheiden
@@ -123,7 +127,6 @@ public class DeleteMaGUI extends JFrame{
 						try {
 							pv.speichern();
 						} catch (Exception e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 						dispose();
@@ -197,7 +200,6 @@ public class DeleteMaGUI extends JFrame{
 							try {
 								pv.speichern();
 							} catch (Exception e1) {
-								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
 						dispose();
@@ -224,7 +226,6 @@ public class DeleteMaGUI extends JFrame{
 	}		
 
 	public static void main(String[] args) throws Exception {
-		// TODO Auto-generated method stub
 		
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Arbeitsbereichverwaltung abv = Arbeitsbereichverwaltung.getInstance();
@@ -232,6 +233,7 @@ public class DeleteMaGUI extends JFrame{
 		abv.laden();
 		pv.add("Test", "Test", 'd', new Datum(), new Datum(), 0);
 		Personalverwaltung.getaMA().get(Personalverwaltung.getaMA().size()-1).setBerechtigung(new Admin(Personalverwaltung.getaMA().size()-1));
-		new DeleteMaGUI(0,Personalverwaltung.getaMA().size()-1);
+		new DeleteMitarbeiterGUI(0,Personalverwaltung.getaMA().size()-1);
 	}
+	
 }

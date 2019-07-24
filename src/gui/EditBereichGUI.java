@@ -5,29 +5,31 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import logik.Admin;
-import logik.Mitarbeiter;
-import logik.Personalverwaltung;
+import logik.Arbeitsbereich;
+import logik.Arbeitsbereichverwaltung;
 
 import java.awt.Font;
+import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
 
-public class EditKennungGUI extends JFrame{
+public class EditBereichGUI extends JFrame{
 	
 //******************** PARAMETER ********************
 
-	private static final long serialVersionUID = 1L;
-		
+	private static final long serialVersionUID = 1L;	
+	
 //******************** KONSTRUKTOR ********************
 	
-	public EditKennungGUI(int PID, int wer) {
+	public EditBereichGUI(int PID, int welcher, boolean edit) {
 		/*@author:		Soeren Hebestreit
-		 *@date: 		24.07.2019
-		 *@description: Mitarbeiterkennung und -passwort editieren
+		 *@date: 		25.07.2019
+		 *@description: Mitarbeiter editieren oder anlegen
 		 */	
 		
 		setSize(400, 320);
@@ -37,20 +39,24 @@ public class EditKennungGUI extends JFrame{
 		getContentPane().setLayout(null);
 		setResizable(false);
 		
-		Personalverwaltung pv = Personalverwaltung.getInstance();
-		Mitarbeiter ma = (Mitarbeiter) pv.suchen(wer);
+		Arbeitsbereichverwaltung abv = Arbeitsbereichverwaltung.getInstance();
+		Arbeitsbereich ab = (Arbeitsbereich) abv.suchen(welcher);
 		
 		JLabel lblFunktion = new JLabel("");
-		lblFunktion.setText("Kennung editieren");
+		if(edit == true) {
+			lblFunktion.setText("Arbeitsbereich editieren");
+		} else {
+			lblFunktion.setText("Arbeitsbereich anlegen");
+		}
 		lblFunktion.setForeground(new Color(255, 255, 255));
 		lblFunktion.setFont(new Font("Dialog", Font.BOLD, 21));
 		lblFunktion.setBounds(24, 8, 380, 36);
 		getContentPane().add(lblFunktion);
 		
-		JLabel lblPNr = new JLabel("PNr. "+wer+" - "+ma.getVorname()+" "+ma.getName());
+		JLabel lblPNr = new JLabel("Nr. "+welcher);
 		lblPNr.setForeground(new Color(255, 255, 255));
 		lblPNr.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblPNr.setBounds(24, 36, 380, 24);
+		lblPNr.setBounds(24, 36, 240, 24);
 		getContentPane().add(lblPNr);
 		
 		JPanel rahmenOben = new JPanel();
@@ -61,23 +67,31 @@ public class EditKennungGUI extends JFrame{
 		int y = 40;
 		int x = 172;
 		
-		JLabel lblKennung = new JLabel("Benutzername:");
-		lblKennung.setBounds(40, y+40, 120, 20);
-		getContentPane().add(lblKennung);
+		JLabel lblName = new JLabel("Name:");
+		lblName.setBounds(40, y+40, 120, 20);
+		getContentPane().add(lblName);
 		
-		JTextField tfKennung = new JTextField();
-		tfKennung.setText(ma.getBenutzername());
-		tfKennung.setBounds(x, y+38, 180, 24);
-		getContentPane().add(tfKennung);
+		JTextField tfName = new JTextField();
+		if(edit == true) {
+			tfName.setText(ab.getName());
+		}
+		tfName.setBounds(x, y+38, 180, 24);
+		getContentPane().add(tfName);
 			
-		JLabel lblPasswort = new JLabel("neues Passwort:");
-		lblPasswort.setBounds(40, y+80, 120, 20);
-		getContentPane().add(lblPasswort);
+		JLabel lblBeschreibung = new JLabel("Beschreibung:");
+		lblBeschreibung.setBounds(40, y+80, 120, 20);
+		getContentPane().add(lblBeschreibung);
 		
-		JTextField tfPasswort = new JTextField();
-		//tfPasswort.setText(ma.getPasswort());
-		tfPasswort.setBounds(x, y+78, 180, 24);
-		getContentPane().add(tfPasswort);
+		JTextArea tfBeschreibung = new JTextArea();
+		if(edit == true) {
+			tfBeschreibung.setText(ab.getBeschreibung());
+		}
+		tfBeschreibung.setWrapStyleWord(true);
+		tfBeschreibung.setLineWrap(true);
+		tfBeschreibung.setBorder(new JTextField().getBorder());
+		tfBeschreibung.setMargin(new Insets(2,0,0,0));
+		tfBeschreibung.setBounds(x, y+78, 180, 104);
+		getContentPane().add(tfBeschreibung);
 		
 		JPanel rahmenMitte = new JPanel();
 		rahmenMitte.setBackground(new Color(100, 150, 200));
@@ -89,16 +103,20 @@ public class EditKennungGUI extends JFrame{
 		btnConfirm.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(tfKennung.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Bitte Kennung ausfüllen.", null, JOptionPane.INFORMATION_MESSAGE);
+				if(welcher == 0 || welcher == 1) {
+					JOptionPane.showMessageDialog(null, "Dieser Arbeitsbereich ist für die Bearbeitung gesperrt.", null, JOptionPane.INFORMATION_MESSAGE);
+				} else if(tfName.getText().isEmpty() || tfBeschreibung.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Bitte alle Felder ausfüllen.", null, JOptionPane.INFORMATION_MESSAGE);
 				} else {
 					Admin admin = new Admin(PID);
-					admin.editMABenutzername(wer, tfKennung.getText());
-					if(!tfPasswort.getText().isEmpty()) {
-						admin.editMAPasswort(wer, tfPasswort.getText());
+					if(edit == true) {
+						admin.editABName(welcher, tfName.getText());
+						admin.editABBeschreibung(welcher, tfBeschreibung.getText());
+					} else {
+						admin.addAB(tfName.getText(), tfBeschreibung.getText());
 					}
 					try {
-						pv.speichern();
+						abv.speichern();
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
@@ -125,7 +143,8 @@ public class EditKennungGUI extends JFrame{
 
 	public static void main(String[] args) throws Exception {
 		
-		Personalverwaltung.getInstance().laden();
-		new EditKennungGUI(0,1);
+		Arbeitsbereichverwaltung.getInstance().laden();
+		new EditBereichGUI(0,Arbeitsbereichverwaltung.getBereiche().size(),false);
+		new EditBereichGUI(0,Arbeitsbereichverwaltung.getBereiche().size()-1,true);
 	}
 }

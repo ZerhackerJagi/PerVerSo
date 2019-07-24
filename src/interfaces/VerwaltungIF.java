@@ -8,7 +8,6 @@ public interface VerwaltungIF {
 	
 	public void start();
 	public boolean delete(int nummer);
-	
 	public void show();
 	public void speichern() throws Exception;
 	public void laden() throws Exception;

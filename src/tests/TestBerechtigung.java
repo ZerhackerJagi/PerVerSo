@@ -3,9 +3,12 @@ package tests;
 import java.util.ArrayList;
 
 import extern.Datum;
-import logik.*;
+import logik.Admin;
+import logik.Berechtigung;
+import logik.Mitarbeiter;
+import logik.Personalverwaltung;
 
-class Test {
+class TestBerechtigung {
 
 	public static void main(String[] args) throws Exception {
 		Personalverwaltung pv = Personalverwaltung.getInstance();
@@ -26,7 +29,5 @@ class Test {
 		if(test instanceof Admin) {
 			System.out.println("Bin jetzt Admin :)");
 		}
-	
-	
 	}
 }

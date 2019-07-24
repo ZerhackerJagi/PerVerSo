@@ -4,8 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import comparatoren.*;
-import interfaces.*;
+import comparatoren.ArbeitsbereichNameComparator;
+import comparatoren.ArbeitsbereichNummerComparator;
+import interfaces.VerwaltungIF;
 import speicher.Dateizugriff;
 
 public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
@@ -16,7 +17,6 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 	private static Arbeitsbereichverwaltung uniqueInstance;
 	private static int arbeitsbereichnummer;
 	private static ArrayList <Arbeitsbereich> bereiche;
-
 	
 //******************** KONSTRUKTOR ********************
 		
@@ -32,13 +32,11 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 		return uniqueInstance;
 	}
 	
-
 	private Arbeitsbereichverwaltung() {
 		arbeitsbereichnummer = 0;
 		bereiche = new ArrayList <Arbeitsbereich> ();
 		start();
 	}
-	
 	
 	@Override
 	public void start() {
@@ -50,8 +48,7 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 		add("Undefined","unzugeordnete Mitarbeiter");
 		add("Ausgeschieden","ausgeschiedene Mitarbeiter");
 	}
-	
-	
+		
 //******************** VERWALTUNG ********************
 	
 	public void add(String name, String beschreibung) {
@@ -64,7 +61,6 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 		arbeitsbereichnummer++;
 	}
 
-	
 	@Override
 	public boolean delete(int nummer) {
 		/*@author: 		Soeren Hebestreit
@@ -79,8 +75,7 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 		}
 		return false;
 	}
-	
-	
+		
 //******************** AUSGABE ********************
 	
 	@Override
@@ -99,12 +94,10 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 		}
 	}
 
-
 //******************** SORTIEREN & SUCHEN ********************
 	
 	@Override
 	public void sortName() {
-		// TODO Auto-generated method stub
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		21.06.2019
 		 *@description:	Arbeitsbereiche nach Name sortieren
@@ -113,10 +106,8 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 		Collections.sort(bereiche,new ArbeitsbereichNameComparator());
 	}
 
-
 	@Override
 	public void sortNumber() {
-		// TODO Auto-generated method stub
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		21.06.2019
 		 *@description:	Arbeitsbereich nach Nummer sortieren
@@ -125,10 +116,8 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 		Collections.sort(bereiche,new ArbeitsbereichNummerComparator());
 	}
 
-
 	@Override
 	public Object suchen(int nummer) {
-		// TODO Auto-generated method stub
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		22.06.2019
 		 *@description:	bekommt eine Arbeitsbereichnummer und durchsucht Bereiche anhand dessen
@@ -144,7 +133,6 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 		return null;
 	}
 
-
 //******************** LOAD & SAVE ********************
 	
 	@Override
@@ -157,8 +145,7 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 		Dateizugriff data = new Dateizugriff();
 		data.speichern(bereiche);	
 	}
-		
-		
+			
 	@Override
 	public void laden() throws Exception {
 		/*@author: 		Soeren Hebestreit
@@ -171,17 +158,14 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 		arbeitsbereichnummer  = bereiche.get(bereiche.size()-1).getArbeitsbereichnummer()+1;
 	}
 
-
 //******************** GETTER & SETTER ********************	
 	
 	public static ArrayList<Arbeitsbereich> getBereiche() {
 		return bereiche;
 	}
 
-
 	public static void setBereiche(ArrayList<Arbeitsbereich> bereiche) {
 		Arbeitsbereichverwaltung.bereiche = bereiche;
 	}
-
 
 }

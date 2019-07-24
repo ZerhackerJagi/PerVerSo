@@ -3,7 +3,6 @@ package comparatoren;
 import java.util.Comparator;
 import logik.Mitarbeiter;
 
-
 public class MitarbeiterNummerComparator implements Comparator <Mitarbeiter> {
 	/*@author: 		Soeren Hebestreit
 	 *@date: 		21.06.2019
@@ -15,7 +14,7 @@ public class MitarbeiterNummerComparator implements Comparator <Mitarbeiter> {
 		super();
 	}
 	
-	
+	@Override
 	public int compare(Mitarbeiter m1, Mitarbeiter m2) {
 
 	   if(m1.getPersonalnummer()>m2.getPersonalnummer()) {
@@ -26,5 +25,6 @@ public class MitarbeiterNummerComparator implements Comparator <Mitarbeiter> {
 			return 0;
 		}
     }
+
 }
 

@@ -7,7 +7,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import logik.*;
+
+import logik.Admin;
+import logik.Mitarbeiter;
+import logik.Personalverwaltung;
+import logik.User;
 
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
@@ -19,8 +23,7 @@ public class EditBerechtigungGUI extends JFrame{
 //******************** PARAMETER ********************
 
 	private static final long serialVersionUID = 1L;
-	
-	
+		
 //******************** KONSTRUKTOR ********************
 	
 	public EditBerechtigungGUI(int PID, int wer) {
@@ -112,7 +115,6 @@ public class EditBerechtigungGUI extends JFrame{
 					try {
 						pv.speichern();
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					dispose();
@@ -137,7 +139,6 @@ public class EditBerechtigungGUI extends JFrame{
 	}		
 
 	public static void main(String[] args) throws Exception {
-		// TODO Auto-generated method stub
 		
 		Personalverwaltung.getInstance().laden();
 		new EditBerechtigungGUI(0,1);

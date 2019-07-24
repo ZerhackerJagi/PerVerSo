@@ -11,14 +11,12 @@ public class User extends Berechtigung implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int personalID;
 
-	
 //******************** KONSTRUKTOR ********************	
 	
 	public User(int personalnummer) {
 		personalID = personalnummer;
 	}
-	
-	
+		
 //******************** FUNKTIONEN ********************	
 	
 	public void showAZK() {
@@ -33,23 +31,11 @@ public class User extends Berechtigung implements Serializable {
 		System.out.println("\n--------Urlaub--------");
 		azk.showUrlaub(new Datum().getJahr());
 	}
-		
-		
-	public void showPlan(int kw) {
-		
-			
-	}	
 	
 //******************** GETTER & SETTER ********************
 	
 	public int getPersonalID() {
 		return personalID;
 	}
-
-
-//	public void setPersonalID(int personalID) {
-//		this.personalID = personalID;
-//	}
-		
 	
 }

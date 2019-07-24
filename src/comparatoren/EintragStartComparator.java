@@ -3,7 +3,6 @@ package comparatoren;
 import java.util.Comparator;
 import logik.Eintrag;
 
-
 public class EintragStartComparator implements Comparator <Eintrag> {
 	/*@author: 		Soeren Hebestreit
 	 *@date: 		19.07.2019
@@ -11,12 +10,10 @@ public class EintragStartComparator implements Comparator <Eintrag> {
 	 */
 	
 	public EintragStartComparator () {
-		// Konstruktor
 		
 		super();
 	}
 	
-
 	@Override
 	public int compare(Eintrag e1, Eintrag e2) {
 

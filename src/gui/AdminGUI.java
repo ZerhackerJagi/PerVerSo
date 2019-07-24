@@ -168,10 +168,8 @@ public class AdminGUI extends JFrame{
 		setVisible(true);
 	}
 
-	
 	public static void main(String[] args) throws Exception {
-		// TODO Auto-generated method stub
-				
+		
 		new AdminGUI(0);
 	}
 }

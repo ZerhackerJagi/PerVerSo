@@ -5,7 +5,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import extern.Datum;
-import logik.*;
+import logik.Mitarbeiter;
+import logik.Personalverwaltung;
+import logik.Urlaubseintrag;
 
 import java.awt.Font;
 import java.awt.Color;
@@ -17,8 +19,7 @@ public class ShowAzkGUI extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	private double grenze = 0.2;
-	
-	
+		
 //******************** KONSTRUKTOR ********************
 	
 	public ShowAzkGUI(int PID) {
@@ -95,9 +96,6 @@ public class ShowAzkGUI extends JFrame{
 		rahmenUnten.setBounds(0, 200, 360, 4);
 		getContentPane().add(rahmenUnten);
 		
-		
-		
-		// Liste mit Urlaubseintraegen des aktuellen Jahres erzeugen
 		ArrayList<Urlaubseintrag> urlaubsliste = new ArrayList<Urlaubseintrag>();
 		for (int i = 0; i < ma.getAzk().getListe().size(); i++) {
 			if (ma.getAzk().getListe().get(i) instanceof Urlaubseintrag) {
@@ -111,8 +109,7 @@ public class ShowAzkGUI extends JFrame{
 		lblUrlaub.setFont(new Font("Dialog", Font.BOLD, 14));
 		lblUrlaub.setBounds(24, 220, 100, 24);
 		getContentPane().add(lblUrlaub);
-		
-		// dynamisches Erzeugen der Label
+
 		JLabel[][] lable = new JLabel[urlaubsliste.size()][3];
 		int k = 264;
 		for(int i=0 ; i < urlaubsliste.size(); i++) {
@@ -141,9 +138,7 @@ public class ShowAzkGUI extends JFrame{
 		setVisible(true);
 	}
 	
-	
 	public static void main(String[] args) throws Exception {
-		// TODO Auto-generated method stub
 				
 		new ShowAzkGUI(1);
 	}

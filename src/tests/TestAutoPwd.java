@@ -3,7 +3,6 @@ package tests;
 public class TestAutoPwd {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 		String name = "Hebestreit";
 		String vorname = "Soeren";
@@ -16,5 +15,4 @@ public class TestAutoPwd {
 		
 		System.out.println(username+"\t"+password);
 	}
-
 }
