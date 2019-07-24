@@ -3,6 +3,7 @@ package gui;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -24,8 +25,15 @@ public class PVGUI extends JFrame{
 //******************** PARAMETER ********************
 
 	private static final long serialVersionUID = 1L;
-	private static int wahl;
+	private static int wahl = -1;
 	private static JTable table;
+	public boolean openAddMA = false;
+	public boolean openEditMA = false;
+	public boolean openDelMA = false;
+	public boolean openEditKennung = false;
+	public boolean openEditBerechtigung = false;
+	public boolean openEditAzk = false;
+	public boolean openEditZug = false;
 	
 	
 //******************** KONSTRUKTOR ********************
@@ -98,14 +106,20 @@ public class PVGUI extends JFrame{
 		btnAnlegen.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				EditMaGUI editMa = new EditMaGUI(PID,Personalverwaltung.getaMA().size(),false);
-				editMa.addWindowListener(new WindowAdapter() {
-					@Override
-					public void windowClosed(WindowEvent e) {
-						table.setModel(getModel());
-						setColWidth();
-					}
-				});
+				if (openAddMA == false) {
+					openAddMA = true;
+					EditMaGUI editMa = new EditMaGUI(PID,Personalverwaltung.getaMA().size(),false);
+					editMa.addWindowListener(new WindowAdapter() {
+						@Override
+						public void windowClosed(WindowEvent e) {
+							table.setModel(getModel());
+							setColWidth();
+							openAddMA = false;
+						}
+					});
+				} else {
+					JOptionPane.showMessageDialog(null, "Mitarbeiter hinzufügen bereits offen.", null, JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 		});
 		btnAnlegen.setBounds(24, 140, 200, 24);
@@ -116,14 +130,24 @@ public class PVGUI extends JFrame{
 		btnBearbeiten.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				EditMaGUI editMa = new EditMaGUI(PID,wahl,true);
-				editMa.addWindowListener(new WindowAdapter() {
-					@Override
-					public void windowClosed(WindowEvent e) {
-						table.setModel(getModel());
-						setColWidth();
+				if(wahl >=0 ) {
+					if (openEditMA == false) {
+						openEditMA = true;
+						EditMaGUI editMa = new EditMaGUI(PID,wahl,true);
+						editMa.addWindowListener(new WindowAdapter() {
+							@Override
+							public void windowClosed(WindowEvent e) {
+								table.setModel(getModel());
+								setColWidth();
+								openEditMA = false;
+							}
+						});
+					} else {
+						JOptionPane.showMessageDialog(null, "Mitarbeiter bearbeiten bereits offen.", null, JOptionPane.INFORMATION_MESSAGE);
 					}
-				});
+				} else {
+					JOptionPane.showMessageDialog(null, "Bitte Auswahl treffen.", null, JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 		});
 		btnBearbeiten.setBounds(24, 164, 200, 24);
@@ -131,10 +155,14 @@ public class PVGUI extends JFrame{
 		
 		JButton btnEntfernen = new JButton("Mitarbeiter entfernen");
 		btnEntfernen.setBackground(new Color(255, 255, 255));
-		btnEntfernen.addMouseListener(new MouseAdapter() {				
+		btnEntfernen.addMouseListener(new MouseAdapter() {	
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new StatistikGUI(PID);
+				if(wahl >=0 ) {
+					new StatistikGUI(PID);
+				} else {
+					JOptionPane.showMessageDialog(null, "Bitte Auswahl treffen.", null, JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 		});
 		btnEntfernen.setBounds(24, 188, 200, 24);
@@ -150,7 +178,11 @@ public class PVGUI extends JFrame{
 		btnKennung.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new StatistikGUI(PID);
+				if(wahl >=0 ) {
+					new StatistikGUI(PID);
+				} else {
+					JOptionPane.showMessageDialog(null, "Bitte Auswahl treffen.", null, JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 		});
 		btnKennung.setBounds(24, 280, 200, 24);
@@ -161,26 +193,19 @@ public class PVGUI extends JFrame{
 		btnEditBerechtigung.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new StatistikGUI(PID);
+				if(wahl >=0 ) {
+					new StatistikGUI(PID);
+				} else {
+					JOptionPane.showMessageDialog(null, "Bitte Auswahl treffen.", null, JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 		});
 		btnEditBerechtigung.setBounds(24, 304, 200, 24);
 		getContentPane().add(btnEditBerechtigung);
 		
-		JButton btnResetBerechtigung = new JButton("Berechtigung zurücksetzen");
-		btnResetBerechtigung.setBackground(new Color(255, 255, 255));
-		btnResetBerechtigung.addMouseListener(new MouseAdapter() {				
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				new StatistikGUI(PID);
-			}
-		});
-		btnResetBerechtigung.setBounds(24, 328, 200, 24);
-		getContentPane().add(btnResetBerechtigung);
-		
 		JLabel lblAZK = new JLabel("Arbeitszeitkonto");
 		lblAZK.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblAZK.setBounds(24, 380, 240, 24);
+		lblAZK.setBounds(24, 356, 240, 24);
 		getContentPane().add(lblAZK);
 		
 		JButton btnEditAZK = new JButton("Arbeitszeitkonto bearbeiten");
@@ -188,26 +213,19 @@ public class PVGUI extends JFrame{
 		btnEditAZK.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new StatistikGUI(PID);
+				if(wahl >=0 ) {
+					new StatistikGUI(PID);
+				} else {
+					JOptionPane.showMessageDialog(null, "Bitte Auswahl treffen.", null, JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 		});
-		btnEditAZK.setBounds(24, 420, 200, 24);
+		btnEditAZK.setBounds(24, 396, 200, 24);
 		getContentPane().add(btnEditAZK);
-		
-		JButton btnResetAZK = new JButton("Arbeitszeitkonto zurücksetzen");
-		btnResetAZK.setBackground(new Color(255, 255, 255));
-		btnResetAZK.addMouseListener(new MouseAdapter() {				
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				new StatistikGUI(PID);
-			}
-		});
-		btnResetAZK.setBounds(24, 444, 200, 24);
-		getContentPane().add(btnResetAZK);
 		
 		JLabel lblLink = new JLabel("Zugehörigkeit");
 		lblLink.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblLink.setBounds(24, 496, 240, 24);
+		lblLink.setBounds(24, 448, 240, 24);
 		getContentPane().add(lblLink);
 		
 		JButton btnNewLink = new JButton("Zugehörigkeit ändern");
@@ -215,10 +233,14 @@ public class PVGUI extends JFrame{
 		btnNewLink.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new StatistikGUI(PID);
+				if(wahl >=0 ) {
+					new StatistikGUI(PID);
+				} else {
+					JOptionPane.showMessageDialog(null, "Bitte Auswahl treffen.", null, JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 		});
-		btnNewLink.setBounds(24, 536, 200, 24);
+		btnNewLink.setBounds(24, 488, 200, 24);
 		getContentPane().add(btnNewLink);
 		
 		// Auswahl-Anzeige

@@ -69,9 +69,11 @@ public class LoginGUI extends JFrame{
 					if(user.getBerechtigung() instanceof Admin) {
 						new AdminGUI(user.getPersonalnummer());
 						dispose();
-					}else {
+					} else if(user.getBerechtigung() instanceof User){
 						new MitarbeiterGUI(user.getPersonalnummer());
 						dispose();
+					} else {
+						JOptionPane.showMessageDialog(null, "Keine Berechtigung!", null, JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
 				
