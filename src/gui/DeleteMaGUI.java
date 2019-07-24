@@ -114,16 +114,20 @@ public class DeleteMaGUI extends JFrame{
 		btnDelete.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if((JOptionPane.showConfirmDialog(null, ma.getVorname()+" "+ma.getName()+" löschen?", null, JOptionPane.YES_NO_OPTION)) == 0) {
-					Admin admin = new Admin(PID);
-					admin.removeMA(wer);
-					try {
-						pv.speichern();
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+				if(PID == wer) {
+					JOptionPane.showMessageDialog(null, "Diese Option kann nicht auf einen selbst angewandt werden.", null, JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					if((JOptionPane.showConfirmDialog(null, ma.getVorname()+" "+ma.getName()+" löschen?", null, JOptionPane.YES_NO_OPTION)) == 0) {
+						Admin admin = new Admin(PID);
+						admin.removeMA(wer);
+						try {
+							pv.speichern();
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						dispose();
 					}
-					dispose();
 				}
 			}
 		});
@@ -174,7 +178,9 @@ public class DeleteMaGUI extends JFrame{
 		btnLeave.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(tfAusscheidenT.getText().isEmpty() || tfAusscheidenM.getText().isEmpty() || tfAusscheidenJ.getText().isEmpty() ) {
+				if(PID == wer) {
+					JOptionPane.showMessageDialog(null, "Diese Option kann nicht auf einen selbst angewandt werden.", null, JOptionPane.INFORMATION_MESSAGE);
+				} else if(tfAusscheidenT.getText().isEmpty() || tfAusscheidenM.getText().isEmpty() || tfAusscheidenJ.getText().isEmpty() ) {
 					JOptionPane.showMessageDialog(null, "Bitte Ausscheidungsdatum ausfüllen.", null, JOptionPane.INFORMATION_MESSAGE);
 				} else {
 					Datum ausscheiden = new Datum(Integer.parseInt(tfAusscheidenT.getText()),Integer.parseInt(tfAusscheidenM.getText()),Integer.parseInt(tfAusscheidenJ.getText()));
@@ -221,8 +227,11 @@ public class DeleteMaGUI extends JFrame{
 		// TODO Auto-generated method stub
 		
 		Personalverwaltung pv = Personalverwaltung.getInstance();
+		Arbeitsbereichverwaltung abv = Arbeitsbereichverwaltung.getInstance();
 		pv.laden();
+		abv.laden();
 		pv.add("Test", "Test", 'd', new Datum(), new Datum(), 0);
+		Personalverwaltung.getaMA().get(Personalverwaltung.getaMA().size()-1).setBerechtigung(new Admin(Personalverwaltung.getaMA().size()-1));
 		new DeleteMaGUI(0,Personalverwaltung.getaMA().size()-1);
 	}
 }

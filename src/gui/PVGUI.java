@@ -102,8 +102,8 @@ public class PVGUI extends JFrame{
 			public void mouseClicked(MouseEvent e) {
 				if (openAddMA == false) {
 					openAddMA = true;
-					EditMaGUI editMa = new EditMaGUI(PID,Personalverwaltung.getaMA().size(),false);
-					editMa.addWindowListener(new WindowAdapter() {
+					EditMaGUI addMa = new EditMaGUI(PID,Personalverwaltung.getaMA().size(),false);
+					addMa.addWindowListener(new WindowAdapter() {
 						@Override
 						public void windowClosed(WindowEvent e) {
 							table.setModel(getModel(Personalverwaltung.getaMA()));
@@ -152,11 +152,13 @@ public class PVGUI extends JFrame{
 		btnEntfernen.addMouseListener(new MouseAdapter() {	
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(wahl >=0 ) {
+				if(wahl == PID) {
+					JOptionPane.showMessageDialog(null, "Diese Option kann nicht auf einen selbst angewandt werden.", null, JOptionPane.INFORMATION_MESSAGE);
+				} else if(wahl >=0 && wahl != PID) {
 					if (openDelMA == false) {
 						openDelMA = true;
-						DeleteMaGUI DelMa = new DeleteMaGUI(PID,wahl);
-						DelMa.addWindowListener(new WindowAdapter() {
+						DeleteMaGUI delMa = new DeleteMaGUI(PID,wahl);
+						delMa.addWindowListener(new WindowAdapter() {
 							@Override
 							public void windowClosed(WindowEvent e) {
 								table.setModel(getModel(Personalverwaltung.getaMA()));
@@ -186,7 +188,18 @@ public class PVGUI extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(wahl >=0 ) {
-					new StatistikGUI(PID);
+					if (openEditKennung == false) {
+						openEditKennung = true;
+						EditKennungGUI editKennung = new EditKennungGUI(PID,wahl);
+						editKennung.addWindowListener(new WindowAdapter() {
+							@Override
+							public void windowClosed(WindowEvent e) {
+								openEditKennung = false;
+							}
+						});
+					} else {
+						JOptionPane.showMessageDialog(null, "Kennung bearbeiten bereits offen.", null, JOptionPane.INFORMATION_MESSAGE);
+					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Bitte Auswahl treffen.", null, JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -200,8 +213,21 @@ public class PVGUI extends JFrame{
 		btnEditBerechtigung.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(wahl >=0 ) {
-					new StatistikGUI(PID);
+				if(wahl == PID) {
+					JOptionPane.showMessageDialog(null, "Diese Option kann nicht auf einen selbst angewandt werden.", null, JOptionPane.INFORMATION_MESSAGE);
+				} else if(wahl >=0 && wahl != PID) {
+					if (openEditBerechtigung == false) {
+						openEditBerechtigung = true;
+						EditBerechtigungGUI editBerechtigung = new EditBerechtigungGUI(PID,wahl);
+						editBerechtigung.addWindowListener(new WindowAdapter() {
+							@Override
+							public void windowClosed(WindowEvent e) {
+								openEditBerechtigung = false;
+							}
+						});
+					} else {
+						JOptionPane.showMessageDialog(null, "Berechtigung ändern bereits offen.", null, JOptionPane.INFORMATION_MESSAGE);
+					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Bitte Auswahl treffen.", null, JOptionPane.INFORMATION_MESSAGE);
 				}
