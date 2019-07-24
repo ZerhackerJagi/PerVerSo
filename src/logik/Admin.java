@@ -117,7 +117,7 @@ public class Admin extends Berechtigung implements Serializable {
 		return true;
 	}
 
-	public boolean editMABerechtigung(int personalnummer, Berechtigung berechtigung) {
+	public boolean changeMABerechtigung(int personalnummer, Berechtigung berechtigung) {
 		/*
 		 * @author: Soeren Hebestreit
 		 * 
@@ -141,39 +141,6 @@ public class Admin extends Berechtigung implements Serializable {
 
 		// MA existent
 		ma.setBerechtigung(berechtigung);
-		return true;
-	}
-
-	public boolean changeMABerechtigung(int personalnummer) {
-		/*
-		 * @author: Jakob Kuechler, Soeren Hebestreit
-		 * 
-		 * @date: 20.06.2019, 18.07.2019
-		 * 
-		 * @description: bekommt Personalnummer (Integer) und aendert die Berechtigung
-		 * des Mitarbeiters in die bisher nicht vorhandene (Admin -> User und User ->
-		 * Admin) angegebene Personalnummer darf nicht der angemeldeten entsprechen, um
-		 * sich nicht auszusperren
-		 */
-
-		if (personalnummer == personalID)
-			return false;
-
-		// MA suchen
-		Personalverwaltung pv = Personalverwaltung.getInstance();
-		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
-
-		// MA Berechtigung neu setzen
-		try {
-			if (ma.getBerechtigung() instanceof User) {
-				ma.setBerechtigung(new Admin(personalnummer));
-			} else {
-				ma.setBerechtigung(new User(personalnummer));
-			}
-		} catch (NullPointerException e) {
-			// System.out.println("Mitarbeiternummer nicht vergeben");
-			return false;
-		}
 		return true;
 	}
 
@@ -537,31 +504,6 @@ public class Admin extends Berechtigung implements Serializable {
 	}
 
 //******************** VERWALTUNG ZUGEHOERIGKEIT ******************** 
-
-	public void linkMAtoAB(int personalnummer, int arbeitsbereichnummer) {
-		/*
-		 * @author: Jakob Kuechler, Soeren Hebestreit
-		 * 
-		 * @date: 21.06.2019, 18.07.2019
-		 * 
-		 * @description: Mitarbeiter einem (neuen) Bereich zuordnen, ohne Datumsangabe
-		 */
-
-		// MA suchen
-		Personalverwaltung pv = Personalverwaltung.getInstance();
-		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
-
-		Zugehoerigkeit z = new Zugehoerigkeit(new Datum(), arbeitsbereichnummer);
-
-		// Zugehoerigkeit hinzufuegen
-		ArrayList<Zugehoerigkeit> zlist = ma.getZugehoerigkeit();
-		zlist.add(z);
-		ma.setZugehoerigkeit(zlist);
-
-		if (arbeitsbereichnummer == 1) {
-			ma.setAusscheidungsdatum(new Datum());
-		}
-	}
 
 	public void linkMAtoAB(int personalnummer, int arbeitsbereichnummer, Datum datum) {
 		/*
