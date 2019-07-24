@@ -47,8 +47,8 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 		 *@description:	fuegt Grundbereiche bei der Ersterstellung ein 
 		 */
 		
-		add("undefined","unzugeordnete Mitarbeiter");
-		add("ausgeschieden","ausgeschiedene Mitarbeiter");
+		add("Undefined","unzugeordnete Mitarbeiter");
+		add("Ausgeschieden","ausgeschiedene Mitarbeiter");
 	}
 	
 	
@@ -168,7 +168,7 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 			
 		Dateizugriff data = new Dateizugriff();
 		bereiche = (ArrayList<Arbeitsbereich>) data.laden();
-		arbeitsbereichnummer = bereiche.size();
+		arbeitsbereichnummer  = bereiche.get(bereiche.size()-1).getArbeitsbereichnummer()+1;
 	}
 
 

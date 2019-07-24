@@ -13,13 +13,13 @@ class Test {
 		pv.show();
 		ArrayList<Mitarbeiter> liste = Personalverwaltung.getaMA();
 		Mitarbeiter eins = liste.get(0);
-		Mitarbeiter zwei = liste.get(1);
+		Mitarbeiter zwei = liste.get(2);
 		Berechtigung test = eins.getBerechtigung();
 		if(test instanceof Admin) {
 			Admin blub = (Admin) test;
 			System.out.println(blub.getPersonalID());
 			System.out.println("Aendere Berechtigung von Nummer Zwei...");
-			blub.changeMABerechtigung(1);
+			blub.changeMABerechtigung(2, new Admin(2));
 			System.out.println("Geaendert.");
 		}
 		test = zwei.getBerechtigung();

@@ -21,7 +21,6 @@ public class EditMaGUI extends JFrame{
 //******************** PARAMETER ********************
 
 	private static final long serialVersionUID = 1L;
-	//private int wer;
 	
 	
 //******************** KONSTRUKTOR ********************
@@ -180,7 +179,7 @@ public class EditMaGUI extends JFrame{
 		getContentPane().add(tfEinstellungT);
 		
 		JLabel lblEinstellungPunkt1 = new JLabel(".",0);
-		lblEinstellungPunkt1.setBounds(x+40, y+294, 10, 20);
+		lblEinstellungPunkt1.setBounds(x+40, y+296, 10, 20);
 		getContentPane().add(lblEinstellungPunkt1);
 		
 		JTextField tfEinstellungM = new JTextField();
@@ -192,7 +191,7 @@ public class EditMaGUI extends JFrame{
 		getContentPane().add(tfEinstellungM);
 		
 		JLabel lblEinstellungPunkt2 = new JLabel(".",0);
-		lblEinstellungPunkt2.setBounds(x+90, y+294, 10, 20);
+		lblEinstellungPunkt2.setBounds(x+90, y+296, 10, 20);
 		getContentPane().add(lblEinstellungPunkt2);
 		
 		JTextField tfEinstellungJ = new JTextField();
@@ -215,7 +214,7 @@ public class EditMaGUI extends JFrame{
 		
 		if(edit == true) {
 			JTextField tfBereich = new JTextField();
-			tfBereich.setText(ma.getActualAB().getArbeitsbereichnummer()+" "+((Arbeitsbereich)av.suchen(ma.getActualAB().getArbeitsbereichnummer())).getName());
+			tfBereich.setText(((Arbeitsbereich)av.suchen(ma.getActualAB().getArbeitsbereichnummer())).getName());
 			tfBereich.setEditable(false);
 			tfBereich.setBounds(x, y+334, 180, 24);
 			getContentPane().add(tfBereich);
@@ -234,6 +233,7 @@ public class EditMaGUI extends JFrame{
 		getContentPane().add(rahmenUnten);
 		
 		JButton btnConfirm = new JButton("OK");
+		btnConfirm.setBackground(new Color(255, 255, 255));
 		btnConfirm.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -271,6 +271,7 @@ public class EditMaGUI extends JFrame{
 		getContentPane().add(btnConfirm);
 		
 		JButton btnCancel = new JButton("Abbrechen");
+		btnCancel.setBackground(new Color(255, 255, 255));
 		btnCancel.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {

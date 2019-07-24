@@ -18,6 +18,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.awt.Color;
 
 public class PVGUI extends JFrame{
@@ -54,13 +55,6 @@ public class PVGUI extends JFrame{
 		
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Arbeitsbereichverwaltung abv = Arbeitsbereichverwaltung.getInstance();
-		try {
-			pv.laden();
-			abv.laden();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		Mitarbeiter ma = ((Mitarbeiter) pv.suchen(PID));
 		
 		JLabel lblPV = new JLabel("Mitarbeiterverwaltung");
@@ -112,7 +106,7 @@ public class PVGUI extends JFrame{
 					editMa.addWindowListener(new WindowAdapter() {
 						@Override
 						public void windowClosed(WindowEvent e) {
-							table.setModel(getModel());
+							table.setModel(getModel(Personalverwaltung.getaMA()));
 							setColWidth();
 							openAddMA = false;
 						}
@@ -137,7 +131,7 @@ public class PVGUI extends JFrame{
 						editMa.addWindowListener(new WindowAdapter() {
 							@Override
 							public void windowClosed(WindowEvent e) {
-								table.setModel(getModel());
+								table.setModel(getModel(Personalverwaltung.getaMA()));
 								setColWidth();
 								openEditMA = false;
 							}
@@ -159,7 +153,20 @@ public class PVGUI extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(wahl >=0 ) {
-					new StatistikGUI(PID);
+					if (openDelMA == false) {
+						openDelMA = true;
+						DeleteMaGUI DelMa = new DeleteMaGUI(PID,wahl);
+						DelMa.addWindowListener(new WindowAdapter() {
+							@Override
+							public void windowClosed(WindowEvent e) {
+								table.setModel(getModel(Personalverwaltung.getaMA()));
+								setColWidth();
+								openDelMA = false;
+							}
+						});
+					} else {
+						JOptionPane.showMessageDialog(null, "Mitarbeiter entfernen bereits offen.", null, JOptionPane.INFORMATION_MESSAGE);
+					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Bitte Auswahl treffen.", null, JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -313,7 +320,7 @@ public class PVGUI extends JFrame{
 		getContentPane().add(sp);
 		
 		// Auswahl Mitarbeiter
-		table = new JTable(getModel()) {
+		table = new JTable(getModel(Personalverwaltung.getaMA())) {
 			private static final long serialVersionUID = 1L;
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
 				return false;
@@ -325,13 +332,25 @@ public class PVGUI extends JFrame{
 		table.setSelectionMode( javax.swing.ListSelectionModel.SINGLE_SELECTION);
 		table.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				wahl = Integer.parseInt((String) table.getValueAt(table.rowAtPoint(e.getPoint()),0));
-				lblData[0][1].setText(Personalverwaltung.getaMA().get(wahl).getPersonalnummer()+"");
-				lblData[1][1].setText(Personalverwaltung.getaMA().get(wahl).getName()+", "+Personalverwaltung.getaMA().get(wahl).getVorname());
-				lblData[2][1].setText(Personalverwaltung.getaMA().get(wahl).getGeburtsdatum()+"");
-				lblData[3][1].setText(Personalverwaltung.getaMA().get(wahl).getEinstellungsdatum()+"");
-				lblData[4][1].setText(Personalverwaltung.getaMA().get(wahl).getAusscheidungsdatum()+"");
-				lblData[5][1].setText(((Arbeitsbereich)abv.suchen(Personalverwaltung.getaMA().get(wahl).getActualAB().getArbeitsbereichnummer())).getName());
+				if (e.getClickCount() == 2) { 
+					if(table.columnAtPoint(e.getPoint()) == 0) {
+						pv.sortNumber();
+					} else {
+	                //((DefaultTableModel) table.getModel()).setRowCount(2);
+						pv.sortName();
+					}
+					table.setModel(getModel(Personalverwaltung.getaMA()));
+					setColWidth();  
+				} 
+				if (e.getClickCount() == 1) {
+					wahl = Integer.parseInt((String) table.getValueAt(table.rowAtPoint(e.getPoint()),0));
+					lblData[0][1].setText(Personalverwaltung.getaMA().get(wahl).getPersonalnummer()+"");
+					lblData[1][1].setText(Personalverwaltung.getaMA().get(wahl).getName()+", "+Personalverwaltung.getaMA().get(wahl).getVorname());
+					lblData[2][1].setText(Personalverwaltung.getaMA().get(wahl).getGeburtsdatum()+"");
+					lblData[3][1].setText(Personalverwaltung.getaMA().get(wahl).getEinstellungsdatum()+"");
+					lblData[4][1].setText(Personalverwaltung.getaMA().get(wahl).getAusscheidungsdatum()+"");
+					lblData[5][1].setText(((Arbeitsbereich)abv.suchen(Personalverwaltung.getaMA().get(wahl).getActualAB().getArbeitsbereichnummer())).getName());
+				}	
 			}
 		});
 		panel.add(table);	
@@ -340,24 +359,23 @@ public class PVGUI extends JFrame{
 	}	
 	
 	
-	private static DefaultTableModel getModel() {
+	private static DefaultTableModel getModel(ArrayList<Mitarbeiter> mitarbeiterliste) {
 		/*@author:		Soeren Hebestreit
 		 *@date: 		22.07.2019
 		 *@description: Tabellenmodell (inkl. Daten) erzeugen
 		 */
 		
-		String [][] Data = new String [Personalverwaltung.getaMA().size()][3];
-		for(int i=0; i < Personalverwaltung.getaMA().size(); i++) {
-			Data[i][0] = Personalverwaltung.getaMA().get(i).getPersonalnummer()+"";
-			Data[i][1] = Personalverwaltung.getaMA().get(i).getName();
-			Data[i][2] = Personalverwaltung.getaMA().get(i).getVorname();
+		String [][] Data = new String [mitarbeiterliste.size()][3];
+		for(int i=0; i < mitarbeiterliste.size(); i++) {
+			Data[i][0] = mitarbeiterliste.get(i).getPersonalnummer()+"";
+			Data[i][1] = mitarbeiterliste.get(i).getName();
+			Data[i][2] = mitarbeiterliste.get(i).getVorname();
 		}
 		String[] columnNames = {"PID","Name","Vorname"};
 		DefaultTableModel model = new DefaultTableModel(Data, columnNames);
 		
 		return model;
 	}
-	
 	
 	private static void setColWidth() {
 		/*@author:		Soeren Hebestreit
@@ -370,10 +388,13 @@ public class PVGUI extends JFrame{
 		table.getColumnModel().getColumn( 2 ).setPreferredWidth( 250 );
 	}
 		
-
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
-				
+		
+		Personalverwaltung pv = Personalverwaltung.getInstance();
+		Arbeitsbereichverwaltung abv = Arbeitsbereichverwaltung.getInstance();
+		pv.laden();
+		abv.laden();	
 		new PVGUI(0);
 	}
 }

@@ -182,7 +182,7 @@ public class Admin extends Berechtigung implements Serializable {
 
 		// verschieben nur moeglich, falls Ausscheiden in der Vergangenheit
 		Datum today = new Datum();
-		if (today.compareTo(ausscheiden) < 1)
+		if (today.compareTo(ausscheiden) < 0)
 			return false;
 
 		// MA suchen
