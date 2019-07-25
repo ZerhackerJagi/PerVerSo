@@ -56,9 +56,6 @@ public class Mitarbeiter implements Serializable {
 		this.zugehoerigkeit.add(zugehoerigkeit);
 	}
 
-	public Mitarbeiter() {
-		//Leerer Konstructor für die Tests
-	}
 
 //******************** AUSGABE ********************
 	
