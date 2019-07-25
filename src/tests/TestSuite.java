@@ -10,7 +10,8 @@ import org.junit.runners.Suite;
 	MitarbeiterComparatorTest.class,
 	PersonalverwaltungTest.class,
 	ArbeitsbereichverwaltungTest.class,
-	AdminTest.class
+	AdminTest.class,
+	EintragStartComparatorTest.class
 
 })
 
