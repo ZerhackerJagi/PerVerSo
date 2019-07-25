@@ -15,7 +15,7 @@ import javax.swing.border.LineBorder;
 
 import logik.Arbeitsbereichverwaltung;
 
-public class ABUebersichtGUI extends JFrame{
+public class oldABUebersichtGUI extends JFrame{
 	
 	/**
 	 * 
@@ -23,7 +23,7 @@ public class ABUebersichtGUI extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private int nmb;
 	
-	public ABUebersichtGUI() {
+	public oldABUebersichtGUI() {
 		
 		
 		getContentPane().setBackground(new Color(51, 204, 0));
@@ -87,7 +87,7 @@ public class ABUebersichtGUI extends JFrame{
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 				
-		new ABUebersichtGUI();
+		new oldABUebersichtGUI();
 	}
 }
 

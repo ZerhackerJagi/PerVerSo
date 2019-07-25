@@ -44,8 +44,7 @@ public class DeleteMitarbeiterGUI extends JFrame{
 		Arbeitsbereichverwaltung av = Arbeitsbereichverwaltung.getInstance();
 		Mitarbeiter ma = ((Mitarbeiter) pv.suchen(wer));
 		
-		JLabel lblFunktion = new JLabel("");
-		lblFunktion.setText("Mitarbeiter entfernen");
+		JLabel lblFunktion = new JLabel("Mitarbeiter entfernen");
 		lblFunktion.setForeground(new Color(255, 255, 255));
 		lblFunktion.setFont(new Font("Dialog", Font.BOLD, 21));
 		lblFunktion.setBounds(24, 8, 380, 36);
@@ -119,7 +118,7 @@ public class DeleteMitarbeiterGUI extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(PID == wer) {
-					JOptionPane.showMessageDialog(null, "Diese Option kann nicht auf einen selbst angewandt werden.", null, JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Diese Option kann nicht auf den Anwender selbst angewandt werden.", null, JOptionPane.INFORMATION_MESSAGE);
 				} else {
 					if((JOptionPane.showConfirmDialog(null, ma.getVorname()+" "+ma.getName()+" löschen?", null, JOptionPane.YES_NO_OPTION)) == 0) {
 						Admin admin = new Admin(PID);
@@ -182,7 +181,7 @@ public class DeleteMitarbeiterGUI extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(PID == wer) {
-					JOptionPane.showMessageDialog(null, "Diese Option kann nicht auf einen selbst angewandt werden.", null, JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Diese Option kann nicht auf den Anwender selbst angewandt werden.", null, JOptionPane.INFORMATION_MESSAGE);
 				} else if(tfAusscheidenT.getText().isEmpty() || tfAusscheidenM.getText().isEmpty() || tfAusscheidenJ.getText().isEmpty() ) {
 					JOptionPane.showMessageDialog(null, "Bitte Ausscheidungsdatum ausfüllen.", null, JOptionPane.INFORMATION_MESSAGE);
 				} else {

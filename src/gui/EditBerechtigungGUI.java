@@ -42,8 +42,7 @@ public class EditBerechtigungGUI extends JFrame{
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Mitarbeiter ma = ((Mitarbeiter) pv.suchen(wer));
 		
-		JLabel lblFunktion = new JLabel("");
-		lblFunktion.setText("Berechtigung ändern");
+		JLabel lblFunktion = new JLabel("Berechtigung ändern");
 		lblFunktion.setForeground(new Color(255, 255, 255));
 		lblFunktion.setFont(new Font("Dialog", Font.BOLD, 21));
 		lblFunktion.setBounds(24, 8, 380, 36);
@@ -102,7 +101,7 @@ public class EditBerechtigungGUI extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(PID == wer) {
-					JOptionPane.showMessageDialog(null, "Diese Option kann nicht auf einen selbst angewandt werden.", null, JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Diese Option kann nicht auf den Anwender selbst angewandt werden.", null, JOptionPane.INFORMATION_MESSAGE);
 				} else {
 					Admin admin = new Admin(PID);
 					if(rdbtnAdmin.isSelected()) {

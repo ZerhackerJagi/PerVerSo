@@ -185,7 +185,7 @@ public class Admin extends Berechtigung implements Serializable {
 		}
 
 		ma.setAusscheidungsdatum(ausscheiden);
-		linkMAtoAB(personalnummer, 1, ausscheiden);
+		linkMAtoAB(personalnummer, 1, ausscheiden, "Ausscheiden");
 		ma.setBerechtigung(null);
 		return true;
 	}
@@ -476,7 +476,7 @@ public class Admin extends Berechtigung implements Serializable {
 
 //******************** VERWALTUNG ZUGEHOERIGKEIT ******************** 
 
-	public void linkMAtoAB(int personalnummer, int arbeitsbereichnummer, Datum datum) {
+	public boolean linkMAtoAB(int personalnummer, int arbeitsbereichnummer, Datum datum, String bemerkung) {
 		/*
 		 * @author: Soeren Hebestreit
 		 * 
@@ -485,20 +485,17 @@ public class Admin extends Berechtigung implements Serializable {
 		 * @description: Mitarbeiter einem (neuen) Bereich zuordnen, mit Datumsangabe
 		 */
 
-		// MA suchen
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
 
-		Zugehoerigkeit z = new Zugehoerigkeit(datum, arbeitsbereichnummer);
-
-		// Zugehoerigkeit hinzufuegen
-		ArrayList<Zugehoerigkeit> zlist = ma.getZugehoerigkeit();
-		zlist.add(z);
-		ma.setZugehoerigkeit(zlist);
-
-		if (arbeitsbereichnummer == 1) {
-			ma.setAusscheidungsdatum(datum);
+		if (ma == null) {
+			return false;
 		}
+
+		ArrayList<Zugehoerigkeit> zlist = ma.getZugehoerigkeit();
+		zlist.add(new Zugehoerigkeit(datum, arbeitsbereichnummer, bemerkung));
+		ma.setZugehoerigkeit(zlist);
+		return true;
 	}
 
 //******************** STATISTIKEN ABFRAGEN ********************	

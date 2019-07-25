@@ -57,7 +57,7 @@ public class PVGUI extends JFrame{
 		
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Mitarbeiter ma = ((Mitarbeiter) pv.suchen(PID));
-		pv.show();
+
 		JLabel lblPV = new JLabel("Mitarbeiterverwaltung");
 		lblPV.setFont(new Font("Dialog", Font.BOLD, 21));
 		lblPV.setForeground(new Color(255, 255, 255));
@@ -154,7 +154,7 @@ public class PVGUI extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(wahl == PID) {
-					JOptionPane.showMessageDialog(null, "Diese Option kann nicht auf einen selbst angewandt werden.", null, JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Diese Option kann nicht auf den Anwender selbst angewandt werden.", null, JOptionPane.INFORMATION_MESSAGE);
 				} else if(wahl >=0 && wahl != PID) {
 					if (openDelMA == false) {
 						openDelMA = true;
@@ -217,7 +217,7 @@ public class PVGUI extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(wahl == PID) {
-					JOptionPane.showMessageDialog(null, "Diese Option kann nicht auf einen selbst angewandt werden.", null, JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Diese Option kann nicht auf den Anwender selbst angewandt werden.", null, JOptionPane.INFORMATION_MESSAGE);
 				} else if(wahl >=0 && wahl != PID) {
 					if (openEditBerechtigung == false) {
 						openEditBerechtigung = true;
@@ -270,7 +270,20 @@ public class PVGUI extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(wahl >=0 ) {
-					new StatistikGUI(PID);
+					if (openEditZug == false) {
+						openEditZug = true;
+						EditLinkingMaGUI editLink = new EditLinkingMaGUI(PID,wahl);
+						editLink.addWindowListener(new WindowAdapter() {
+							@Override
+							public void windowClosed(WindowEvent e) {
+								table.setModel(getModel(Personalverwaltung.getaMA()));
+								setColWidth();
+								openEditZug = false;
+							}
+						});
+					} else {
+						JOptionPane.showMessageDialog(null, "Zugehörigkeit ändern bereits offen.", null, JOptionPane.INFORMATION_MESSAGE);
+					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Bitte Auswahl treffen.", null, JOptionPane.INFORMATION_MESSAGE);
 				}
