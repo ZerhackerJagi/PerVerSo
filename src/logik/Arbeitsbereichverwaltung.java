@@ -167,5 +167,11 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 	public static void setBereiche(ArrayList<Arbeitsbereich> bereiche) {
 		Arbeitsbereichverwaltung.bereiche = bereiche;
 	}
+	
+//********************Testumgebung**************************
+	
+	public void resetArbeitsbereichverwaltung() {
+		uniqueInstance = new Arbeitsbereichverwaltung();
+	}
 
 }
