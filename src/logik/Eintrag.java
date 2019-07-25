@@ -12,8 +12,7 @@ public abstract class Eintrag implements Serializable {
 	private int arbeitstage;
 	private Datum start;
 	private Datum ende;
-				
-				
+								
 //******************** KONSTRUKTOR ********************
 				
 	public Eintrag (Datum start, Datum ende, int arbeitstage) {
@@ -27,7 +26,6 @@ public abstract class Eintrag implements Serializable {
 		this.ende = ende;
 	}
 
-
 //******************** AUSGABE ********************
 
 	public String toString() {
@@ -38,8 +36,7 @@ public abstract class Eintrag implements Serializable {
 				
 		return start+"\t"+ende+"\t("+arbeitstage+" Arbeitstage)";
 	}
-				
-				
+							
 	public void display() {
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		19.07.2019
@@ -48,38 +45,19 @@ public abstract class Eintrag implements Serializable {
 				
 		System.out.println(start+"\t"+ende+"\t("+arbeitstage+" Arbeitstage)");
 	}
-	
-	
+		
 //******************** GETTER & SETTER ********************	
 
 	public int getArbeitstage() {
 		return arbeitstage;
 	}
 
-
-//	public void setArbeitstage(int arbeitstage) {
-//		this.arbeitstage = arbeitstage;
-//	}
-
-
 	public Datum getStart() {
 		return start;
 	}
 
-
-//	public void setStart(Datum start) {
-//		this.start = start;
-//	}
-
-
 	public Datum getEnde() {
 		return ende;
-	}
-		
-		
-//	public void setEnde(Datum ende) {
-//		this.ende = ende;
-//	}
-				
+	}			
 
 }

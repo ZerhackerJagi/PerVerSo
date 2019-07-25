@@ -11,13 +11,17 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-import logik.*;
+import logik.Arbeitsbereich;
+import logik.Arbeitsbereichverwaltung;
+import logik.Mitarbeiter;
+import logik.Personalverwaltung;
 
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.awt.Color;
 
 public class PVGUI extends JFrame{
@@ -44,7 +48,6 @@ public class PVGUI extends JFrame{
 		 *@description: Hauptmenue Personalverwaltung, Mitarbeiterauswahl
 		 */	
 		
-		// Haupt- und Steuerungsbereich
 		setSize(800, 640);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -54,13 +57,6 @@ public class PVGUI extends JFrame{
 		
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Arbeitsbereichverwaltung abv = Arbeitsbereichverwaltung.getInstance();
-		try {
-			pv.laden();
-			abv.laden();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		Mitarbeiter ma = ((Mitarbeiter) pv.suchen(PID));
 		
 		JLabel lblPV = new JLabel("Mitarbeiterverwaltung");
@@ -108,11 +104,11 @@ public class PVGUI extends JFrame{
 			public void mouseClicked(MouseEvent e) {
 				if (openAddMA == false) {
 					openAddMA = true;
-					EditMaGUI editMa = new EditMaGUI(PID,Personalverwaltung.getaMA().size(),false);
-					editMa.addWindowListener(new WindowAdapter() {
+					EditMitarbeiterGUI addMa = new EditMitarbeiterGUI(PID,Personalverwaltung.getaMA().size(),false);
+					addMa.addWindowListener(new WindowAdapter() {
 						@Override
 						public void windowClosed(WindowEvent e) {
-							table.setModel(getModel());
+							table.setModel(getModel(Personalverwaltung.getaMA()));
 							setColWidth();
 							openAddMA = false;
 						}
@@ -133,11 +129,11 @@ public class PVGUI extends JFrame{
 				if(wahl >=0 ) {
 					if (openEditMA == false) {
 						openEditMA = true;
-						EditMaGUI editMa = new EditMaGUI(PID,wahl,true);
+						EditMitarbeiterGUI editMa = new EditMitarbeiterGUI(PID,wahl,true);
 						editMa.addWindowListener(new WindowAdapter() {
 							@Override
 							public void windowClosed(WindowEvent e) {
-								table.setModel(getModel());
+								table.setModel(getModel(Personalverwaltung.getaMA()));
 								setColWidth();
 								openEditMA = false;
 							}
@@ -158,8 +154,23 @@ public class PVGUI extends JFrame{
 		btnEntfernen.addMouseListener(new MouseAdapter() {	
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(wahl >=0 ) {
-					new StatistikGUI(PID);
+				if(wahl == PID) {
+					JOptionPane.showMessageDialog(null, "Diese Option kann nicht auf einen selbst angewandt werden.", null, JOptionPane.INFORMATION_MESSAGE);
+				} else if(wahl >=0 && wahl != PID) {
+					if (openDelMA == false) {
+						openDelMA = true;
+						DeleteMitarbeiterGUI delMa = new DeleteMitarbeiterGUI(PID,wahl);
+						delMa.addWindowListener(new WindowAdapter() {
+							@Override
+							public void windowClosed(WindowEvent e) {
+								table.setModel(getModel(Personalverwaltung.getaMA()));
+								setColWidth();
+								openDelMA = false;
+							}
+						});
+					} else {
+						JOptionPane.showMessageDialog(null, "Mitarbeiter entfernen bereits offen.", null, JOptionPane.INFORMATION_MESSAGE);
+					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Bitte Auswahl treffen.", null, JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -179,7 +190,18 @@ public class PVGUI extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(wahl >=0 ) {
-					new StatistikGUI(PID);
+					if (openEditKennung == false) {
+						openEditKennung = true;
+						EditKennungGUI editKennung = new EditKennungGUI(PID,wahl);
+						editKennung.addWindowListener(new WindowAdapter() {
+							@Override
+							public void windowClosed(WindowEvent e) {
+								openEditKennung = false;
+							}
+						});
+					} else {
+						JOptionPane.showMessageDialog(null, "Kennung bearbeiten bereits offen.", null, JOptionPane.INFORMATION_MESSAGE);
+					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Bitte Auswahl treffen.", null, JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -193,8 +215,21 @@ public class PVGUI extends JFrame{
 		btnEditBerechtigung.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(wahl >=0 ) {
-					new StatistikGUI(PID);
+				if(wahl == PID) {
+					JOptionPane.showMessageDialog(null, "Diese Option kann nicht auf einen selbst angewandt werden.", null, JOptionPane.INFORMATION_MESSAGE);
+				} else if(wahl >=0 && wahl != PID) {
+					if (openEditBerechtigung == false) {
+						openEditBerechtigung = true;
+						EditBerechtigungGUI editBerechtigung = new EditBerechtigungGUI(PID,wahl);
+						editBerechtigung.addWindowListener(new WindowAdapter() {
+							@Override
+							public void windowClosed(WindowEvent e) {
+								openEditBerechtigung = false;
+							}
+						});
+					} else {
+						JOptionPane.showMessageDialog(null, "Berechtigung ändern bereits offen.", null, JOptionPane.INFORMATION_MESSAGE);
+					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Bitte Auswahl treffen.", null, JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -243,7 +278,6 @@ public class PVGUI extends JFrame{
 		btnNewLink.setBounds(24, 488, 200, 24);
 		getContentPane().add(btnNewLink);
 		
-		// Auswahl-Anzeige
 		JPanel rahmenUnten = new JPanel();
 		rahmenUnten.setBackground(new Color(100, 150, 200));
 		rahmenUnten.setBounds(244, 442, 640, 4);//464
@@ -256,7 +290,8 @@ public class PVGUI extends JFrame{
 		getContentPane().add(lblData[0][0]);
 		
 		lblData[0][1] = new JLabel("");
-		lblData[0][1].setBounds(400, 452, 240, 24);
+		lblData[0][1].setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblData[0][1].setBounds(400, 452, 360, 24);
 		getContentPane().add(lblData[0][1]);
 		
 		lblData[1][0] = new JLabel("Name:");
@@ -264,7 +299,8 @@ public class PVGUI extends JFrame{
 		getContentPane().add(lblData[1][0]);
 		
 		lblData[1][1] = new JLabel("");
-		lblData[1][1].setBounds(400, 472, 240, 24);
+		lblData[1][1].setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblData[1][1].setBounds(400, 472, 360, 24);
 		getContentPane().add(lblData[1][1]);
 		
 		lblData[2][0] = new JLabel("Geburtstag:");
@@ -272,7 +308,8 @@ public class PVGUI extends JFrame{
 		getContentPane().add(lblData[2][0]);
 		
 		lblData[2][1] = new JLabel("");
-		lblData[2][1].setBounds(400, 492, 240, 24);
+		lblData[2][1].setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblData[2][1].setBounds(400, 492, 360, 24);
 		getContentPane().add(lblData[2][1]);
 		
 		lblData[3][0] = new JLabel("Einstellung:");
@@ -280,7 +317,8 @@ public class PVGUI extends JFrame{
 		getContentPane().add(lblData[3][0]);
 		
 		lblData[3][1] = new JLabel("");
-		lblData[3][1].setBounds(400, 512, 240, 24);
+		lblData[3][1].setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblData[3][1].setBounds(400, 512, 360, 24);
 		getContentPane().add(lblData[3][1]);
 		
 		lblData[4][0] = new JLabel("Ausscheiden:");
@@ -288,7 +326,8 @@ public class PVGUI extends JFrame{
 		getContentPane().add(lblData[4][0]);
 		
 		lblData[4][1] = new JLabel("");
-		lblData[4][1].setBounds(400, 532, 240, 24);
+		lblData[4][1].setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblData[4][1].setBounds(400, 532, 360, 24);
 		getContentPane().add(lblData[4][1]);
 		
 		lblData[5][0] = new JLabel("Arbeitsbereich:");
@@ -296,10 +335,10 @@ public class PVGUI extends JFrame{
 		getContentPane().add(lblData[5][0]);
 		
 		lblData[5][1] = new JLabel("");
-		lblData[5][1].setBounds(400, 552, 240, 24);
+		lblData[5][1].setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblData[5][1].setBounds(400, 552, 360, 24);
 		getContentPane().add(lblData[5][1]);
 		
-		// Auswahlbereich
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
 		panel.setBorder(new LineBorder(new Color(255, 255, 255)));
@@ -312,8 +351,7 @@ public class PVGUI extends JFrame{
 		sp.setViewportView(panel);
 		getContentPane().add(sp);
 		
-		// Auswahl Mitarbeiter
-		table = new JTable(getModel()) {
+		table = new JTable(getModel(Personalverwaltung.getaMA())) {
 			private static final long serialVersionUID = 1L;
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
 				return false;
@@ -325,13 +363,24 @@ public class PVGUI extends JFrame{
 		table.setSelectionMode( javax.swing.ListSelectionModel.SINGLE_SELECTION);
 		table.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				wahl = Integer.parseInt((String) table.getValueAt(table.rowAtPoint(e.getPoint()),0));
-				lblData[0][1].setText(Personalverwaltung.getaMA().get(wahl).getPersonalnummer()+"");
-				lblData[1][1].setText(Personalverwaltung.getaMA().get(wahl).getName()+", "+Personalverwaltung.getaMA().get(wahl).getVorname());
-				lblData[2][1].setText(Personalverwaltung.getaMA().get(wahl).getGeburtsdatum()+"");
-				lblData[3][1].setText(Personalverwaltung.getaMA().get(wahl).getEinstellungsdatum()+"");
-				lblData[4][1].setText(Personalverwaltung.getaMA().get(wahl).getAusscheidungsdatum()+"");
-				lblData[5][1].setText(((Arbeitsbereich)abv.suchen(Personalverwaltung.getaMA().get(wahl).getActualAB().getArbeitsbereichnummer())).getName());
+				if (e.getClickCount() == 2) { 
+					if(table.columnAtPoint(e.getPoint()) == 0) {
+						pv.sortNumber();
+					} else {
+						pv.sortName();
+					}
+					table.setModel(getModel(Personalverwaltung.getaMA()));
+					setColWidth();  
+				} 
+				if (e.getClickCount() == 1) {
+					wahl = Integer.parseInt((String) table.getValueAt(table.rowAtPoint(e.getPoint()),0));
+					lblData[0][1].setText(Personalverwaltung.getaMA().get(wahl).getPersonalnummer()+"");
+					lblData[1][1].setText(Personalverwaltung.getaMA().get(wahl).getName()+", "+Personalverwaltung.getaMA().get(wahl).getVorname());
+					lblData[2][1].setText(Personalverwaltung.getaMA().get(wahl).getGeburtsdatum()+"");
+					lblData[3][1].setText(Personalverwaltung.getaMA().get(wahl).getEinstellungsdatum()+"");
+					lblData[4][1].setText(Personalverwaltung.getaMA().get(wahl).getAusscheidungsdatum()+"");
+					lblData[5][1].setText(((Arbeitsbereich)abv.suchen(Personalverwaltung.getaMA().get(wahl).getActualAB().getArbeitsbereichnummer())).getName());
+				}	
 			}
 		});
 		panel.add(table);	
@@ -340,24 +389,23 @@ public class PVGUI extends JFrame{
 	}	
 	
 	
-	private static DefaultTableModel getModel() {
+	private static DefaultTableModel getModel(ArrayList<Mitarbeiter> mitarbeiterliste) {
 		/*@author:		Soeren Hebestreit
 		 *@date: 		22.07.2019
 		 *@description: Tabellenmodell (inkl. Daten) erzeugen
 		 */
 		
-		String [][] Data = new String [Personalverwaltung.getaMA().size()][3];
-		for(int i=0; i < Personalverwaltung.getaMA().size(); i++) {
-			Data[i][0] = Personalverwaltung.getaMA().get(i).getPersonalnummer()+"";
-			Data[i][1] = Personalverwaltung.getaMA().get(i).getName();
-			Data[i][2] = Personalverwaltung.getaMA().get(i).getVorname();
+		String [][] Data = new String [mitarbeiterliste.size()][3];
+		for(int i=0; i < mitarbeiterliste.size(); i++) {
+			Data[i][0] = mitarbeiterliste.get(i).getPersonalnummer()+"";
+			Data[i][1] = mitarbeiterliste.get(i).getName();
+			Data[i][2] = mitarbeiterliste.get(i).getVorname();
 		}
 		String[] columnNames = {"PID","Name","Vorname"};
 		DefaultTableModel model = new DefaultTableModel(Data, columnNames);
 		
 		return model;
 	}
-	
 	
 	private static void setColWidth() {
 		/*@author:		Soeren Hebestreit
@@ -370,10 +418,13 @@ public class PVGUI extends JFrame{
 		table.getColumnModel().getColumn( 2 ).setPreferredWidth( 250 );
 	}
 		
-
 	public static void main(String[] args) throws Exception {
-		// TODO Auto-generated method stub
-				
+		
+		Personalverwaltung pv = Personalverwaltung.getInstance();
+		Arbeitsbereichverwaltung abv = Arbeitsbereichverwaltung.getInstance();
+		pv.laden();
+		abv.laden();	
 		new PVGUI(0);
 	}
+	
 }

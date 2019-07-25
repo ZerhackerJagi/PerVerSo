@@ -8,8 +8,8 @@ public class TestdatenAnlegen {
 	
 	public static void main(String[] args) throws Exception {
 		
-		anlegenMA();
 		anlegenAB();
+		anlegenMA();
 		
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		pv.show();
@@ -53,9 +53,7 @@ public class TestdatenAnlegen {
 	
 	public static void anlegenMA() throws Exception {
 		
-		Personalverwaltung pv = Personalverwaltung.getInstance();
-		
-
+		Personalverwaltung pv = Personalverwaltung.getInstance();	
 		pv.add("Kuechler", "Jakob", 'm', new Datum(15, 5, 1997), new Datum(18, 6, 2019), 2, "admin", "auchAdmin");
 		pv.add("Hebestreit", "Soeren", 'm', new Datum(15, 8, 1984), new Datum(18, 6, 2019), 3);
 		pv.add("Spina", "Charly", 'm', new Datum(9, 9, 1996), new Datum(18, 6, 2019), 4);
@@ -87,22 +85,15 @@ public class TestdatenAnlegen {
 		pv.add("Bunk", "Sabrina", 'w', new Datum(22, 1, 1985), new Datum(18, 7, 2019), 2);
 		pv.add("Bunk", "Sabrina", 'w', new Datum(22, 1, 1985), new Datum(18, 7, 2019), 2);
 		pv.add("Bunk", "Sabrina", 'w', new Datum(22, 1, 1985), new Datum(18, 7, 2019), 2);
-		pv.add("Bunk", "Sabrina", 'w', new Datum(22, 1, 1985), new Datum(18, 7, 2019), 2);
-		
+		pv.add("Bunk", "Sabrina", 'w', new Datum(22, 1, 1985), new Datum(18, 7, 2019), 2);	
 	}
-	
 	
 	public static void anlegenAB() {
 		
 		Arbeitsbereichverwaltung av = Arbeitsbereichverwaltung.getInstance();
-		
 		av.add("Personal","Personalangelegenheiten");
 		av.add("Development", "Entwickler und Designer");
 		av.add("Vertrieb", "Kundenbetreuung, Handel");
 		av.add("Support", "Kundenbetreuung, Telefondienst, Auﬂendienst");
-		
-	}
-	
-	
-	
+	}	
 }

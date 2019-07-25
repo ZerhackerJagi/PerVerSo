@@ -1,13 +1,21 @@
 package gui;
 
-import javax.swing.*;
-
-import logik.*;
-
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+import logik.Admin;
+import logik.Mitarbeiter;
+import logik.Personalverwaltung;
+import logik.User;
 
 public class LoginGUI extends JFrame{
 	
@@ -17,8 +25,7 @@ public class LoginGUI extends JFrame{
 	private JTextField tfUsername;
 	private JPasswordField passwordField;
 	private Mitarbeiter user;
-	
-	
+		
 //******************** KONSTRUKTOR ********************
 	
 	public LoginGUI() {
@@ -85,7 +92,6 @@ public class LoginGUI extends JFrame{
 		setVisible(true);
 	}
 	
-	
 //******************** INTERNE FUNKTIONEN ********************
 	
 	private boolean checkAnmeldung(String username, String password) {
@@ -111,9 +117,7 @@ public class LoginGUI extends JFrame{
 		return false;
 	}
 	
-	
 	public static void main(String[] args) throws Exception {
-		// TODO Auto-generated method stub
 				
 		new LoginGUI();
 	}

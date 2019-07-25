@@ -22,7 +22,6 @@ public class MitarbeiterGUI extends JFrame{
 	private static final long serialVersionUID = 1L;
 	public boolean openShowAzk = false;
 	
-	
 //******************** KONSTRUKTOR ********************
 	
 	public MitarbeiterGUI(int PID) {
@@ -101,7 +100,6 @@ public class MitarbeiterGUI extends JFrame{
 	
 	
 	public static void main(String[] args) throws Exception {
-		// TODO Auto-generated method stub
 				
 		new MitarbeiterGUI(1);
 	}

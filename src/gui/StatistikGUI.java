@@ -5,7 +5,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import logik.*;
+import logik.Mitarbeiter;
+import logik.Personalverwaltung;
 
 import java.awt.Font;
 import java.awt.Color;
@@ -15,7 +16,6 @@ public class StatistikGUI extends JFrame{
 //******************** PARAMETER ********************
 
 	private static final long serialVersionUID = 1L;
-	
 	
 //******************** KONSTRUKTOR ********************
 	
@@ -85,9 +85,7 @@ public class StatistikGUI extends JFrame{
 		setVisible(true);
 	}
 	
-	
 	public static void main(String[] args) throws Exception {
-		// TODO Auto-generated method stub
 				
 		new StatistikGUI(1);
 	}

@@ -6,9 +6,7 @@ import logik.Personalverwaltung;
 
 public class Programmstart {
 
-	public static void main(String[] args) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public static void main(String[] args) throws Exception {		
 		/*@author:		Soeren Hebestreit
 		 *@date: 		19.07.2019
 		 *@description: Programmstart: PV und ABV laden, GUI starten
@@ -21,5 +19,5 @@ public class Programmstart {
 		
 		new LoginGUI();
 	}
-
+	
 }

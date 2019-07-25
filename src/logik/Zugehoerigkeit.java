@@ -1,10 +1,8 @@
 package logik;
 
-
 import java.io.Serializable;
 
 import extern.Datum;
-
 
 public class Zugehoerigkeit implements Serializable {
 	
@@ -13,8 +11,7 @@ public class Zugehoerigkeit implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Datum start;
 	private int arbeitsbereichnummer;
-	
-	
+		
 //******************** KONSTRUKTOR ********************
 	
 	public Zugehoerigkeit(Datum start, int arbeitsbereichnummer) {
@@ -34,7 +31,6 @@ public class Zugehoerigkeit implements Serializable {
 		}
 	}
 	
-	
 	public Zugehoerigkeit(Datum start) {
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		2019
@@ -45,7 +41,6 @@ public class Zugehoerigkeit implements Serializable {
 		this.arbeitsbereichnummer = 0;
 	}
 	
-	
 	public Zugehoerigkeit() {
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		2019
@@ -55,7 +50,6 @@ public class Zugehoerigkeit implements Serializable {
 		this.start = new Datum();
 		this.arbeitsbereichnummer = 0;
 	}
-
 	
 //******************** AUSGABE ********************
 	
@@ -67,7 +61,6 @@ public class Zugehoerigkeit implements Serializable {
 		
 		return start+"\t"+arbeitsbereichnummer;
 	}
-	
 	
 //******************** GETTER & SETTER ********************
 	

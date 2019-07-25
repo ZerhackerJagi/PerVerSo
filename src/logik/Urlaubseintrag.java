@@ -8,8 +8,7 @@ public class Urlaubseintrag extends Eintrag implements Serializable{
 
 //******************** PARAMETER ********************
 
-	private static final long serialVersionUID = 1L;
-			
+	private static final long serialVersionUID = 1L;			
 			
 //******************** KONSTRUKTOR ********************
 			
@@ -21,5 +20,4 @@ public class Urlaubseintrag extends Eintrag implements Serializable{
 				
 		super(start, ende, arbeitstage);
 	}
-
 }

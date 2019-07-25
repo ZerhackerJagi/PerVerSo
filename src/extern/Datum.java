@@ -1,9 +1,7 @@
 package extern;
 
-
 import java.util.GregorianCalendar;
 import java.io.*;
-
 
 public class Datum implements Comparable <Datum>, Serializable {
 	
@@ -13,7 +11,6 @@ public class Datum implements Comparable <Datum>, Serializable {
 	private int Jahr;
 	private int Monat;
 	private int Tag;
-	
 	
 //******************** KONSTRUKTOR ********************
 
@@ -28,7 +25,6 @@ public class Datum implements Comparable <Datum>, Serializable {
 		this.Tag = Tag;	
 	}
 	
-	
 	public Datum (int Monat, int Jahr) {
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		2019
@@ -40,7 +36,6 @@ public class Datum implements Comparable <Datum>, Serializable {
 		this.Tag = 1;	
 	}
 	
-	
 	public Datum (int Jahr) {
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		2019
@@ -51,7 +46,6 @@ public class Datum implements Comparable <Datum>, Serializable {
 		this.Monat = 1;
 		this.Tag = 1;	
 	}
-	
 	
 	public Datum () {
 		/*@author: 		Soeren Hebestreit
@@ -65,8 +59,7 @@ public class Datum implements Comparable <Datum>, Serializable {
 		this.Monat = cal.get(GregorianCalendar.MONTH)+1; // von 0…11!
 		this.Tag = cal.get(GregorianCalendar.DATE);	
 	}
-	
-	
+		
 //******************** AUSGABE ********************	
 	
 	public String toString () {
@@ -78,7 +71,6 @@ public class Datum implements Comparable <Datum>, Serializable {
 		return this.Tag+"."+this.Monat+"."+this.Jahr;
 	}
 	
-	
 	public void display () {
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		2019
@@ -86,10 +78,8 @@ public class Datum implements Comparable <Datum>, Serializable {
 		 */
 		
 		String[] Monate = {"Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"};
-		
 		System.out.println (Monate[this.Monat-1]+" "+this.Jahr);	
 	}
-
 	
 //******************** COMPERATOR ********************	
 	
@@ -108,34 +98,28 @@ public class Datum implements Comparable <Datum>, Serializable {
 		
 		return 0;
 	}
-	
-	
+		
 //******************** GETTER & SETTER ********************
 
 	public int getJahr() {
 		return Jahr;
 	}
 
-
 	public void setJahr(int jahr) {
 		Jahr = jahr;
 	}
-
 
 	public int getMonat() {
 		return Monat;
 	}
 
-
 	public void setMonat(int monat) {
 		Monat = monat;
 	}
 
-
 	public int getTag() {
 		return Tag;
 	}
-
 
 	public void setTag(int tag) {
 		Tag = tag;

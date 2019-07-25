@@ -165,55 +165,11 @@ public class AdminGUI extends JFrame{
 		rahmenUnten.setBounds(0, 196, 240, 8);
 		getContentPane().add(rahmenUnten);
 
-		
-		
-//		JMenuBar menuBar = new JMenuBar();
-//		setJMenuBar(menuBar);
-//		
-//		JLabel lblLaden = new JLabel("Laden ...");
-//		menuBar.add(lblLaden);
-//		
-//		JLabel lblSpeichernUnter = new JLabel("Speichern unter ...");
-//		menuBar.add(lblSpeichernUnter);
-//		lblSpeichernUnter.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				// VERKNÜPFUNG SPEICHERN UNTER TO DO
-//				
-//				
-//			}
-//			public void mouseEntered(MouseEvent e) {
-//				lblSpeichernUnter.setForeground(new Color(51, 204, 0));
-//				
-//			}
-//			public void mouseExited(MouseEvent e) {
-//				lblSpeichernUnter.setForeground(new Color(0,0,0));
-//				
-//			}
-//		});
-//		lblLaden.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				// VERKNÜPFUNG LADEN TO DO
-//				
-//			}
-//			public void mouseEntered(MouseEvent e) {
-//				lblLaden.setForeground(new Color(51, 204, 0));
-//				
-//			}
-//			public void mouseExited(MouseEvent e) {
-//				lblLaden.setForeground(new Color(0,0,0));
-//				
-//			}
-//		});
-		
 		setVisible(true);
 	}
 
-	
 	public static void main(String[] args) throws Exception {
-		// TODO Auto-generated method stub
-				
+		
 		new AdminGUI(0);
 	}
 }
