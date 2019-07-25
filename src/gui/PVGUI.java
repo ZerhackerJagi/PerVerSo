@@ -31,6 +31,7 @@ public class PVGUI extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private static int wahl = -1;
 	private static JTable table;
+	private static JLabel[][] lblData = new JLabel[6][2];
 	public boolean openAddMA = false;
 	public boolean openEditMA = false;
 	public boolean openDelMA = false;
@@ -39,7 +40,6 @@ public class PVGUI extends JFrame{
 	public boolean openEditAzk = false;
 	public boolean openEditZug = false;
 	
-	
 //******************** KONSTRUKTOR ********************
 	
 	public PVGUI(int PID) {
@@ -47,7 +47,7 @@ public class PVGUI extends JFrame{
 		 *@date: 		21.07.2019
 		 *@description: Hauptmenue Personalverwaltung, Mitarbeiterauswahl
 		 */	
-		
+	
 		setSize(800, 640);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -56,9 +56,8 @@ public class PVGUI extends JFrame{
 		setResizable(false);
 		
 		Personalverwaltung pv = Personalverwaltung.getInstance();
-		Arbeitsbereichverwaltung abv = Arbeitsbereichverwaltung.getInstance();
 		Mitarbeiter ma = ((Mitarbeiter) pv.suchen(PID));
-		
+		pv.show();
 		JLabel lblPV = new JLabel("Mitarbeiterverwaltung");
 		lblPV.setFont(new Font("Dialog", Font.BOLD, 21));
 		lblPV.setForeground(new Color(255, 255, 255));
@@ -104,7 +103,7 @@ public class PVGUI extends JFrame{
 			public void mouseClicked(MouseEvent e) {
 				if (openAddMA == false) {
 					openAddMA = true;
-					EditMitarbeiterGUI addMa = new EditMitarbeiterGUI(PID,Personalverwaltung.getaMA().size(),false);
+					EditMitarbeiterGUI addMa = new EditMitarbeiterGUI(PID,Personalverwaltung.getaMA().get(Personalverwaltung.getaMA().size()-1).getPersonalnummer()+1,false);
 					addMa.addWindowListener(new WindowAdapter() {
 						@Override
 						public void windowClosed(WindowEvent e) {
@@ -163,6 +162,8 @@ public class PVGUI extends JFrame{
 						delMa.addWindowListener(new WindowAdapter() {
 							@Override
 							public void windowClosed(WindowEvent e) {
+								wahl = -1;
+								getInfo(wahl);
 								table.setModel(getModel(Personalverwaltung.getaMA()));
 								setColWidth();
 								openDelMA = false;
@@ -283,8 +284,6 @@ public class PVGUI extends JFrame{
 		rahmenUnten.setBounds(244, 442, 640, 4);//464
 		getContentPane().add(rahmenUnten);
 		
-		JLabel[][] lblData = new JLabel[6][2];
-		
 		lblData[0][0] = new JLabel("PNr.:");
 		lblData[0][0].setBounds(256, 452, 240, 24);
 		getContentPane().add(lblData[0][0]);
@@ -374,20 +373,14 @@ public class PVGUI extends JFrame{
 				} 
 				if (e.getClickCount() == 1) {
 					wahl = Integer.parseInt((String) table.getValueAt(table.rowAtPoint(e.getPoint()),0));
-					lblData[0][1].setText(Personalverwaltung.getaMA().get(wahl).getPersonalnummer()+"");
-					lblData[1][1].setText(Personalverwaltung.getaMA().get(wahl).getName()+", "+Personalverwaltung.getaMA().get(wahl).getVorname());
-					lblData[2][1].setText(Personalverwaltung.getaMA().get(wahl).getGeburtsdatum()+"");
-					lblData[3][1].setText(Personalverwaltung.getaMA().get(wahl).getEinstellungsdatum()+"");
-					lblData[4][1].setText(Personalverwaltung.getaMA().get(wahl).getAusscheidungsdatum()+"");
-					lblData[5][1].setText(((Arbeitsbereich)abv.suchen(Personalverwaltung.getaMA().get(wahl).getActualAB().getArbeitsbereichnummer())).getName());
-				}	
+					getInfo(wahl);
+					}	
 			}
 		});
 		panel.add(table);	
 
 		setVisible(true);	
 	}	
-	
 	
 	private static DefaultTableModel getModel(ArrayList<Mitarbeiter> mitarbeiterliste) {
 		/*@author:		Soeren Hebestreit
@@ -416,6 +409,30 @@ public class PVGUI extends JFrame{
 		table.getColumnModel().getColumn( 0 ).setPreferredWidth( 50 );
 		table.getColumnModel().getColumn( 1 ).setPreferredWidth( 200 );
 		table.getColumnModel().getColumn( 2 ).setPreferredWidth( 250 );
+	}
+	
+	private static void getInfo(int number) {
+		/*@author:		Soeren Hebestreit
+		 *@date: 		22.07.2019
+		 *@description: Daten bezueglich Auswahl anzeigen
+		 */
+		
+		if(number < 0) {
+			lblData[0][1].setText("");
+			lblData[1][1].setText("");
+			lblData[2][1].setText("");
+			lblData[3][1].setText("");
+			lblData[4][1].setText("");
+			lblData[5][1].setText("");							
+		} else {
+			Mitarbeiter ma = ((Mitarbeiter) Personalverwaltung.getInstance().suchen(number));
+			lblData[0][1].setText(ma.getPersonalnummer()+"");
+			lblData[1][1].setText(ma.getName()+", "+ma.getVorname());
+			lblData[2][1].setText(ma.getGeburtsdatum()+"");
+			lblData[3][1].setText(ma.getEinstellungsdatum()+"");
+			lblData[4][1].setText(ma.getAusscheidungsdatum()+"");
+			lblData[5][1].setText(((Arbeitsbereich)Arbeitsbereichverwaltung.getInstance().suchen(ma.getActualAB().getArbeitsbereichnummer())).getName());
+		}
 	}
 		
 	public static void main(String[] args) throws Exception {
