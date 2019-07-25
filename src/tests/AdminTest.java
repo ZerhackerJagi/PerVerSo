@@ -5,12 +5,13 @@ import org.junit.runners.MethodSorters;
 
 import extern.Datum;
 import logik.Admin;
+import logik.Berechtigung;
 
 import org.junit.FixMethodOrder;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AdminTest {
-
+	
 	@Test
 	public void AtestEditMAStammdaten() {
 		Admin ad1 = new Admin(0);
@@ -34,20 +35,15 @@ public class AdminTest {
 	}
 	
 	@Test
-	public void DtestResetMABerechtigung() throws Exception {
+	public void DtestEditMABerechtigung() throws Exception {
 		Admin ad1 = new Admin(0);
-		assertFalse(ad1.resetMABerechtigung(0));
-		assertFalse(ad1.resetMABerechtigung(2));
+		Admin ad2 = new Admin(2);
+		Berechtigung be = (Berechtigung) ad2;
+		assertFalse(ad1.editMABerechtigung(0, be ));
+		assertFalse(ad1.editMABerechtigung(2 ,be));
 		ad1.addMA("Spina","Charly",'d',new Datum(9,9,1996), new Datum(12,2,2019),1); //2
-		assertTrue(ad1.resetMABerechtigung(2));
-	}
-	
-	@Test
-	public void EChangeMABerechtigung() {
-		Admin ad1 = new Admin(0);
-		assertFalse(ad1.changeMABerechtigung(0));
-		
-	}
+		assertTrue(ad1.editMABerechtigung(2,be));
+	}	
 	
 	@Test
 	public void FEditMAEinstellungsdatum() throws Exception {
@@ -57,28 +53,15 @@ public class AdminTest {
 		assertTrue(ad1.editMAEinstellungsdatum(3,new Datum(10,2,2019)));
 	}
 	
-//	@Test
-//	public void GEditMAAusscheidungsdatum() {
-//		Admin ad1 = new Admin(0);
-//		assertTrue(ad1.editMAAusscheidungsdatum(3,new Datum(20,2,2020)));
-//		assertFalse(ad1.editMAAusscheidungsdatum(4,new Datum(23,5,2020)));	
-//	}
-	
 	@Test
-	public void HtestresetMAAzk() {
+	public void GAusscheidenMA() {
 		Admin ad1 = new Admin(0);
-		assertTrue(ad1.resetMAAzk(2));
-		assertFalse(ad1.resetMAAzk(4));
+		assertFalse(ad1.ausscheidenMA(0,new Datum(20,2,2017)));
+		assertFalse(ad1.ausscheidenMA(3,new Datum(20,2,2020)));
+		assertTrue(ad1.ausscheidenMA(3,new Datum(20,2,2017)));
+		assertFalse(ad1.ausscheidenMA(4,new Datum(23,5,2017)));			
 	}
 	
-	@Test
-	public void ItestdeleteMA() {
-		Admin ad1 = new Admin(0);
-		assertFalse(ad1.deleteMA(0,new Datum(12,3,2029)));
-		assertFalse(ad1.deleteMA(2, new Datum(12,3,2020)));
-		assertFalse(ad1.deleteMA(4, new Datum(1,2,2018)));
-		assertTrue(ad1.deleteMA(2,new Datum(1,2,2017))); // 2 weg
-	}
 	
 	@Test
 	public void JtestremoveMA() {
@@ -100,7 +83,7 @@ public class AdminTest {
 	}
 	
 	@Test
-	public void LtestaddAZKUeberminuten() throws Exception {
+	public void LtestAddAZKUeberminuten() throws Exception {
 		Admin ad1 = new Admin(0);
 		assertFalse(ad1.addAZKUeberminuten(6,40));
 		ad1.addMA("Spina","Charly",'d',new Datum(9,9,1996), new Datum(12,2,2019),1); //6
@@ -125,7 +108,7 @@ public class AdminTest {
 	}
 	
 	@Test
-	public void OtestaddAZKUrlaub() throws Exception {
+	public void OtestAddAZKUrlaub() throws Exception {
 		Admin ad1 = new Admin(0);
 		assertFalse(ad1.addAZKUrlaub(9,new Datum(12,3,2018),new Datum(10,4,2018),20));
 		ad1.addMA("Spina","Charly",'d',new Datum(9,9,1996), new Datum(12,2,2019),1); //9
@@ -156,14 +139,20 @@ public class AdminTest {
 		assertTrue(ad1.removeAZKKrankheit(12,1));
 	}
 	
-//	@Test
-//	public void StestArbeitsbereiche() {
-//		Admin ad1 = new Admin(0);
-//		assertFalse(ad1.editABName(0,"Kueche"));
-//		ad1.addAB("flur","bal");
-//		assertTrue(ad1.editABName(0,"Kueche"));
-//	}
-	
+	@Test
+	public void StestArbeitsbereiche() {
+		Admin ad1 = new Admin(0);
+		assertFalse(ad1.editABName(2,"Kueche"));
+		ad1.addAB("flur","bal"); // 2 AB 
+		assertTrue(ad1.editABName(2,"Kueche"));
+		
+		assertFalse(ad1.editABBeschreibung(3,"sollte nicht da sein"));
+		assertTrue(ad1.editABBeschreibung(2,"schöne Kueche"));
+		
+		assertFalse(ad1.delAB(0));
+		assertFalse(ad1.delAB(3));
+		assertTrue(ad1.delAB(2)); // 2 AB Weg
+	}
 	
 	
 }

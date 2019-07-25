@@ -217,7 +217,7 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 		Personalverwaltung.aMA = aMA;
 	}
 	
-	//Author: Charly nur für die Tests 
+//********************TestUmgebung**************************
 	public void resetPersonalverwaltung() {
 		uniqueInstance = new Personalverwaltung();
 	}

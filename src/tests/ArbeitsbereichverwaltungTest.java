@@ -62,8 +62,13 @@ public Arbeitsbereichverwaltung abv;
 		abv.add("Aldi","Supermarkt"); //4
 		abv.laden();
 		assertNotNull(abv.suchen(3));
-		assertNull(abv.suchen(4));
-		
+		assertNull(abv.suchen(4));	
+	}
+	
+	@Test
+	public void GresetAB() {
+		abv = Arbeitsbereichverwaltung.getInstance();
+		abv.resetArbeitsbereichverwaltung();
 	}
 	
 }
