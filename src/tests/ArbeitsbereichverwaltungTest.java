@@ -39,7 +39,7 @@ public Arbeitsbereichverwaltung abv;
 	public void DtestSortierenName() {
 		abv = Arbeitsbereichverwaltung.getInstance();
 		abv.add("Abstellraum","balbla"); //3
-		assertEquals("undefined", abv.getBereiche().get(0).getName());
+		assertEquals("Undefined", abv.getBereiche().get(0).getName());
 		abv.sortName();
 		assertEquals("Abstellraum", abv.getBereiche().get(0).getName());
 	}
@@ -49,7 +49,7 @@ public Arbeitsbereichverwaltung abv;
 		abv = Arbeitsbereichverwaltung.getInstance();
 		assertEquals("Abstellraum", abv.getBereiche().get(0).getName());
 		abv.sortNumber();
-		assertEquals("undefined", abv.getBereiche().get(0).getName());
+		assertEquals("Undefined", abv.getBereiche().get(0).getName());
 	}
 	
 	@Test

@@ -35,14 +35,14 @@ public class AdminTest {
 	}
 	
 	@Test
-	public void DtestEditMABerechtigung() throws Exception {
+	public void DtestChangeMABerechtigung() throws Exception {
 		Admin ad1 = new Admin(0);
 		Admin ad2 = new Admin(2);
 		Berechtigung be = (Berechtigung) ad2;
-		assertFalse(ad1.editMABerechtigung(0, be ));
-		assertFalse(ad1.editMABerechtigung(2 ,be));
+		assertFalse(ad1.changeMABerechtigung(0, be ));
+		assertFalse(ad1.changeMABerechtigung(2 ,be));
 		ad1.addMA("Spina","Charly",'d',new Datum(9,9,1996), new Datum(12,2,2019),1); //2
-		assertTrue(ad1.editMABerechtigung(2,be));
+		assertTrue(ad1.changeMABerechtigung(2,be));
 	}	
 	
 	@Test

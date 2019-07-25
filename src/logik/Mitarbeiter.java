@@ -53,6 +53,9 @@ public class Mitarbeiter implements Serializable {
 		this.zugehoerigkeit.add(zugehoerigkeit);
 	}
 
+	public Mitarbeiter() {
+		//Für die Test(MitarbeiterMock)
+	}
 //******************** AUSGABE ********************
 	
 	public String toString() {
