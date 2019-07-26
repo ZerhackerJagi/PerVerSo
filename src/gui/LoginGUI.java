@@ -119,6 +119,7 @@ public class LoginGUI extends JFrame{
 	
 	public static void main(String[] args) throws Exception {
 				
+		Personalverwaltung.getInstance().laden();
 		new LoginGUI();
 	}
 

@@ -68,7 +68,7 @@ public class Datum implements Comparable <Datum>, Serializable {
 		 *@description:	Textrueckgabe String
 		 */
 		
-		return this.Tag+"."+this.Monat+"."+this.Jahr;
+		return String.format("%02d" , this.Tag)+"."+String.format("%02d" , this.Monat)+"."+this.Jahr;
 	}
 	
 	public void display () {

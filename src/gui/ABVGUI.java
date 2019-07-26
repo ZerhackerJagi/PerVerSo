@@ -233,7 +233,6 @@ public class ABVGUI extends JFrame{
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
 		panel.setBorder(new LineBorder(new Color(255, 255, 255)));
-		panel.setBounds(244, 88, 640, 354);
 		
 		JScrollPane sp = new JScrollPane(panel);
 		sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -321,10 +320,8 @@ public class ABVGUI extends JFrame{
 		
 	public static void main(String[] args) throws Exception {
 		
-		Personalverwaltung pv = Personalverwaltung.getInstance();
-		Arbeitsbereichverwaltung abv = Arbeitsbereichverwaltung.getInstance();
-		pv.laden();
-		abv.laden();	
+		Arbeitsbereichverwaltung.getInstance().laden();		
+		Personalverwaltung.getInstance().laden();
 		new ABVGUI(0);
 	}
 	

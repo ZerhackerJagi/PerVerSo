@@ -184,9 +184,9 @@ public class EditLinkingMaGUI extends JFrame{
 					JOptionPane.showMessageDialog(null, "Für diesen Bereich für den Anweder selbst nicht möglich.", null, JOptionPane.INFORMATION_MESSAGE);
 				} else {
 					Datum wechseln = new Datum(Integer.parseInt(tfWechselT.getText()),Integer.parseInt(tfWechselM.getText()),Integer.parseInt(tfWechselJ.getText()));
-					//if(wechseln.compareTo(ma.getActualAB().getStart())<0) {
-					//	JOptionPane.showMessageDialog(null, "Das Wechseldatum darf nicht vor dem des aktuellen Bereiches liegen.", null, JOptionPane.INFORMATION_MESSAGE);
-					//} else {
+					if(wechseln.compareTo(ma.getEinstellungsdatum())<0) {
+						JOptionPane.showMessageDialog(null, "Das Wechseldatum darf nicht vor dem der Einstellung liegen.", null, JOptionPane.INFORMATION_MESSAGE);
+					} else {
 						Admin admin = new Admin(PID);
 						admin.linkMAtoAB(wer, Integer.parseInt(((String)bereicheBox.getSelectedItem()).substring(0,((String)bereicheBox.getSelectedItem()).indexOf(" "))), wechseln,tfBemerkung.getText());
 						try {
@@ -195,7 +195,7 @@ public class EditLinkingMaGUI extends JFrame{
 						e1.printStackTrace();
 						}
 						dispose();
-					//}
+					}
 				}
 			}
 		});
@@ -218,8 +218,9 @@ public class EditLinkingMaGUI extends JFrame{
 
 	public static void main(String[] args) throws Exception {
 		
-		Personalverwaltung.getInstance().laden();
+		
 		Arbeitsbereichverwaltung.getInstance().laden();
+		Personalverwaltung.getInstance().laden();
 		new EditLinkingMaGUI(0,0);
 	}
 }

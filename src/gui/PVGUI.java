@@ -39,6 +39,7 @@ public class PVGUI extends JFrame{
 	public boolean openEditBerechtigung = false;
 	public boolean openEditAzk = false;
 	public boolean openEditZug = false;
+	public boolean openShowVerlauf = false;
 	
 //******************** KONSTRUKTOR ********************
 	
@@ -132,6 +133,7 @@ public class PVGUI extends JFrame{
 						editMa.addWindowListener(new WindowAdapter() {
 							@Override
 							public void windowClosed(WindowEvent e) {
+								getInfo(wahl);
 								table.setModel(getModel(Personalverwaltung.getaMA()));
 								setColWidth();
 								openEditMA = false;
@@ -276,6 +278,7 @@ public class PVGUI extends JFrame{
 						editLink.addWindowListener(new WindowAdapter() {
 							@Override
 							public void windowClosed(WindowEvent e) {
+								getInfo(wahl);
 								table.setModel(getModel(Personalverwaltung.getaMA()));
 								setColWidth();
 								openEditZug = false;
@@ -292,9 +295,38 @@ public class PVGUI extends JFrame{
 		btnNewLink.setBounds(24, 488, 200, 24);
 		getContentPane().add(btnNewLink);
 		
+		JButton btnVerlauf = new JButton("Verlauf anzeigen");
+		btnVerlauf.setBackground(new Color(255, 255, 255));
+		btnVerlauf.addMouseListener(new MouseAdapter() {				
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(wahl >=0 ) {
+					if (openShowVerlauf == false) {
+						openShowVerlauf = true;
+						ShowVerlaufGUI showVerlauf = new ShowVerlaufGUI(wahl);
+						showVerlauf.addWindowListener(new WindowAdapter() {
+							@Override
+							public void windowClosed(WindowEvent e) {
+								getInfo(wahl);
+								table.setModel(getModel(Personalverwaltung.getaMA()));
+								setColWidth();
+								openShowVerlauf = false;
+							}
+						});
+					} else {
+						JOptionPane.showMessageDialog(null, "Verlauf anzeigen bereits offen.", null, JOptionPane.INFORMATION_MESSAGE);
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Bitte Auswahl treffen.", null, JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
+		btnVerlauf.setBounds(24, 512, 200, 24);
+		getContentPane().add(btnVerlauf);
+		
 		JPanel rahmenUnten = new JPanel();
 		rahmenUnten.setBackground(new Color(100, 150, 200));
-		rahmenUnten.setBounds(244, 442, 640, 4);//464
+		rahmenUnten.setBounds(244, 442, 640, 4);
 		getContentPane().add(rahmenUnten);
 		
 		lblData[0][0] = new JLabel("PNr.:");
@@ -354,7 +386,6 @@ public class PVGUI extends JFrame{
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
 		panel.setBorder(new LineBorder(new Color(255, 255, 255)));
-		panel.setBounds(244, 88, 640, 354);
 		
 		JScrollPane sp = new JScrollPane(panel);
 		sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -370,7 +401,7 @@ public class PVGUI extends JFrame{
 			}
 		};
 		table.setShowVerticalLines(false);
-		table.setRowHeight( 20 );
+		table.setRowHeight(20);
 		setColWidth();
 		table.setSelectionMode( javax.swing.ListSelectionModel.SINGLE_SELECTION);
 		table.addMouseListener(new MouseAdapter(){
@@ -450,10 +481,8 @@ public class PVGUI extends JFrame{
 		
 	public static void main(String[] args) throws Exception {
 		
-		Personalverwaltung pv = Personalverwaltung.getInstance();
-		Arbeitsbereichverwaltung abv = Arbeitsbereichverwaltung.getInstance();
-		pv.laden();
-		abv.laden();	
+		Arbeitsbereichverwaltung.getInstance().laden();	
+		Personalverwaltung.getInstance().laden();
 		new PVGUI(0);
 	}
 	

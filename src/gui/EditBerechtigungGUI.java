@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import logik.Admin;
+import logik.Arbeitsbereichverwaltung;
 import logik.Mitarbeiter;
 import logik.Personalverwaltung;
 import logik.User;
@@ -139,6 +140,7 @@ public class EditBerechtigungGUI extends JFrame{
 
 	public static void main(String[] args) throws Exception {
 		
+		Arbeitsbereichverwaltung.getInstance().laden();
 		Personalverwaltung.getInstance().laden();
 		new EditBerechtigungGUI(0,1);
 	}

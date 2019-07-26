@@ -5,6 +5,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import logik.Arbeitsbereichverwaltung;
+import logik.Personalverwaltung;
+
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.ImageIcon;
@@ -21,6 +24,7 @@ public class MitarbeiterGUI extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	public boolean openShowAzk = false;
+	public boolean openShowVerlauf = false;
 	
 //******************** KONSTRUKTOR ********************
 	
@@ -74,6 +78,28 @@ public class MitarbeiterGUI extends JFrame{
 		btnAZK.setBounds(12, 220, 200, 24);
 		getContentPane().add(btnAZK);
 		
+		JButton btnVerlauf = new JButton("Verlauf anzeigen");
+		btnVerlauf.setBackground(new Color(255, 255, 255));	
+		btnVerlauf.addMouseListener(new MouseAdapter() {				
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (openShowVerlauf == false) {
+					openShowVerlauf = true;
+					ShowVerlaufGUI showVerlauf = new ShowVerlaufGUI(PID);
+					showVerlauf.addWindowListener(new WindowAdapter() {
+						@Override
+						public void windowClosed(WindowEvent e) {
+							openShowVerlauf = false;
+						}
+					});
+				} else {
+					JOptionPane.showMessageDialog(null, "Verlaufsansicht bereits offen.", null, JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
+		btnVerlauf.setBounds(12, 264, 200, 24);
+		getContentPane().add(btnVerlauf);
+		
 		JButton btnExit = new JButton("Exit");
 		btnExit.setBackground(new Color(255, 255, 255));
 		btnExit.addMouseListener(new MouseAdapter() {				
@@ -100,7 +126,9 @@ public class MitarbeiterGUI extends JFrame{
 	
 	
 	public static void main(String[] args) throws Exception {
-				
+		
+		Personalverwaltung.getInstance().laden();
+		Arbeitsbereichverwaltung.getInstance().laden();
 		new MitarbeiterGUI(1);
 	}
 }

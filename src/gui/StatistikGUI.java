@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import logik.Arbeitsbereichverwaltung;
 import logik.Mitarbeiter;
 import logik.Personalverwaltung;
 
@@ -87,6 +88,8 @@ public class StatistikGUI extends JFrame{
 	
 	public static void main(String[] args) throws Exception {
 				
-		new StatistikGUI(1);
+		Arbeitsbereichverwaltung.getInstance().laden();	
+		Personalverwaltung.getInstance().laden();
+		new StatistikGUI(0);
 	}
 }
