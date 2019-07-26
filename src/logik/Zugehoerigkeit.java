@@ -11,17 +11,17 @@ public class Zugehoerigkeit implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Datum start;
 	private int arbeitsbereichnummer;
+	private String bemerkung;
 		
 //******************** KONSTRUKTOR ********************
 	
-	public Zugehoerigkeit(Datum start, int arbeitsbereichnummer) {
+	public Zugehoerigkeit(Datum start, int arbeitsbereichnummer, String bemerkung) {
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		21.06.2019
 		 *@description:	Konstruktor: Datum, Arbeitsbereichnummer
 		 */ 
 		
 		this.start = start;
-		// Probe ob Bereich existiert, wenn nicht dann auf Grundbereich setzen
 		Arbeitsbereichverwaltung abv = Arbeitsbereichverwaltung.getInstance();
 		Arbeitsbereich bereich = (Arbeitsbereich) abv.suchen(arbeitsbereichnummer);
 		if (bereich == null) {
@@ -29,16 +29,7 @@ public class Zugehoerigkeit implements Serializable {
 		} else {
 			this.arbeitsbereichnummer = arbeitsbereichnummer;
 		}
-	}
-	
-	public Zugehoerigkeit(Datum start) {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		2019
-		 *@description:	Konstruktor: Datum, Arbeitsbereich nicht zugeordnet
-		 */ 
-		
-		this.start = start;
-		this.arbeitsbereichnummer = 0;
+		this.bemerkung = bemerkung;
 	}
 	
 	public Zugehoerigkeit() {
@@ -49,6 +40,7 @@ public class Zugehoerigkeit implements Serializable {
 		
 		this.start = new Datum();
 		this.arbeitsbereichnummer = 0;
+		this.bemerkung = "";
 	}
 	
 //******************** AUSGABE ********************
@@ -59,7 +51,7 @@ public class Zugehoerigkeit implements Serializable {
 		 *@description:	Textrueckgabe String
 		 */
 		
-		return start+"\t"+arbeitsbereichnummer;
+		return start+"\t"+arbeitsbereichnummer+"\t"+bemerkung;
 	}
 	
 //******************** GETTER & SETTER ********************
@@ -78,6 +70,14 @@ public class Zugehoerigkeit implements Serializable {
 
 	public void setArbeitsbereichnummer(int arbeitsbereichnummer) {
 		this.arbeitsbereichnummer = arbeitsbereichnummer;
+	}
+	
+	public String getBemerkung() {
+		return bemerkung;
+	}
+
+	public void setBemerkung(String bemerkung) {
+		this.bemerkung = bemerkung;
 	}
 
 }

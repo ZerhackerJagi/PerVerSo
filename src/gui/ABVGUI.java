@@ -32,11 +32,11 @@ public class ABVGUI extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private static int wahl = -1;
 	private static JTable table;
+	private static JLabel[][] lblData = new JLabel[3][2];
 	public boolean openAddAB = false;
 	public boolean openEditAB = false;
 	public boolean openDelAB = false;
 	public boolean openEditZug = false;
-	
 	
 //******************** KONSTRUKTOR ********************
 	
@@ -102,7 +102,7 @@ public class ABVGUI extends JFrame{
 			public void mouseClicked(MouseEvent e) {
 				if (openAddAB == false) {
 					openAddAB = true;
-					EditBereichGUI addAb = new EditBereichGUI(PID,Arbeitsbereichverwaltung.getBereiche().size(),false);
+					EditBereichGUI addAb = new EditBereichGUI(PID,Arbeitsbereichverwaltung.getBereiche().get(Arbeitsbereichverwaltung.getBereiche().size()-1).getArbeitsbereichnummer()+1,false);
 					addAb.addWindowListener(new WindowAdapter() {
 						@Override
 						public void windowClosed(WindowEvent e) {
@@ -164,6 +164,8 @@ public class ABVGUI extends JFrame{
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
+					wahl = -1;
+					getInfo(wahl);
 					table.setModel(getModel(Arbeitsbereichverwaltung.getBereiche()));
 					setColWidth();
 				} else {
@@ -198,8 +200,6 @@ public class ABVGUI extends JFrame{
 		rahmenUnten.setBackground(new Color(100, 150, 200));
 		rahmenUnten.setBounds(244, 442, 640, 4);//464
 		getContentPane().add(rahmenUnten);
-		
-		JLabel[][] lblData = new JLabel[3][2];
 		
 		lblData[0][0] = new JLabel("Nr.:");
 		lblData[0][0].setBounds(256, 452, 240, 24);
@@ -265,9 +265,7 @@ public class ABVGUI extends JFrame{
 				} 
 				if (e.getClickCount() == 1) {
 					wahl = Integer.parseInt((String) table.getValueAt(table.rowAtPoint(e.getPoint()),0));
-					lblData[0][1].setText(Arbeitsbereichverwaltung.getBereiche().get(wahl).getArbeitsbereichnummer()+"");
-					lblData[1][1].setText(Arbeitsbereichverwaltung.getBereiche().get(wahl).getName());
-					lblData[2][1].setText("<html>"+Arbeitsbereichverwaltung.getBereiche().get(wahl).getBeschreibung()+"</html>");
+					getInfo(wahl);
 				}	
 			}
 		});
@@ -275,7 +273,6 @@ public class ABVGUI extends JFrame{
 
 		setVisible(true);	
 	}	
-	
 	
 	private static DefaultTableModel getModel(ArrayList<Arbeitsbereich> bereichsliste) {
 		/*@author:		Soeren Hebestreit
@@ -302,6 +299,24 @@ public class ABVGUI extends JFrame{
 		
 		table.getColumnModel().getColumn( 0 ).setPreferredWidth( 50 );
 		table.getColumnModel().getColumn( 1 ).setPreferredWidth( 450 );
+	}
+	
+	private static void getInfo(int number) {
+		/*@author:		Soeren Hebestreit
+		 *@date: 		22.07.2019
+		 *@description: Daten bezueglich Auswahl anzeigen
+		 */
+		
+		if(number < 0) {
+			lblData[0][1].setText("");
+			lblData[1][1].setText("");
+			lblData[2][1].setText("");						
+		} else {
+			Arbeitsbereich ab = (Arbeitsbereich) Arbeitsbereichverwaltung.getInstance().suchen(number);
+			lblData[0][1].setText(ab.getArbeitsbereichnummer()+"");
+			lblData[1][1].setText(ab.getName());
+			lblData[2][1].setText("<html>"+ab.getBeschreibung()+"</html>");
+		}
 	}
 		
 	public static void main(String[] args) throws Exception {

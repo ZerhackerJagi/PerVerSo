@@ -21,7 +21,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JComboBox;
 
-public class AddMAGUI2 extends JFrame{
+public class oldAddMAGUI2 extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	private JTextField tFVorname;
@@ -36,7 +36,7 @@ public class AddMAGUI2 extends JFrame{
 	private JTextField tfEinstellJahr;
 	private JTextField textField_3;
 	private JTextField tfGeschlecht;
-	public AddMAGUI2() {
+	public oldAddMAGUI2() {
 		getContentPane().setLayout(null);
 		setResizable(false);
 		
@@ -283,6 +283,6 @@ public class AddMAGUI2 extends JFrame{
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 				
-		new AddMAGUI2();
+		new oldAddMAGUI2();
 	}
 }

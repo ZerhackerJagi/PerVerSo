@@ -40,8 +40,7 @@ public class EditKennungGUI extends JFrame{
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Mitarbeiter ma = (Mitarbeiter) pv.suchen(wer);
 		
-		JLabel lblFunktion = new JLabel("");
-		lblFunktion.setText("Kennung editieren");
+		JLabel lblFunktion = new JLabel("Kennung editieren");
 		lblFunktion.setForeground(new Color(255, 255, 255));
 		lblFunktion.setFont(new Font("Dialog", Font.BOLD, 21));
 		lblFunktion.setBounds(24, 8, 380, 36);

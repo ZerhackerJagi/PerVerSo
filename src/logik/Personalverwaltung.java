@@ -46,9 +46,9 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 		 *@description:	fuegt Standardadmin bei der Ersterstellung ein 
 		 */
 		
-		aMA.add(new Mitarbeiter(personalnummer, "admin", "nimda", 'd', new Datum(), "admin", "passwort", new Admin(personalnummer), new Datum(), new Arbeitszeitkonto(), new Zugehoerigkeit(new Datum(),0)));
+		aMA.add(new Mitarbeiter(personalnummer, "admin", "admin", 'd', new Datum(), "admin", "passwort", new Admin(personalnummer), new Datum(), new Arbeitszeitkonto(), new Zugehoerigkeit(new Datum(),0,"Standardadmin anlegen")));
 		personalnummer ++;
-		aMA.add(new Mitarbeiter(personalnummer, "user", "test", 'd', new Datum(), "user", "passwort", new User(personalnummer), new Datum(), new Arbeitszeitkonto(), new Zugehoerigkeit(new Datum(),0)));
+		aMA.add(new Mitarbeiter(personalnummer, "user", "test", 'd', new Datum(), "user", "passwort", new User(personalnummer), new Datum(), new Arbeitszeitkonto(), new Zugehoerigkeit(new Datum(),0,"Testuser anlegen")));
 		personalnummer ++;
 		Arbeitszeitkonto azk = aMA.get(1).getAzk();
 		azk.addPlus(5000);
@@ -72,7 +72,7 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 		 *@description:	fuegt einen Mitarbeiter hinzu, komplette Angabe
 		 */
 	
-		Zugehoerigkeit wo = new Zugehoerigkeit(einstellung,bereichsnummer);
+		Zugehoerigkeit wo = new Zugehoerigkeit(einstellung,bereichsnummer,"Einstellung");
 		aMA.add(new Mitarbeiter(personalnummer,name,vorname,gender,geburtstag,user,pwd,new User(personalnummer),einstellung,new Arbeitszeitkonto(),wo));
 		personalnummer ++;
 	}
@@ -87,7 +87,7 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 		String benutzername = name+personalnummer;
 		// Beispiel Passwort: sH_715re
 		String passwort = vorname.substring(0,1).toLowerCase()+name.substring(0,1).toUpperCase()+"_"+einstellung.getMonat()+geburtstag.getTag()+vorname.charAt(vorname.length()/2)+name.charAt(name.length()/3);
-		Zugehoerigkeit wo = new Zugehoerigkeit(einstellung,bereichsnummer);
+		Zugehoerigkeit wo = new Zugehoerigkeit(einstellung,bereichsnummer,"Einstellung");
 		aMA.add(new Mitarbeiter(personalnummer,name,vorname,gender,geburtstag,benutzername,passwort,new User(personalnummer),einstellung,new Arbeitszeitkonto(),wo));
 		personalnummer ++;
 	}
