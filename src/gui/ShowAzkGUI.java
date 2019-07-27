@@ -65,7 +65,7 @@ public class ShowAzkGUI extends JFrame{
 		
 		JLabel lblSollData = new JLabel(""+ma.getAzk().getSollstunden());
 		lblSollData.setFont(new Font("Dialog", Font.PLAIN, 12));
-		lblSollData.setBounds(160, y+40, 100, 24);
+		lblSollData.setBounds(150, y+40, 100, 24);
 		getContentPane().add(lblSollData);
 		
 		JLabel lblUeber = new JLabel("Überminuten:");
@@ -74,7 +74,7 @@ public class ShowAzkGUI extends JFrame{
 		
 		JLabel lblUeberData = new JLabel(""+ma.getAzk().getUeberminuten());
 		lblUeberData.setFont(new Font("Dialog", Font.PLAIN, 12));
-		lblUeberData.setBounds(160, y+70, 100, 24);
+		lblUeberData.setBounds(150, y+70, 100, 24);
 		getContentPane().add(lblUeberData);
 		
 		if (ma.getAzk().getUeberminutenmax()*grenze < ma.getAzk().getUeberminuten()) {
@@ -100,19 +100,21 @@ public class ShowAzkGUI extends JFrame{
 		lblResturlaub.setBounds(24, y+156, 100, 24);
 		getContentPane().add(lblResturlaub);
 		
-		JLabel lblResturlaubData = new JLabel((ma.getAzk().getUrlaubskontingent()-ma.getAzk().getUrlaubgenommen())+" Tage");
-		lblResturlaubData.setFont(new Font("Dialog", Font.PLAIN, 12));
-		lblResturlaubData.setBounds(160, y+156, 100, 24);
-		getContentPane().add(lblResturlaubData);
-		
+		int resturlaub = ma.getAzk().getUrlaubbasis();
 		ArrayList<Urlaubseintrag> urlaubsliste = new ArrayList<Urlaubseintrag>();
 		for (int i = 0; i < ma.getAzk().getListe().size(); i++) {
 			if (ma.getAzk().getListe().get(i) instanceof Urlaubseintrag) {
 				if (ma.getAzk().getListe().get(i).getStart().getJahr() == (new Datum()).getJahr()) {
 					urlaubsliste.add((Urlaubseintrag) ma.getAzk().getListe().get(i));
+					resturlaub = resturlaub - ma.getAzk().getListe().get(i).getArbeitstage();
 				}
 			}
-		}	
+		}
+		
+		JLabel lblResturlaubData = new JLabel(resturlaub+" Tage");
+		lblResturlaubData.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblResturlaubData.setBounds(150, y+156, 100, 24);
+		getContentPane().add(lblResturlaubData);	
 		
 		JLabel lblUrlaub = new JLabel("Urlaub");
 		lblUrlaub.setBounds(24, y+186, 100, 24);

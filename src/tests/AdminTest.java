@@ -97,26 +97,10 @@ public class AdminTest {
 	}
 	
 	@Test
-	public void MteststarteAZKJahr() throws Exception {
-		Admin ad1 = new Admin(0);
-		assertFalse(ad1.starteAZKJahr(7));
-		ad1.addMA("Spina","Charly",'d',new Datum(9,9,1996), new Datum(12,2,2019),1); //7
-		assertTrue(ad1.starteAZKJahr(7));
-	}
-	
-	@Test
-	public void NtestAZKUrlaubsberechnung() throws Exception {
-		Admin ad1 = new Admin(0);
-		assertFalse(ad1.editAZKUrlaubsberechnung(8,25,10));
-		ad1.addMA("Spina","Charly",'d',new Datum(9,9,1996), new Datum(12,2,2019),1); //8
-		assertTrue(ad1.editAZKUrlaubsberechnung(8,25,10));
-	}
-	
-	@Test
 	public void OtestAddAZKUrlaub() throws Exception {
 		Admin ad1 = new Admin(0);
 		assertFalse(ad1.addAZKUrlaub(9,new Datum(12,3,2018),new Datum(10,4,2018),20));
-		ad1.addMA("Spina","Charly",'d',new Datum(9,9,1996), new Datum(12,2,2019),1); //9
+		ad1.addMA("Spina","Charly",'d',new Datum(9,9,1996), new Datum(12,2,2019),1); //7
 		assertTrue(ad1.addAZKUrlaub(9,new Datum(12,3,2018),new Datum(10,4,2018),20));
 	}
 	
@@ -124,7 +108,7 @@ public class AdminTest {
 	public void PtestAZKKrankheit() throws Exception {
 		Admin ad1 = new Admin(0);
 		assertFalse(ad1.addAZKKrankheit(10,new Datum(12,3,2018),new Datum(10,4,2018),20));
-		ad1.addMA("Spina","Charly",'d',new Datum(9,9,1996), new Datum(12,2,2019),1); //10
+		ad1.addMA("Spina","Charly",'d',new Datum(9,9,1996), new Datum(12,2,2019),1); //8
 		assertTrue(ad1.addAZKKrankheit(10,new Datum(12,3,2018),new Datum(10,4,2018),20));
 	}
 	
@@ -132,7 +116,7 @@ public class AdminTest {
 	public void QtestRemoveAZKUrlaub() throws Exception {
 		Admin ad1 = new Admin(0);
 		assertFalse(ad1.removeAZKUrlaub(11,1));
-		ad1.addMA("Spina","Charly",'d',new Datum(9,9,1996), new Datum(12,2,2019),1); //11
+		ad1.addMA("Spina","Charly",'d',new Datum(9,9,1996), new Datum(12,2,2019),1); //9
 		assertTrue(ad1.removeAZKUrlaub(11,1));
 	}
 	
@@ -140,7 +124,7 @@ public class AdminTest {
 	public void RtestRemoveAZKKrankheit() throws Exception {
 		Admin ad1 = new Admin(0);
 		assertFalse(ad1.removeAZKKrankheit(12,1));
-		ad1.addMA("Spina","Charly",'d',new Datum(9,9,1996), new Datum(12,2,2019),1); //12
+		ad1.addMA("Spina","Charly",'d',new Datum(9,9,1996), new Datum(12,2,2019),1); //10
 		assertTrue(ad1.removeAZKKrankheit(12,1));
 	}
 	
