@@ -210,9 +210,8 @@ public class EditMitarbeiterGUI extends JFrame{
 		String[] bereiche = new String[Arbeitsbereichverwaltung.getBereiche().size()];
 		for(int i = 0;i<Arbeitsbereichverwaltung.getBereiche().size();i++) {
 			bereiche[i] = Arbeitsbereichverwaltung.getBereiche().get(i).toString();
-		}
+		}	
 		JComboBox<String> bereicheBox = new JComboBox<String>(bereiche);
-		
 		if(edit == true) {
 			JTextField tfBereich = new JTextField();
 			tfBereich.setText(((Arbeitsbereich)av.suchen(ma.getActualAB().getArbeitsbereichnummer())).getName());

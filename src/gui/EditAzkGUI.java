@@ -1,29 +1,40 @@
 package gui;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
+import extern.Datum;
+import logik.Admin;
 import logik.Arbeitsbereich;
 import logik.Arbeitsbereichverwaltung;
 import logik.Eintrag;
+import logik.Krankheitseintrag;
 import logik.Mitarbeiter;
 import logik.Personalverwaltung;
 import logik.Urlaubseintrag;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.awt.Color;
 
 public class EditAzkGUI extends JFrame{
@@ -32,8 +43,12 @@ public class EditAzkGUI extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	private static int wahl = -1;
+	private static String typ = "";
+	private static String jahr = "";
 	private static JTable table;
-	private static JLabel[][] lblData = new JLabel[6][2];
+	private static TableRowSorter<TableModel> sorter;
+	private static JLabel lblAnzahlData;
+	private static JLabel lblAnzahl;
 	public boolean openAddMA = false;
 	public boolean openEditMA = false;
 	public boolean openDelMA = false;
@@ -41,7 +56,7 @@ public class EditAzkGUI extends JFrame{
 	public boolean openEditBerechtigung = false;
 	public boolean openEditAzk = false;
 	public boolean openEditZug = false;
-	public boolean openShowVerlauf = false;
+	public boolean openAddE = false;
 	
 //******************** KONSTRUKTOR ********************
 	
@@ -331,60 +346,141 @@ public class EditAzkGUI extends JFrame{
 		rahmenUnten.setBounds(244, 442, 640, 4);
 		getContentPane().add(rahmenUnten);
 		
-		lblData[0][0] = new JLabel("PNr.:");
-		lblData[0][0].setBounds(256, 452, 240, 24);
-		getContentPane().add(lblData[0][0]);
+		JButton btnAnlegen = new JButton("Eintrag hinzufügen");
+		btnAnlegen.setBackground(new Color(255, 255, 255));
+		btnAnlegen.addMouseListener(new MouseAdapter() {				
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (openAddE == false) {
+					openAddE = true;
+					EditBereichGUI addAb = new EditBereichGUI(PID,Arbeitsbereichverwaltung.getBereiche().get(Arbeitsbereichverwaltung.getBereiche().size()-1).getArbeitsbereichnummer()+1,false);
+					addAb.addWindowListener(new WindowAdapter() {
+						@Override
+						public void windowClosed(WindowEvent e) {
+							table.setModel(getModel(ma.getAzk().getListe()));
+							setColWidth();
+							getFilter();
+							showAnzahl(ma.getAzk().getListe());
+							openAddE = false;
+						}
+					});
+				} else {
+					JOptionPane.showMessageDialog(null, "Arbeitsbereich hinzufügen bereits offen.", null, JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
+		btnAnlegen.setBounds(296, 458, 200, 24);
+		getContentPane().add(btnAnlegen);
 		
-		lblData[0][1] = new JLabel("");
-		lblData[0][1].setFont(new Font("Dialog", Font.PLAIN, 12));
-		lblData[0][1].setBounds(400, 452, 360, 24);
-		getContentPane().add(lblData[0][1]);
+		JButton btnEntfernen = new JButton("Eintrag entfernen");
+		btnEntfernen.setBackground(new Color(255, 255, 255));
+		btnEntfernen.addMouseListener(new MouseAdapter() {	
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(wahl >=0) {
+					if((JOptionPane.showConfirmDialog(null, "Eintrag "+wahl+" löschen?", null, JOptionPane.YES_NO_OPTION)) == 0) {
+						Admin admin = new Admin(PID);
+						try {
+							if(ma.getAzk().getListe().get(wahl) instanceof Urlaubseintrag) {
+								admin.removeAZKUrlaub(wer, wahl);
+							} else if(ma.getAzk().getListe().get(wahl) instanceof Krankheitseintrag){
+							pv.speichern();
+							}
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+						wahl = -1;
+						table.setModel(getModel(ma.getAzk().getListe()));
+						setColWidth();
+						getFilter();
+						showAnzahl(ma.getAzk().getListe());
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Bitte Auswahl treffen.", null, JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
+		btnEntfernen.setBounds(516, 458, 200, 24);
+		getContentPane().add(btnEntfernen);
 		
-		lblData[1][0] = new JLabel("Name:");
-		lblData[1][0].setBounds(256, 472, 240, 24);
-		getContentPane().add(lblData[1][0]);
+		JLabel lblJahr = new JLabel("Jahr");
+		lblJahr.setBounds(256, 518, 40, 24);
+		getContentPane().add(lblJahr);
 		
-		lblData[1][1] = new JLabel("");
-		lblData[1][1].setFont(new Font("Dialog", Font.PLAIN, 12));
-		lblData[1][1].setBounds(400, 472, 360, 24);
-		getContentPane().add(lblData[1][1]);
+		int length = (new Datum()).getJahr()-ma.getEinstellungsdatum().getJahr()+2;
+		String[] jahre = new String[length];
+		jahre[0] = "alle";
+		for(int i = 0;i<length-1;i++) {
+			jahre[i+1] = (ma.getEinstellungsdatum().getJahr()+i)+"";
+		}
+		JComboBox<String> jahrBox = new JComboBox<String>(jahre);
+		jahrBox.setBackground(new Color(255, 255, 255));
+		jahrBox.setFont(new Font("Dialog", Font.PLAIN, 12));
+		jahrBox.setBounds(296, 518, 100, 24);
+		jahrBox.setMaximumRowCount(8);
+		jahrBox.addActionListener(new ActionListener() {				
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(((String) jahrBox.getSelectedItem()).contains("alle")) {
+					jahr = "";
+					lblAnzahl.setText("");
+					lblAnzahlData.setText("");
+				} else {
+					jahr = (String) jahrBox.getSelectedItem();
+	            }
+				showAnzahl(ma.getAzk().getListe());
+				getFilter();
+			}
+		});
+		getContentPane().add(jahrBox);
 		
-		lblData[2][0] = new JLabel("Geburtstag:");
-		lblData[2][0].setBounds(256, 492, 240, 24);
-		getContentPane().add(lblData[2][0]);
+		JLabel lblTyp = new JLabel("Typ");
+		lblTyp.setBounds(256, 558, 40, 24);
+		getContentPane().add(lblTyp);
 		
-		lblData[2][1] = new JLabel("");
-		lblData[2][1].setFont(new Font("Dialog", Font.PLAIN, 12));
-		lblData[2][1].setBounds(400, 492, 360, 24);
-		getContentPane().add(lblData[2][1]);
+		String[] typen = {"alle","Urlaub","Krankheit"};		
+		JComboBox<String> typBox = new JComboBox<String>(typen);
+		typBox.setBackground(new Color(255, 255, 255));
+		typBox.setFont(new Font("Dialog", Font.PLAIN, 12));
+		typBox.setBounds(296,558, 100, 24);
+		typBox.setMaximumRowCount(4);
+		typBox.addActionListener(new ActionListener() {				
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(((String) typBox.getSelectedItem()).contains("alle")) {
+					typ = "";
+				} else {
+					typ = (String) typBox.getSelectedItem();
+				}
+				showAnzahl(ma.getAzk().getListe());
+				getFilter();
+			}
+		});
+		getContentPane().add(typBox);
 		
-		lblData[3][0] = new JLabel("Einstellung:");
-		lblData[3][0].setBounds(256, 512, 240, 24);
-		getContentPane().add(lblData[3][0]);
+		JLabel lblUrlaub = new JLabel("Urlaubstage:");
+		lblUrlaub.setBounds(456, 518, 150, 24);
+		getContentPane().add(lblUrlaub);
 		
-		lblData[3][1] = new JLabel("");
-		lblData[3][1].setFont(new Font("Dialog", Font.PLAIN, 12));
-		lblData[3][1].setBounds(400, 512, 360, 24);
-		getContentPane().add(lblData[3][1]);
+		JLabel lblUrlaubData = new JLabel(ma.getAzk().getUrlaubbasis()+"");
+		lblUrlaubData.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblUrlaubData.setBounds(596, 518, 100, 24);
+		getContentPane().add(lblUrlaubData);
 		
-		lblData[4][0] = new JLabel("Ausscheiden:");
-		lblData[4][0].setBounds(256, 532, 240, 24);
-		getContentPane().add(lblData[4][0]);
+		lblAnzahl = new JLabel("");
+		lblAnzahl.setBounds(456, 558, 150, 24);
+		getContentPane().add(lblAnzahl);
 		
-		lblData[4][1] = new JLabel("");
-		lblData[4][1].setFont(new Font("Dialog", Font.PLAIN, 12));
-		lblData[4][1].setBounds(400, 532, 360, 24);
-		getContentPane().add(lblData[4][1]);
+		lblAnzahlData = new JLabel("");
+		lblAnzahlData.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblAnzahlData.setBounds(596, 558, 100, 24);
+		getContentPane().add(lblAnzahlData);
 		
-		lblData[5][0] = new JLabel("Arbeitsbereich:");
-		lblData[5][0].setBounds(256, 552, 240, 24);
-		getContentPane().add(lblData[5][0]);
 		
-		lblData[5][1] = new JLabel("");
-		lblData[5][1].setFont(new Font("Dialog", Font.PLAIN, 12));
-		lblData[5][1].setBounds(400, 552, 360, 24);
-		getContentPane().add(lblData[5][1]);
 		
+		
+		
+	
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
 		panel.setBorder(new LineBorder(new Color(255, 255, 255)));
@@ -402,6 +498,9 @@ public class EditAzkGUI extends JFrame{
 				return false;
 			}
 		};
+		sorter = new TableRowSorter<TableModel>(((DefaultTableModel) table.getModel())); 
+		table.setRowSorter(sorter);
+		getFilter();
 		table.setShowVerticalLines(false);
 		table.setRowHeight(20);
 		setColWidth();
@@ -409,19 +508,9 @@ public class EditAzkGUI extends JFrame{
 		table.addMouseListener(new MouseAdapter(){
 			@Override
 			public void mouseClicked(MouseEvent e) {
-//				if (e.getClickCount() == 2) { 
-//					if(table.columnAtPoint(e.getPoint()) == 0) {
-//						pv.sortNumber();
-//					} else {
-//						pv.sortName();
-//					}
-//					table.setModel(getModel(Personalverwaltung.getaMA()));
-//					setColWidth();  
-//				} 
 				if (e.getClickCount() == 1) {
 					wahl = Integer.parseInt((String) table.getValueAt(table.rowAtPoint(e.getPoint()),0));
-					//getInfo(wahl);
-					}	
+				}	
 			}
 		});
 		panel.add(table);	
@@ -429,9 +518,22 @@ public class EditAzkGUI extends JFrame{
 		setVisible(true);	
 	}	
 	
+	private static void getFilter() {
+		RowFilter<TableModel, Integer> filter = new RowFilter<TableModel, Integer>() {
+	        @Override
+	        public boolean include(RowFilter.Entry entry) {
+	        	if(((String) entry.getValue(1)).contains(typ) && ((String) entry.getValue(2)).contains(jahr)) {
+	            	return true;
+	            }
+	            return false;
+	        }
+	    };
+		sorter.setRowFilter(filter);
+	}
+
 	private static DefaultTableModel getModel(ArrayList<Eintrag> liste) {
 		/*@author:		Soeren Hebestreit
-		 *@date: 		22.07.2019
+		 *@date: 		27.07.2019
 		 *@description: Tabellenmodell (inkl. Daten) erzeugen
 		 */
 		
@@ -443,7 +545,6 @@ public class EditAzkGUI extends JFrame{
 			} else {
 				Data[i][1] = "Krankheit";
 			}
-			
 			Data[i][2] = liste.get(i).getStart()+"";
 			Data[i][3] = liste.get(i).getEnde()+"";
 			Data[i][4] = liste.get(i).getArbeitstage()+" Tage";
@@ -456,7 +557,7 @@ public class EditAzkGUI extends JFrame{
 	
 	private static void setColWidth() {
 		/*@author:		Soeren Hebestreit
-		 *@date: 		22.07.2019
+		 *@date: 		27.07.2019
 		 *@description: Spaltenbreite der Tabelle aendern
 		 */
 		
@@ -467,27 +568,36 @@ public class EditAzkGUI extends JFrame{
 		table.getColumnModel().getColumn( 4 ).setPreferredWidth( 100 );
 	}
 	
-	private static void getInfo(int number) {
+	private static void showAnzahl(ArrayList<Eintrag> liste) {
 		/*@author:		Soeren Hebestreit
-		 *@date: 		22.07.2019
-		 *@description: Daten bezueglich Auswahl anzeigen
+		 *@date: 		27.07.2019
+		 *@description: Anzahl Urlaub/Krankheit fuer angegebenes Jahr ermitteln und ausgeben
 		 */
 		
-		if(number < 0) {
-			lblData[0][1].setText("");
-			lblData[1][1].setText("");
-			lblData[2][1].setText("");
-			lblData[3][1].setText("");
-			lblData[4][1].setText("");
-			lblData[5][1].setText("");							
-		} else {
-			Mitarbeiter ma = ((Mitarbeiter) Personalverwaltung.getInstance().suchen(number));
-			lblData[0][1].setText(ma.getPersonalnummer()+"");
-			lblData[1][1].setText(ma.getName()+", "+ma.getVorname());
-			lblData[2][1].setText(ma.getGeburtsdatum()+"");
-			lblData[3][1].setText(ma.getEinstellungsdatum()+"");
-			lblData[4][1].setText(ma.getAusscheidungsdatum()+"");
-			lblData[5][1].setText(((Arbeitsbereich)Arbeitsbereichverwaltung.getInstance().suchen(ma.getActualAB().getArbeitsbereichnummer())).getName());
+		int anzahl = 0;
+		if(jahr == "" || typ == "") {
+			lblAnzahl.setText("");
+			lblAnzahlData.setText("");
+		} else if(typ.contains("Urlaub")) {
+			for (int i = 0; i < liste.size(); i++) {
+				if (liste.get(i) instanceof Urlaubseintrag) {
+					if (liste.get(i).getStart().getJahr() == Integer.parseInt(jahr)) {
+						anzahl = anzahl + liste.get(i).getArbeitstage();
+					}
+				}
+			lblAnzahl.setText("davon genommen:");
+			lblAnzahlData.setText(""+anzahl);	
+			}
+		} else if(typ.contains("Krankheit"))  {
+			for (int i = 0; i < liste.size(); i++) {
+				if (liste.get(i) instanceof Krankheitseintrag) {
+					if (liste.get(i).getStart().getJahr() == Integer.parseInt(jahr)) {
+						anzahl = anzahl + liste.get(i).getArbeitstage();
+					}
+				}
+			}
+			lblAnzahl.setText("Krankheitstage:");
+			lblAnzahlData.setText(""+anzahl);
 		}
 	}
 		
