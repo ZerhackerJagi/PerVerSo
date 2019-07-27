@@ -11,6 +11,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import comparatoren.MitarbeiterNameComparator;
+import comparatoren.MitarbeiterNummerComparator;
 import logik.Arbeitsbereich;
 import logik.Arbeitsbereichverwaltung;
 import logik.Mitarbeiter;
@@ -18,11 +20,14 @@ import logik.Personalverwaltung;
 import logik.Zugehoerigkeit;
 
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
+import java.util.Collections;
 
-public class ShowVerlaufGUI extends JFrame{
+public class ShowMitarbeiterABGUI extends JFrame{
 	
 //******************** PARAMETER ********************
 
@@ -31,30 +36,28 @@ public class ShowVerlaufGUI extends JFrame{
 	
 //******************** KONSTRUKTOR ********************
 	
-	public ShowVerlaufGUI(int PID) {
+	public ShowMitarbeiterABGUI(int ID) {
 		/*@author:		Soeren Hebestreit
-		 *@date: 		20.07.2019
-		 *@description: GUI zur Ansicht der Zugehörigkeiten eines Mitarbeiters
+		 *@date: 		27.07.2019
+		 *@description: GUI zur Ansicht der Mitarbeiter eines Bereiches
 		 */
 		
-		setSize(360, 640);
+		setSize(400, 500);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		getContentPane().setBackground(new Color(255, 255, 255));
 		getContentPane().setLayout(null);
 		setResizable(false);
 		
-		Personalverwaltung pv = Personalverwaltung.getInstance();
-		Arbeitsbereichverwaltung.getInstance();
-		Mitarbeiter ma = ((Mitarbeiter) pv.suchen(PID));
+		Arbeitsbereichverwaltung abv = Arbeitsbereichverwaltung.getInstance();
 		
-		JLabel lblVerlauf = new JLabel("Verlauf");
+		JLabel lblVerlauf = new JLabel("Mitarbeiter");
 		lblVerlauf.setFont(new Font("Dialog", Font.BOLD, 21));
 		lblVerlauf.setForeground(new Color(255, 255, 255));
 		lblVerlauf.setBounds(24, 8, 360, 36);
 		getContentPane().add(lblVerlauf);
 		
-		JLabel lblName = new JLabel(ma.getVorname()+" "+ma.getName());
+		JLabel lblName = new JLabel("Bereich: "+((Arbeitsbereich)abv.suchen(ID)).getName());
 		lblName.setFont(new Font("Dialog", Font.BOLD, 14));
 		lblName.setForeground(new Color(255, 255, 255));
 		lblName.setBounds(24, 36, 360, 24);
@@ -62,7 +65,7 @@ public class ShowVerlaufGUI extends JFrame{
 		
 		JPanel rahmenOben = new JPanel();
 		rahmenOben.setBackground(new Color(100, 150, 200));
-		rahmenOben.setBounds(0, 0, 360, 64);
+		rahmenOben.setBounds(0, 0, 400, 64);
 		getContentPane().add(rahmenOben);
 		
 		JPanel panel = new JPanel();
@@ -71,89 +74,76 @@ public class ShowVerlaufGUI extends JFrame{
 		
 		JScrollPane sp = new JScrollPane(panel);
 		sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		sp.setBounds(25, 64, 330, 548);
+		sp.setBounds(25, 64, 370, 408);
 		sp.setBorder( null );
 		sp.setViewportView(panel);
 		getContentPane().add(sp);
 		
-		table = new JTable(getModel(ma.getZugehoerigkeit())) {
+		ArrayList<Mitarbeiter> mitarbeiterliste = new ArrayList<Mitarbeiter>();
+		for(int i=0; i < Personalverwaltung.getaMA().size(); i++) {
+			if(Personalverwaltung.getaMA().get(i).getActualAB().getArbeitsbereichnummer() == ID)
+			mitarbeiterliste.add(Personalverwaltung.getaMA().get(i));
+		}
+		table = new JTable(getModel(mitarbeiterliste)) {
 			private static final long serialVersionUID = 1L;
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
 				return false;
 			}
-		};
+		}; 
 		table.setShowGrid(false);
 		table.setShowHorizontalLines(true);
-		table.setFocusable(false);
-		table.setRowSelectionAllowed(false);
-		formatTable(ma.getZugehoerigkeit());
+		table.setRowHeight(30);
+		setColWidth();
+		table.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) { 
+					if(table.columnAtPoint(e.getPoint()) == 0) {
+						Collections.sort(mitarbeiterliste,new MitarbeiterNummerComparator());
+					} else {
+						Collections.sort(mitarbeiterliste,new MitarbeiterNameComparator());
+					}
+					table.setModel(getModel(mitarbeiterliste));
+					setColWidth();
+				}
+			}
+		});
 		panel.add(table);			
 		
 		setVisible(true);
 	}
 	
-	private static DefaultTableModel getModel(ArrayList<Zugehoerigkeit> liste) {
+	private static DefaultTableModel getModel(ArrayList<Mitarbeiter> mitarbeiterliste) {
 		/*@author:		Soeren Hebestreit
-		 *@date: 		26.07.2019
+		 *@date: 		27.07.2019
 		 *@description: Tabellenmodell (inkl. Daten) erzeugen
 		 */
-		
-		String [][] Data = new String [liste.size()*2][2];
-		for(int i=0; i < liste.size()*2; i=i+2) {
-			Data[i][0] = liste.get(i/2).getStart()+"";
-			Data[i][1] = ((Arbeitsbereich) Arbeitsbereichverwaltung.getInstance().suchen(liste.get(i/2).getArbeitsbereichnummer())).getName();
-			Data[i+1][0] = "";
-			Data[i+1][1] = liste.get(i/2).getBemerkung();
+				String [][] Data = new String [mitarbeiterliste.size()][3];
+		for(int i=0; i < mitarbeiterliste.size(); i++) {
+			Data[i][0] = mitarbeiterliste.get(i).getPersonalnummer()+"";
+			Data[i][1] = mitarbeiterliste.get(i).getName();
+			Data[i][2] = mitarbeiterliste.get(i).getVorname();
 		}
-		String[] columnNames = {"Datum","Arbeitsbereich"};
+		String[] columnNames = {"PID","Name","Vorname"};
 		DefaultTableModel model = new DefaultTableModel(Data, columnNames);
 		
 		return model;
 	}
 	
-	private void formatTable(ArrayList<Zugehoerigkeit> liste) {
+	private static void setColWidth() {
 		/*@author:		Soeren Hebestreit
-		 *@date: 		26.07.2019
-		 *@description: Zugehoerigkeits-Tabelle formatieren
+		 *@date: 		22.07.2019
+		 *@description: Spaltenbreite der Tabelle aendern
 		 */
 		
-		class CellRenderer extends JTextArea implements TableCellRenderer {
-			/*@author:		Soeren Hebestreit
-			 *@date: 		26.07.2019
-			 *@description: CellRenderer zur Formatierung der Zellen (Text: oben, ungerade Zeilen: Fett)
-			 */
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-				this.setText((String)value);
-		        this.setWrapStyleWord(true);            
-		        this.setLineWrap(true);         
-
-			    if ((row & 1) != 0) {
-			    	this.setFont(this.getFont().deriveFont(Font.PLAIN));
-			    	table.setRowHeight(row,14+51);
-			    } else {
-			    	this.setFont(this.getFont().deriveFont(Font.BOLD));
-			    	table.setRowHeight(row,20);
-			    }
-			    return this;
-			}
-		}
-		
-		CellRenderer cr = new CellRenderer();  
-		table.getColumnModel().getColumn(0).setCellRenderer(cr);
-		table.getColumnModel().getColumn(1).setCellRenderer(cr);
-       
-		table.getColumnModel().getColumn(0).setPreferredWidth( 100 );
-		table.getColumnModel().getColumn(1).setPreferredWidth( 200 );
+		table.getColumnModel().getColumn( 0 ).setPreferredWidth( 50 );
+		table.getColumnModel().getColumn( 1 ).setPreferredWidth( 130 );
+		table.getColumnModel().getColumn( 2 ).setPreferredWidth( 160 );
 	}
 	
 	public static void main(String[] args) throws Exception {
 			
 		Personalverwaltung.getInstance().laden();
 		Arbeitsbereichverwaltung.getInstance().laden();	
-		new ShowVerlaufGUI(1);
+		new ShowMitarbeiterABGUI(0);
 	}
 }

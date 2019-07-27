@@ -405,6 +405,7 @@ public class PVGUI extends JFrame{
 		setColWidth();
 		table.setSelectionMode( javax.swing.ListSelectionModel.SINGLE_SELECTION);
 		table.addMouseListener(new MouseAdapter(){
+			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) { 
 					if(table.columnAtPoint(e.getPoint()) == 0) {
