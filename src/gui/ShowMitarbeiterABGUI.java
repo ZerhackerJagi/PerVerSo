@@ -5,25 +5,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-
 import comparatoren.MitarbeiterNameComparator;
 import comparatoren.MitarbeiterNummerComparator;
 import logik.Arbeitsbereich;
 import logik.Arbeitsbereichverwaltung;
 import logik.Mitarbeiter;
 import logik.Personalverwaltung;
-import logik.Zugehoerigkeit;
-
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
-import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -81,9 +75,11 @@ public class ShowMitarbeiterABGUI extends JFrame{
 		
 		ArrayList<Mitarbeiter> mitarbeiterliste = new ArrayList<Mitarbeiter>();
 		for(int i=0; i < Personalverwaltung.getaMA().size(); i++) {
-			if(Personalverwaltung.getaMA().get(i).getActualAB().getArbeitsbereichnummer() == ID)
-			mitarbeiterliste.add(Personalverwaltung.getaMA().get(i));
+			if(Personalverwaltung.getaMA().get(i).getActualAB().getArbeitsbereichnummer() == ID) {
+				mitarbeiterliste.add(Personalverwaltung.getaMA().get(i));
+			}
 		}
+		
 		table = new JTable(getModel(mitarbeiterliste)) {
 			private static final long serialVersionUID = 1L;
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -117,7 +113,8 @@ public class ShowMitarbeiterABGUI extends JFrame{
 		 *@date: 		27.07.2019
 		 *@description: Tabellenmodell (inkl. Daten) erzeugen
 		 */
-				String [][] Data = new String [mitarbeiterliste.size()][3];
+		
+		String [][] Data = new String [mitarbeiterliste.size()][3];
 		for(int i=0; i < mitarbeiterliste.size(); i++) {
 			Data[i][0] = mitarbeiterliste.get(i).getPersonalnummer()+"";
 			Data[i][1] = mitarbeiterliste.get(i).getName();

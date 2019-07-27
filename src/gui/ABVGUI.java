@@ -157,17 +157,30 @@ public class ABVGUI extends JFrame{
 				if(wahl == 0 || wahl == 1) {
 					JOptionPane.showMessageDialog(null, "Dieser Arbeitsbereich ist für die Bearbeitung gesperrt.", null, JOptionPane.INFORMATION_MESSAGE);
 				} else if(wahl >=0 && wahl != 0 && wahl != 1) {
-					Admin admin = new Admin(PID);
-					admin.delAB(wahl);
-					try {
-						abv.speichern();
-					} catch (Exception e1) {
-						e1.printStackTrace();
+					boolean empty = true;
+					for(int i=0; i < Personalverwaltung.getaMA().size(); i++) {
+						if(Personalverwaltung.getaMA().get(i).getActualAB().getArbeitsbereichnummer() == wahl) {
+							empty = false;
+							break;
+						}
 					}
-					wahl = -1;
-					getInfo(wahl);
-					table.setModel(getModel(Arbeitsbereichverwaltung.getBereiche()));
-					setColWidth();
+					if(empty) {
+						if((JOptionPane.showConfirmDialog(null, "Bereich "+((Arbeitsbereich)abv.suchen(wahl)).getName()+" löschen?", null, JOptionPane.YES_NO_OPTION)) == 0) {
+							Admin admin = new Admin(PID);
+							admin.delAB(wahl);
+							try {
+								abv.speichern();
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
+							wahl = -1;
+							getInfo(wahl);
+							table.setModel(getModel(Arbeitsbereichverwaltung.getBereiche()));
+							setColWidth();
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "Es befinden sich noch Mitarbeiter im Arbeitsbereich.", null, JOptionPane.INFORMATION_MESSAGE);
+					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Bitte Auswahl treffen.", null, JOptionPane.INFORMATION_MESSAGE);
 				}
