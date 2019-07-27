@@ -71,12 +71,17 @@ public class AdminTest {
 	}
 	
 	@Test
-	public void KtestEditAZKVertragsdaten() throws Exception {
+	public void KtestEditAZKLimit() throws Exception {
 		Admin ad1 = new Admin(0);
-		assertFalse(ad1.editAZKVertragsdaten(4,40,25,30,100));
+		assertFalse(ad1.editAZKLimit(4,30,100));
 		ad1.addMA("Spina","Charly",'d',new Datum(9,9,1996), new Datum(12,2,2019),1); //4
-		assertTrue(ad1.editAZKVertragsdaten(4,40,25,30,100));
+		assertTrue(ad1.editAZKLimit(4,30,100));
+	}
 		
+		
+	@Test
+	public void KtestEditAZKVertragsdaten() throws Exception {	
+		Admin ad1 = new Admin(0);
 		assertFalse(ad1.editAZKVertragsdaten(5,40,25));
 		ad1.addMA("Spina","Charly",'d',new Datum(9,9,1996), new Datum(12,2,2019),1); //5
 		assertTrue(ad1.editAZKVertragsdaten(5,40,25));

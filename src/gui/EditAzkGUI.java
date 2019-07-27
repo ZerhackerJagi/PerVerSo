@@ -24,7 +24,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.awt.Color;
 
-public class PVGUI extends JFrame{
+public class EditAzkGUI extends JFrame{
 	
 //******************** PARAMETER ********************
 
@@ -43,10 +43,10 @@ public class PVGUI extends JFrame{
 	
 //******************** KONSTRUKTOR ********************
 	
-	public PVGUI(int PID) {
+	public EditAzkGUI(int PID, int wer) {
 		/*@author:		Soeren Hebestreit
-		 *@date: 		21.07.2019
-		 *@description: Hauptmenue Personalverwaltung, Mitarbeiterauswahl
+		 *@date: 		27.07.2019
+		 *@description: Arbeitszeitkonto verwalten
 		 */	
 	
 		setSize(800, 640);
@@ -252,21 +252,7 @@ public class PVGUI extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(wahl >=0 ) {
-					if (openEditAzk == false) {
-						openEditAzk = true;
-						EditAzkGUI editAzk = new EditAzkGUI(PID, wahl);
-						editAzk.addWindowListener(new WindowAdapter() {
-							@Override
-							public void windowClosed(WindowEvent e) {
-								getInfo(wahl);
-								table.setModel(getModel(Personalverwaltung.getaMA()));
-								setColWidth();
-								openEditAzk = false;
-							}
-						});
-					} else {
-						JOptionPane.showMessageDialog(null, "Arbeitszeitkonto bearbeiten bereits offen.", null, JOptionPane.INFORMATION_MESSAGE);
-					}
+					new StatistikGUI(PID);
 				} else {
 					JOptionPane.showMessageDialog(null, "Bitte Auswahl treffen.", null, JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -498,7 +484,7 @@ public class PVGUI extends JFrame{
 		
 		Arbeitsbereichverwaltung.getInstance().laden();	
 		Personalverwaltung.getInstance().laden();
-		new PVGUI(0);
+		new EditAzkGUI(0,1);
 	}
 	
 }

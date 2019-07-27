@@ -210,8 +210,7 @@ public class Admin extends Berechtigung implements Serializable {
 
 //******************** VERWALTUNG ARBEITSZEITKONTEN ******************** 	
 
-	public boolean editAZKVertragsdaten(int personalnummer, int sollstunden, int urlaubbasis, int ueberminutenmin,
-			int ueberminutenmax) {
+	public boolean editAZKLimit(int personalnummer, int ueberminutenmin, int ueberminutenmax) {
 		/*
 		 * @author: Soeren Hebestreit
 		 * 
@@ -227,12 +226,8 @@ public class Admin extends Berechtigung implements Serializable {
 			return false;
 		}
 
-		ma.getAzk().setSollstunden(sollstunden);
-		int differenz = ma.getAzk().getUrlaubbasis()-urlaubbasis;
-		ma.getAzk().setUrlaubbasis(urlaubbasis);
 		ma.getAzk().setUeberminutenmin(ueberminutenmin);
 		ma.getAzk().setUeberminutenmax(ueberminutenmax);
-		ma.getAzk().setUrlaubskontingent(ma.getAzk().getUrlaubskontingent()-differenz);
 		return true;
 	}
 	
