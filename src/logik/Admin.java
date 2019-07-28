@@ -225,8 +225,11 @@ public class Admin extends Berechtigung implements Serializable {
 		if (ma == null) {
 			return false;
 		}
-
-		ma.getAzk().setUeberminutenmin(ueberminutenmin);
+		if (ueberminutenmin < 0) {
+			ma.getAzk().setUeberminutenmin(ueberminutenmin);
+		} else {
+			ma.getAzk().setUeberminutenmin(-ueberminutenmin);
+		}
 		ma.getAzk().setUeberminutenmax(ueberminutenmax);
 		return true;
 	}
@@ -269,9 +272,9 @@ public class Admin extends Berechtigung implements Serializable {
 		}
 
 		if (betrag < 0) {
-			ma.getAzk().addPlus(betrag);
+			ma.getAzk().addMinus(-betrag);
 		} else {
-			ma.getAzk().addMinus(betrag);
+			ma.getAzk().addPlus(betrag);
 		}
 		return true;
 	}

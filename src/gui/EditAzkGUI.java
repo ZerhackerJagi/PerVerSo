@@ -8,14 +8,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import extern.Datum;
 import logik.Admin;
 import logik.Eintrag;
 import logik.Krankheitseintrag;
@@ -46,6 +47,7 @@ public class EditAzkGUI extends JFrame{
 	private static JLabel lblAnzahlData;
 	private static JLabel lblAnzahl;
 	private static JLabel lblAchtung;
+	public boolean openEditLimit = false;
 	public boolean openAddE = false;
 	
 //******************** KONSTRUKTOR ********************
@@ -98,238 +100,107 @@ public class EditAzkGUI extends JFrame{
 		rahmenRechts.setBackground(new Color(100, 150, 200));
 		rahmenRechts.setBounds(240, 0, 4, 640);
 		getContentPane().add(rahmenRechts);
+		
+		JLabel lblWarnung = new JLabel("");
+		if (ma.getAzk().getUeberminutenmax() < ma.getAzk().getUeberminuten()) {
+			lblWarnung.setText("Obergrenze Überminuten beachten!");		
+		} else if (ma.getAzk().getUeberminutenmin() > ma.getAzk().getUeberminuten()) {
+			lblWarnung.setText("Untergrenze Überminuten beachten!");
+		}
+		lblWarnung.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblWarnung.setForeground(new Color(250, 50, 50));
+		lblWarnung.setBounds(24, 170, 300, 24);
+		getContentPane().add(lblWarnung);
 
-//		JLabel lblStammdaten = new JLabel("Stammdaten");
-//		lblStammdaten.setFont(new Font("Dialog", Font.BOLD, 14));
-//		lblStammdaten.setBounds(24, 100, 240, 24);
-//		getContentPane().add(lblStammdaten);
-//		
-//		JButton btnAnlegen = new JButton("Mitarbeiter anlegen");
-//		btnAnlegen.setBackground(new Color(255, 255, 255));
-//		btnAnlegen.addMouseListener(new MouseAdapter() {				
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				if (openAddMA == false) {
-//					openAddMA = true;
-//					EditMitarbeiterGUI addMa = new EditMitarbeiterGUI(PID,Personalverwaltung.getaMA().get(Personalverwaltung.getaMA().size()-1).getPersonalnummer()+1,false);
-//					addMa.addWindowListener(new WindowAdapter() {
-//						@Override
-//						public void windowClosed(WindowEvent e) {
-//							table.setModel(getModel(ma.getAzk().getListe()));
-//							setColWidth();
-//							openAddMA = false;
-//						}
-//					});
-//				} else {
-//					JOptionPane.showMessageDialog(null, "Mitarbeiter hinzufügen bereits offen.", null, JOptionPane.INFORMATION_MESSAGE);
-//				}
-//			}
-//		});
-//		btnAnlegen.setBounds(24, 140, 200, 24);
-//		getContentPane().add(btnAnlegen);
-//		
-//		JButton btnBearbeiten = new JButton("Mitarbeiter bearbeiten");
-//		btnBearbeiten.setBackground(new Color(255, 255, 255));
-//		btnBearbeiten.addMouseListener(new MouseAdapter() {				
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				if(wahl >=0 ) {
-//					if (openEditMA == false) {
-//						openEditMA = true;
-//						EditMitarbeiterGUI editMa = new EditMitarbeiterGUI(PID,wahl,true);
-//						editMa.addWindowListener(new WindowAdapter() {
-//							@Override
-//							public void windowClosed(WindowEvent e) {
-//								getInfo(wahl);
-//								table.setModel(getModel(ma.getAzk().getListe()));
-//								setColWidth();
-//								openEditMA = false;
-//							}
-//						});
-//					} else {
-//						JOptionPane.showMessageDialog(null, "Mitarbeiter bearbeiten bereits offen.", null, JOptionPane.INFORMATION_MESSAGE);
-//					}
-//				} else {
-//					JOptionPane.showMessageDialog(null, "Bitte Auswahl treffen.", null, JOptionPane.INFORMATION_MESSAGE);
-//				}
-//			}
-//		});
-//		btnBearbeiten.setBounds(24, 164, 200, 24);
-//		getContentPane().add(btnBearbeiten);
-//		
-//		JButton btnEntfernen = new JButton("Mitarbeiter entfernen");
-//		btnEntfernen.setBackground(new Color(255, 255, 255));
-//		btnEntfernen.addMouseListener(new MouseAdapter() {	
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				if(wahl == PID) {
-//					JOptionPane.showMessageDialog(null, "Diese Option kann nicht auf den Anwender selbst angewandt werden.", null, JOptionPane.INFORMATION_MESSAGE);
-//				} else if(wahl >=0 && wahl != PID) {
-//					if (openDelMA == false) {
-//						openDelMA = true;
-//						DeleteMitarbeiterGUI delMa = new DeleteMitarbeiterGUI(PID,wahl);
-//						delMa.addWindowListener(new WindowAdapter() {
-//							@Override
-//							public void windowClosed(WindowEvent e) {
-//								wahl = -1;
-//								getInfo(wahl);
-//								table.setModel(getModel(ma.getAzk().getListe()));
-//								setColWidth();
-//								openDelMA = false;
-//							}
-//						});
-//					} else {
-//						JOptionPane.showMessageDialog(null, "Mitarbeiter entfernen bereits offen.", null, JOptionPane.INFORMATION_MESSAGE);
-//					}
-//				} else {
-//					JOptionPane.showMessageDialog(null, "Bitte Auswahl treffen.", null, JOptionPane.INFORMATION_MESSAGE);
-//				}
-//			}
-//		});
-//		btnEntfernen.setBounds(24, 188, 200, 24);
-//		getContentPane().add(btnEntfernen);
-//		
-//		JLabel lblKennung = new JLabel("Kennung und Berechtigung");
-//		lblKennung.setFont(new Font("Dialog", Font.BOLD, 14));
-//		lblKennung.setBounds(24, 240, 240, 24);
-//		getContentPane().add(lblKennung);
-//		
-//		JButton btnKennung = new JButton("Kennung bearbeiten");
-//		btnKennung.setBackground(new Color(255, 255, 255));
-//		btnKennung.addMouseListener(new MouseAdapter() {				
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				if(wahl >=0 ) {
-//					if (openEditKennung == false) {
-//						openEditKennung = true;
-//						EditKennungGUI editKennung = new EditKennungGUI(PID,wahl);
-//						editKennung.addWindowListener(new WindowAdapter() {
-//							@Override
-//							public void windowClosed(WindowEvent e) {
-//								openEditKennung = false;
-//							}
-//						});
-//					} else {
-//						JOptionPane.showMessageDialog(null, "Kennung bearbeiten bereits offen.", null, JOptionPane.INFORMATION_MESSAGE);
-//					}
-//				} else {
-//					JOptionPane.showMessageDialog(null, "Bitte Auswahl treffen.", null, JOptionPane.INFORMATION_MESSAGE);
-//				}
-//			}
-//		});
-//		btnKennung.setBounds(24, 280, 200, 24);
-//		getContentPane().add(btnKennung);
-//		
-//		JButton btnEditBerechtigung = new JButton("Berechtigung ändern");
-//		btnEditBerechtigung.setBackground(new Color(255, 255, 255));
-//		btnEditBerechtigung.addMouseListener(new MouseAdapter() {				
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				if(wahl == PID) {
-//					JOptionPane.showMessageDialog(null, "Diese Option kann nicht auf den Anwender selbst angewandt werden.", null, JOptionPane.INFORMATION_MESSAGE);
-//				} else if(wahl >=0 && wahl != PID) {
-//					if (openEditBerechtigung == false) {
-//						openEditBerechtigung = true;
-//						EditBerechtigungGUI editBerechtigung = new EditBerechtigungGUI(PID,wahl);
-//						editBerechtigung.addWindowListener(new WindowAdapter() {
-//							@Override
-//							public void windowClosed(WindowEvent e) {
-//								openEditBerechtigung = false;
-//							}
-//						});
-//					} else {
-//						JOptionPane.showMessageDialog(null, "Berechtigung ändern bereits offen.", null, JOptionPane.INFORMATION_MESSAGE);
-//					}
-//				} else {
-//					JOptionPane.showMessageDialog(null, "Bitte Auswahl treffen.", null, JOptionPane.INFORMATION_MESSAGE);
-//				}
-//			}
-//		});
-//		btnEditBerechtigung.setBounds(24, 304, 200, 24);
-//		getContentPane().add(btnEditBerechtigung);
-//		
-//		JLabel lblAZK = new JLabel("Arbeitszeitkonto");
-//		lblAZK.setFont(new Font("Dialog", Font.BOLD, 14));
-//		lblAZK.setBounds(24, 356, 240, 24);
-//		getContentPane().add(lblAZK);
-//		
-//		JButton btnEditAZK = new JButton("Arbeitszeitkonto bearbeiten");
-//		btnEditAZK.setBackground(new Color(255, 255, 255));
-//		btnEditAZK.addMouseListener(new MouseAdapter() {				
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				if(wahl >=0 ) {
-//					new StatistikGUI(PID);
-//				} else {
-//					JOptionPane.showMessageDialog(null, "Bitte Auswahl treffen.", null, JOptionPane.INFORMATION_MESSAGE);
-//				}
-//			}
-//		});
-//		btnEditAZK.setBounds(24, 396, 200, 24);
-//		getContentPane().add(btnEditAZK);
-//		
-//		JLabel lblLink = new JLabel("Zugehörigkeit");
-//		lblLink.setFont(new Font("Dialog", Font.BOLD, 14));
-//		lblLink.setBounds(24, 448, 240, 24);
-//		getContentPane().add(lblLink);
-//		
-//		JButton btnNewLink = new JButton("Zugehörigkeit ändern");
-//		btnNewLink.setBackground(new Color(255, 255, 255));
-//		btnNewLink.addMouseListener(new MouseAdapter() {				
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				if(wahl >=0 ) {
-//					if (openEditZug == false) {
-//						openEditZug = true;
-//						EditLinkingMaGUI editLink = new EditLinkingMaGUI(PID,wahl);
-//						editLink.addWindowListener(new WindowAdapter() {
-//							@Override
-//							public void windowClosed(WindowEvent e) {
-//								getInfo(wahl);
-//								table.setModel(getModel(ma.getAzk().getListe()));
-//								setColWidth();
-//								openEditZug = false;
-//							}
-//						});
-//					} else {
-//						JOptionPane.showMessageDialog(null, "Zugehörigkeit ändern bereits offen.", null, JOptionPane.INFORMATION_MESSAGE);
-//					}
-//				} else {
-//					JOptionPane.showMessageDialog(null, "Bitte Auswahl treffen.", null, JOptionPane.INFORMATION_MESSAGE);
-//				}
-//			}
-//		});
-//		btnNewLink.setBounds(24, 488, 200, 24);
-//		getContentPane().add(btnNewLink);
-//		
-//		JButton btnVerlauf = new JButton("Verlauf anzeigen");
-//		btnVerlauf.setBackground(new Color(255, 255, 255));
-//		btnVerlauf.addMouseListener(new MouseAdapter() {				
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				if(wahl >=0 ) {
-//					if (openShowVerlauf == false) {
-//						openShowVerlauf = true;
-//						ShowVerlaufGUI showVerlauf = new ShowVerlaufGUI(wahl);
-//						showVerlauf.addWindowListener(new WindowAdapter() {
-//							@Override
-//							public void windowClosed(WindowEvent e) {
-//								getInfo(wahl);
-//								table.setModel(getModel(ma.getAzk().getListe()));
-//								setColWidth();
-//								openShowVerlauf = false;
-//							}
-//						});
-//					} else {
-//						JOptionPane.showMessageDialog(null, "Verlauf anzeigen bereits offen.", null, JOptionPane.INFORMATION_MESSAGE);
-//					}
-//				} else {
-//					JOptionPane.showMessageDialog(null, "Bitte Auswahl treffen.", null, JOptionPane.INFORMATION_MESSAGE);
-//				}
-//			}
-//		});
-//		btnVerlauf.setBounds(24, 512, 200, 24);
-//		getContentPane().add(btnVerlauf);
+		JLabel lblMinuten = new JLabel("Überminuten:");
+		lblMinuten.setBounds(32, 140, 150, 24);
+		getContentPane().add(lblMinuten);
+		
+		JLabel lblMinutenData = new JLabel(""+ma.getAzk().getUeberminuten(),SwingConstants.RIGHT);
+		lblMinutenData.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblMinutenData.setBounds(144, 140, 64, 24);
+		getContentPane().add(lblMinutenData);
+		
+		JTextField tfPlus = new JTextField();
+		tfPlus.setBounds(174, 98, 50, 24);
+		getContentPane().add(tfPlus);
+		
+		JButton btnAddPlus = new JButton("Übertrag addieren");
+		btnAddPlus.setBackground(new Color(255, 255, 255));
+		btnAddPlus.addMouseListener(new MouseAdapter() {				
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(!tfPlus.getText().isEmpty()) {
+					Admin admin = new Admin(PID);
+					admin.addAZKUeberminuten(wer, Integer.parseInt(tfPlus.getText()));
+					try {
+						pv.speichern();
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+					tfPlus.setText("");
+					if (ma.getAzk().getUeberminutenmax() < ma.getAzk().getUeberminuten()) {
+						lblWarnung.setText("Obergrenze Überminuten beachten!");		
+					} else if (ma.getAzk().getUeberminutenmin() > ma.getAzk().getUeberminuten()) {
+						lblWarnung.setText("Untergrenze Überminuten beachten!");
+					} else {
+						lblWarnung.setText("");
+					}
+					lblMinutenData.setText(""+ma.getAzk().getUeberminuten());
+				}
+			}
+		});
+		btnAddPlus.setBounds(24, 98, 140, 24);
+		getContentPane().add(btnAddPlus);
+				
+		JLabel lblUMax = new JLabel("Überminuten Max:");
+		lblUMax.setBounds(32, 330, 150, 24);
+		getContentPane().add(lblUMax);
+		
+		JLabel lblUMaxData = new JLabel(""+ma.getAzk().getUeberminutenmax(),SwingConstants.RIGHT);
+		lblUMaxData.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblUMaxData.setBounds(144, 330, 64, 24);
+		getContentPane().add(lblUMaxData);
+		
+		JLabel lblUMin = new JLabel("Überminuten Min:");
+		lblUMin.setBounds(32, 360, 150, 24);
+		getContentPane().add(lblUMin);
+		
+		JLabel lblUMinData = new JLabel(""+ma.getAzk().getUeberminutenmin(),SwingConstants.RIGHT);
+		lblUMinData.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblUMinData.setBounds(144, 360, 64, 24);
+		getContentPane().add(lblUMinData);
+	
+		JButton btnLimit = new JButton("Grenzen ändern");
+		btnLimit.setBackground(new Color(255, 255, 255));
+		btnLimit.addMouseListener(new MouseAdapter() {				
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (openEditLimit == false) {
+					openEditLimit = true;
+					EditLimitGUI editLimit = new EditLimitGUI(PID,wer);
+					editLimit.addWindowListener(new WindowAdapter() {
+						@Override
+						public void windowClosed(WindowEvent e) {
+							openEditLimit = false;
+							if (ma.getAzk().getUeberminutenmax() < ma.getAzk().getUeberminuten()) {
+								lblWarnung.setText("Obergrenze Überminuten beachten!");		
+							} else if (ma.getAzk().getUeberminutenmin() > ma.getAzk().getUeberminuten()) {
+								lblWarnung.setText("Untergrenze Überminuten beachten!");
+							} else {
+								lblWarnung.setText("");
+							}
+							lblUMaxData.setText(""+ma.getAzk().getUeberminutenmax());
+							lblUMinData.setText(""+ma.getAzk().getUeberminutenmin());
+						}
+					});
+				} else {
+					JOptionPane.showMessageDialog(null, "Grenzen ändern bereits offen.", null, JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
+		btnLimit.setBounds(24, 398, 200, 24);
+		getContentPane().add(btnLimit);
 		
 		JPanel rahmenUnten = new JPanel();
 		rahmenUnten.setBackground(new Color(100, 150, 200));
@@ -348,6 +219,7 @@ public class EditAzkGUI extends JFrame{
 						@Override
 						public void windowClosed(WindowEvent e) {
 							table.setModel(getModel(ma.getAzk().getListe()));
+							sorter = new TableRowSorter<TableModel>(((DefaultTableModel) table.getModel()));
 							setColWidth();
 							getFilter();
 							showAnzahlTage(ma);
@@ -382,6 +254,7 @@ public class EditAzkGUI extends JFrame{
 						}
 						wahl = -1;
 						table.setModel(getModel(ma.getAzk().getListe()));
+						sorter = new TableRowSorter<TableModel>(((DefaultTableModel) table.getModel()));
 						setColWidth();
 						getFilter();
 						showAnzahlTage(ma);
@@ -398,7 +271,7 @@ public class EditAzkGUI extends JFrame{
 		lblJahr.setBounds(256, 518, 40, 24);
 		getContentPane().add(lblJahr);
 		
-		int length = (new Datum()).getJahr()-ma.getEinstellungsdatum().getJahr()+2;
+		int length = ma.getAzk().getListe().get(ma.getAzk().getListe().size()-1).getStart().getJahr()-ma.getEinstellungsdatum().getJahr()+2;
 		String[] jahre = new String[length];
 		jahre[0] = "alle";
 		for(int i = 0; i<length-1; i++) {
@@ -487,7 +360,7 @@ public class EditAzkGUI extends JFrame{
 				return false;
 			}
 		};
-		sorter = new TableRowSorter<TableModel>(((DefaultTableModel) table.getModel())); 
+		sorter = new TableRowSorter<TableModel>(((DefaultTableModel) table.getModel()));
 		table.setRowSorter(sorter);
 		getFilter();
 		table.setShowVerticalLines(false);
@@ -517,6 +390,7 @@ public class EditAzkGUI extends JFrame{
 	            return false;
 	        }
 	    };
+	     
 		sorter.setRowFilter(filter);
 	}
 

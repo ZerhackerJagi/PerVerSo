@@ -77,19 +77,16 @@ public class ShowAzkGUI extends JFrame{
 		lblUeberData.setBounds(150, y+70, 100, 24);
 		getContentPane().add(lblUeberData);
 		
+		JLabel lblWarnung = new JLabel("");
 		if (ma.getAzk().getUeberminutenmax()*grenze < ma.getAzk().getUeberminuten()) {
-			JLabel lblWarnung = new JLabel("Obergrenze Überminuten beachten!");
-			lblWarnung.setFont(new Font("Dialog", Font.PLAIN, 12));
-			lblWarnung.setForeground(new Color(250, 50, 50));
-			lblWarnung.setBounds(24, y+100, 300, 24);
-			getContentPane().add(lblWarnung);
+			lblWarnung.setText("Obergrenze Überminuten beachten! ("+ma.getAzk().getUeberminutenmax()+")");		
 		} else if (ma.getAzk().getUeberminutenmin()*grenze > ma.getAzk().getUeberminuten()) {
-			JLabel lblWarnung = new JLabel("Untergrenze Überminuten beachten!");
-			lblWarnung.setFont(new Font("Dialog", Font.BOLD, 12));
-			lblWarnung.setForeground(new Color(250, 50, 50));
-			lblWarnung.setBounds(24, y+100, 300, 24);
-			getContentPane().add(lblWarnung);
+			lblWarnung.setText("Untergrenze Überminuten beachten! ("+ma.getAzk().getUeberminutenmin()+")");
 		}
+		lblWarnung.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblWarnung.setForeground(new Color(250, 50, 50));
+		lblWarnung.setBounds(24, y+100, 300, 24);
+		getContentPane().add(lblWarnung);
 		
 		JPanel rahmenUnten = new JPanel();
 		rahmenUnten.setBackground(new Color(100, 150, 200));

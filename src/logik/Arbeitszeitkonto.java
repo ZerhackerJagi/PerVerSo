@@ -29,8 +29,8 @@ public class Arbeitszeitkonto implements Serializable {
 			
 		sollstunden = 40;
 		ueberminuten = 0;
-		ueberminutenmin = -2000;
-		ueberminutenmax = 5000;
+		ueberminutenmin = -sollstunden*30;
+		ueberminutenmax = sollstunden*60;
 		urlaubbasis = 30;
 		liste = new ArrayList <Eintrag>();
 	}
@@ -48,7 +48,6 @@ public class Arbeitszeitkonto implements Serializable {
 		} else {
 			ueberminutenmin = -min;
 		}
-		ueberminutenmin = -min;
 		ueberminutenmax = max;
 		urlaubbasis = kontingent;
 		liste = new ArrayList <Eintrag>();
