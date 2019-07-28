@@ -8,7 +8,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
@@ -18,8 +17,6 @@ import javax.swing.table.TableRowSorter;
 
 import extern.Datum;
 import logik.Admin;
-import logik.Arbeitsbereich;
-import logik.Arbeitsbereichverwaltung;
 import logik.Eintrag;
 import logik.Krankheitseintrag;
 import logik.Mitarbeiter;
@@ -34,7 +31,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.awt.Color;
 
 public class EditAzkGUI extends JFrame{
@@ -49,13 +45,7 @@ public class EditAzkGUI extends JFrame{
 	private static TableRowSorter<TableModel> sorter;
 	private static JLabel lblAnzahlData;
 	private static JLabel lblAnzahl;
-	public boolean openAddMA = false;
-	public boolean openEditMA = false;
-	public boolean openDelMA = false;
-	public boolean openEditKennung = false;
-	public boolean openEditBerechtigung = false;
-	public boolean openEditAzk = false;
-	public boolean openEditZug = false;
+	private static JLabel lblAchtung;
 	public boolean openAddE = false;
 	
 //******************** KONSTRUKTOR ********************
@@ -76,11 +66,11 @@ public class EditAzkGUI extends JFrame{
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Mitarbeiter ma = ((Mitarbeiter) pv.suchen(wer));
 
-		JLabel lblPV = new JLabel("Arbeitszeitkonto verwalten");
-		lblPV.setFont(new Font("Dialog", Font.BOLD, 21));
-		lblPV.setForeground(new Color(255, 255, 255));
-		lblPV.setBounds(24, 20, 360, 24);
-		getContentPane().add(lblPV);
+		JLabel lblFunktion = new JLabel("Arbeitszeitkonto verwalten");
+		lblFunktion.setFont(new Font("Dialog", Font.BOLD, 21));
+		lblFunktion.setForeground(new Color(255, 255, 255));
+		lblFunktion.setBounds(24, 20, 360, 24);
+		getContentPane().add(lblFunktion);
 		
 		JLabel lblName = new JLabel("PNr. "+wer+" - "+ma.getVorname()+" "+ma.getName());
 		lblName.setFont(new Font("Dialog", Font.BOLD, 14));
@@ -353,14 +343,14 @@ public class EditAzkGUI extends JFrame{
 			public void mouseClicked(MouseEvent e) {
 				if (openAddE == false) {
 					openAddE = true;
-					EditBereichGUI addAb = new EditBereichGUI(PID,Arbeitsbereichverwaltung.getBereiche().get(Arbeitsbereichverwaltung.getBereiche().size()-1).getArbeitsbereichnummer()+1,false);
-					addAb.addWindowListener(new WindowAdapter() {
+					AddEintragGUI addEintrag = new AddEintragGUI(PID,wer);
+					addEintrag.addWindowListener(new WindowAdapter() {
 						@Override
 						public void windowClosed(WindowEvent e) {
 							table.setModel(getModel(ma.getAzk().getListe()));
 							setColWidth();
 							getFilter();
-							showAnzahl(ma.getAzk().getListe());
+							showAnzahlTage(ma);
 							openAddE = false;
 						}
 					});
@@ -384,8 +374,9 @@ public class EditAzkGUI extends JFrame{
 							if(ma.getAzk().getListe().get(wahl) instanceof Urlaubseintrag) {
 								admin.removeAZKUrlaub(wer, wahl);
 							} else if(ma.getAzk().getListe().get(wahl) instanceof Krankheitseintrag){
+								admin.removeAZKKrankheit(wer, wahl);
+							}		
 							pv.speichern();
-							}
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
@@ -393,7 +384,7 @@ public class EditAzkGUI extends JFrame{
 						table.setModel(getModel(ma.getAzk().getListe()));
 						setColWidth();
 						getFilter();
-						showAnzahl(ma.getAzk().getListe());
+						showAnzahlTage(ma);
 					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Bitte Auswahl treffen.", null, JOptionPane.INFORMATION_MESSAGE);
@@ -410,7 +401,7 @@ public class EditAzkGUI extends JFrame{
 		int length = (new Datum()).getJahr()-ma.getEinstellungsdatum().getJahr()+2;
 		String[] jahre = new String[length];
 		jahre[0] = "alle";
-		for(int i = 0;i<length-1;i++) {
+		for(int i = 0; i<length-1; i++) {
 			jahre[i+1] = (ma.getEinstellungsdatum().getJahr()+i)+"";
 		}
 		JComboBox<String> jahrBox = new JComboBox<String>(jahre);
@@ -423,12 +414,10 @@ public class EditAzkGUI extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				if(((String) jahrBox.getSelectedItem()).contains("alle")) {
 					jahr = "";
-					lblAnzahl.setText("");
-					lblAnzahlData.setText("");
 				} else {
 					jahr = (String) jahrBox.getSelectedItem();
 	            }
-				showAnzahl(ma.getAzk().getListe());
+				showAnzahlTage(ma);
 				getFilter();
 			}
 		});
@@ -452,19 +441,19 @@ public class EditAzkGUI extends JFrame{
 				} else {
 					typ = (String) typBox.getSelectedItem();
 				}
-				showAnzahl(ma.getAzk().getListe());
+				showAnzahlTage(ma);
 				getFilter();
 			}
 		});
 		getContentPane().add(typBox);
 		
 		JLabel lblUrlaub = new JLabel("Urlaubstage:");
-		lblUrlaub.setBounds(456, 518, 150, 24);
+		lblUrlaub.setBounds(456, 518, 150, 24);//456
 		getContentPane().add(lblUrlaub);
 		
 		JLabel lblUrlaubData = new JLabel(ma.getAzk().getUrlaubbasis()+"");
 		lblUrlaubData.setFont(new Font("Dialog", Font.PLAIN, 12));
-		lblUrlaubData.setBounds(596, 518, 100, 24);
+		lblUrlaubData.setBounds(596, 518, 50, 24);//596
 		getContentPane().add(lblUrlaubData);
 		
 		lblAnzahl = new JLabel("");
@@ -473,14 +462,14 @@ public class EditAzkGUI extends JFrame{
 		
 		lblAnzahlData = new JLabel("");
 		lblAnzahlData.setFont(new Font("Dialog", Font.PLAIN, 12));
-		lblAnzahlData.setBounds(596, 558, 100, 24);
+		lblAnzahlData.setBounds(596, 558, 50, 24);
 		getContentPane().add(lblAnzahlData);
 		
+		lblAchtung = new JLabel("");
+		lblAchtung.setForeground(new Color(250, 50, 50));
+		lblAchtung.setBounds(636, 558, 100, 24);
+		getContentPane().add(lblAchtung);
 		
-		
-		
-		
-	
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
 		panel.setBorder(new LineBorder(new Color(255, 255, 255)));
@@ -568,7 +557,7 @@ public class EditAzkGUI extends JFrame{
 		table.getColumnModel().getColumn( 4 ).setPreferredWidth( 100 );
 	}
 	
-	private static void showAnzahl(ArrayList<Eintrag> liste) {
+	private static void showAnzahlTage(Mitarbeiter ma) {
 		/*@author:		Soeren Hebestreit
 		 *@date: 		27.07.2019
 		 *@description: Anzahl Urlaub/Krankheit fuer angegebenes Jahr ermitteln und ausgeben
@@ -578,21 +567,27 @@ public class EditAzkGUI extends JFrame{
 		if(jahr == "" || typ == "") {
 			lblAnzahl.setText("");
 			lblAnzahlData.setText("");
+			lblAchtung.setText("");
 		} else if(typ.contains("Urlaub")) {
-			for (int i = 0; i < liste.size(); i++) {
-				if (liste.get(i) instanceof Urlaubseintrag) {
-					if (liste.get(i).getStart().getJahr() == Integer.parseInt(jahr)) {
-						anzahl = anzahl + liste.get(i).getArbeitstage();
+			for (int i = 0; i < ma.getAzk().getListe().size(); i++) {
+				if (ma.getAzk().getListe().get(i) instanceof Urlaubseintrag) {
+					if (ma.getAzk().getListe().get(i).getStart().getJahr() == Integer.parseInt(jahr)) {
+						anzahl = anzahl + ma.getAzk().getListe().get(i).getArbeitstage();
 					}
 				}
-			lblAnzahl.setText("davon genommen:");
-			lblAnzahlData.setText(""+anzahl);	
 			}
+			lblAnzahl.setText("davon genommen:");
+			lblAnzahlData.setText(""+anzahl);
+			if(anzahl > ma.getAzk().getUrlaubbasis()) {
+				lblAchtung.setText("Überschreitung");
+			} else {
+				lblAchtung.setText("");
+			}	
 		} else if(typ.contains("Krankheit"))  {
-			for (int i = 0; i < liste.size(); i++) {
-				if (liste.get(i) instanceof Krankheitseintrag) {
-					if (liste.get(i).getStart().getJahr() == Integer.parseInt(jahr)) {
-						anzahl = anzahl + liste.get(i).getArbeitstage();
+			for (int i = 0; i < ma.getAzk().getListe().size(); i++) {
+				if (ma.getAzk().getListe().get(i) instanceof Krankheitseintrag) {
+					if (ma.getAzk().getListe().get(i).getStart().getJahr() == Integer.parseInt(jahr)) {
+						anzahl = anzahl + ma.getAzk().getListe().get(i).getArbeitstage();
 					}
 				}
 			}
@@ -603,7 +598,6 @@ public class EditAzkGUI extends JFrame{
 		
 	public static void main(String[] args) throws Exception {
 		
-		Arbeitsbereichverwaltung.getInstance().laden();	
 		Personalverwaltung.getInstance().laden();
 		new EditAzkGUI(0,1);
 	}
