@@ -13,6 +13,7 @@ import javax.swing.RowFilter;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -220,6 +221,7 @@ public class EditAzkGUI extends JFrame{
 						public void windowClosed(WindowEvent e) {
 							table.setModel(getModel(ma.getAzk().getListe()));
 							sorter = new TableRowSorter<TableModel>(((DefaultTableModel) table.getModel()));
+							table.setRowSorter(sorter);
 							setColWidth();
 							getFilter();
 							showAnzahlTage(ma);
@@ -255,6 +257,7 @@ public class EditAzkGUI extends JFrame{
 						wahl = -1;
 						table.setModel(getModel(ma.getAzk().getListe()));
 						sorter = new TableRowSorter<TableModel>(((DefaultTableModel) table.getModel()));
+						table.setRowSorter(sorter);
 						setColWidth();
 						getFilter();
 						showAnzahlTage(ma);
