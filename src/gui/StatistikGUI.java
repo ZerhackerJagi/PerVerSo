@@ -11,6 +11,8 @@ import logik.Mitarbeiter;
 import logik.Personalverwaltung;
 
 import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -19,6 +21,7 @@ import javax.swing.JTable;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.block.GridArrangement;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -33,6 +36,14 @@ import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 import java.awt.FlowLayout;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.ScrollPaneLayout;
+
+import java.awt.Component;
+import javax.swing.JTextField;
+import java.awt.CardLayout;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 
 public class StatistikGUI extends JFrame{
 	
@@ -45,9 +56,9 @@ public class StatistikGUI extends JFrame{
 //******************** KONSTRUKTOR ********************
 	
 	public StatistikGUI(int PID) {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		20.07.2019
-		 *@description: GUI zur Ansicht des Arbeitsplanes, Wochenauswahl
+		/*@author:		Soeren Hebestreit, Jakob Küchler
+		 *@date: 		20.07.2019, 31.07.2019
+		 *@description: GUI zur Ansicht der Statistiken, Arbeitsbereichsauswahl
 		 */
 		
 		setSize(600, 640);
@@ -61,9 +72,12 @@ public class StatistikGUI extends JFrame{
 		Mitarbeiter ma = ((Mitarbeiter) pv.suchen(PID));
 		
 		JPanel pnlReport = new JPanel();
-		pnlReport.setBounds(47, 41, 492, 215);
 //		getContentPane().add(pnlReport);
 		pnlReport.setLayout(new BoxLayout(pnlReport, BoxLayout.X_AXIS));
+		
+		JPanel pnlReportGender = new JPanel();
+//		getContentPane().add(pnlReport);
+		pnlReportGender.setLayout(new GridLayout());
 		
 		JLabel lblAZK = new JLabel("Statistikmenue");
 		lblAZK.setFont(new Font("Dialog", Font.BOLD, 21));
@@ -133,20 +147,17 @@ public class StatistikGUI extends JFrame{
 		getContentPane().add(lblArbeitsbereich);
 		
 		JPanel panel = new JPanel();
-		panel.setLayout(null);
 		panel.revalidate();
-		
-		panel.add(pnlReport);
-		
-		
-		JScrollPane scrollPane = new JScrollPane(panel);
-		scrollPane.setBounds(0, 209, 594, 402);
-		getContentPane().add(scrollPane);
 		
 		JButton btnAktualisieren = new JButton("Aktualisieren");
 		btnAktualisieren.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				// Daten auslesen
+				// Alte Daten löschen
+				try{
+					panel.remove(table);
+				} catch(Exception e) {
+					
+				}
 				
 				
 				
@@ -180,8 +191,8 @@ public class StatistikGUI extends JFrame{
 				table.setModel(new DefaultTableModel(
 					new Object[][] {
 						{"Durchschnittsalter", ""+a.showDurchschnittsalter(gewaehlterAB.getArbeitsbereichnummer())},
-						{null, null},
-						{null, null},
+						{"Fehltage gesamt", a.showFehltage(gewaehlterAB.getArbeitsbereichnummer())},
+						{"maximale Fehltage", a.showFehltageMaximal(gewaehlterAB.getArbeitsbereichnummer())},
 						{null, null},
 					},
 					new String[] {
@@ -191,24 +202,66 @@ public class StatistikGUI extends JFrame{
 				table.getColumnModel().getColumn(0).setPreferredWidth(200);
 				table.getColumnModel().getColumn(1).setPreferredWidth(150);
 				table.setBounds(47, 274, 492, 115);
-				panel.add(table);
+//				panel.add(table);
+				
+				
+				// Barchart für Geschlechtsverteilung
+				a.showGeschlechtsverteilung(gewaehlterAB.getArbeitsbereichnummer());
+				DefaultCategoryDataset dcdGender = new DefaultCategoryDataset();
+				dcdGender.setValue(a.getCountGenderM(), "Geschlecht", "m");
+				dcdGender.setValue(a.getCountGenderW(), "Geschlecht", "w");
+				dcdGender.setValue(a.getCountGenderD(), "Geschlecht", "d");
+				dcdGender.setValue(a.getCountGender(), "Geschlecht", "unbekannt");
+				
+				JFreeChart jchartGender = ChartFactory.createBarChart("Geschlechtsverteilung", "Geschlecht", "Häufigkeit", dcdGender, PlotOrientation.VERTICAL, true, true, false);
+				CategoryPlot plotGender = jchartGender.getCategoryPlot();
+				plotGender.setRangeGridlinePaint(Color.black);
+				ChartPanel chartPanelGender = new ChartPanel(jchartGender);
+				
+				
+				
+				
 				
 				
 				pnlReport.removeAll();
+				pnlReportGender.removeAll();
 				pnlReport.add(chartPanel);
+				panel.add(table);
+				pnlReportGender.add(chartPanelGender);
+				pnlReportGender.updateUI();
 				pnlReport.updateUI();
 				
 				
 				
 			}
+
+
+
 		});
 		btnAktualisieren.setBounds(413, 160, 126, 23);
 		getContentPane().add(btnAktualisieren);
 		
-		JLabel lblAltersverteilung = new JLabel("Altersverteilung");
-		lblAltersverteilung.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblAltersverteilung.setBounds(47, 215, 150, 19);
-		getContentPane().add(lblAltersverteilung);
+		
+		JScrollPane scrollPane = new JScrollPane(panel);
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addComponent(pnlReportGender, GroupLayout.PREFERRED_SIZE, 571, GroupLayout.PREFERRED_SIZE)
+				.addComponent(pnlReport, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addComponent(pnlReportGender, GroupLayout.PREFERRED_SIZE, 389, GroupLayout.PREFERRED_SIZE)
+				.addComponent(pnlReport, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+		);
+		panel.setLayout(gl_panel);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+		panel.add(pnlReport);
+		panel.add(pnlReportGender);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setBounds(0, 209, 590, 391);
+		scrollPane.setLayout(new ScrollPaneLayout());
+		getContentPane().add(scrollPane);
 		
 		
 //		getContentPane().add(table);

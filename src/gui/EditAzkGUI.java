@@ -274,7 +274,10 @@ public class EditAzkGUI extends JFrame{
 		lblJahr.setBounds(256, 518, 40, 24);
 		getContentPane().add(lblJahr);
 		
-		int length = ma.getAzk().getListe().get(ma.getAzk().getListe().size()-1).getStart().getJahr()-ma.getEinstellungsdatum().getJahr()+2;
+		int length = 1;
+		if(ma.getAzk().getListe().size()>0) {
+			length = ma.getAzk().getListe().get(ma.getAzk().getListe().size()-1).getStart().getJahr()-ma.getEinstellungsdatum().getJahr()+1;
+		}
 		String[] jahre = new String[length];
 		jahre[0] = "alle";
 		for(int i = 0; i<length-1; i++) {
@@ -476,7 +479,8 @@ public class EditAzkGUI extends JFrame{
 	public static void main(String[] args) throws Exception {
 		
 		Personalverwaltung.getInstance().laden();
-		new EditAzkGUI(0,1);
+		new EditAzkGUI(0,0);
+		
 	}
 	
 }
