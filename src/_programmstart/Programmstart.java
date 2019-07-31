@@ -1,8 +1,7 @@
 package _programmstart;
 
 import gui.LoginGUI;
-import logik.Arbeitsbereichverwaltung;
-import logik.Personalverwaltung;
+import logik.*;
 
 public class Programmstart {
 

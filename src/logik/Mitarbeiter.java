@@ -174,4 +174,24 @@ public class Mitarbeiter implements Serializable {
 		return zugehoerigkeit.get(zugehoerigkeit.size()-1);
 	}
 	
+	public int getAlter() {
+		Datum heute = new Datum();
+		boolean hatteGeburtstag;
+		if(heute.getMonat()-this.getGeburtsdatum().getMonat()<0) {
+			if(((heute.getTag()-this.getGeburtsdatum().getTag())<0)) {
+				hatteGeburtstag = true;
+			} else {
+				hatteGeburtstag = false;
+			}
+		}else {
+			hatteGeburtstag = false;
+		}
+		
+		if(hatteGeburtstag = false) {
+			return heute.getJahr()-this.getGeburtsdatum().getJahr()-1;
+		}
+		
+		return heute.getJahr()-this.getGeburtsdatum().getJahr();
+	}
+	
 }
