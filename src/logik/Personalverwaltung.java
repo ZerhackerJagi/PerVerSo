@@ -34,7 +34,7 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 	}
 	
 	private Personalverwaltung() {
-		personalnummer = 0;
+		personalnummer = 100000;
 		aMA = new ArrayList <Mitarbeiter> ();
 		start();
 	}
@@ -46,18 +46,18 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 		 *@description:	fuegt Standardadmin bei der Ersterstellung ein 
 		 */
 		
-		aMA.add(new Mitarbeiter(personalnummer, "admin", "admin", 'd', new Datum(), "admin", "passwort", new Admin(personalnummer), new Datum(), new Arbeitszeitkonto(), new Zugehoerigkeit(new Datum(),0,"Standardadmin anlegen")));
+		aMA.add(new Mitarbeiter(personalnummer, "admin", "admin", 'd', new Datum(), "passwort", new Admin(personalnummer), new Datum(), new Arbeitszeitkonto(), new Zugehoerigkeit(new Datum(),0,"Standardadmin anlegen")));
 		personalnummer ++;
-		aMA.add(new Mitarbeiter(personalnummer, "user", "test", 'd', new Datum(), "user", "passwort", new User(personalnummer), new Datum(), new Arbeitszeitkonto(), new Zugehoerigkeit(new Datum(),0,"Testuser anlegen")));
+		aMA.add(new Mitarbeiter(personalnummer, "user", "test", 'd', new Datum(), "passwort", new User(personalnummer), new Datum(), new Arbeitszeitkonto(), new Zugehoerigkeit(new Datum(),0,"Testuser anlegen")));
 		personalnummer ++;
 		Arbeitszeitkonto azk = aMA.get(1).getAzk();
-		azk.addPlus(5000);
+		azk.addPlus(3000);
 		try {
 			azk.addUrlaub(new Datum(1,1,2019), new Datum(5,1,2019), 4);
 			azk.addKrankheit(new Datum(3,3,2019), new Datum(5,3,2019), 3);
 			azk.addUrlaub(new Datum(26,4,2019), new Datum(2,5,2019), 4);
 			azk.addUrlaub(new Datum(7,7,2019), new Datum(26,7,2019), 15);
-//			azk.addKrankheit(new Datum(1,1,2019), new Datum(5,1,2019), 4);
+			azk.addKrankheit(new Datum(1,1,2019), new Datum(5,1,2019), 4);
 			azk.addUrlaub(new Datum(23,12,2019), new Datum(31,12,2019), 5);
 			
 		} catch (Exception e) {
@@ -81,7 +81,7 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 		 */
 	
 		Zugehoerigkeit wo = new Zugehoerigkeit(einstellung,bereichsnummer,"Einstellung");
-		aMA.add(new Mitarbeiter(personalnummer,name,vorname,gender,geburtstag,user,pwd,new User(personalnummer),einstellung,new Arbeitszeitkonto(),wo));
+		aMA.add(new Mitarbeiter(personalnummer,name,vorname,gender,geburtstag,pwd,new User(personalnummer),einstellung,new Arbeitszeitkonto(),wo));
 		personalnummer ++;
 	}
 	
@@ -91,12 +91,10 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 		 *@description:	fuegt einen Mitarbeiter hinzu, autogenerierter Username und Passwort
 		 */
 	
-		// Beispiel Username: Hebestreit2
-		String benutzername = name+personalnummer;
 		// Beispiel Passwort: sH_715re
-		String passwort = vorname.substring(0,1).toLowerCase()+name.substring(0,1).toUpperCase()+"_"+einstellung.getMonat()+geburtstag.getTag()+vorname.charAt(vorname.length()/2)+name.charAt(name.length()/3);
+		// String passwort = vorname.substring(0,1).toLowerCase()+name.substring(0,1).toUpperCase()+"_"+einstellung.getMonat()+geburtstag.getTag()+vorname.charAt(vorname.length()/2)+name.charAt(name.length()/3);
 		Zugehoerigkeit wo = new Zugehoerigkeit(einstellung,bereichsnummer,"Einstellung");
-		aMA.add(new Mitarbeiter(personalnummer,name,vorname,gender,geburtstag,benutzername,passwort,new User(personalnummer),einstellung,new Arbeitszeitkonto(),wo));
+		aMA.add(new Mitarbeiter(personalnummer,name,vorname,gender,geburtstag,personalnummer+"",new User(personalnummer),einstellung,new Arbeitszeitkonto(),wo));
 		personalnummer ++;
 	}
 
@@ -208,7 +206,8 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 		Personalverwaltung.aMA = aMA;
 	}
 	
-//********************TestUmgebung**************************
+//******************** TESTUMGEBUNG **************************
+	
 	public void resetPersonalverwaltung() {
 		uniqueInstance = new Personalverwaltung();
 	}

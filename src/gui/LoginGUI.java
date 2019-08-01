@@ -47,7 +47,7 @@ public class LoginGUI extends JFrame{
 		lblLoginPerverso.setBounds(164, 20, 240, 40);
 		getContentPane().add(lblLoginPerverso);
 		
-		JLabel lblBenutzername = new JLabel("Benutzername: ");
+		JLabel lblBenutzername = new JLabel("Personalnummer: ");
 		lblBenutzername.setForeground(new Color(255, 255, 255));
 		lblBenutzername.setFont(new Font("Dialog", Font.BOLD, 14));
 		lblBenutzername.setBounds(40, 80, 120, 20);
@@ -71,7 +71,8 @@ public class LoginGUI extends JFrame{
 		btnAnmelden.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(checkAnmeldung(tfUsername.getText(), new String(passwordField.getPassword()))) {
+				//if(checkAnmeldung(tfUsername.getText(), new String(passwordField.getPassword()))) {
+				if(((Mitarbeiter)Personalverwaltung.getInstance().suchen(Integer.parseInt(tfUsername.getText()))).getPasswort().equals(new String(passwordField.getPassword()))) {
 					setVisible(false);
 					if(user.getBerechtigung() instanceof Admin) {
 						new AdminGUI(user.getPersonalnummer());
@@ -119,7 +120,7 @@ public class LoginGUI extends JFrame{
 	
 	public static void main(String[] args) throws Exception {
 				
-		Personalverwaltung.getInstance().laden();
+		//Personalverwaltung.getInstance().laden();
 		new LoginGUI();
 	}
 

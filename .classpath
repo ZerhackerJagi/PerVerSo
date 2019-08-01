@@ -8,5 +8,8 @@
 	<classpathentry kind="lib" path="C:/JUnit/junit-4.10.jar"/>
 	<classpathentry kind="lib" path="C:/JUnit/jcommon-1.0.23/jcommon-1.0.23/jcommon-1.0.23.jar"/>
 	<classpathentry kind="lib" path="C:/JUnit/jfreechart-1.0.19/jfreechart-1.0.19/jfreechart-1.0.19-demo.jar"/>
+	<classpathentry kind="lib" path="C:/JUnit/jfreechart-1.0.19.zip"/>
+	<classpathentry kind="lib" path="C:/JUnit/jfreechart-1.0.19/lib/jcommon-1.0.23.jar"/>
+	<classpathentry kind="lib" path="C:/JUnit/jfreechart-1.0.19/lib/jfreechart-1.0.19.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
