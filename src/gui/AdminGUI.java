@@ -12,6 +12,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JPanel;
+
+import logik.Arbeitsbereichverwaltung;
+import logik.Personalverwaltung;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
@@ -141,7 +145,7 @@ public class AdminGUI extends JFrame{
 				}
 			}
 		});
-		btnStatistik.setBounds(12, 356, 200, 24);
+		btnStatistik.setBounds(12, 352, 200, 24);
 		getContentPane().add(btnStatistik);
 		
 		JButton btnExit = new JButton("Exit");
@@ -170,6 +174,8 @@ public class AdminGUI extends JFrame{
 
 	public static void main(String[] args) throws Exception {
 		
+		Arbeitsbereichverwaltung.getInstance().laden();
+		Personalverwaltung.getInstance().laden();
 		new AdminGUI(0);
 	}
 }

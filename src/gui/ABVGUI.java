@@ -36,7 +36,7 @@ public class ABVGUI extends JFrame{
 	public boolean openAddAB = false;
 	public boolean openEditAB = false;
 	public boolean openDelAB = false;
-	public boolean openEditZug = false;
+	public boolean openShowMA = false;
 	
 //******************** KONSTRUKTOR ********************
 	
@@ -157,17 +157,30 @@ public class ABVGUI extends JFrame{
 				if(wahl == 0 || wahl == 1) {
 					JOptionPane.showMessageDialog(null, "Dieser Arbeitsbereich ist für die Bearbeitung gesperrt.", null, JOptionPane.INFORMATION_MESSAGE);
 				} else if(wahl >=0 && wahl != 0 && wahl != 1) {
-					Admin admin = new Admin(PID);
-					admin.delAB(wahl);
-					try {
-						abv.speichern();
-					} catch (Exception e1) {
-						e1.printStackTrace();
+					boolean empty = true;
+					for(int i=0; i < Personalverwaltung.getaMA().size(); i++) {
+						if(Personalverwaltung.getaMA().get(i).getActualAB().getArbeitsbereichnummer() == wahl) {
+							empty = false;
+							break;
+						}
 					}
-					wahl = -1;
-					getInfo(wahl);
-					table.setModel(getModel(Arbeitsbereichverwaltung.getBereiche()));
-					setColWidth();
+					if(empty) {
+						if((JOptionPane.showConfirmDialog(null, "Bereich "+((Arbeitsbereich)abv.suchen(wahl)).getName()+" löschen?", null, JOptionPane.YES_NO_OPTION)) == 0) {
+							Admin admin = new Admin(PID);
+							admin.delAB(wahl);
+							try {
+								abv.speichern();
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
+							wahl = -1;
+							getInfo(wahl);
+							table.setModel(getModel(Arbeitsbereichverwaltung.getBereiche()));
+							setColWidth();
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "Es befinden sich noch Mitarbeiter im Arbeitsbereich.", null, JOptionPane.INFORMATION_MESSAGE);
+					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Bitte Auswahl treffen.", null, JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -181,13 +194,26 @@ public class ABVGUI extends JFrame{
 		lblLink.setBounds(24, 448, 240, 24);
 		getContentPane().add(lblLink);
 		
-		JButton btnNewLink = new JButton("Mitarbeiter hinzufügen");
+		JButton btnNewLink = new JButton("Mitarbeiter anzeigen");
 		btnNewLink.setBackground(new Color(255, 255, 255));
 		btnNewLink.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(wahl >=0 ) {
-					new StatistikGUI(PID);
+					if (openShowMA == false) {
+						openShowMA = true;
+						ShowMitarbeiterABGUI showMa = new ShowMitarbeiterABGUI(wahl);
+						showMa.addWindowListener(new WindowAdapter() {
+							@Override
+							public void windowClosed(WindowEvent e) {
+								table.setModel(getModel(Arbeitsbereichverwaltung.getBereiche()));
+								setColWidth();
+								openShowMA = false;
+							}
+						});
+					} else {
+						JOptionPane.showMessageDialog(null, "Mitarbeiter anzeigen bereits offen.", null, JOptionPane.INFORMATION_MESSAGE);
+					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Bitte Auswahl treffen.", null, JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -233,7 +259,6 @@ public class ABVGUI extends JFrame{
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
 		panel.setBorder(new LineBorder(new Color(255, 255, 255)));
-		panel.setBounds(244, 88, 640, 354);
 		
 		JScrollPane sp = new JScrollPane(panel);
 		sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -249,10 +274,11 @@ public class ABVGUI extends JFrame{
 			}
 		};
 		table.setShowVerticalLines(false);
-		table.setRowHeight( 20 );
+		table.setRowHeight(20);
 		setColWidth();
 		table.setSelectionMode( javax.swing.ListSelectionModel.SINGLE_SELECTION);
 		table.addMouseListener(new MouseAdapter(){
+			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) { 
 					if(table.columnAtPoint(e.getPoint()) == 0) {
@@ -321,10 +347,8 @@ public class ABVGUI extends JFrame{
 		
 	public static void main(String[] args) throws Exception {
 		
-		Personalverwaltung pv = Personalverwaltung.getInstance();
-		Arbeitsbereichverwaltung abv = Arbeitsbereichverwaltung.getInstance();
-		pv.laden();
-		abv.laden();	
+		Arbeitsbereichverwaltung.getInstance().laden();		
+		Personalverwaltung.getInstance().laden();
 		new ABVGUI(0);
 	}
 	

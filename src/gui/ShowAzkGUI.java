@@ -24,7 +24,7 @@ public class ShowAzkGUI extends JFrame{
 	
 	public ShowAzkGUI(int PID) {
 		/*@author:		Soeren Hebestreit
-		 *@date: 		20.07.2019
+		 *@date: 		25.07.2019
 		 *@description: GUI zur Ansicht des eigenen AZK
 		 *				1. Soll + Ueberminuten mit Warnung falls nahe/ueber Grenze
 		 *				2. Urlaub + genommen und die Urlaubseintraege des aktuellen Jahres
@@ -43,103 +43,104 @@ public class ShowAzkGUI extends JFrame{
 		JLabel lblAZK = new JLabel("Arbeitszeitkonto");
 		lblAZK.setFont(new Font("Dialog", Font.BOLD, 21));
 		lblAZK.setForeground(new Color(255, 255, 255));
-		lblAZK.setBounds(24, 20, 360, 24);
+		lblAZK.setBounds(24, 8, 360, 36);
 		getContentPane().add(lblAZK);
 		
 		JLabel lblName = new JLabel(ma.getVorname()+" "+ma.getName());
-		lblName.setFont(new Font("Dialog", Font.BOLD, 21));
+		lblName.setFont(new Font("Dialog", Font.BOLD, 14));
 		lblName.setForeground(new Color(255, 255, 255));
-		lblName.setBounds(24, 44, 360, 24);
+		lblName.setBounds(24, 36, 360, 24);
 		getContentPane().add(lblName);
 		
 		JPanel rahmenOben = new JPanel();
 		rahmenOben.setBackground(new Color(100, 150, 200));
-		rahmenOben.setBounds(0, 0, 360, 88);
+		rahmenOben.setBounds(0, 0, 360, 64);
 		getContentPane().add(rahmenOben);
 		
+		int y = 40;
+		
 		JLabel lblSoll = new JLabel("Sollstunden:");
-		lblSoll.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblSoll.setBounds(24, 100, 100, 24);
+		lblSoll.setBounds(24, y+40, 100, 24);
 		getContentPane().add(lblSoll);
 		
 		JLabel lblSollData = new JLabel(""+ma.getAzk().getSollstunden());
-		lblSollData.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblSollData.setBounds(160, 100, 100, 24);
+		lblSollData.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblSollData.setBounds(150, y+40, 100, 24);
 		getContentPane().add(lblSollData);
 		
 		JLabel lblUeber = new JLabel("Überminuten:");
-		lblUeber.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblUeber.setBounds(24, 124, 100, 24);
+		lblUeber.setBounds(24, y+70, 100, 24);
 		getContentPane().add(lblUeber);
 		
 		JLabel lblUeberData = new JLabel(""+ma.getAzk().getUeberminuten());
-		lblUeberData.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblUeberData.setBounds(160, 124, 100, 24);
+		lblUeberData.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblUeberData.setBounds(150, y+70, 100, 24);
 		getContentPane().add(lblUeberData);
 		
+		JLabel lblWarnung = new JLabel("");
 		if (ma.getAzk().getUeberminutenmax()*grenze < ma.getAzk().getUeberminuten()) {
-			JLabel lblWarnung = new JLabel("Obergrenze Überminuten beachten!");
-			lblWarnung.setFont(new Font("Dialog", Font.BOLD, 14));
-			lblWarnung.setForeground(new Color(250, 50, 50));
-			lblWarnung.setBounds(24, 160, 300, 24);
-			getContentPane().add(lblWarnung);
+			lblWarnung.setText("Obergrenze Überminuten beachten! ("+ma.getAzk().getUeberminutenmax()+")");		
 		} else if (ma.getAzk().getUeberminutenmin()*grenze > ma.getAzk().getUeberminuten()) {
-			JLabel lblWarnung = new JLabel("Untergrenze Überminuten beachten!");
-			lblWarnung.setFont(new Font("Dialog", Font.BOLD, 14));
-			lblWarnung.setForeground(new Color(250, 50, 50));
-			lblWarnung.setBounds(24, 160, 300, 24);
-			getContentPane().add(lblWarnung);
+			lblWarnung.setText("Untergrenze Überminuten beachten! ("+ma.getAzk().getUeberminutenmin()+")");
 		}
+		lblWarnung.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblWarnung.setForeground(new Color(250, 50, 50));
+		lblWarnung.setBounds(24, y+100, 300, 24);
+		getContentPane().add(lblWarnung);
 		
 		JPanel rahmenUnten = new JPanel();
 		rahmenUnten.setBackground(new Color(100, 150, 200));
-		rahmenUnten.setBounds(0, 200, 360, 4);
+		rahmenUnten.setBounds(0, y+136, 360, 4);
 		getContentPane().add(rahmenUnten);
 		
+		JLabel lblResturlaub = new JLabel("Resturlaub:");
+		lblResturlaub.setBounds(24, y+156, 100, 24);
+		getContentPane().add(lblResturlaub);
+		
+		int resturlaub = ma.getAzk().getUrlaubbasis();
 		ArrayList<Urlaubseintrag> urlaubsliste = new ArrayList<Urlaubseintrag>();
 		for (int i = 0; i < ma.getAzk().getListe().size(); i++) {
 			if (ma.getAzk().getListe().get(i) instanceof Urlaubseintrag) {
 				if (ma.getAzk().getListe().get(i).getStart().getJahr() == (new Datum()).getJahr()) {
 					urlaubsliste.add((Urlaubseintrag) ma.getAzk().getListe().get(i));
+					resturlaub = resturlaub - ma.getAzk().getListe().get(i).getArbeitstage();
 				}
 			}
-		}	
+		}
 		
-		JLabel lblUrlaub = new JLabel("Urlaub:");
-		lblUrlaub.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblUrlaub.setBounds(24, 220, 100, 24);
+		JLabel lblResturlaubData = new JLabel(resturlaub+" Tage");
+		lblResturlaubData.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblResturlaubData.setBounds(150, y+156, 100, 24);
+		getContentPane().add(lblResturlaubData);	
+		
+		JLabel lblUrlaub = new JLabel("Urlaub");
+		lblUrlaub.setBounds(24, y+186, 100, 24);
 		getContentPane().add(lblUrlaub);
 
 		JLabel[][] lable = new JLabel[urlaubsliste.size()][3];
-		int k = 264;
+		int k = y+216;
 		for(int i=0 ; i < urlaubsliste.size(); i++) {
 			lable[i][0] = new JLabel(""+urlaubsliste.get(i).getStart());
+			lable[i][0].setFont(new Font("Dialog", Font.PLAIN, 12));
 			lable[i][0].setBounds(50, k , 100, 24);
 			lable[i][1] = new JLabel("bis");
+			lable[i][1].setFont(new Font("Dialog", Font.PLAIN, 12));
 			lable[i][1].setBounds(150, k , 40, 24);
 			lable[i][2] = new JLabel(""+urlaubsliste.get(i).getEnde());
+			lable[i][2].setFont(new Font("Dialog", Font.PLAIN, 12));
 			lable[i][2].setBounds(200, k , 100, 24);
 			k+=24;
 			getContentPane().add(lable[i][0]);
 			getContentPane().add(lable[i][1]);
 			getContentPane().add(lable[i][2]);
 		}		
-
-		JLabel lblResturlaub = new JLabel("Resturlaub:");
-		lblResturlaub.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblResturlaub.setBounds(24, k+20, 100, 24);
-		getContentPane().add(lblResturlaub);
-		
-		JLabel lblResturlaubData = new JLabel((ma.getAzk().getUrlaubskontingent()-ma.getAzk().getUrlaubgenommen())+" Tage");
-		lblResturlaubData.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblResturlaubData.setBounds(160, k+20, 100, 24);
-		getContentPane().add(lblResturlaubData);
 		
 		setVisible(true);
 	}
 	
 	public static void main(String[] args) throws Exception {
 				
+		Personalverwaltung.getInstance().laden();
 		new ShowAzkGUI(1);
 	}
 }

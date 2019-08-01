@@ -17,8 +17,6 @@ public class Arbeitszeitkonto implements Serializable {
 	private int ueberminutenmin;
 	private int ueberminutenmax;
 	private int urlaubbasis;
-	private int urlaubskontingent;
-	private int urlaubgenommen;
 	private ArrayList <Eintrag> liste;
 				
 //******************** KONSTRUKTOR ********************
@@ -31,11 +29,9 @@ public class Arbeitszeitkonto implements Serializable {
 			
 		sollstunden = 40;
 		ueberminuten = 0;
-		ueberminutenmin = -2000;
-		ueberminutenmax = 5000;
+		ueberminutenmin = -sollstunden*30;
+		ueberminutenmax = sollstunden*60;
 		urlaubbasis = 30;
-		urlaubskontingent = 30;
-		urlaubgenommen = 0;
 		liste = new ArrayList <Eintrag>();
 	}
 		
@@ -52,11 +48,8 @@ public class Arbeitszeitkonto implements Serializable {
 		} else {
 			ueberminutenmin = -min;
 		}
-		ueberminutenmin = -min;
 		ueberminutenmax = max;
 		urlaubbasis = kontingent;
-		urlaubskontingent = kontingent;
-		urlaubgenommen = 0;
 		liste = new ArrayList <Eintrag>();
 	}
 
@@ -69,13 +62,8 @@ public class Arbeitszeitkonto implements Serializable {
 		 */
 		
 		if (start.getJahr() == ende.getJahr()) {
-			if (urlaubskontingent >= urlaubgenommen+tage) {
-				liste.add(new Urlaubseintrag(start, ende, tage));
-				sort();
-				urlaubgenommen = urlaubgenommen + tage;
-			} else  {
-				throw new Exception ("Urlaubskontingent nicht ausreichend!");
-			}
+			liste.add(new Urlaubseintrag(start, ende, tage));
+			sort();
 		} else {
 			throw new Exception ("Bitte Urlaub nicht jahresübergreifend angeben.");
 		}
@@ -104,7 +92,6 @@ public class Arbeitszeitkonto implements Serializable {
 
 		if (liste.size() > eintrag) {
 			if(liste.get(eintrag) instanceof Urlaubseintrag) {
-				urlaubgenommen = urlaubgenommen - liste.get(eintrag).getArbeitstage();
 				liste.remove(liste.get(eintrag));
 				return true;
 			}
@@ -145,17 +132,6 @@ public class Arbeitszeitkonto implements Serializable {
 		
 		ueberminuten = ueberminuten - betrag;
 	}
-	
-	
-	public void neuesJahr () {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		19.07.2019
-		 *@description:	Ruecksetzen/Aendern von Parametern fuer ein neues Kalenderjahr
-		 */
-		
-		urlaubskontingent = urlaubbasis + urlaubskontingent - urlaubgenommen;
-		urlaubgenommen = 0;
-	}
 
 //******************** AUSGABE ********************
 
@@ -165,7 +141,7 @@ public class Arbeitszeitkonto implements Serializable {
 		 *@description:	Textrueckgabe String
 		 */
 			
-		return "Soll: "+sollstunden+"\tUeberminuten: "+ueberminuten+"\tUrlaub: "+urlaubskontingent+"\tResturlaub: "+(urlaubskontingent-urlaubgenommen);
+		return "Sollstunden: "+sollstunden+"\t, Ueberminuten: "+ueberminuten+"\t, Urlaubstage: "+urlaubbasis;
 	}
 			
 	public void display() {
@@ -176,8 +152,7 @@ public class Arbeitszeitkonto implements Serializable {
 		
 		System.out.println("Sollstunden: "+sollstunden);
 		System.out.println("Überminuten: "+ueberminuten);
-		System.out.println("Urlaub: \t"+urlaubskontingent);
-		System.out.println("Resturlaub: "+(urlaubskontingent-urlaubgenommen));
+		System.out.println("Urlaubstage: \t"+urlaubbasis);
 	}
 	
 	public void showUrlaub() {
@@ -282,22 +257,6 @@ public class Arbeitszeitkonto implements Serializable {
 		this.urlaubbasis = urlaubbasis;
 	}
 	
-	public int getUrlaubskontingent() {
-		return urlaubskontingent;
-	}
-
-	public void setUrlaubskontingent(int urlaubskontingent) {
-		this.urlaubskontingent = urlaubskontingent;
-	}
-
-	public int getUrlaubgenommen() {
-		return urlaubgenommen;
-	}
-
-	public void setUrlaubgenommen(int urlaubgenommen) {
-		this.urlaubgenommen = urlaubgenommen;
-	}
-
 	public ArrayList<Eintrag> getListe() {
 		return liste;
 	}

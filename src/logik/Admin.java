@@ -210,8 +210,7 @@ public class Admin extends Berechtigung implements Serializable {
 
 //******************** VERWALTUNG ARBEITSZEITKONTEN ******************** 	
 
-	public boolean editAZKVertragsdaten(int personalnummer, int sollstunden, int urlaubbasis, int ueberminutenmin,
-			int ueberminutenmax) {
+	public boolean editAZKLimit(int personalnummer, int ueberminutenmin, int ueberminutenmax) {
 		/*
 		 * @author: Soeren Hebestreit
 		 * 
@@ -226,13 +225,12 @@ public class Admin extends Berechtigung implements Serializable {
 		if (ma == null) {
 			return false;
 		}
-
-		ma.getAzk().setSollstunden(sollstunden);
-		int differenz = ma.getAzk().getUrlaubbasis()-urlaubbasis;
-		ma.getAzk().setUrlaubbasis(urlaubbasis);
-		ma.getAzk().setUeberminutenmin(ueberminutenmin);
+		if (ueberminutenmin < 0) {
+			ma.getAzk().setUeberminutenmin(ueberminutenmin);
+		} else {
+			ma.getAzk().setUeberminutenmin(-ueberminutenmin);
+		}
 		ma.getAzk().setUeberminutenmax(ueberminutenmax);
-		ma.getAzk().setUrlaubskontingent(ma.getAzk().getUrlaubskontingent()-differenz);
 		return true;
 	}
 	
@@ -253,9 +251,7 @@ public class Admin extends Berechtigung implements Serializable {
 		}
 
 		ma.getAzk().setSollstunden(sollstunden);
-		int differenz = ma.getAzk().getUrlaubbasis()-urlaubbasis;
 		ma.getAzk().setUrlaubbasis(urlaubbasis);
-		ma.getAzk().setUrlaubskontingent(ma.getAzk().getUrlaubskontingent()-differenz);
 		return true;
 	}
 	
@@ -276,52 +272,10 @@ public class Admin extends Berechtigung implements Serializable {
 		}
 
 		if (betrag < 0) {
-			ma.getAzk().addPlus(betrag);
+			ma.getAzk().addMinus(-betrag);
 		} else {
-			ma.getAzk().addMinus(betrag);
+			ma.getAzk().addPlus(betrag);
 		}
-		return true;
-	}
-
-	public boolean starteAZKJahr(int personalnummer) {
-		/*
-		 * @author: Soeren Hebestreit
-		 * 
-		 * @date: 18.07.2019
-		 * 
-		 * @description: Ueberminuten hinzufuegen
-		 */
-
-		Personalverwaltung pv = Personalverwaltung.getInstance();
-		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
-
-		if (ma == null) {
-			return false;
-		}
-
-		ma.getAzk().neuesJahr();
-		return true;
-	}
-
-	public boolean editAZKUrlaubsberechnung(int personalnummer, int urlaubskontingent, int urlaubgenommen) {
-		/*
-		 * @author: Soeren Hebestreit
-		 * 
-		 * @date: 18.07.2019
-		 * 
-		 * @description: Kontingent und genommenen Urlaub bearbeiten (Noteingriff falls
-		 * z.B. voreilig neues AZK-Jahr ausgefuehrt wurde)
-		 */
-
-		Personalverwaltung pv = Personalverwaltung.getInstance();
-		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
-
-		if (ma == null) {
-			return false;
-		}
-
-		ma.getAzk().setUrlaubskontingent(urlaubskontingent);
-		ma.getAzk().setUrlaubgenommen(urlaubgenommen);
 		return true;
 	}
 

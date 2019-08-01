@@ -1,8 +1,7 @@
 package _programmstart;
 
 import gui.LoginGUI;
-import logik.Arbeitsbereichverwaltung;
-import logik.Personalverwaltung;
+import logik.*;
 
 public class Programmstart {
 
@@ -16,6 +15,7 @@ public class Programmstart {
 		Arbeitsbereichverwaltung abv = Arbeitsbereichverwaltung.getInstance();
 		pv.laden();
 		abv.laden();
+		
 		
 		new LoginGUI();
 	}
