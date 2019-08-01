@@ -21,6 +21,7 @@ import javax.swing.JTable;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.block.GridArrangement;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
@@ -40,6 +41,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.ScrollPaneLayout;
 
 import java.awt.Component;
+import java.awt.Dimension;
+
 import javax.swing.JTextField;
 import java.awt.CardLayout;
 import javax.swing.GroupLayout;
@@ -72,12 +75,10 @@ public class StatistikGUI extends JFrame{
 		Mitarbeiter ma = ((Mitarbeiter) pv.suchen(PID));
 		
 		JPanel pnlReport = new JPanel();
-//		getContentPane().add(pnlReport);
-		pnlReport.setLayout(new BoxLayout(pnlReport, BoxLayout.X_AXIS));
+		pnlReport.setPreferredSize(new Dimension(200, 200));
 		
 		JPanel pnlReportGender = new JPanel();
-//		getContentPane().add(pnlReport);
-		pnlReportGender.setLayout(new GridLayout());
+		pnlReportGender.setPreferredSize(new Dimension(200, 200));
 		
 		JLabel lblAZK = new JLabel("Statistikmenue");
 		lblAZK.setFont(new Font("Dialog", Font.BOLD, 21));
@@ -132,6 +133,8 @@ public class StatistikGUI extends JFrame{
 			list[i] = Arbeitsbereichverwaltung.getBereiche().get(i).getName();
 		}
 
+		
+		// **** AUSWAHL DER ARBEITSBEREICHE ****
 		JComboBox<String> cBArbeitsbereiche = new JComboBox<String>(list);
 		cBArbeitsbereiche.setMaximumRowCount(8);
 		getContentPane().add(cBArbeitsbereiche);
@@ -171,10 +174,17 @@ public class StatistikGUI extends JFrame{
 				// Barchart für Altersverteilung
 				a.showDurchschnittsalter(gewaehlterAB.getArbeitsbereichnummer());
 				DefaultCategoryDataset dcd = new DefaultCategoryDataset();
-				dcd.setValue(a.getAgeUnder30(), "Alter", "unter 30");
-				dcd.setValue(a.getAge30to39(), "Alter", "30 - 39");
-				dcd.setValue(a.getAge40to50(), "Alter", "40 - 50");
-				dcd.setValue(a.getAgeOver50(), "Alter", "über 50");
+				dcd.setValue(a.getAgeUnder30(), "Alter AB", "unter 30");
+				dcd.setValue(a.getAge30to39(), "Alter AB", "30 - 39");
+				dcd.setValue(a.getAge40to50(), "Alter AB", "40 - 50");
+				dcd.setValue(a.getAgeOver50(), "Alter AB", "über 50");
+				
+//				dcd.setValue(a.getAgeUnder30All(), "Alter Gesamt", "unter 30");
+//				dcd.setValue(a.getAge30to39All(), "Alter Gesamt", "30 - 39");
+//				dcd.setValue(a.getAge40to50All(), "Alter Gesamt", "40 - 50");
+//				dcd.setValue(a.getAgeOver50All(), "Alter Gesamt", "über 50");
+				
+				
 				
 				JFreeChart jchart = ChartFactory.createBarChart("Altersverteilung", "Altersgruppe", "Häufigkeit", dcd, PlotOrientation.VERTICAL, true, true, false);
 				CategoryPlot plot = jchart.getCategoryPlot();
@@ -186,14 +196,18 @@ public class StatistikGUI extends JFrame{
 				
 				ChartPanel chartPanel = new ChartPanel(jchart);
 				
-				
 				table = new JTable();
 				table.setModel(new DefaultTableModel(
 					new Object[][] {
+						{null,null},
 						{"Durchschnittsalter", ""+a.showDurchschnittsalter(gewaehlterAB.getArbeitsbereichnummer())},
 						{"Fehltage gesamt", a.showFehltage(gewaehlterAB.getArbeitsbereichnummer())},
 						{"maximale Fehltage", a.showFehltageMaximal(gewaehlterAB.getArbeitsbereichnummer())},
-						{null, null},
+						{"Überstunden des AB", a.showUeberstunden(gewaehlterAB.getArbeitsbereichnummer())},
+						{"Überstunden im Durchschnitt", a.showUeberstundenSchnitt()},
+						{"Flukuationsquote des AB", a.showFluktuationsquote(gewaehlterAB.getArbeitsbereichnummer())},
+						{"Flukuationsquote Gesamt", a.showFluktuationsquoteAll()},
+						{null,null},
 					},
 					new String[] {
 						"Statistik", "Wert"
@@ -222,7 +236,6 @@ public class StatistikGUI extends JFrame{
 				
 				
 				
-				
 				pnlReport.removeAll();
 				pnlReportGender.removeAll();
 				pnlReport.add(chartPanel);
@@ -243,21 +256,14 @@ public class StatistikGUI extends JFrame{
 		
 		
 		JScrollPane scrollPane = new JScrollPane(panel);
-		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addComponent(pnlReportGender, GroupLayout.PREFERRED_SIZE, 571, GroupLayout.PREFERRED_SIZE)
-				.addComponent(pnlReport, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addComponent(pnlReportGender, GroupLayout.PREFERRED_SIZE, 389, GroupLayout.PREFERRED_SIZE)
-				.addComponent(pnlReport, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-		);
-		panel.setLayout(gl_panel);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		panel.add(pnlReport);
 		panel.add(pnlReportGender);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+		panel.add(pnlReport);
+		pnlReport.setLayout(new BoxLayout(pnlReport, BoxLayout.PAGE_AXIS));
+		panel.add(pnlReportGender);
+		pnlReportGender.setLayout(new BoxLayout(pnlReportGender, BoxLayout.PAGE_AXIS));
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setBounds(0, 209, 590, 391);
 		scrollPane.setLayout(new ScrollPaneLayout());

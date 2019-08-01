@@ -106,10 +106,10 @@ public class DeleteMitarbeiterGUI extends JFrame{
 		lblHinweisDelete.setBounds(40, y+170, 200, 20);
 		getContentPane().add(lblHinweisDelete);
 		
-		JLabel lblHinweisTextDelete = new JLabel("<html>Löschen entfernt den Mitarbeiter vollständig aus der Verwaltung</html>");
+		JLabel lblHinweisTextDelete = new JLabel("<html>Löschen entfernt den Mitarbeiter vollständig aus der Verwaltung. Der Mitarbeiter wird dann nicht in die Fluktuationsquote gezählt!</html>");
 		lblHinweisTextDelete.setForeground(new Color(255, 255, 255));
 		lblHinweisTextDelete.setFont(new Font("Dialog", Font.PLAIN, 12));
-		lblHinweisTextDelete.setBounds(40, y+190, 200, 40);
+		lblHinweisTextDelete.setBounds(40, 230, 200, 71);
 		getContentPane().add(lblHinweisTextDelete);
 		
 		JButton btnDelete = new JButton("Löschen");
@@ -138,36 +138,36 @@ public class DeleteMitarbeiterGUI extends JFrame{
 		
 		JPanel rahmenMitte = new JPanel();
 		rahmenMitte.setBackground(new Color(100, 150, 200));
-		rahmenMitte.setBounds(0, y+166, 400, 68);
+		rahmenMitte.setBounds(0, 206, 400, 95);
 		getContentPane().add(rahmenMitte);		
 		
 		JLabel lblAusscheiden = new JLabel("Ausgeschieden am:");
-		lblAusscheiden.setBounds(40, y+256, 120, 20);
+		lblAusscheiden.setBounds(40, 312, 120, 20);
 		getContentPane().add(lblAusscheiden);
 		
 		JTextField tfAusscheidenT = new JTextField();
-		tfAusscheidenT.setBounds(x, y+254, 40, 24);
+		tfAusscheidenT.setBounds(172, 310, 40, 24);
 		getContentPane().add(tfAusscheidenT);
 		
 		JLabel lblAusscheidenPunkt1 = new JLabel(".",0);
-		lblAusscheidenPunkt1.setBounds(x+40, y+256, 10, 20);
+		lblAusscheidenPunkt1.setBounds(214, 312, 10, 20);
 		getContentPane().add(lblAusscheidenPunkt1);
 		
 		JTextField tfAusscheidenM = new JTextField();
-		tfAusscheidenM.setBounds(x+50, y+254, 40, 24);
+		tfAusscheidenM.setBounds(222, 310, 40, 24);
 		getContentPane().add(tfAusscheidenM);
 		
 		JLabel lblAusscheidenPunkt2 = new JLabel(".",0);
-		lblAusscheidenPunkt2.setBounds(x+90, y+256, 10, 20);
+		lblAusscheidenPunkt2.setBounds(264, 312, 10, 20);
 		getContentPane().add(lblAusscheidenPunkt2);
 		
 		JTextField tfAusscheidenJ = new JTextField();
-		tfAusscheidenJ.setBounds(x+100, y+254, 80, 24);
+		tfAusscheidenJ.setBounds(272, 310, 80, 24);
 		getContentPane().add(tfAusscheidenJ);
 		
 		JLabel lblHinweisTextLeave = new JLabel("<html>Ausscheiden setzt die Zugehörigkeit des Mitarbeiters auf Ausgeschieden und löscht die Berechtigung. Das Ausscheidungsdatum muss in der Vergangenheit liegen.</html>");
 		lblHinweisTextLeave.setFont(new Font("Dialog", Font.PLAIN, 12));
-		lblHinweisTextLeave.setBounds(40, y+290, 320, 56);
+		lblHinweisTextLeave.setBounds(32, 345, 320, 56);
 		getContentPane().add(lblHinweisTextLeave);
 		
 		JPanel rahmenUnten = new JPanel();
