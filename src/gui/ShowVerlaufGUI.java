@@ -154,6 +154,6 @@ public class ShowVerlaufGUI extends JFrame{
 			
 		Personalverwaltung.getInstance().laden();
 		Arbeitsbereichverwaltung.getInstance().laden();	
-		new ShowVerlaufGUI(1);
+		new ShowVerlaufGUI(100001);
 	}
 }

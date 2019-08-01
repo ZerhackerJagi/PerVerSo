@@ -18,7 +18,7 @@ public class Mitarbeiter implements Serializable {
 	private Datum geburtsdatum;
 	
 	private String passwort;
-	private boolean newPasswort;
+	private boolean changePasswort;
 	private Berechtigung berechtigung;
 	
 	private Datum einstellungsdatum;
@@ -43,7 +43,7 @@ public class Mitarbeiter implements Serializable {
 		this.geburtsdatum = geburtstag;
 		
 		this.passwort = passwort;
-		this.newPasswort = true;
+		this.changePasswort = true;
 		this.berechtigung = berechtigung;
 		
 		this.einstellungsdatum = einstellungsdatum;
@@ -114,20 +114,20 @@ public class Mitarbeiter implements Serializable {
 		this.geburtsdatum = geburtsdatum;
 	}
 
-	public String getBenutzername() {
-		return benutzername;
-	}
-
-	public void setBenutzername(String benutzername) {
-		this.benutzername = benutzername;
-	}
-
 	public String getPasswort() {
 		return passwort;
 	}
 
 	public void setPasswort(String passwort) {
 		this.passwort = passwort;
+	}
+	
+	public boolean getChangePasswort() {
+		return changePasswort;
+	}
+
+	public void setChangePasswort(boolean changePasswort) {
+		this.changePasswort = changePasswort;
 	}
 
 	public Berechtigung getBerechtigung() {

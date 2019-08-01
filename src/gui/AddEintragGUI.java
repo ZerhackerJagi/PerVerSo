@@ -2,7 +2,6 @@ package gui;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -12,12 +11,8 @@ import javax.swing.JTextField;
 
 import extern.Datum;
 import logik.Admin;
-import logik.Arbeitsbereich;
-import logik.Arbeitsbereichverwaltung;
 import logik.Mitarbeiter;
 import logik.Personalverwaltung;
-import logik.User;
-
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -201,6 +196,6 @@ public class AddEintragGUI extends JFrame{
 	public static void main(String[] args) throws Exception {
 		
 		Personalverwaltung.getInstance().laden();
-		new AddEintragGUI(0,1);
+		new AddEintragGUI(100000,100001);
 	}
 }

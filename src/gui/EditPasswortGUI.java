@@ -16,7 +16,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
 
-public class ChangePwdGUI extends JFrame{
+public class EditPasswortGUI extends JFrame{
 	
 //******************** PARAMETER ********************
 
@@ -24,10 +24,10 @@ public class ChangePwdGUI extends JFrame{
 		
 //******************** KONSTRUKTOR ********************
 	
-	public ChangePwdGUI(int PID, int wer) {
+	public EditPasswortGUI(int PID, int wer) {
 		/*@author:		Soeren Hebestreit
 		 *@date: 		24.07.2019
-		 *@description: Mitarbeiterkennung und -passwort editieren
+		 *@description: Mitarbeiterpasswort setzen
 		 */	
 		
 		setSize(400, 320);
@@ -40,7 +40,7 @@ public class ChangePwdGUI extends JFrame{
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Mitarbeiter ma = (Mitarbeiter) pv.suchen(wer);
 		
-		JLabel lblFunktion = new JLabel("Kennung editieren");
+		JLabel lblFunktion = new JLabel("Passwort setzen");
 		lblFunktion.setForeground(new Color(255, 255, 255));
 		lblFunktion.setFont(new Font("Dialog", Font.BOLD, 21));
 		lblFunktion.setBounds(24, 8, 380, 36);
@@ -60,15 +60,6 @@ public class ChangePwdGUI extends JFrame{
 		int y = 40;
 		int x = 172;
 		
-		JLabel lblKennung = new JLabel("Benutzername:");
-		lblKennung.setBounds(40, y+40, 120, 20);
-		getContentPane().add(lblKennung);
-		
-		JTextField tfKennung = new JTextField();
-		tfKennung.setText(ma.getBenutzername());
-		tfKennung.setBounds(x, y+38, 180, 24);
-		getContentPane().add(tfKennung);
-			
 		JLabel lblPasswort = new JLabel("neues Passwort:");
 		lblPasswort.setBounds(40, y+80, 120, 20);
 		getContentPane().add(lblPasswort);
@@ -88,14 +79,11 @@ public class ChangePwdGUI extends JFrame{
 		btnConfirm.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(tfKennung.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Bitte Kennung ausfüllen.", null, JOptionPane.INFORMATION_MESSAGE);
+				if(tfPasswort.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Bitte Passwort eingeben.", null, JOptionPane.INFORMATION_MESSAGE);
 				} else {
 					Admin admin = new Admin(PID);
-					admin.editMABenutzername(wer, tfKennung.getText());
-					if(!tfPasswort.getText().isEmpty()) {
-						admin.editMAPasswort(wer, tfPasswort.getText());
-					}
+					admin.editMAPasswort(wer, tfPasswort.getText());
 					try {
 						pv.speichern();
 					} catch (Exception e1) {
@@ -125,6 +113,6 @@ public class ChangePwdGUI extends JFrame{
 	public static void main(String[] args) throws Exception {
 		
 		Personalverwaltung.getInstance().laden();
-		new ChangePwdGUI(0,1);
+		new EditPasswortGUI(100000,100001);
 	}
 }

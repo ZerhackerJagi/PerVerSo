@@ -71,26 +71,6 @@ public class Admin extends Berechtigung implements Serializable {
 		return true;
 	}
 
-	public boolean editMABenutzername(int personalnummer, String benutzername) {
-		/*
-		 * @author: Soeren Hebestreit
-		 * 
-		 * @date: 19.07.2019
-		 * 
-		 * @description: Mitarbeiterkennung bearbeiten
-		 */
-
-		Personalverwaltung pv = Personalverwaltung.getInstance();
-		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
-
-		if (ma == null) {
-			return false;
-		}
-
-		ma.setBenutzername(benutzername);
-		return true;
-	}
-
 	public boolean editMAPasswort(int personalnummer, String passwort) {
 		/*
 		 * @author: Soeren Hebestreit
@@ -108,6 +88,7 @@ public class Admin extends Berechtigung implements Serializable {
 		}
 
 		ma.setPasswort(passwort);
+		ma.setChangePasswort(true);
 		return true;
 	}
 
@@ -474,6 +455,21 @@ public class Admin extends Berechtigung implements Serializable {
 		azk.display();
 		System.out.println("\n--------Urlaub--------");
 		azk.showUrlaub(new Datum().getJahr());
+	}
+	
+	public boolean changePasswort(String alt, String neu) {
+		/*@author: 		Soeren Hebestreit
+		 *@date: 		19.07.2019
+		 *@description:	Passwort ändern, wenn altes übereinstimmt
+		 */	
+		
+		Mitarbeiter ma = (Mitarbeiter) Personalverwaltung.getInstance().suchen(personalID);
+		if(ma.getPasswort().equals(alt)) {
+			ma.setPasswort(neu);
+			ma.setChangePasswort(false);
+			return true;
+		}
+		return false;
 	}
 
 //******************** GETTER & SETTER ********************

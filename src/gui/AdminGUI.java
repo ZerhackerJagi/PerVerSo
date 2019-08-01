@@ -14,6 +14,7 @@ import java.awt.event.WindowEvent;
 import javax.swing.JPanel;
 
 import logik.Arbeitsbereichverwaltung;
+import logik.Mitarbeiter;
 import logik.Personalverwaltung;
 
 import javax.swing.ImageIcon;
@@ -170,12 +171,16 @@ public class AdminGUI extends JFrame{
 		getContentPane().add(rahmenUnten);
 
 		setVisible(true);
+		
+		if(((Mitarbeiter)Personalverwaltung.getInstance().suchen(PID)).getChangePasswort()){
+			new ChangePasswortGUI(PID);
+		}
 	}
 
 	public static void main(String[] args) throws Exception {
 		
 		Arbeitsbereichverwaltung.getInstance().laden();
 		Personalverwaltung.getInstance().laden();
-		new AdminGUI(0);
+		new AdminGUI(100000);
 	}
 }

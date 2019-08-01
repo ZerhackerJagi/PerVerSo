@@ -86,32 +86,26 @@ public class StatistikGUI extends JFrame{
 		lblAZK.setBounds(24, 20, 360, 24);
 		getContentPane().add(lblAZK);
 		
-		JLabel lblName = new JLabel(ma.getVorname()+" "+ma.getName());
-		lblName.setFont(new Font("Dialog", Font.BOLD, 21));
-		lblName.setForeground(new Color(255, 255, 255));
-		lblName.setBounds(24, 44, 360, 24);
-		getContentPane().add(lblName);
-		
 		JPanel rahmenOben = new JPanel();
 		rahmenOben.setBackground(new Color(100, 150, 200));
-		rahmenOben.setBounds(0, 0, 594, 88);
+		rahmenOben.setBounds(0, 0, 594, 64);
 		getContentPane().add(rahmenOben);
 		
 		JLabel lblSoll = new JLabel("Jahr");
-		lblSoll.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblSoll.setBounds(24, 100, 100, 24);
+		lblSoll.setFont(new Font("Dialog", Font.BOLD, 12));
+		lblSoll.setBounds(24, 80, 100, 24);
 		getContentPane().add(lblSoll);
 		
 		Datum date = new Datum();
 		String year = ""+date.getJahr();
 		JLabel lblSollData = new JLabel(year);
-		lblSollData.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblSollData.setBounds(187, 99, 100, 24);
+		lblSollData.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblSollData.setBounds(180, 80, 100, 24);
 		getContentPane().add(lblSollData);
 		
-		JLabel lblUeber = new JLabel("Akt. Kalenderwoche");
-		lblUeber.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblUeber.setBounds(24, 124, 153, 24);
+		JLabel lblUeber = new JLabel("akt. Kalenderwoche");
+		lblUeber.setFont(new Font("Dialog", Font.BOLD, 12));
+		lblUeber.setBounds(24, 120, 153, 24);
 		getContentPane().add(lblUeber);
 		
 		// Kalenderwoche berechnen
@@ -119,8 +113,8 @@ public class StatistikGUI extends JFrame{
 		String weekNumber = ""+localDate.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
 		
 		JLabel lblUeberData = new JLabel(weekNumber);
-		lblUeberData.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblUeberData.setBounds(187, 124, 100, 24);
+		lblUeberData.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblUeberData.setBounds(180, 120, 100, 24);
 		getContentPane().add(lblUeberData);
 		
 		JPanel rahmenUnten = new JPanel();
@@ -138,15 +132,15 @@ public class StatistikGUI extends JFrame{
 		JComboBox<String> cBArbeitsbereiche = new JComboBox<String>(list);
 		cBArbeitsbereiche.setMaximumRowCount(8);
 		getContentPane().add(cBArbeitsbereiche);
-		
-		cBArbeitsbereiche.setBounds(160, 159, 237, 24);
+		cBArbeitsbereiche.setBackground(new Color(255,255,255));
+		cBArbeitsbereiche.setBounds(180, 160, 200, 24);
 		
 		
 		getContentPane().add(cBArbeitsbereiche);
 		
 		JLabel lblArbeitsbereich = new JLabel("Arbeitsbereich");
-		lblArbeitsbereich.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblArbeitsbereich.setBounds(24, 159, 126, 24);
+		lblArbeitsbereich.setFont(new Font("Dialog", Font.BOLD, 12));
+		lblArbeitsbereich.setBounds(24, 160, 120, 24);
 		getContentPane().add(lblArbeitsbereich);
 		
 		JPanel panel = new JPanel();
@@ -203,8 +197,8 @@ public class StatistikGUI extends JFrame{
 						{"Durchschnittsalter", ""+a.showDurchschnittsalter(gewaehlterAB.getArbeitsbereichnummer())},
 						{"Fehltage gesamt", a.showFehltage(gewaehlterAB.getArbeitsbereichnummer())},
 						{"maximale Fehltage", a.showFehltageMaximal(gewaehlterAB.getArbeitsbereichnummer())},
-						{"Überstunden des AB", a.showUeberstunden(gewaehlterAB.getArbeitsbereichnummer())},
-						{"Überstunden im Durchschnitt", a.showUeberstundenSchnitt()},
+						{"Überminuten des AB", a.showUeberstunden(gewaehlterAB.getArbeitsbereichnummer())},
+						{"Überminuten im Durchschnitt", a.showUeberstundenSchnitt()},
 						{"Flukuationsquote des AB", a.showFluktuationsquote(gewaehlterAB.getArbeitsbereichnummer())},
 						{"Flukuationsquote Gesamt", a.showFluktuationsquoteAll()},
 						{null,null},
@@ -213,9 +207,9 @@ public class StatistikGUI extends JFrame{
 						"Statistik", "Wert"
 					}
 				));
-				table.getColumnModel().getColumn(0).setPreferredWidth(200);
-				table.getColumnModel().getColumn(1).setPreferredWidth(150);
-				table.setBounds(47, 274, 492, 115);
+				table.getColumnModel().getColumn(0).setPreferredWidth(100);
+				table.getColumnModel().getColumn(1).setPreferredWidth(100);
+				//table.setBounds(47, 274, 200, 115);
 //				panel.add(table);
 				
 				
@@ -251,7 +245,8 @@ public class StatistikGUI extends JFrame{
 
 
 		});
-		btnAktualisieren.setBounds(413, 160, 126, 23);
+		btnAktualisieren.setBounds(420, 160, 120, 24);
+		btnAktualisieren.setBackground(new Color(255,255,255));
 		getContentPane().add(btnAktualisieren);
 		
 		
@@ -263,9 +258,10 @@ public class StatistikGUI extends JFrame{
 		panel.add(pnlReport);
 		pnlReport.setLayout(new BoxLayout(pnlReport, BoxLayout.PAGE_AXIS));
 		panel.add(pnlReportGender);
+		panel.setBackground(new Color(255,255,255));
 		pnlReportGender.setLayout(new BoxLayout(pnlReportGender, BoxLayout.PAGE_AXIS));
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(0, 209, 590, 391);
+		scrollPane.setBounds(0, 204, 595, 408);
 		scrollPane.setLayout(new ScrollPaneLayout());
 		getContentPane().add(scrollPane);
 		
@@ -281,13 +277,6 @@ public class StatistikGUI extends JFrame{
 		getContentPane().update(getGraphics());
 	}
 	
-	public static void main(String[] args) throws Exception {
-				
-		Arbeitsbereichverwaltung.getInstance().laden();	
-		Personalverwaltung.getInstance().laden();
-		new StatistikGUI(0);
-	}
-	
 	public Arbeitsbereich getContentPaneValue() {
 
 		Object obj = selectedAB;
@@ -299,5 +288,12 @@ public class StatistikGUI extends JFrame{
 			}
 		}
 		return gewaehlterAB;
+	}
+	
+	public static void main(String[] args) throws Exception {
+		
+		Arbeitsbereichverwaltung.getInstance().laden();	
+		Personalverwaltung.getInstance().laden();
+		new StatistikGUI(100000);
 	}
 }

@@ -142,6 +142,6 @@ public class EditBerechtigungGUI extends JFrame{
 		
 		Arbeitsbereichverwaltung.getInstance().laden();
 		Personalverwaltung.getInstance().laden();
-		new EditBerechtigungGUI(0,1);
+		new EditBerechtigungGUI(100000,100001);
 	}
 }

@@ -22,8 +22,6 @@ public class LoginGUI extends JFrame{
 //******************** PARAMETER ********************
 	
 	private static final long serialVersionUID = 1L;
-	private JTextField tfUsername;
-	private JPasswordField passwordField;
 	private Mitarbeiter user;
 		
 //******************** KONSTRUKTOR ********************
@@ -47,11 +45,11 @@ public class LoginGUI extends JFrame{
 		lblLoginPerverso.setBounds(164, 20, 240, 40);
 		getContentPane().add(lblLoginPerverso);
 		
-		JLabel lblBenutzername = new JLabel("Personalnummer: ");
-		lblBenutzername.setForeground(new Color(255, 255, 255));
-		lblBenutzername.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblBenutzername.setBounds(40, 80, 120, 20);
-		getContentPane().add(lblBenutzername);
+		JLabel lblPersonalnummer = new JLabel("PNr.: ");
+		lblPersonalnummer.setForeground(new Color(255, 255, 255));
+		lblPersonalnummer.setFont(new Font("Dialog", Font.BOLD, 14));
+		lblPersonalnummer.setBounds(40, 80, 120, 20);
+		getContentPane().add(lblPersonalnummer);
 		
 		JLabel lblPasswort = new JLabel("Passwort: ");
 		lblPasswort.setForeground(new Color(255, 255, 255));
@@ -59,11 +57,11 @@ public class LoginGUI extends JFrame{
 		lblPasswort.setBounds(40, 120, 120, 20);
 		getContentPane().add(lblPasswort);
 		
-		tfUsername = new JTextField();
-		tfUsername.setBounds(160, 78, 180, 24);
-		getContentPane().add(tfUsername);
+		JTextField tfPersonalnummer = new JTextField();
+		tfPersonalnummer.setBounds(160, 78, 180, 24);
+		getContentPane().add(tfPersonalnummer);
 		
-		passwordField = new JPasswordField();
+		JPasswordField passwordField = new JPasswordField();
 		passwordField.setBounds(160, 118, 180, 24);
 		getContentPane().add(passwordField);
 			
@@ -71,8 +69,7 @@ public class LoginGUI extends JFrame{
 		btnAnmelden.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//if(checkAnmeldung(tfUsername.getText(), new String(passwordField.getPassword()))) {
-				if(((Mitarbeiter)Personalverwaltung.getInstance().suchen(Integer.parseInt(tfUsername.getText()))).getPasswort().equals(new String(passwordField.getPassword()))) {
+				if(checkAnmeldung(tfPersonalnummer.getText(), new String(passwordField.getPassword()))) {
 					setVisible(false);
 					if(user.getBerechtigung() instanceof Admin) {
 						new AdminGUI(user.getPersonalnummer());
@@ -95,24 +92,22 @@ public class LoginGUI extends JFrame{
 	
 //******************** INTERNE FUNKTIONEN ********************
 	
-	private boolean checkAnmeldung(String username, String password) {
-		/*@author:		Jakob Kuechler, Soeren Hebestreit
-		 *@date: 		xx.xx.2019, 19.07.2019
+	private boolean checkAnmeldung(String personalnummer, String password) {
+		/*@author:		Soeren Hebestreit
+		 *@date: 		01.08.2019
 		 *@description: Passwortkontrolle
 		 */
 		
-		Mitarbeiter ma;
-		for(int i = 0; i < Personalverwaltung.getaMA().size(); i++) {
-			ma = Personalverwaltung.getaMA().get(i);
-			if(username.equals(ma.getBenutzername())){
-				if(password.equals(ma.getPasswort())) {
+		try {
+			Mitarbeiter ma = (Mitarbeiter) Personalverwaltung.getInstance().suchen(Integer.parseInt(personalnummer));
+			if(ma != null) {
+				if(ma.getPasswort().equals(password)) {
 					user = ma;
 					return true;
-				} else {
-					JOptionPane.showMessageDialog(null, "Ungültiger Benutzername oder Passwort.", null, JOptionPane.INFORMATION_MESSAGE); 
-					return false;
 				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		JOptionPane.showMessageDialog(null, "Ungültiger Benutzername oder Passwort.", null, JOptionPane.INFORMATION_MESSAGE);
 		return false;
@@ -120,7 +115,7 @@ public class LoginGUI extends JFrame{
 	
 	public static void main(String[] args) throws Exception {
 				
-		//Personalverwaltung.getInstance().laden();
+		Personalverwaltung.getInstance().laden();
 		new LoginGUI();
 	}
 

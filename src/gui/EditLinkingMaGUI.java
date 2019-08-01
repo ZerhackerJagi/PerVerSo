@@ -156,8 +156,8 @@ public class EditLinkingMaGUI extends JFrame{
 		tfWechselJ.setBounds(x+100, y+254, 80, 24);
 		getContentPane().add(tfWechselJ);
 		
-		JLabel lblBemerkung = new JLabel("Bemerkung:");
-		lblBemerkung.setBounds(40, y+296, 120, 20);
+		JLabel lblBemerkung = new JLabel("<html>Bemerkung:<br>(optional)</html>");
+		lblBemerkung.setBounds(40, y+296, 120, 40);
 		getContentPane().add(lblBemerkung);
 		
 		JTextArea tfBemerkung = new JTextArea();
@@ -221,6 +221,6 @@ public class EditLinkingMaGUI extends JFrame{
 		
 		Arbeitsbereichverwaltung.getInstance().laden();
 		Personalverwaltung.getInstance().laden();
-		new EditLinkingMaGUI(0,0);
+		new EditLinkingMaGUI(100000,100000);
 	}
 }

@@ -46,7 +46,7 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 		 *@description:	fuegt Standardadmin bei der Ersterstellung ein 
 		 */
 		
-		aMA.add(new Mitarbeiter(personalnummer, "admin", "admin", 'd', new Datum(), "passwort", new Admin(personalnummer), new Datum(), new Arbeitszeitkonto(), new Zugehoerigkeit(new Datum(),0,"Standardadmin anlegen")));
+		aMA.add(new Mitarbeiter(personalnummer, "admin", "admin", 'd', new Datum(), "admin", new Admin(personalnummer), new Datum(), new Arbeitszeitkonto(), new Zugehoerigkeit(new Datum(),0,"Standardadmin anlegen")));
 		personalnummer ++;
 		aMA.add(new Mitarbeiter(personalnummer, "user", "test", 'd', new Datum(), "passwort", new User(personalnummer), new Datum(), new Arbeitszeitkonto(), new Zugehoerigkeit(new Datum(),0,"Testuser anlegen")));
 		personalnummer ++;
