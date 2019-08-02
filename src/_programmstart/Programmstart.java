@@ -15,8 +15,7 @@ public class Programmstart {
 		Arbeitsbereichverwaltung abv = Arbeitsbereichverwaltung.getInstance();
 		pv.laden("Normal");
 		abv.laden("Normal");
-		
-		
+			
 		new LoginGUI();
 	}
 	

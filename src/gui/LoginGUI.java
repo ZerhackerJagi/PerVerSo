@@ -70,9 +70,10 @@ public class LoginGUI extends JFrame{
 		btnAnmelden.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(tfPersonalnummer.getText() == "Beispiel") {
-					ladeneu();
-				}
+//				if(Integer.parseInt(tfPersonalnummer.getText()) == 1) {
+//					ladeneu();
+//					JOptionPane.showMessageDialog(null, "Beispiel erkannt!", null, JOptionPane.INFORMATION_MESSAGE);
+//				}
 				if(checkAnmeldung(tfPersonalnummer.getText(), new String(passwordField.getPassword()))) {
 					setVisible(false);
 					if(user.getBerechtigung() instanceof Admin) {
@@ -95,15 +96,15 @@ public class LoginGUI extends JFrame{
 	}
 	
 //******************** INTERNE FUNKTIONEN ********************
-	private void ladeneu() {
-		try {
-			Personalverwaltung.getInstance().laden("Beispiel");
-			return;
-		} catch(Exception e) {
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Beispiel Datenbank nicht vorhanden", null, JOptionPane.INFORMATION_MESSAGE);
-		}		
-	}
+//	private void ladeneu() {
+//		try {
+//			Personalverwaltung.getInstance().laden("Beispiel");
+//			return;
+//		} catch(Exception e) {
+//			e.printStackTrace();
+//			JOptionPane.showMessageDialog(null, "Beispiel Datenbank nicht vorhanden", null, JOptionPane.INFORMATION_MESSAGE);
+//		}		
+//	}
 	
 	private boolean checkAnmeldung(String personalnummer, String password) {
 		/*@author:		Soeren Hebestreit

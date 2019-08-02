@@ -57,7 +57,7 @@ public class Dateizugriff implements DateizugriffIF{
 			DateiNamePv = "TestPV.dat";
 		} else if(modus == "Beispiel") {
 			DateiNamePv = "BeispielPV.dat";
-		} else {
+		} else if(modus == "Normal") {
 			DateiNamePv = "DataPV.dat";
 		}
 		
