@@ -29,6 +29,7 @@ public class AdminGUI extends JFrame{
 	public boolean openShowPV = false;
 	public boolean openShowABV = false;
 	public boolean openShowStatistik = false;
+	public boolean openChangePasswort = false;
 
 	
 //******************** KONSTRUKTOR ********************	
@@ -146,8 +147,30 @@ public class AdminGUI extends JFrame{
 				}
 			}
 		});
-		btnStatistik.setBounds(12, 352, 200, 24);
+		btnStatistik.setBounds(12, 312, 200, 24);
 		getContentPane().add(btnStatistik);
+		
+		JButton btnPasswort = new JButton("Passwort ändern");
+		btnPasswort.setBackground(new Color(255, 255, 255));
+		btnPasswort.addMouseListener(new MouseAdapter() {				
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (openChangePasswort == false) {
+					openChangePasswort = true;
+					ChangePasswortGUI changePasswort = new ChangePasswortGUI(PID);
+					changePasswort.addWindowListener(new WindowAdapter() {
+						@Override
+						public void windowClosed(WindowEvent e) {
+							openChangePasswort = false;
+						}
+					});
+				} else {
+					JOptionPane.showMessageDialog(null, "Passwort ändern bereits offen.", null, JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
+		btnPasswort.setBounds(12, 356, 200, 24);
+		getContentPane().add(btnPasswort);
 		
 		JButton btnExit = new JButton("Exit");
 		btnExit.setBackground(new Color(255, 255, 255));
@@ -157,7 +180,7 @@ public class AdminGUI extends JFrame{
 				System.exit(0);	
 			}
 		});
-		btnExit.setBounds(12, 396, 200, 24);
+		btnExit.setBounds(12, 400, 200, 24);
 		getContentPane().add(btnExit);
 		
 		JPanel rahmenOben = new JPanel();

@@ -26,6 +26,7 @@ public class MitarbeiterGUI extends JFrame{
 	private static final long serialVersionUID = 1L;
 	public boolean openShowAzk = false;
 	public boolean openShowVerlauf = false;
+	public boolean openChangePasswort = false;
 	
 //******************** KONSTRUKTOR ********************
 	
@@ -101,6 +102,28 @@ public class MitarbeiterGUI extends JFrame{
 		btnVerlauf.setBounds(12, 264, 200, 24);
 		getContentPane().add(btnVerlauf);
 		
+		JButton btnPasswort = new JButton("Passwort ändern");
+		btnPasswort.setBackground(new Color(255, 255, 255));
+		btnPasswort.addMouseListener(new MouseAdapter() {				
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (openChangePasswort == false) {
+					openChangePasswort = true;
+					ChangePasswortGUI changePasswort = new ChangePasswortGUI(PID);
+					changePasswort.addWindowListener(new WindowAdapter() {
+						@Override
+						public void windowClosed(WindowEvent e) {
+							openChangePasswort = false;
+						}
+					});
+				} else {
+					JOptionPane.showMessageDialog(null, "Passwort ändern bereits offen.", null, JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
+		btnPasswort.setBounds(12, 356, 200, 24);
+		getContentPane().add(btnPasswort);
+		
 		JButton btnExit = new JButton("Exit");
 		btnExit.setBackground(new Color(255, 255, 255));
 		btnExit.addMouseListener(new MouseAdapter() {				
@@ -109,7 +132,7 @@ public class MitarbeiterGUI extends JFrame{
 				System.exit(0);	
 			}
 		});
-		btnExit.setBounds(12, 396, 200, 24);
+		btnExit.setBounds(12, 400, 200, 24);
 		getContentPane().add(btnExit);
 		
 		JPanel rahmenOben = new JPanel();
