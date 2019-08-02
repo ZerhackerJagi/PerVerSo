@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import logik.Arbeitsbereichverwaltung;
+import logik.Mitarbeiter;
 import logik.Personalverwaltung;
 
 import java.awt.Font;
@@ -122,6 +123,10 @@ public class MitarbeiterGUI extends JFrame{
 		getContentPane().add(rahmenUnten);
 		
 		setVisible(true);
+		
+		if(((Mitarbeiter)Personalverwaltung.getInstance().suchen(PID)).getChangePasswort()){
+			new ChangePasswortGUI(PID);
+		}
 	}
 	
 	
@@ -129,6 +134,6 @@ public class MitarbeiterGUI extends JFrame{
 		
 		Personalverwaltung.getInstance().laden();
 		Arbeitsbereichverwaltung.getInstance().laden();
-		new MitarbeiterGUI(1);
+		new MitarbeiterGUI(100001);
 	}
 }

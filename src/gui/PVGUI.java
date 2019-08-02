@@ -195,7 +195,7 @@ public class PVGUI extends JFrame{
 				if(wahl >=0 ) {
 					if (openEditKennung == false) {
 						openEditKennung = true;
-						EditKennungGUI editKennung = new EditKennungGUI(PID,wahl);
+						EditPasswortGUI editKennung = new EditPasswortGUI(PID,wahl);
 						editKennung.addWindowListener(new WindowAdapter() {
 							@Override
 							public void windowClosed(WindowEvent e) {
@@ -465,9 +465,9 @@ public class PVGUI extends JFrame{
 		 *@description: Spaltenbreite der Tabelle aendern
 		 */
 		
-		table.getColumnModel().getColumn( 0 ).setPreferredWidth( 50 );
-		table.getColumnModel().getColumn( 1 ).setPreferredWidth( 200 );
-		table.getColumnModel().getColumn( 2 ).setPreferredWidth( 250 );
+		table.getColumnModel().getColumn( 0 ).setPreferredWidth( 80 );
+		table.getColumnModel().getColumn( 1 ).setPreferredWidth( 180 );
+		table.getColumnModel().getColumn( 2 ).setPreferredWidth( 240 );
 	}
 	
 	private static void getInfo(int number) {
@@ -498,7 +498,7 @@ public class PVGUI extends JFrame{
 		
 		Arbeitsbereichverwaltung.getInstance().laden();	
 		Personalverwaltung.getInstance().laden();
-		new PVGUI(0);
+		new PVGUI(100000);
 	}
 	
 }

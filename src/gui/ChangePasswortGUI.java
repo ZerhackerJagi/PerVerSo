@@ -5,18 +5,18 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-
+import javax.swing.JPasswordField;
 import logik.Admin;
 import logik.Mitarbeiter;
 import logik.Personalverwaltung;
+import logik.User;
 
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
 
-public class EditKennungGUI extends JFrame{
+public class ChangePasswortGUI extends JFrame{
 	
 //******************** PARAMETER ********************
 
@@ -24,10 +24,10 @@ public class EditKennungGUI extends JFrame{
 		
 //******************** KONSTRUKTOR ********************
 	
-	public EditKennungGUI(int PID, int wer) {
+	public ChangePasswortGUI(int PID) {
 		/*@author:		Soeren Hebestreit
 		 *@date: 		24.07.2019
-		 *@description: Mitarbeiterkennung und -passwort editieren
+		 *@description: Passwort aendern
 		 */	
 		
 		setSize(400, 320);
@@ -38,15 +38,15 @@ public class EditKennungGUI extends JFrame{
 		setResizable(false);
 		
 		Personalverwaltung pv = Personalverwaltung.getInstance();
-		Mitarbeiter ma = (Mitarbeiter) pv.suchen(wer);
+		Mitarbeiter ma = (Mitarbeiter) pv.suchen(PID);
 		
-		JLabel lblFunktion = new JLabel("Kennung editieren");
+		JLabel lblFunktion = new JLabel("Passwort ändern");
 		lblFunktion.setForeground(new Color(255, 255, 255));
 		lblFunktion.setFont(new Font("Dialog", Font.BOLD, 21));
 		lblFunktion.setBounds(24, 8, 380, 36);
 		getContentPane().add(lblFunktion);
 		
-		JLabel lblPNr = new JLabel("PNr. "+wer+" - "+ma.getVorname()+" "+ma.getName());
+		JLabel lblPNr = new JLabel("PNr. "+PID+" - "+ma.getVorname()+" "+ma.getName());
 		lblPNr.setForeground(new Color(255, 255, 255));
 		lblPNr.setFont(new Font("Dialog", Font.BOLD, 14));
 		lblPNr.setBounds(24, 36, 380, 24);
@@ -60,23 +60,21 @@ public class EditKennungGUI extends JFrame{
 		int y = 40;
 		int x = 172;
 		
-		JLabel lblKennung = new JLabel("Benutzername:");
-		lblKennung.setBounds(40, y+40, 120, 20);
-		getContentPane().add(lblKennung);
+		JLabel lblPasswortAlt = new JLabel("altes Passwort:");
+		lblPasswortAlt.setBounds(40, y+40, 120, 20);
+		getContentPane().add(lblPasswortAlt);
 		
-		JTextField tfKennung = new JTextField();
-		tfKennung.setText(ma.getBenutzername());
-		tfKennung.setBounds(x, y+38, 180, 24);
-		getContentPane().add(tfKennung);
+		JPasswordField passwordFieldOld = new JPasswordField();
+		passwordFieldOld.setBounds(x, y+38, 180, 24);
+		getContentPane().add(passwordFieldOld);
 			
-		JLabel lblPasswort = new JLabel("neues Passwort:");
-		lblPasswort.setBounds(40, y+80, 120, 20);
-		getContentPane().add(lblPasswort);
+		JLabel lblPasswortNeu = new JLabel("neues Passwort:");
+		lblPasswortNeu.setBounds(40, y+80, 120, 20);
+		getContentPane().add(lblPasswortNeu);
 		
-		JTextField tfPasswort = new JTextField();
-		//tfPasswort.setText(ma.getPasswort());
-		tfPasswort.setBounds(x, y+78, 180, 24);
-		getContentPane().add(tfPasswort);
+		JPasswordField passwordFieldNew = new JPasswordField();
+		passwordFieldNew.setBounds(x, y+78, 180, 24);
+		getContentPane().add(passwordFieldNew);
 		
 		JPanel rahmenMitte = new JPanel();
 		rahmenMitte.setBackground(new Color(100, 150, 200));
@@ -88,20 +86,24 @@ public class EditKennungGUI extends JFrame{
 		btnConfirm.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(tfKennung.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Bitte Kennung ausfüllen.", null, JOptionPane.INFORMATION_MESSAGE);
+				if(new String(passwordFieldOld.getPassword()).isEmpty() || new String(passwordFieldNew.getPassword()).isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Bitte alle Felder ausfüllen.", null, JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					Admin admin = new Admin(PID);
-					admin.editMABenutzername(wer, tfKennung.getText());
-					if(!tfPasswort.getText().isEmpty()) {
-						admin.editMAPasswort(wer, tfPasswort.getText());
+					if(ma.getPasswort().equals(new String(passwordFieldOld.getPassword()))){
+						if(ma.getBerechtigung() instanceof Admin) {
+							((Admin)ma.getBerechtigung()).changePasswort(new String(passwordFieldOld.getPassword()), new String(passwordFieldNew.getPassword()));
+						} else {
+							((User)ma.getBerechtigung()).changePasswort(new String(passwordFieldOld.getPassword()), new String(passwordFieldNew.getPassword()));
+						}
+						try {
+							pv.speichern();
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+						dispose();
+					} else {
+						JOptionPane.showMessageDialog(null, "Falsches Passwort.", null, JOptionPane.INFORMATION_MESSAGE);
 					}
-					try {
-						pv.speichern();
-					} catch (Exception e1) {
-						e1.printStackTrace();
-					}
-					dispose();
 				}
 			}
 		});
@@ -125,6 +127,6 @@ public class EditKennungGUI extends JFrame{
 	public static void main(String[] args) throws Exception {
 		
 		Personalverwaltung.getInstance().laden();
-		new EditKennungGUI(0,1);
+		new ChangePasswortGUI(100001);
 	}
 }

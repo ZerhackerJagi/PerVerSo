@@ -1,25 +1,22 @@
 package gui;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 
 import logik.Admin;
-import logik.Arbeitsbereichverwaltung;
 import logik.Mitarbeiter;
 import logik.Personalverwaltung;
-import logik.User;
 
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
 
-public class EditBerechtigungGUI extends JFrame{
+public class EditPasswortGUI extends JFrame{
 	
 //******************** PARAMETER ********************
 
@@ -27,10 +24,10 @@ public class EditBerechtigungGUI extends JFrame{
 		
 //******************** KONSTRUKTOR ********************
 	
-	public EditBerechtigungGUI(int PID, int wer) {
+	public EditPasswortGUI(int PID, int wer) {
 		/*@author:		Soeren Hebestreit
 		 *@date: 		24.07.2019
-		 *@description: Mitarbeiterberechtigung editieren
+		 *@description: Mitarbeiterpasswort setzen
 		 */	
 		
 		setSize(400, 320);
@@ -41,9 +38,9 @@ public class EditBerechtigungGUI extends JFrame{
 		setResizable(false);
 		
 		Personalverwaltung pv = Personalverwaltung.getInstance();
-		Mitarbeiter ma = ((Mitarbeiter) pv.suchen(wer));
+		Mitarbeiter ma = (Mitarbeiter) pv.suchen(wer);
 		
-		JLabel lblFunktion = new JLabel("Berechtigung ändern");
+		JLabel lblFunktion = new JLabel("Passwort setzen");
 		lblFunktion.setForeground(new Color(255, 255, 255));
 		lblFunktion.setFont(new Font("Dialog", Font.BOLD, 21));
 		lblFunktion.setBounds(24, 8, 380, 36);
@@ -60,36 +57,17 @@ public class EditBerechtigungGUI extends JFrame{
 		rahmenOben.setBounds(0, 0, 480, 64);
 		getContentPane().add(rahmenOben);
 		
-		int x = 172;
 		int y = 40;
+		int x = 172;
 		
-		ButtonGroup group = new ButtonGroup();
-		JRadioButton rdbtnNull = new JRadioButton("keine Berechtigung");
-		rdbtnNull.setBackground(new Color(255, 255, 255));
-		rdbtnNull.setBounds(40, y+40, 200, 24);
-		group.add(rdbtnNull);
-		getContentPane().add(rdbtnNull);
-		if(ma.getBerechtigung() == null) {
-			rdbtnNull.setSelected(true);
-		}
+		JLabel lblPasswort = new JLabel("neues Passwort:");
+		lblPasswort.setBounds(40, y+80, 120, 20);
+		getContentPane().add(lblPasswort);
 		
-		JRadioButton rdbtnStandarduser = new JRadioButton("Standarduser");
-		rdbtnStandarduser.setBackground(new Color(255, 255, 255));
-		rdbtnStandarduser.setBounds(40, y+80, 200, 24);
-		group.add(rdbtnStandarduser);
-		getContentPane().add(rdbtnStandarduser);
-		if(ma.getBerechtigung() instanceof User) {
-			rdbtnStandarduser.setSelected(true);
-		}
-		
-		JRadioButton rdbtnAdmin = new JRadioButton("Administrator");
-		rdbtnAdmin.setBackground(new Color(255, 255, 255));
-		rdbtnAdmin.setBounds(40, y+120, 200, 24);
-		group.add(rdbtnAdmin);
-		getContentPane().add(rdbtnAdmin);
-		if(ma.getBerechtigung() instanceof Admin) {
-			rdbtnAdmin.setSelected(true);
-		}
+		JTextField tfPasswort = new JTextField();
+		//tfPasswort.setText(ma.getPasswort());
+		tfPasswort.setBounds(x, y+78, 180, 24);
+		getContentPane().add(tfPasswort);
 		
 		JPanel rahmenMitte = new JPanel();
 		rahmenMitte.setBackground(new Color(100, 150, 200));
@@ -101,17 +79,11 @@ public class EditBerechtigungGUI extends JFrame{
 		btnConfirm.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(PID == wer) {
-					JOptionPane.showMessageDialog(null, "Diese Option kann nicht auf den Anwender selbst angewandt werden.", null, JOptionPane.INFORMATION_MESSAGE);
+				if(tfPasswort.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Bitte Passwort eingeben.", null, JOptionPane.INFORMATION_MESSAGE);
 				} else {
 					Admin admin = new Admin(PID);
-					if(rdbtnAdmin.isSelected()) {
-						admin.changeMABerechtigung(wer, new Admin(wer));
-					} else if(rdbtnStandarduser.isSelected()) {
-						admin.changeMABerechtigung(wer, new User(wer));
-					} else {
-						admin.changeMABerechtigung(wer, null);
-					}
+					admin.editMAPasswort(wer, tfPasswort.getText());
 					try {
 						pv.speichern();
 					} catch (Exception e1) {
@@ -140,8 +112,7 @@ public class EditBerechtigungGUI extends JFrame{
 
 	public static void main(String[] args) throws Exception {
 		
-		Arbeitsbereichverwaltung.getInstance().laden();
 		Personalverwaltung.getInstance().laden();
-		new EditBerechtigungGUI(100000,100001);
+		new EditPasswortGUI(100000,100001);
 	}
 }

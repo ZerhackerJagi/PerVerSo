@@ -21,6 +21,7 @@ import javax.swing.JTable;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.block.GridArrangement;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
@@ -40,6 +41,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.ScrollPaneLayout;
 
 import java.awt.Component;
+import java.awt.Dimension;
+
 import javax.swing.JTextField;
 import java.awt.CardLayout;
 import javax.swing.GroupLayout;
@@ -72,12 +75,10 @@ public class StatistikGUI extends JFrame{
 		Mitarbeiter ma = ((Mitarbeiter) pv.suchen(PID));
 		
 		JPanel pnlReport = new JPanel();
-//		getContentPane().add(pnlReport);
-		pnlReport.setLayout(new BoxLayout(pnlReport, BoxLayout.X_AXIS));
+		pnlReport.setPreferredSize(new Dimension(200, 200));
 		
 		JPanel pnlReportGender = new JPanel();
-//		getContentPane().add(pnlReport);
-		pnlReportGender.setLayout(new GridLayout());
+		pnlReportGender.setPreferredSize(new Dimension(200, 200));
 		
 		JLabel lblAZK = new JLabel("Statistikmenue");
 		lblAZK.setFont(new Font("Dialog", Font.BOLD, 21));
@@ -85,32 +86,26 @@ public class StatistikGUI extends JFrame{
 		lblAZK.setBounds(24, 20, 360, 24);
 		getContentPane().add(lblAZK);
 		
-		JLabel lblName = new JLabel(ma.getVorname()+" "+ma.getName());
-		lblName.setFont(new Font("Dialog", Font.BOLD, 21));
-		lblName.setForeground(new Color(255, 255, 255));
-		lblName.setBounds(24, 44, 360, 24);
-		getContentPane().add(lblName);
-		
 		JPanel rahmenOben = new JPanel();
 		rahmenOben.setBackground(new Color(100, 150, 200));
-		rahmenOben.setBounds(0, 0, 594, 88);
+		rahmenOben.setBounds(0, 0, 594, 64);
 		getContentPane().add(rahmenOben);
 		
 		JLabel lblSoll = new JLabel("Jahr");
-		lblSoll.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblSoll.setBounds(24, 100, 100, 24);
+		lblSoll.setFont(new Font("Dialog", Font.BOLD, 12));
+		lblSoll.setBounds(24, 80, 100, 24);
 		getContentPane().add(lblSoll);
 		
 		Datum date = new Datum();
 		String year = ""+date.getJahr();
 		JLabel lblSollData = new JLabel(year);
-		lblSollData.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblSollData.setBounds(187, 99, 100, 24);
+		lblSollData.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblSollData.setBounds(180, 80, 100, 24);
 		getContentPane().add(lblSollData);
 		
-		JLabel lblUeber = new JLabel("Akt. Kalenderwoche");
-		lblUeber.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblUeber.setBounds(24, 124, 153, 24);
+		JLabel lblUeber = new JLabel("akt. Kalenderwoche");
+		lblUeber.setFont(new Font("Dialog", Font.BOLD, 12));
+		lblUeber.setBounds(24, 120, 153, 24);
 		getContentPane().add(lblUeber);
 		
 		// Kalenderwoche berechnen
@@ -118,8 +113,8 @@ public class StatistikGUI extends JFrame{
 		String weekNumber = ""+localDate.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
 		
 		JLabel lblUeberData = new JLabel(weekNumber);
-		lblUeberData.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblUeberData.setBounds(187, 124, 100, 24);
+		lblUeberData.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblUeberData.setBounds(180, 120, 100, 24);
 		getContentPane().add(lblUeberData);
 		
 		JPanel rahmenUnten = new JPanel();
@@ -132,18 +127,20 @@ public class StatistikGUI extends JFrame{
 			list[i] = Arbeitsbereichverwaltung.getBereiche().get(i).getName();
 		}
 
+		
+		// **** AUSWAHL DER ARBEITSBEREICHE ****
 		JComboBox<String> cBArbeitsbereiche = new JComboBox<String>(list);
 		cBArbeitsbereiche.setMaximumRowCount(8);
 		getContentPane().add(cBArbeitsbereiche);
-		
-		cBArbeitsbereiche.setBounds(160, 159, 237, 24);
+		cBArbeitsbereiche.setBackground(new Color(255,255,255));
+		cBArbeitsbereiche.setBounds(180, 160, 200, 24);
 		
 		
 		getContentPane().add(cBArbeitsbereiche);
 		
 		JLabel lblArbeitsbereich = new JLabel("Arbeitsbereich");
-		lblArbeitsbereich.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblArbeitsbereich.setBounds(24, 159, 126, 24);
+		lblArbeitsbereich.setFont(new Font("Dialog", Font.BOLD, 12));
+		lblArbeitsbereich.setBounds(24, 160, 120, 24);
 		getContentPane().add(lblArbeitsbereich);
 		
 		JPanel panel = new JPanel();
@@ -171,10 +168,17 @@ public class StatistikGUI extends JFrame{
 				// Barchart für Altersverteilung
 				a.showDurchschnittsalter(gewaehlterAB.getArbeitsbereichnummer());
 				DefaultCategoryDataset dcd = new DefaultCategoryDataset();
-				dcd.setValue(a.getAgeUnder30(), "Alter", "unter 30");
-				dcd.setValue(a.getAge30to39(), "Alter", "30 - 39");
-				dcd.setValue(a.getAge40to50(), "Alter", "40 - 50");
-				dcd.setValue(a.getAgeOver50(), "Alter", "über 50");
+				dcd.setValue(a.getAgeUnder30(), "Alter AB", "unter 30");
+				dcd.setValue(a.getAge30to39(), "Alter AB", "30 - 39");
+				dcd.setValue(a.getAge40to50(), "Alter AB", "40 - 50");
+				dcd.setValue(a.getAgeOver50(), "Alter AB", "über 50");
+				
+//				dcd.setValue(a.getAgeUnder30All(), "Alter Gesamt", "unter 30");
+//				dcd.setValue(a.getAge30to39All(), "Alter Gesamt", "30 - 39");
+//				dcd.setValue(a.getAge40to50All(), "Alter Gesamt", "40 - 50");
+//				dcd.setValue(a.getAgeOver50All(), "Alter Gesamt", "über 50");
+				
+				
 				
 				JFreeChart jchart = ChartFactory.createBarChart("Altersverteilung", "Altersgruppe", "Häufigkeit", dcd, PlotOrientation.VERTICAL, true, true, false);
 				CategoryPlot plot = jchart.getCategoryPlot();
@@ -186,22 +190,26 @@ public class StatistikGUI extends JFrame{
 				
 				ChartPanel chartPanel = new ChartPanel(jchart);
 				
-				
 				table = new JTable();
 				table.setModel(new DefaultTableModel(
 					new Object[][] {
+						{null,null},
 						{"Durchschnittsalter", ""+a.showDurchschnittsalter(gewaehlterAB.getArbeitsbereichnummer())},
 						{"Fehltage gesamt", a.showFehltage(gewaehlterAB.getArbeitsbereichnummer())},
 						{"maximale Fehltage", a.showFehltageMaximal(gewaehlterAB.getArbeitsbereichnummer())},
-						{null, null},
+						{"Überminuten des AB", a.showUeberstunden(gewaehlterAB.getArbeitsbereichnummer())},
+						{"Überminuten im Durchschnitt", a.showUeberstundenSchnitt()},
+						{"Flukuationsquote des AB", a.showFluktuationsquote(gewaehlterAB.getArbeitsbereichnummer())},
+						{"Flukuationsquote Gesamt", a.showFluktuationsquoteAll()},
+						{null,null},
 					},
 					new String[] {
 						"Statistik", "Wert"
 					}
 				));
-				table.getColumnModel().getColumn(0).setPreferredWidth(200);
-				table.getColumnModel().getColumn(1).setPreferredWidth(150);
-				table.setBounds(47, 274, 492, 115);
+				table.getColumnModel().getColumn(0).setPreferredWidth(100);
+				table.getColumnModel().getColumn(1).setPreferredWidth(100);
+				//table.setBounds(47, 274, 200, 115);
 //				panel.add(table);
 				
 				
@@ -222,7 +230,6 @@ public class StatistikGUI extends JFrame{
 				
 				
 				
-				
 				pnlReport.removeAll();
 				pnlReportGender.removeAll();
 				pnlReport.add(chartPanel);
@@ -238,28 +245,23 @@ public class StatistikGUI extends JFrame{
 
 
 		});
-		btnAktualisieren.setBounds(413, 160, 126, 23);
+		btnAktualisieren.setBounds(420, 160, 120, 24);
+		btnAktualisieren.setBackground(new Color(255,255,255));
 		getContentPane().add(btnAktualisieren);
 		
 		
 		JScrollPane scrollPane = new JScrollPane(panel);
-		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addComponent(pnlReportGender, GroupLayout.PREFERRED_SIZE, 571, GroupLayout.PREFERRED_SIZE)
-				.addComponent(pnlReport, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addComponent(pnlReportGender, GroupLayout.PREFERRED_SIZE, 389, GroupLayout.PREFERRED_SIZE)
-				.addComponent(pnlReport, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-		);
-		panel.setLayout(gl_panel);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		panel.add(pnlReport);
 		panel.add(pnlReportGender);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+		panel.add(pnlReport);
+		pnlReport.setLayout(new BoxLayout(pnlReport, BoxLayout.PAGE_AXIS));
+		panel.add(pnlReportGender);
+		panel.setBackground(new Color(255,255,255));
+		pnlReportGender.setLayout(new BoxLayout(pnlReportGender, BoxLayout.PAGE_AXIS));
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(0, 209, 590, 391);
+		scrollPane.setBounds(0, 204, 595, 408);
 		scrollPane.setLayout(new ScrollPaneLayout());
 		getContentPane().add(scrollPane);
 		
@@ -275,13 +277,6 @@ public class StatistikGUI extends JFrame{
 		getContentPane().update(getGraphics());
 	}
 	
-	public static void main(String[] args) throws Exception {
-				
-		Arbeitsbereichverwaltung.getInstance().laden();	
-		Personalverwaltung.getInstance().laden();
-		new StatistikGUI(0);
-	}
-	
 	public Arbeitsbereich getContentPaneValue() {
 
 		Object obj = selectedAB;
@@ -293,5 +288,12 @@ public class StatistikGUI extends JFrame{
 			}
 		}
 		return gewaehlterAB;
+	}
+	
+	public static void main(String[] args) throws Exception {
+		
+		Arbeitsbereichverwaltung.getInstance().laden();	
+		Personalverwaltung.getInstance().laden();
+		new StatistikGUI(100000);
 	}
 }

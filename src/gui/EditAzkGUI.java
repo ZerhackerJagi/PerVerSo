@@ -13,7 +13,6 @@ import javax.swing.RowFilter;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -479,7 +478,7 @@ public class EditAzkGUI extends JFrame{
 	public static void main(String[] args) throws Exception {
 		
 		Personalverwaltung.getInstance().laden();
-		new EditAzkGUI(0,0);
+		new EditAzkGUI(100000,100000);
 		
 	}
 	

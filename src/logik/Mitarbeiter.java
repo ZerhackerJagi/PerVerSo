@@ -17,8 +17,8 @@ public class Mitarbeiter implements Serializable {
 	private char geschlecht;
 	private Datum geburtsdatum;
 	
-	private String benutzername;
 	private String passwort;
+	private boolean changePasswort;
 	private Berechtigung berechtigung;
 	
 	private Datum einstellungsdatum;
@@ -29,7 +29,7 @@ public class Mitarbeiter implements Serializable {
 //******************** KONSTRUKTOR ********************
 	
 	public Mitarbeiter(int personalnummer, String name, String vorname, char geschlecht, Datum geburtstag, 
-			String benutzername, String passwort, Berechtigung berechtigung, 
+			String passwort, Berechtigung berechtigung, 
 			Datum einstellungsdatum, Arbeitszeitkonto azk, Zugehoerigkeit zugehoerigkeit) {
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		21.06.2019
@@ -42,8 +42,8 @@ public class Mitarbeiter implements Serializable {
 		this.geschlecht = geschlecht;
 		this.geburtsdatum = geburtstag;
 		
-		this.benutzername = benutzername;
 		this.passwort = passwort;
+		this.changePasswort = true;
 		this.berechtigung = berechtigung;
 		
 		this.einstellungsdatum = einstellungsdatum;
@@ -114,20 +114,20 @@ public class Mitarbeiter implements Serializable {
 		this.geburtsdatum = geburtsdatum;
 	}
 
-	public String getBenutzername() {
-		return benutzername;
-	}
-
-	public void setBenutzername(String benutzername) {
-		this.benutzername = benutzername;
-	}
-
 	public String getPasswort() {
 		return passwort;
 	}
 
 	public void setPasswort(String passwort) {
 		this.passwort = passwort;
+	}
+	
+	public boolean getChangePasswort() {
+		return changePasswort;
+	}
+
+	public void setChangePasswort(boolean changePasswort) {
+		this.changePasswort = changePasswort;
 	}
 
 	public Berechtigung getBerechtigung() {

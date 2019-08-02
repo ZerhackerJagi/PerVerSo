@@ -20,14 +20,6 @@ public class AdminTest {
 	}
 	
 	@Test
-	public void BtestEditMABenutzername() {
-		Admin ad1 = new Admin(0);
-		assertTrue(ad1.editMABenutzername(0,"SuperUser"));
-		assertFalse(ad1.editMABenutzername(2,"Charlynator"));
-	}
-	
-	
-	@Test
 	public void CtestEditMAPasswort() {
 		Admin ad1 = new Admin(0);
 		assertTrue(ad1.editMAPasswort(0,"Neues Passwort"));
