@@ -4,6 +4,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import extern.Datum;
 
+/*
+ * @author: Soeren Hebestreit
+ * 
+ * @date: 18.07.2019
+ * 
+ * @description: Mitarbeiter hinzufuegen, mit Kennung
+ */
 public class Admin extends Berechtigung implements Serializable {
 
 //******************** PARAMETER ********************
@@ -21,13 +28,7 @@ public class Admin extends Berechtigung implements Serializable {
 
 	public void addMA(String name, String vorname, char gender, Datum geburtstag, Datum einstellung, int bereichsnummer,
 			String user, String pwd) throws Exception {
-		/*
-		 * @author: Soeren Hebestreit
-		 * 
-		 * @date: 18.07.2019
-		 * 
-		 * @description: Mitarbeiter hinzufuegen, mit Kennung
-		 */
+
 
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		pv.add(name, vorname, gender, geburtstag, einstellung, bereichsnummer, user, pwd);
