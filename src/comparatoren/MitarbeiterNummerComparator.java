@@ -14,7 +14,6 @@ public class MitarbeiterNummerComparator implements Comparator <Mitarbeiter> {
 		super();
 	}
 	
-	@Override
 	public int compare(Mitarbeiter m1, Mitarbeiter m2) {
 
 	   if(m1.getPersonalnummer()>m2.getPersonalnummer()) {

@@ -3,7 +3,11 @@ package logik;
 import java.io.Serializable;
 
 import extern.Datum;
-
+/*
+ *@author: 	Soeren Hebestreit
+ *@date: 		19.07.2019
+ *@description:	
+ */
 public abstract class Eintrag implements Serializable {
 
 //******************** PARAMETER ********************
@@ -14,12 +18,9 @@ public abstract class Eintrag implements Serializable {
 	private Datum ende;
 								
 //******************** KONSTRUKTOR ********************
-				
+	
+	//Konstruktor Krankheitseintraege
 	public Eintrag (Datum start, Datum ende, int arbeitstage) {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		19.07.2019
-		 *@description:	Konstruktor Krankheitseintraege
-		 */
 					
 		this.arbeitstage = arbeitstage;
 		this.start = start;
@@ -28,20 +29,14 @@ public abstract class Eintrag implements Serializable {
 
 //******************** AUSGABE ********************
 
+	//Textrueckgabe String
 	public String toString() {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		19.07.2019
-		 *@description:	Textrueckgabe String
-		 */
 				
 		return start+"\t"+ende+"\t("+arbeitstage+" Arbeitstage)";
 	}
-							
+	
+	//Textausgabe Konsole
 	public void display() {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		19.07.2019
-		 *@description:	Textausgabe Konsole
-		 */
 				
 		System.out.println(start+"\t"+ende+"\t("+arbeitstage+" Arbeitstage)");
 	}

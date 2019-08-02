@@ -13,8 +13,7 @@ public class MitarbeiterNameComparator implements Comparator <Mitarbeiter> {
 		
 		super();
 	}
-	
-	@Override	
+		
 	public int compare(Mitarbeiter m1, Mitarbeiter m2) {
 	   		
    		int x = m1.getName().compareTo(m2.getName());

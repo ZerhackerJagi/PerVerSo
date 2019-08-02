@@ -3,7 +3,11 @@ package logik;
 import java.io.Serializable;
 
 import extern.Datum;
-
+/*
+ *@author: 		Soeren Hebestreit
+ *@date: 		19.07.2019
+ *@description:	
+ */
 public class User extends Berechtigung implements Serializable {
 
 //******************** PARAMETER ********************
@@ -19,11 +23,9 @@ public class User extends Berechtigung implements Serializable {
 		
 //******************** FUNKTIONEN ********************	
 	
+	//Arbeitszeitkonto anzeigen, Urlaub aktuelles Jahr anzeigen
 	public void showAZK() {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		19.07.2019
-		 *@description:	Arbeitszeitkonto anzeigen, Urlaub aktuelles Jahr anzeigen
-		 */
+		
 		
 		Arbeitszeitkonto azk = ((Mitarbeiter) Personalverwaltung.getInstance().suchen(personalID)).getAzk();		
 		azk.display();
@@ -31,11 +33,8 @@ public class User extends Berechtigung implements Serializable {
 		azk.showUrlaub(new Datum().getJahr());
 	}
 	
+	//Passwort ändern, wenn altes übereinstimmt
 	public boolean changePasswort(String alt, String neu) {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		19.07.2019
-		 *@description:	Passwort ändern, wenn altes übereinstimmt
-		 */	
 		
 		Mitarbeiter ma = (Mitarbeiter) Personalverwaltung.getInstance().suchen(personalID);
 		if(ma.getPasswort().equals(alt)) {

@@ -10,7 +10,11 @@ import java.util.ArrayList;
 import interfaces.DateizugriffIF;
 import logik.Arbeitsbereich;
 import logik.Mitarbeiter;
-
+/*
+ *@author: 		Soeren Hebestreit
+ *@date: 		21.06.2019
+ *@description:	
+ */
 public class Dateizugriff implements DateizugriffIF{
 	
 //******************** PARAMETER ********************
@@ -18,12 +22,9 @@ public class Dateizugriff implements DateizugriffIF{
 	private static Dateizugriff uniqueInstance;
 	
 //******************** KONSTRUKTOR ********************
-	
+	//gibt die einzige Instanz von Dateizugriff aus (Singleton)
 	public static Dateizugriff getInstance() {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		21.06.2019
-		 *@description:	gibt die einzige Instanz von Dateizugriff aus (Singleton)
-		 */
+		
 			
 		if(uniqueInstance == null) {
 			uniqueInstance = new Dateizugriff();
@@ -33,14 +34,9 @@ public class Dateizugriff implements DateizugriffIF{
 	
 //******************** LADEN ********************
 	
-	@Override
+	//ermittelt die aufrufende Klasse und fuehrt die fallspeziefische laden-Methode aus
 	public Object laden() throws Exception {
-		// TODO Auto-generated method stub
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		21.06.2019
-		 *@description:	ermittelt die aufrufende Klasse und fuehrt die fallspeziefische laden-Methode aus 
-		 */
-		
+	
 		StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
 		//System.out.println(stackTraceElements[2].getClassName().substring(stackTraceElements[2].getClassName().lastIndexOf(".")+1,stackTraceElements[2].getClassName().length()));
 		String caller = stackTraceElements[2].getClassName().substring(stackTraceElements[2].getClassName().lastIndexOf(".")+1,stackTraceElements[2].getClassName().length());
@@ -52,12 +48,8 @@ public class Dateizugriff implements DateizugriffIF{
 		}
 	}
 	
+	/*laedt Daten aus der PV-Datei und uebergibt diese */
 	private Object loadPV() throws Exception {
-		// TODO Auto-generated method stub
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		21.06.2019
-		 *@description:	laedt Daten aus der PV-Datei und uebergibt diese 
-		 */
 		
 		try {
 			ObjectInputStream in = new ObjectInputStream(new FileInputStream("DataPV.dat"));
@@ -69,11 +61,8 @@ public class Dateizugriff implements DateizugriffIF{
 		}
 	}
 	
+	//laedt Daten aus der ABV-Datei und uebergibt diese
 	private Object loadABV() throws Exception {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		21.06.2019
-		 *@description:	laedt Daten aus der ABV-Datei und uebergibt diese 
-		 */
 		
 		try {
 			ObjectInputStream in = new ObjectInputStream(new FileInputStream("DataABV.dat"));
@@ -87,12 +76,8 @@ public class Dateizugriff implements DateizugriffIF{
 	
 //******************** SPEICHERN ********************	
 	
-	@Override
+	//ermittelt die aufrufende Klasse und fuehrt die fallspeziefische speichern-Methode aus
 	public boolean speichern(Object obj) throws Exception {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		21.06.2019
-		 *@description:	ermittelt die aufrufende Klasse und fuehrt die fallspeziefische speichern-Methode aus  
-		 */
 		
 		StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
 		//System.out.println(stackTraceElements[2].getClassName().substring(stackTraceElements[2].getClassName().lastIndexOf(".")+1,stackTraceElements[2].getClassName().length()));
@@ -105,11 +90,8 @@ public class Dateizugriff implements DateizugriffIF{
 		}
 	}
 	
+	//legt Backup an und speichert uebergebene Daten in der PV-Datei
 	private boolean savePV(Object obj) throws Exception {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		21.06.2019
-		 *@description:	legt Backup an und speichert uebergebene Daten in der PV-Datei 
-		 */
 		
 		backup("DataPV");
 		try {
@@ -121,12 +103,9 @@ public class Dateizugriff implements DateizugriffIF{
 			throw new Exception("Personalverwaltungsdaten konnten nicht gespeichert werden! "+e);
 		}	
 	}
-		
+	
+	//legt Backup an und speichert uebergebene Daten in der ABV-Datei 
 	private boolean saveABV(Object obj) throws Exception {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		21.06.2019
-		 *@description:	legt Backup an und speichert uebergebene Daten in der ABV-Datei 
-		 */
 		
 		backup("DataABV");
 		try {
@@ -138,12 +117,9 @@ public class Dateizugriff implements DateizugriffIF{
 			throw new Exception("Arbeitsbereichsdaten konnten nicht gespeichert werden! "+e);
 		}	
 	}
-		
+	
+	//legt ein Backup an
 	private boolean backup(String name) {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		21.06.2019
-		 *@description:	legt ein Backup an 
-		 */
 		
 		File alt = new File(name+".dat");
 		File neu = new File(name+"_old.dat");

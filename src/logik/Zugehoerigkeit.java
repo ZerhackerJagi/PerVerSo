@@ -3,7 +3,11 @@ package logik;
 import java.io.Serializable;
 
 import extern.Datum;
-
+/*
+ *@author: 		Soeren Hebestreit
+ *@date: 		21.06.2019
+ *@description:	
+ */
 public class Zugehoerigkeit implements Serializable {
 	
 //******************** PARAMETER ********************
@@ -15,12 +19,9 @@ public class Zugehoerigkeit implements Serializable {
 		
 //******************** KONSTRUKTOR ********************
 	
+	//Konstruktor: Datum, Arbeitsbereichnummer
 	public Zugehoerigkeit(Datum start, int arbeitsbereichnummer, String bemerkung) {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		21.06.2019
-		 *@description:	Konstruktor: Datum, Arbeitsbereichnummer
-		 */ 
-		
+		 	
 		this.start = start;
 		Arbeitsbereichverwaltung abv = Arbeitsbereichverwaltung.getInstance();
 		Arbeitsbereich bereich = (Arbeitsbereich) abv.suchen(arbeitsbereichnummer);
@@ -32,11 +33,8 @@ public class Zugehoerigkeit implements Serializable {
 		this.bemerkung = bemerkung;
 	}
 	
+	//Konstruktor: Datum heute, Arbeitsbereich nicht zugeordnet
 	public Zugehoerigkeit() {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		2019
-		 *@description:	Konstruktor: Datum heute, Arbeitsbereich nicht zugeordnet
-		 */ 
 		
 		this.start = new Datum();
 		this.arbeitsbereichnummer = 0;
@@ -45,11 +43,8 @@ public class Zugehoerigkeit implements Serializable {
 	
 //******************** AUSGABE ********************
 	
+	//Textrueckgabe String
 	public String toString() {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		21.06.2019
-		 *@description:	Textrueckgabe String
-		 */
 		
 		return start+"\t"+arbeitsbereichnummer+"\t"+bemerkung;
 	}

@@ -14,7 +14,6 @@ public class ArbeitsbereichNameComparator implements Comparator <Arbeitsbereich>
 		super();
 	}
 	
-	@Override
 	public int compare(Arbeitsbereich a1, Arbeitsbereich a2) {
 
     	return a1.getName().compareTo(a2.getName());

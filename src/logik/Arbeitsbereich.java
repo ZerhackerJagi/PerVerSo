@@ -2,6 +2,11 @@ package logik;
 
 import java.io.Serializable;
 
+/*
+ * @author: Soeren Hebestreit
+ * @date: 21.06.2019
+ * @description: 
+ */
 public class Arbeitsbereich implements Serializable{
 	
 //******************** PARAMETER ********************
@@ -13,11 +18,8 @@ public class Arbeitsbereich implements Serializable{
 	
 //******************** KONSTRUKTOR ********************
 	
+	//Konstruktor Arbeitsbereich
 	public Arbeitsbereich(int arbeitsbereichnummer, String name, String beschreibung) {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		21.06.2019
-		 *@description:	Konstruktor Arbeitsbereich
-		 */
 		
 		this.arbeitsbereichnummer = arbeitsbereichnummer;
 		this.name = name;
@@ -26,20 +28,14 @@ public class Arbeitsbereich implements Serializable{
 
 //******************** AUSGABE ********************
 
+	//Textrueckgabe String
 	public String toString() {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		21.06.2019
-		 *@description:	Textrueckgabe String
-		 */
 		
 		return arbeitsbereichnummer+" \t"+name;
 	}
 		
+	//Textausgabe Konsole
 	public void display() {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		21.06.2019
-		 *@description:	Textausgabe Konsole
-		 */
 		
 		System.out.println(arbeitsbereichnummer+"\t"+name+"\t"+beschreibung);
 	}

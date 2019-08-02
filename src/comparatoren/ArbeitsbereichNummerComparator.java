@@ -14,7 +14,6 @@ public class ArbeitsbereichNummerComparator implements Comparator <Arbeitsbereic
 		super();
 	}
 	
-	@Override
 	public int compare(Arbeitsbereich a1, Arbeitsbereich a2) {
 
 	   if(a1.getArbeitsbereichnummer()>a2.getArbeitsbereichnummer()) {

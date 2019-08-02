@@ -3,13 +3,10 @@ package logik;
 import java.io.Serializable;
 import java.util.ArrayList;
 import extern.Datum;
-
 /*
  * @author: Soeren Hebestreit
- * 
  * @date: 18.07.2019
- * 
- * @description: Mitarbeiter hinzufuegen, mit Kennung
+ * @description: 
  */
 public class Admin extends Berechtigung implements Serializable {
 
@@ -26,37 +23,25 @@ public class Admin extends Berechtigung implements Serializable {
 
 //******************** VERWALTUNG MITARBEITER ********************
 
+	//Mitarbeiter hinzufuegen, mit Kennung
 	public void addMA(String name, String vorname, char gender, Datum geburtstag, Datum einstellung, int bereichsnummer,
 			String user, String pwd) throws Exception {
-
 
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		pv.add(name, vorname, gender, geburtstag, einstellung, bereichsnummer, user, pwd);
 	}
 
+	//Mitarbeiter hinzufuegen, ohne Kennung
 	public void addMA(String name, String vorname, char gender, Datum geburtstag, Datum einstellung, int bereichsnummer)
 			throws Exception {
-		/*
-		 * @author: Soeren Hebestreit
-		 * 
-		 * @date: 18.07.2019
-		 * 
-		 * @description: Mitarbeiter hinzufuegen, ohne Kennung
-		 */
 
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		pv.add(name, vorname, gender, geburtstag, einstellung, bereichsnummer);
 	}
 
+	
+	//Mitarbeiterstammdaten bearbeiten (Name, Vorname, Geschlecht, Geburtstag)
 	public boolean editMAStammdaten(int personalnummer, String name, String vorname, char gender, Datum geburtstag) {
-		/*
-		 * @author: Soeren Hebestreit
-		 * 
-		 * @date: 19.07.2019
-		 * 
-		 * @description: Mitarbeiterstammdaten bearbeiten (Name, Vorname, Geschlecht,
-		 * Geburtstag)
-		 */
 
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
@@ -72,14 +57,8 @@ public class Admin extends Berechtigung implements Serializable {
 		return true;
 	}
 
+	//Mitarbeiterpasswort bearbeiten
 	public boolean editMAPasswort(int personalnummer, String passwort) {
-		/*
-		 * @author: Soeren Hebestreit
-		 * 
-		 * @date: 19.07.2019
-		 * 
-		 * @description: Mitarbeiterpasswort bearbeiten
-		 */
 
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
@@ -93,16 +72,9 @@ public class Admin extends Berechtigung implements Serializable {
 		return true;
 	}
 
+	//Mitarbeiterberechtigung zuruecksetzen oder als User wieder einsetzen 
+	//angegebene Personalnummer darf nicht der angemeldeten entsprechen,um sich nicht auszusperren
 	public boolean changeMABerechtigung(int personalnummer, Berechtigung berechtigung) {
-		/*
-		 * @author: Soeren Hebestreit
-		 * 
-		 * @date: 24.07.2019
-		 * 
-		 * @description: Mitarbeiterberechtigung zuruecksetzen oder als User wieder
-		 * einsetzen angegebene Personalnummer darf nicht der angemeldeten entsprechen,
-		 * um sich nicht auszusperren
-		 */
 
 		if (personalnummer == personalID) {
 			return false;
@@ -119,14 +91,8 @@ public class Admin extends Berechtigung implements Serializable {
 		return true;
 	}
 
+	//Mitarbeitereinstellungsdatum bearbeiten
 	public boolean editMAEinstellungsdatum(int personalnummer, Datum einstellung) {
-		/*
-		 * @author: Soeren Hebestreit
-		 * 
-		 * @date: 19.07.2019
-		 * 
-		 * @description: Mitarbeitereinstellungsdatum bearbeiten
-		 */
 
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
@@ -138,17 +104,11 @@ public class Admin extends Berechtigung implements Serializable {
 		ma.setEinstellungsdatum(einstellung);
 		return true;
 	}
-
+	
+	//Mitarbeiter nach ausgeschieden verschieben, Berechtigung loeschen,
+	//angegebene Personalnummer darf nicht der angemeldeten entsprechen,
+	//um sich nicht auszusperren
 	public boolean ausscheidenMA(int personalnummer, Datum ausscheiden) {
-		/*
-		 * @author: Soeren Hebestreit
-		 * 
-		 * @date: 18.07.2019
-		 * 
-		 * @description: Mitarbeiter nach ausgeschieden verschieben, Berechtigung loeschen,
-		 * angegebene Personalnummer darf nicht der angemeldeten entsprechen,
-		 * um sich nicht auszusperren
-		 */
 
 		if (personalnummer == personalID) {
 			return false;
@@ -172,15 +132,9 @@ public class Admin extends Berechtigung implements Serializable {
 		return true;
 	}
 
+	//Mitarbeiter komplett entfernen, angegebene Personalnummer darf
+	//nicht der angemeldeten entsprechen, um sich nicht auszusperren
 	public boolean removeMA(int personalnummer) {
-		/*
-		 * @author: Soeren Hebestreit
-		 * 
-		 * @date: 18.07.2019
-		 * 
-		 * @description: Mitarbeiter komplett entfernen, angegebene Personalnummer darf
-		 * nicht der angemeldeten entsprechen, um sich nicht auszusperren
-		 */
 
 		if (personalnummer == personalID) {
 			return false;
@@ -191,15 +145,9 @@ public class Admin extends Berechtigung implements Serializable {
 	}
 
 //******************** VERWALTUNG ARBEITSZEITKONTEN ******************** 	
-
+	
+	//Vertragsdaten bzgl. AZK anpassen (Vertrag + Dienstvereinbarung)
 	public boolean editAZKLimit(int personalnummer, int ueberminutenmin, int ueberminutenmax) {
-		/*
-		 * @author: Soeren Hebestreit
-		 * 
-		 * @date: 18.07.2019
-		 * 
-		 * @description: Vertragsdaten bzgl. AZK anpassen (Vertrag + Dienstvereinbarung)
-		 */
 
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
@@ -216,14 +164,8 @@ public class Admin extends Berechtigung implements Serializable {
 		return true;
 	}
 	
+	//Vertragsdaten bzgl. AZK anpassen (Vertrag)
 	public boolean editAZKVertragsdaten(int personalnummer, int sollstunden, int urlaubbasis) {
-		/*
-		 * @author: Soeren Hebestreit
-		 * 
-		 * @date: 22.07.2019
-		 * 
-		 * @description: Vertragsdaten bzgl. AZK anpassen (Vertrag)
-		 */
 
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
@@ -237,14 +179,8 @@ public class Admin extends Berechtigung implements Serializable {
 		return true;
 	}
 	
+	//Ueberminuten hinzufuegen
 	public boolean addAZKUeberminuten(int personalnummer, int betrag) {
-		/*
-		 * @author: Soeren Hebestreit
-		 * 
-		 * @date: 18.07.2019
-		 * 
-		 * @description: Ueberminuten hinzufuegen
-		 */
 
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
@@ -261,14 +197,8 @@ public class Admin extends Berechtigung implements Serializable {
 		return true;
 	}
 
+	//Urlaubseintrag erstellen
 	public boolean addAZKUrlaub(int personalnummer, Datum start, Datum ende, int tage) throws Exception {
-		/*
-		 * @author: Soeren Hebestreit
-		 * 
-		 * @date: 18.07.2019
-		 * 
-		 * @description: Urlaubseintrag erstellen
-		 */
 
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
@@ -281,14 +211,8 @@ public class Admin extends Berechtigung implements Serializable {
 		return true;
 	}
 
+	//Krankheitseintrag erstellen
 	public boolean addAZKKrankheit(int personalnummer, Datum start, Datum ende, int tage) throws Exception {
-		/*
-		 * @author: Soeren Hebestreit
-		 * 
-		 * @date: 18.07.2019
-		 * 
-		 * @description: Krankheitseintrag erstellen
-		 */
 
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
@@ -301,14 +225,8 @@ public class Admin extends Berechtigung implements Serializable {
 		return true;
 	}
 
+	//Urlaubseintrag loeschen
 	public boolean removeAZKUrlaub(int personalnummer, int eintrag) throws Exception {
-		/*
-		 * @author: Soeren Hebestreit
-		 * 
-		 * @date: 18.07.2019
-		 * 
-		 * @description: Urlaubseintrag loeschen
-		 */
 
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
@@ -321,14 +239,8 @@ public class Admin extends Berechtigung implements Serializable {
 		return true;
 	}
 
+	//Krankheitseintrag loeschen
 	public boolean removeAZKKrankheit(int personalnummer, int eintrag) throws Exception {
-		/*
-		 * @author: Soeren Hebestreit
-		 * 
-		 * @date: 18.07.2019
-		 * 
-		 * @description: Krankheitseintrag loeschen
-		 */
 
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
@@ -343,27 +255,15 @@ public class Admin extends Berechtigung implements Serializable {
 
 //******************** VERWALTUNG ARBEITSBEREICHE ******************** 
 
+	//Arbeitsbereich hinzufuegen
 	public void addAB(String name, String beschreibung) {
-		/*
-		 * @author: Soeren Hebestreit
-		 * 
-		 * @date: 18.07.2019
-		 * 
-		 * @description: Arbeitsbereich hinzufuegen
-		 */
 
 		Arbeitsbereichverwaltung abv = Arbeitsbereichverwaltung.getInstance();
 		abv.add(name, beschreibung);
 	}
 
+	//Arbeitsbereich suchen und Name aendern
 	public boolean editABName(int arbeitsbereichnummer, String name) {
-		/*
-		 * @author: Soeren Hebestreit
-		 * 
-		 * @date: 18.07.2019
-		 * 
-		 * @description: Arbeitsbereich suchen und Name aendern
-		 */
 
 		Arbeitsbereichverwaltung abv = Arbeitsbereichverwaltung.getInstance();
 		Arbeitsbereich bereich = (Arbeitsbereich) abv.suchen(arbeitsbereichnummer);
@@ -375,14 +275,8 @@ public class Admin extends Berechtigung implements Serializable {
 		}
 	}
 
+	//Arbeitsbereich suchen und Beschreibung aendern
 	public boolean editABBeschreibung(int arbeitsbereichnummer, String beschreibung) {
-		/*
-		 * @author: Soeren Hebestreit
-		 * 
-		 * @date: 18.07.2019
-		 * 
-		 * @description: Arbeitsbereich suchen und Beschreibung aendern
-		 */
 
 		Arbeitsbereichverwaltung abv = Arbeitsbereichverwaltung.getInstance();
 		Arbeitsbereich bereich = (Arbeitsbereich) abv.suchen(arbeitsbereichnummer);
@@ -394,14 +288,8 @@ public class Admin extends Berechtigung implements Serializable {
 		}
 	}
 
+	//Arbeitsbereich loeschen, Bereich 0 und 1 sind geschuetzt
 	public boolean delAB(int arbeitsbereichnummer) {
-		/*
-		 * @author: Soeren Hebestreit
-		 * 
-		 * @date: 18.07.2019
-		 * 
-		 * @description: Arbeitsbereich loeschen, Bereich 0 und 1 sind geschuetzt
-		 */
 
 		if (arbeitsbereichnummer > 1) {
 			Arbeitsbereichverwaltung abv = Arbeitsbereichverwaltung.getInstance();
@@ -412,14 +300,8 @@ public class Admin extends Berechtigung implements Serializable {
 
 //******************** VERWALTUNG ZUGEHOERIGKEIT ******************** 
 
+	//Mitarbeiter einem (neuen) Bereich zuordnen, mit Datumsangabe
 	public boolean linkMAtoAB(int personalnummer, int arbeitsbereichnummer, Datum datum, String bemerkung) {
-		/*
-		 * @author: Soeren Hebestreit
-		 * 
-		 * @date: 18.07.2019
-		 * 
-		 * @description: Mitarbeiter einem (neuen) Bereich zuordnen, mit Datumsangabe
-		 */
 
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Mitarbeiter ma = (Mitarbeiter) pv.suchen(personalnummer);
@@ -442,14 +324,8 @@ public class Admin extends Berechtigung implements Serializable {
 
 //******************** FUNKTIONEN ********************	
 
+	//Arbeitszeitkonto anzeigen, Urlaub aktuelles Jahr anzeigen
 	public void showAZK() {
-		/*
-		 * @author: Soeren Hebestreit
-		 * 
-		 * @date: 19.07.2019
-		 * 
-		 * @description: Arbeitszeitkonto anzeigen, Urlaub aktuelles Jahr anzeigen
-		 */
 
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Arbeitszeitkonto azk = ((Mitarbeiter) pv.suchen(personalID)).getAzk();
@@ -458,11 +334,8 @@ public class Admin extends Berechtigung implements Serializable {
 		azk.showUrlaub(new Datum().getJahr());
 	}
 	
+	//Passwort ändern, wenn altes übereinstimmt
 	public boolean changePasswort(String alt, String neu) {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		19.07.2019
-		 *@description:	Passwort ändern, wenn altes übereinstimmt
-		 */	
 		
 		Mitarbeiter ma = (Mitarbeiter) Personalverwaltung.getInstance().suchen(personalID);
 		if(ma.getPasswort().equals(alt)) {
