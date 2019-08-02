@@ -13,8 +13,8 @@ public class Programmstart {
 
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Arbeitsbereichverwaltung abv = Arbeitsbereichverwaltung.getInstance();
-		pv.laden();
-		abv.laden();
+		pv.laden("Normal");
+		abv.laden("Normal");
 		
 		
 		new LoginGUI();

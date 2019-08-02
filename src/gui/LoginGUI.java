@@ -13,6 +13,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import logik.Admin;
+import logik.Arbeitsbereichverwaltung;
 import logik.Mitarbeiter;
 import logik.Personalverwaltung;
 import logik.User;
@@ -69,6 +70,9 @@ public class LoginGUI extends JFrame{
 		btnAnmelden.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				if(tfPersonalnummer.getText() == "Beispiel") {
+					ladeneu();
+				}
 				if(checkAnmeldung(tfPersonalnummer.getText(), new String(passwordField.getPassword()))) {
 					setVisible(false);
 					if(user.getBerechtigung() instanceof Admin) {
@@ -91,6 +95,15 @@ public class LoginGUI extends JFrame{
 	}
 	
 //******************** INTERNE FUNKTIONEN ********************
+	private void ladeneu() {
+		try {
+			Personalverwaltung.getInstance().laden("Beispiel");
+			return;
+		} catch(Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Beispiel Datenbank nicht vorhanden", null, JOptionPane.INFORMATION_MESSAGE);
+		}		
+	}
 	
 	private boolean checkAnmeldung(String personalnummer, String password) {
 		/*@author:		Soeren Hebestreit
@@ -115,7 +128,7 @@ public class LoginGUI extends JFrame{
 	
 	public static void main(String[] args) throws Exception {
 				
-		Personalverwaltung.getInstance().laden();
+		Personalverwaltung.getInstance().laden("Normal");
 		new LoginGUI();
 	}
 

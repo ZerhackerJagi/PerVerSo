@@ -65,9 +65,9 @@ public class PersonalverwaltungTest {
 		assertNotNull(pv.suchen(7));
 		assertNotNull(pv.suchen(8));
 		assertNull(pv.suchen(9));
-		pv.speichern();
+		pv.speichern("Test");
 		pv.add("Wolf","Burki",'B',new Datum(12,8,1970), new Datum(10,9,2019),1); 
-		pv.laden();
+		pv.laden("Test");
 		assertNull(pv.suchen(9));
 	}
 	
@@ -93,5 +93,5 @@ public class PersonalverwaltungTest {
 		pv = Personalverwaltung.getInstance();
 		pv.resetPersonalverwaltung();
 	}
-		
+			
 }

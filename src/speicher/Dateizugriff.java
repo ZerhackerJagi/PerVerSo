@@ -20,6 +20,8 @@ public class Dateizugriff implements DateizugriffIF{
 //******************** PARAMETER ********************
 	
 	private static Dateizugriff uniqueInstance;
+	private String DateiNamePv;
+	private String DateiNameAb;
 	
 //******************** KONSTRUKTOR ********************
 	//gibt die einzige Instanz von Dateizugriff aus (Singleton)
@@ -35,24 +37,32 @@ public class Dateizugriff implements DateizugriffIF{
 //******************** LADEN ********************
 	
 	//ermittelt die aufrufende Klasse und fuehrt die fallspeziefische laden-Methode aus
-	public Object laden() throws Exception {
+	public Object laden(String modus) throws Exception {
 	
 		StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
 		//System.out.println(stackTraceElements[2].getClassName().substring(stackTraceElements[2].getClassName().lastIndexOf(".")+1,stackTraceElements[2].getClassName().length()));
 		String caller = stackTraceElements[2].getClassName().substring(stackTraceElements[2].getClassName().lastIndexOf(".")+1,stackTraceElements[2].getClassName().length());
 		
 		switch (caller) {
-			case "Personalverwaltung": return loadPV();
-			case "Arbeitsbereichverwaltung": return loadABV();
+			case "Personalverwaltung": return loadPV(modus);
+			case "Arbeitsbereichverwaltung": return loadABV(modus);
 			default: return null;
 		}
 	}
 	
 	/*laedt Daten aus der PV-Datei und uebergibt diese */
-	private Object loadPV() throws Exception {
+	private Object loadPV(String modus) throws Exception {
+		
+		if(modus == "Test") {
+			DateiNamePv = "TestPV.dat";
+		} else if(modus == "Beispiel") {
+			DateiNamePv = "BeispielPV.dat";
+		} else {
+			DateiNamePv = "DataPV.dat";
+		}
 		
 		try {
-			ObjectInputStream in = new ObjectInputStream(new FileInputStream("DataPV.dat"));
+			ObjectInputStream in = new ObjectInputStream(new FileInputStream(DateiNamePv));
 			ArrayList <Mitarbeiter> AL = (ArrayList <Mitarbeiter>)in.readObject();
 			in.close();		
 			return AL;
@@ -62,10 +72,17 @@ public class Dateizugriff implements DateizugriffIF{
 	}
 	
 	//laedt Daten aus der ABV-Datei und uebergibt diese
-	private Object loadABV() throws Exception {
+	private Object loadABV(String modus) throws Exception {
+		if(modus == "Test") {
+			DateiNameAb = "TestABV.dat";
+		} else if(modus == "Beispiel") {
+			DateiNameAb = "BeispielABV.dat";
+		} else {
+			DateiNameAb = "DataABV.dat";
+		}
 		
 		try {
-			ObjectInputStream in = new ObjectInputStream(new FileInputStream("DataABV.dat"));
+			ObjectInputStream in = new ObjectInputStream(new FileInputStream(DateiNameAb));
 			ArrayList <Arbeitsbereich> AL = (ArrayList <Arbeitsbereich>)in.readObject();
 			in.close();		
 			return AL;
@@ -77,25 +94,34 @@ public class Dateizugriff implements DateizugriffIF{
 //******************** SPEICHERN ********************	
 	
 	//ermittelt die aufrufende Klasse und fuehrt die fallspeziefische speichern-Methode aus
-	public boolean speichern(Object obj) throws Exception {
+	public boolean speichern(Object obj, String modus) throws Exception {
 		
 		StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
 		//System.out.println(stackTraceElements[2].getClassName().substring(stackTraceElements[2].getClassName().lastIndexOf(".")+1,stackTraceElements[2].getClassName().length()));
 		String caller = stackTraceElements[2].getClassName().substring(stackTraceElements[2].getClassName().lastIndexOf(".")+1,stackTraceElements[2].getClassName().length());
 		
 		switch (caller) {
-			case "Personalverwaltung": return savePV(obj);
-			case "Arbeitsbereichverwaltung": return saveABV(obj);
+			case "Personalverwaltung": return savePV(obj, modus);
+			case "Arbeitsbereichverwaltung": return saveABV(obj, modus);
 			default: return false;
 		}
 	}
 	
 	//legt Backup an und speichert uebergebene Daten in der PV-Datei
-	private boolean savePV(Object obj) throws Exception {
+	private boolean savePV(Object obj, String modus) throws Exception {
+		if(modus == "Test") {
+			DateiNamePv = "TestPV.dat";
+			backup(modus);
+		} else if(modus == "Beispiel") {
+			DateiNamePv = "BeispielPV.dat";
+			backup(modus);
+		} else {
+			DateiNamePv = "DataPV.dat";
+			backup("DataPV");
+		}
 		
-		backup("DataPV");
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("DataPV.dat"));
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(DateiNamePv));
 			out.writeObject((ArrayList<Mitarbeiter>) obj);
 			out.close();
 			return true;
@@ -105,11 +131,20 @@ public class Dateizugriff implements DateizugriffIF{
 	}
 	
 	//legt Backup an und speichert uebergebene Daten in der ABV-Datei 
-	private boolean saveABV(Object obj) throws Exception {
-		
-		backup("DataABV");
+	private boolean saveABV(Object obj, String modus) throws Exception {
+		if(modus == "Test") {
+			DateiNamePv = "TestABV.dat";
+			backup(modus);
+		} else if(modus == "Beispiel") {
+			DateiNamePv = "BeispielABV.dat";
+			backup(modus);
+		} else {
+			DateiNamePv = "DataABV.dat";
+			backup("DataABV");
+		}
+
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("DataABV.dat"));
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(DateiNameAb));
 			out.writeObject((ArrayList<Arbeitsbereich>) obj);
 			out.close();
 			return true;

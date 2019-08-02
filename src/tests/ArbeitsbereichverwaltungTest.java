@@ -57,10 +57,10 @@ public Arbeitsbereichverwaltung abv;
 		abv = Arbeitsbereichverwaltung.getInstance();
 		assertNotNull(abv.suchen(3));
 		assertNull(abv.suchen(4));
-		abv.speichern();
+		abv.speichern("Test");
 		abv.delete(3); // 3 weg
 		abv.add("Aldi","Supermarkt"); //4
-		abv.laden();
+		abv.laden("Test");
 		assertNotNull(abv.suchen(3));
 		assertNull(abv.suchen(4));	
 	}
