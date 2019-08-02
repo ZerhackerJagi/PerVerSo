@@ -346,7 +346,7 @@ public class ABVGUI extends JFrame{
 	}
 		
 	public static void main(String[] args) throws Exception {
-		
+		Personalverwaltung.getInstance().setDatenBank("Beispiel");	
 		Arbeitsbereichverwaltung.getInstance().laden();		
 		Personalverwaltung.getInstance().laden();
 		new ABVGUI(0);

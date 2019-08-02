@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 import logik.Admin;
 import logik.Arbeitsbereich;
 import logik.Arbeitsbereichverwaltung;
+import logik.Personalverwaltung;
 
 import java.awt.Font;
 import java.awt.Insets;
@@ -142,7 +143,7 @@ public class EditBereichGUI extends JFrame{
 	}		
 
 	public static void main(String[] args) throws Exception {
-		
+		Personalverwaltung.getInstance().setDatenBank("Beispiel");	
 		Arbeitsbereichverwaltung.getInstance().laden();
 		new EditBereichGUI(0,Arbeitsbereichverwaltung.getBereiche().get(Arbeitsbereichverwaltung.getBereiche().size()-1).getArbeitsbereichnummer()+1,false);
 		new EditBereichGUI(0,Arbeitsbereichverwaltung.getBereiche().size()-1,true);

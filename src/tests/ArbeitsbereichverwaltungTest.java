@@ -16,6 +16,7 @@ public Arbeitsbereichverwaltung abv;
 	@Test
 	public void AtestInstance() {
 		abv = Arbeitsbereichverwaltung.getInstance();
+		abv.setDatenBank("Test");
 		assertNotNull(abv);
 	}
 	
@@ -57,10 +58,10 @@ public Arbeitsbereichverwaltung abv;
 		abv = Arbeitsbereichverwaltung.getInstance();
 		assertNotNull(abv.suchen(3));
 		assertNull(abv.suchen(4));
-		abv.speichern("Test");
+		abv.speichern();
 		abv.delete(3); // 3 weg
 		abv.add("Aldi","Supermarkt"); //4
-		abv.laden("Test");
+		abv.laden();
 		assertNotNull(abv.suchen(3));
 		assertNull(abv.suchen(4));	
 	}

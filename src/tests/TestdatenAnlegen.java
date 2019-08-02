@@ -12,6 +12,7 @@ public class TestdatenAnlegen {
 		anlegenMA();
 		
 		Personalverwaltung pv = Personalverwaltung.getInstance();
+		pv.setDatenBank("Test");
 		pv.show();
 		System.out.println("--------");
 		pv.speichern();

@@ -110,19 +110,22 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 	}
 
 //******************** LOAD & SAVE ********************
-	
+	public void setDatenBank(String modus) {
+		Dateizugriff data = Dateizugriff.getInstance();
+		data.setDatenBank(modus);
+	}
 	//erzeugt ein Dateizugriff und uebergibt die zu speichernden Daten 
-	public void speichern(String modus) throws Exception {
+	public void speichern() throws Exception {
 		
-		Dateizugriff data = new Dateizugriff();
-		data.speichern(bereiche, modus);	
+		Dateizugriff data = Dateizugriff.getInstance();
+		data.speichern(bereiche);	
 	}
 	
 	//erzeugt ein Dateizugriff und laedt Daten in die Mitarbeiterliste
-	public void laden(String modus) throws Exception {
+	public void laden() throws Exception {
 			
-		Dateizugriff data = new Dateizugriff();
-		bereiche = (ArrayList<Arbeitsbereich>) data.laden(modus);
+		Dateizugriff data = Dateizugriff.getInstance();
+		bereiche = (ArrayList<Arbeitsbereich>) data.laden();
 		arbeitsbereichnummer  = bereiche.get(bereiche.size()-1).getArbeitsbereichnummer()+1;
 	}
 

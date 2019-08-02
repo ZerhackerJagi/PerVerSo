@@ -6,7 +6,8 @@ public interface DateizugriffIF {
 	 *@description: gibt an, wie eine Dateizugriffsklasse implementiert sein muss 
 	 */
 	
-	Object laden(String modus) throws Exception;
-	boolean speichern(Object obj, String modus) throws Exception;
+	void setDatenBank(String modus);
+	Object laden() throws Exception;
+	boolean speichern(Object obj) throws Exception;
 
 }

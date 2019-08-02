@@ -282,7 +282,7 @@ public class EditMitarbeiterGUI extends JFrame{
 	}		
 
 	public static void main(String[] args) throws Exception {
-		
+		Personalverwaltung.getInstance().setDatenBank("Beispiel");	
 		Arbeitsbereichverwaltung.getInstance().laden();
 		Personalverwaltung.getInstance().laden();
 		new EditMitarbeiterGUI(100000,Personalverwaltung.getaMA().get(Personalverwaltung.getaMA().size()-1).getPersonalnummer()+1,false);

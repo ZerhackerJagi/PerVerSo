@@ -111,7 +111,7 @@ public class EditPasswortGUI extends JFrame{
 	}		
 
 	public static void main(String[] args) throws Exception {
-		
+		Personalverwaltung.getInstance().setDatenBank("Beispiel");	
 		Personalverwaltung.getInstance().laden();
 		new EditPasswortGUI(100000,100001);
 	}

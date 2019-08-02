@@ -194,7 +194,7 @@ public class AddEintragGUI extends JFrame{
 	}		
 
 	public static void main(String[] args) throws Exception {
-		
+		Personalverwaltung.getInstance().setDatenBank("Beispiel");	
 		Personalverwaltung.getInstance().laden();
 		new AddEintragGUI(100000,100001);
 	}

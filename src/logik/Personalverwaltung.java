@@ -144,18 +144,22 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 	}
 	
 //******************** LOAD & SAVE ********************
+	public void setDatenBank(String modus) {
+		Dateizugriff data = Dateizugriff.getInstance();
+		data.setDatenBank(modus);
+	}
 	//erzeugt ein Dateizugriff und uebergibt die zu speichernden Daten 
-	public void speichern(String modus) throws Exception {
+	public void speichern() throws Exception {
 		
-		Dateizugriff data = new Dateizugriff();
-		data.speichern(aMA, modus);	
+		Dateizugriff data = Dateizugriff.getInstance();
+		data.speichern(aMA);	
 	}	
 	
 	//erzeugt ein Dateizugriff und laedt Daten in die Mitarbeiterliste
-	public void laden(String modus) throws Exception {
+	public void laden() throws Exception {
 			
-		Dateizugriff data = new Dateizugriff();
-		aMA = (ArrayList<Mitarbeiter>) data.laden(modus);
+		Dateizugriff data = Dateizugriff.getInstance();
+		aMA = (ArrayList<Mitarbeiter>) data.laden();
 		personalnummer = aMA.get(aMA.size()-1).getPersonalnummer()+1;
 	}
 			

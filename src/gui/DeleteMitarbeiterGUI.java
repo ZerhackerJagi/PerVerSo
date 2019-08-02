@@ -225,7 +225,7 @@ public class DeleteMitarbeiterGUI extends JFrame{
 	}		
 
 	public static void main(String[] args) throws Exception {
-		
+		Personalverwaltung.getInstance().setDatenBank("Beispiel");	
 		Arbeitsbereichverwaltung.getInstance().laden();
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		pv.laden();

@@ -476,7 +476,7 @@ public class EditAzkGUI extends JFrame{
 	}
 		
 	public static void main(String[] args) throws Exception {
-		
+		Personalverwaltung.getInstance().setDatenBank("Beispiel");	
 		Personalverwaltung.getInstance().laden();
 		new EditAzkGUI(100000,100000);
 		

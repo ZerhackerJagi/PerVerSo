@@ -125,7 +125,7 @@ public class ChangePasswortGUI extends JFrame{
 	}		
 
 	public static void main(String[] args) throws Exception {
-		
+		Personalverwaltung.getInstance().setDatenBank("Beispiel");	
 		Personalverwaltung.getInstance().laden();
 		new ChangePasswortGUI(100001);
 	}

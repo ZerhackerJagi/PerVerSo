@@ -151,7 +151,7 @@ public class ShowVerlaufGUI extends JFrame{
 	}
 	
 	public static void main(String[] args) throws Exception {
-			
+		Personalverwaltung.getInstance().setDatenBank("Beispiel");		
 		Personalverwaltung.getInstance().laden();
 		Arbeitsbereichverwaltung.getInstance().laden();	
 		new ShowVerlaufGUI(100001);

@@ -131,7 +131,7 @@ public class MitarbeiterGUI extends JFrame{
 	
 	
 	public static void main(String[] args) throws Exception {
-		
+		Personalverwaltung.getInstance().setDatenBank("Beispiel");	
 		Personalverwaltung.getInstance().laden();
 		Arbeitsbereichverwaltung.getInstance().laden();
 		new MitarbeiterGUI(100001);

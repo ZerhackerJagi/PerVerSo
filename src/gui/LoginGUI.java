@@ -70,11 +70,14 @@ public class LoginGUI extends JFrame{
 		btnAnmelden.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-//				if(Integer.parseInt(tfPersonalnummer.getText()) == 1) {
-//					ladeneu();
+				if(Integer.parseInt(tfPersonalnummer.getText()) == 1) {
+					setVisible(false);
+					ladeneu();
+					new AdminGUI(100000);
+					dispose();
 //					JOptionPane.showMessageDialog(null, "Beispiel erkannt!", null, JOptionPane.INFORMATION_MESSAGE);
-//				}
-				if(checkAnmeldung(tfPersonalnummer.getText(), new String(passwordField.getPassword()))) {
+				}
+				else if(checkAnmeldung(tfPersonalnummer.getText(), new String(passwordField.getPassword()))) {
 					setVisible(false);
 					if(user.getBerechtigung() instanceof Admin) {
 						new AdminGUI(user.getPersonalnummer());
@@ -96,15 +99,20 @@ public class LoginGUI extends JFrame{
 	}
 	
 //******************** INTERNE FUNKTIONEN ********************
-//	private void ladeneu() {
-//		try {
-//			Personalverwaltung.getInstance().laden("Beispiel");
-//			return;
-//		} catch(Exception e) {
-//			e.printStackTrace();
-//			JOptionPane.showMessageDialog(null, "Beispiel Datenbank nicht vorhanden", null, JOptionPane.INFORMATION_MESSAGE);
-//		}		
-//	}
+	/*
+	 * @author: Charly Spina
+	 */
+	private void ladeneu() {
+		try {
+			Personalverwaltung.getInstance().setDatenBank("Beispiel");
+			Personalverwaltung.getInstance().laden();
+			Arbeitsbereichverwaltung.getInstance().laden();
+			return;
+		} catch(Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Beispiel Datenbank nicht vorhanden", null, JOptionPane.INFORMATION_MESSAGE);
+		}		
+	}
 	
 	private boolean checkAnmeldung(String personalnummer, String password) {
 		/*@author:		Soeren Hebestreit
@@ -128,8 +136,8 @@ public class LoginGUI extends JFrame{
 	}
 	
 	public static void main(String[] args) throws Exception {
-				
-		Personalverwaltung.getInstance().laden("Normal");
+		Personalverwaltung.getInstance().setDatenBank("Beispiel");	
+		Personalverwaltung.getInstance().laden();
 		new LoginGUI();
 	}
 

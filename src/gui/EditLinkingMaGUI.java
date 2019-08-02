@@ -218,7 +218,7 @@ public class EditLinkingMaGUI extends JFrame{
 
 	public static void main(String[] args) throws Exception {
 		
-		
+		Personalverwaltung.getInstance().setDatenBank("Beispiel");	
 		Arbeitsbereichverwaltung.getInstance().laden();
 		Personalverwaltung.getInstance().laden();
 		new EditLinkingMaGUI(100000,100000);

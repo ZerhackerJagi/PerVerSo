@@ -139,7 +139,7 @@ public class ShowAzkGUI extends JFrame{
 	}
 	
 	public static void main(String[] args) throws Exception {
-				
+		Personalverwaltung.getInstance().setDatenBank("Beispiel");			
 		Personalverwaltung.getInstance().laden();
 		new ShowAzkGUI(100001);
 	}
