@@ -285,7 +285,7 @@ public class Auswertung {
 		resetGenderValues();
 		aktiveMA=0;
 		
-		showGeschlechtsverteilung(arbeitsbereichnummer, selectedYear);
+		showGeschlechterverteilung(arbeitsbereichnummer, selectedYear);
 		
 		double countGenderMd = (double) countGenderM;
 		double countGenderWd = (double) countGenderW;
@@ -311,10 +311,10 @@ public class Auswertung {
 	}
 	
 
-	public void showGeschlechtsverteilung(int arbeitsbereichnummer, int selectedYear) {
+	public void showGeschlechterverteilung(int arbeitsbereichnummer, int selectedYear) {
 		/* @author: 	Jakob Küchler
 		 * @date: 		31.07.2019
-		 * @description:Gibt die Geschlechtsverteilung aus
+		 * @description:Gibt die Geschlechterverteilung aus
 		 */
 		Datum selectedDate;
 		if(selectedYear == (new Datum()).getJahr()) {

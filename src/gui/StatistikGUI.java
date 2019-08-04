@@ -7,13 +7,8 @@ import javax.swing.JPanel;
 import logik.Arbeitsbereich;
 import logik.Arbeitsbereichverwaltung;
 import logik.Auswertung;
-import logik.Mitarbeiter;
 import logik.Personalverwaltung;
-import sun.security.krb5.internal.LastReqEntry;
-
 import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -22,8 +17,6 @@ import javax.swing.JTable;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.block.GridArrangement;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -31,23 +24,15 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import extern.Datum;
 
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
-import java.time.temporal.IsoFields;
 import java.awt.event.ActionEvent;
 import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
-import java.awt.FlowLayout;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.ScrollPaneLayout;
 
-import java.awt.Component;
 import java.awt.Dimension;
 
-import javax.swing.JTextField;
-import java.awt.CardLayout;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JCheckBox;
 
 public class StatistikGUI extends JFrame{
@@ -73,33 +58,40 @@ public class StatistikGUI extends JFrame{
 		getContentPane().setLayout(null);
 		setResizable(false);
 		
-		Personalverwaltung pv = Personalverwaltung.getInstance();
-		Mitarbeiter ma = ((Mitarbeiter) pv.suchen(PID));
-		
-		JPanel pnlReport = new JPanel();
-		pnlReport.setPreferredSize(new Dimension(200, 200));
-		
-		JPanel pnlReportGender = new JPanel();
-		pnlReportGender.setPreferredSize(new Dimension(200, 200));
-		
-		JLabel lblAZK = new JLabel("Statistikmenue");
-		lblAZK.setFont(new Font("Dialog", Font.BOLD, 21));
-		lblAZK.setForeground(new Color(255, 255, 255));
-		lblAZK.setBounds(24, 20, 360, 24);
-		getContentPane().add(lblAZK);
+		JLabel lblStatistik = new JLabel("Statistikmenue");
+		lblStatistik.setFont(new Font("Dialog", Font.BOLD, 21));
+		lblStatistik.setForeground(new Color(255, 255, 255));
+		lblStatistik.setBounds(24, 20, 360, 24);
+		getContentPane().add(lblStatistik);
 		
 		JPanel rahmenOben = new JPanel();
 		rahmenOben.setBackground(new Color(100, 150, 200));
 		rahmenOben.setBounds(0, 0, 594, 64);
 		getContentPane().add(rahmenOben);
 		
-		JLabel lblSoll = new JLabel("Jahr");
-		lblSoll.setFont(new Font("Dialog", Font.BOLD, 12));
-		lblSoll.setBounds(24, 80, 100, 24);
-		getContentPane().add(lblSoll);
+		// **** AUSWAHL DER ARBEITSBEREICHE ****
 		
-		Datum dateActually = new Datum();
-		int yearActually = dateActually.getJahr();
+		JLabel lblArbeitsbereich = new JLabel("Arbeitsbereich");
+		lblArbeitsbereich.setBounds(40, 80, 120, 20);
+		getContentPane().add(lblArbeitsbereich);
+				
+		String[] list = new String[Arbeitsbereichverwaltung.getBereiche().size()];
+		for(int i = 0;i<Arbeitsbereichverwaltung.getBereiche().size();i++) {
+			list[i] = Arbeitsbereichverwaltung.getBereiche().get(i).getName();
+		}
+
+		JComboBox<String> cBArbeitsbereiche = new JComboBox<String>(list);
+		cBArbeitsbereiche.setMaximumRowCount(8);
+		getContentPane().add(cBArbeitsbereiche);
+		cBArbeitsbereiche.setBackground(new Color(255,255,255));
+		cBArbeitsbereiche.setBounds(172, 78, 200, 24);
+		getContentPane().add(cBArbeitsbereiche);
+		
+		JLabel lblJahr = new JLabel("Jahr");
+		lblJahr.setBounds(40, 120, 100, 24);
+		getContentPane().add(lblJahr);
+		
+		int yearActually = new Datum().getJahr();
 		int yearOldest = yearActually;
 		// Frühestes Einstellungsdatum finden
 		for(int i = 0;i<Personalverwaltung.getaMA().size();i++) {
@@ -107,52 +99,67 @@ public class StatistikGUI extends JFrame{
 				yearOldest = Personalverwaltung.getaMA().get(i).getEinstellungsdatum().getJahr();
 			}
 		}
-		
+	
 		String[] lastYears = new String[(yearActually-yearOldest+1)];
 		System.out.println("Länge Liste: "+(yearActually-yearOldest+1));
 		for(int i = 0;i<lastYears.length;i++) {
 			lastYears[i] = ""+(yearActually-i);
 		}
-		
-		
+				
 		JComboBox<String> comboBoxYear = new JComboBox<String>(lastYears);
-		comboBoxYear.setBounds(180, 81, 137, 24);
-		
+		comboBoxYear.setBackground(new Color(255,255,255));
+		comboBoxYear.setBounds(172, 118, 200, 24);
 		getContentPane().add(comboBoxYear);
 		
+		JCheckBox ckbMitUnternehmen = new JCheckBox("mit Unternehmen");
+		ckbMitUnternehmen.setBackground(new Color(255,255,255));
+		ckbMitUnternehmen.setBounds(412, 78, 124, 24);
+		getContentPane().add(ckbMitUnternehmen);
+		
+		JPanel rahmenMitte = new JPanel();
+		rahmenMitte.setBackground(new Color(100, 150, 200));
+		rahmenMitte.setBounds(0, 196, 600, 4);
+		getContentPane().add(rahmenMitte);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(255,255,255));
+		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+		panel.revalidate();
+		
+		JPanel frei1 = new JPanel();
+		frei1.setBackground(new Color(255, 255, 255));
+		frei1.setPreferredSize(new Dimension(100, 24));
+		panel.add(frei1);
+		
+		JPanel pnlReport = new JPanel();
+		pnlReport.setPreferredSize(new Dimension(240, 240));
+		pnlReport.setLayout(new BoxLayout(pnlReport, BoxLayout.PAGE_AXIS));
+		panel.add(pnlReport);
+		
+		JPanel frei2 = new JPanel();
+		frei2.setBackground(new Color(255, 255, 255));
+		frei2.setPreferredSize(new Dimension(100, 36));
+		panel.add(frei2);
+		
+		JPanel pnlReportGender = new JPanel();
+		pnlReportGender.setPreferredSize(new Dimension(240, 240));
+		pnlReportGender.setLayout(new BoxLayout(pnlReportGender, BoxLayout.PAGE_AXIS));
+		panel.add(pnlReportGender);
+		
+		JPanel frei3 = new JPanel();
+		frei3.setBackground(new Color(255, 255, 255));
+		frei3.setPreferredSize(new Dimension(100, 12));
+		panel.add(frei3);
 		
 		JPanel rahmenUnten = new JPanel();
 		rahmenUnten.setBackground(new Color(100, 150, 200));
-		rahmenUnten.setBounds(0, 200, 600, 4);
-		getContentPane().add(rahmenUnten);
+		rahmenUnten.setPreferredSize(new Dimension(100, 4));
+		panel.add(rahmenUnten);
 		
-		String[] list = new String[Arbeitsbereichverwaltung.getBereiche().size()];
-		for(int i = 0;i<Arbeitsbereichverwaltung.getBereiche().size();i++) {
-			list[i] = Arbeitsbereichverwaltung.getBereiche().get(i).getName();
-		}
-
-		
-		// **** AUSWAHL DER ARBEITSBEREICHE ****
-		JComboBox<String> cBArbeitsbereiche = new JComboBox<String>(list);
-		cBArbeitsbereiche.setMaximumRowCount(8);
-		getContentPane().add(cBArbeitsbereiche);
-		cBArbeitsbereiche.setBackground(new Color(255,255,255));
-		cBArbeitsbereiche.setBounds(180, 160, 200, 24);
-		
-		
-		getContentPane().add(cBArbeitsbereiche);
-		
-		JLabel lblArbeitsbereich = new JLabel("Arbeitsbereich");
-		lblArbeitsbereich.setFont(new Font("Dialog", Font.BOLD, 12));
-		lblArbeitsbereich.setBounds(24, 160, 120, 24);
-		getContentPane().add(lblArbeitsbereich);
-		
-		JPanel panel = new JPanel();
-		panel.revalidate();
-		
-		JCheckBox chckbxMitUnternehmen = new JCheckBox("mit Unternehmen vergleichen");
-		chckbxMitUnternehmen.setBounds(24, 119, 180, 23);
-		getContentPane().add(chckbxMitUnternehmen);
+		JPanel frei4 = new JPanel();
+		frei4.setBackground(new Color(255, 255, 255));
+		frei4.setPreferredSize(new Dimension(100, 24));
+		panel.add(frei4);
 		
 		JButton btnAktualisieren = new JButton("Aktualisieren");
 		btnAktualisieren.addActionListener(new ActionListener() {
@@ -163,9 +170,7 @@ public class StatistikGUI extends JFrame{
 				} catch(Exception e) {
 					
 				}
-				
-				
-				
+								
 				// Inititalisierung
 				selectedAB = cBArbeitsbereiche.getSelectedItem();
 				Auswertung a = new Auswertung();
@@ -176,7 +181,7 @@ public class StatistikGUI extends JFrame{
 				ChartPanel chartPanelGender = null;
 				ChartPanel chartPanel = null;
 				
-				if(chckbxMitUnternehmen.isSelected()) {
+				if(ckbMitUnternehmen.isSelected()) {
 					
 					// Barchart für Altersverteilung (Unternehmen)
 					
@@ -197,53 +202,45 @@ public class StatistikGUI extends JFrame{
 					
 					// Barchart für Altersverteilung (Arbeitsbereich)
 
-					
 					JFreeChart jchart = ChartFactory.createBarChart("Altersverteilung", "Altersgruppe", "Prozentuale Häufigkeit", dcd, PlotOrientation.VERTICAL, true, true, false);
 					CategoryPlot plot = jchart.getCategoryPlot();
 					plot.setRangeGridlinePaint(Color.black);
 					
 					chartPanel = new ChartPanel(jchart);
 					
-					
-					
-					
-					
 					DefaultCategoryDataset dcdGender = new DefaultCategoryDataset();
 					
-					// Barchart für Geschlechtsverteilung (Arbeitsbereich)
+					// Barchart für Geschlechterverteilung (Arbeitsbereich)
+					
 					a.calcGeschlechtPercent(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr);
-					dcdGender.setValue(a.getCountGenderMp(), "Geschlechtsverteilung Arbeitsbereich (%)", "m");
-					dcdGender.setValue(a.getCountGenderWp(), "Geschlechtsverteilung Arbeitsbereich (%)", "w");
-					dcdGender.setValue(a.getCountGenderDp(), "Geschlechtsverteilung Arbeitsbereich (%)", "d");
-					dcdGender.setValue(a.getCountGenderp(), "Geschlechtsverteilung Arbeitsbereich (%)", "unbekannt");
+					dcdGender.setValue(a.getCountGenderMp(), "Geschlechterverteilung Arbeitsbereich (%)", "m");
+					dcdGender.setValue(a.getCountGenderWp(), "Geschlechterverteilung Arbeitsbereich (%)", "w");
+					dcdGender.setValue(a.getCountGenderDp(), "Geschlechterverteilung Arbeitsbereich (%)", "d");
+					//dcdGender.setValue(a.getCountGenderp(), "Geschlechterverteilung Arbeitsbereich (%)", "unbekannt");
 					
-
-					// Barchart für Geschlechtsverteilung (Unternehmen)
+					// Barchart für Geschlechterverteilung (Unternehmen)
+					
 					a.calcGeschlechtPercent(-1, gewaehltesJahr);
-					dcdGender.setValue(a.getCountGenderMAllp(), "Geschlechtsverteilung Unternehmen (%)", "m");
-					dcdGender.setValue(a.getCountGenderWAllp(), "Geschlechtsverteilung Unternehmen (%)", "w");
-					dcdGender.setValue(a.getCountGenderDAllp(), "Geschlechtsverteilung Unternehmen (%)", "d");
-					dcdGender.setValue(a.getCountGenderAllp(), "Geschlechtsverteilung Unternehmen (%)", "unbekannt");
+					dcdGender.setValue(a.getCountGenderMAllp(), "Geschlechterverteilung Unternehmen (%)", "m");
+					dcdGender.setValue(a.getCountGenderWAllp(), "Geschlechterverteilung Unternehmen (%)", "w");
+					dcdGender.setValue(a.getCountGenderDAllp(), "Geschlechterverteilung Unternehmen (%)", "d");
+					//dcdGender.setValue(a.getCountGenderAllp(), "Geschlechterverteilung Unternehmen (%)", "unbekannt");
 					
-
-					
-					JFreeChart jchartGender = ChartFactory.createBarChart("Geschlechtsverteilung", "Geschlecht", "Prozentuale Häufigkeit", dcdGender, PlotOrientation.VERTICAL, true, true, false);
+					JFreeChart jchartGender = ChartFactory.createBarChart("Geschlechterverteilung", "Geschlecht", "Prozentuale Häufigkeit", dcdGender, PlotOrientation.VERTICAL, true, true, false);
 					CategoryPlot plotGender = jchartGender.getCategoryPlot();
 					plotGender.setRangeGridlinePaint(Color.black);
 					chartPanelGender = new ChartPanel(jchartGender);
 					
-					
-					
-					
 				} else {
 				
 					// Barchart für Altersverteilung
+					
 					a.showDurchschnittsalter(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr);
 					DefaultCategoryDataset dcd = new DefaultCategoryDataset();
-					dcd.setValue(a.getAgeUnder30(), "Alter AB", "unter 30");
-					dcd.setValue(a.getAge30to39(), "Alter AB", "30 - 39");
-					dcd.setValue(a.getAge40to50(), "Alter AB", "40 - 50");
-					dcd.setValue(a.getAgeOver50(), "Alter AB", "über 50");
+					dcd.setValue(a.getAgeUnder30(), "Alter Arbeitsbereich", "unter 30");
+					dcd.setValue(a.getAge30to39(), "Alter Arbeitsbereich", "30 - 39");
+					dcd.setValue(a.getAge40to50(), "Alter Arbeitsbereich", "40 - 50");
+					dcd.setValue(a.getAgeOver50(), "Alter Arbeitsbereich", "über 50");
 					
 					JFreeChart jchart = ChartFactory.createBarChart("Altersverteilung", "Altersgruppe", "Häufigkeit", dcd, PlotOrientation.VERTICAL, true, true, false);
 					CategoryPlot plot = jchart.getCategoryPlot();
@@ -251,21 +248,20 @@ public class StatistikGUI extends JFrame{
 					
 					chartPanel = new ChartPanel(jchart);
 					
+					// Barchart für Geschlechterverteilung
 					
-					// Barchart für Geschlechtsverteilung
-					a.showGeschlechtsverteilung(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr);
+					a.showGeschlechterverteilung(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr);
 					DefaultCategoryDataset dcdGender = new DefaultCategoryDataset();
 					dcdGender.setValue(a.getCountGenderM(), "Geschlecht", "m");
 					dcdGender.setValue(a.getCountGenderW(), "Geschlecht", "w");
 					dcdGender.setValue(a.getCountGenderD(), "Geschlecht", "d");
-					dcdGender.setValue(a.getCountGender(), "Geschlecht", "unbekannt");
+					//dcdGender.setValue(a.getCountGender(), "Geschlecht", "unbekannt"); // gibt es nicht
 					
-					JFreeChart jchartGender = ChartFactory.createBarChart("Geschlechtsverteilung", "Geschlecht", "Häufigkeit", dcdGender, PlotOrientation.VERTICAL, true, true, false);
+					JFreeChart jchartGender = ChartFactory.createBarChart("Geschlechterverteilung", "Geschlecht", "Häufigkeit", dcdGender, PlotOrientation.VERTICAL, true, true, false);
 					CategoryPlot plotGender = jchartGender.getCategoryPlot();
 					plotGender.setRangeGridlinePaint(Color.black);
 					chartPanelGender = new ChartPanel(jchartGender);
 				}
-				
 				
 				// Tabelle mit allen Daten
 				table = new JTable();
@@ -273,96 +269,63 @@ public class StatistikGUI extends JFrame{
 				if(gewaehltesJahr == (new Datum()).getJahr()) {
 					table.setModel(new DefaultTableModel(
 						new Object[][] {
-							{null,null},
-							{"Durchschnittsalter", ""+a.showDurchschnittsalter(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr)},
-							{"Fehltage gesamt", a.showFehltage(gewaehlterAB.getArbeitsbereichnummer())},
-							{"maximale Fehltage", a.showFehltageMaximal(gewaehlterAB.getArbeitsbereichnummer())},
-							{"Überstunden des AB", a.showUeberstunden(gewaehlterAB.getArbeitsbereichnummer())},
-							{"Überstunden im Durchschnitt", a.showUeberstundenSchnitt()},
-							{"Flukuationsquote des AB", a.showFluktuationsquote(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr)},
-							{"Flukuationsquote Gesamt", a.showFluktuationsquoteAll(gewaehltesJahr)},
-							{null,null},
+							{null,"<html><b>"+gewaehlterAB.getName()+"</b></html>","<html><b>Unternehmen</b></html>"},
+							{null,null,null},
+							{"     Durchschnittsalter", ""+a.showDurchschnittsalter(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr),null},
+							{"     Fehltage gesamt", a.showFehltage(gewaehlterAB.getArbeitsbereichnummer()),null},
+							{"     maximale Fehltage", a.showFehltageMaximal(gewaehlterAB.getArbeitsbereichnummer()),null},
+							{"     Überstunden", a.showUeberstunden(gewaehlterAB.getArbeitsbereichnummer()),null},
+							{"     Überstunden im Durchschnitt", a.showUeberstundenSchnitt(),null},
+							{"     Flukuationsquote", a.showFluktuationsquote(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr),a.showFluktuationsquoteAll(gewaehltesJahr)},
+							//{"     Flukuationsquote Gesamt", a.showFluktuationsquoteAll(gewaehltesJahr),null},
+							{null,null,null},
 						},
 						new String[] {
-							"Statistik", "Wert"
+								"Statistik", "Arbeitsbereich", "Unternehmen"
 						}
 					));
 				} else {
 					table.setModel(new DefaultTableModel(
 							new Object[][] {
-								{null,null},
-								{"Durchschnittsalter", ""+a.showDurchschnittsalter(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr)},
-								{"Flukuationsquote des AB", a.showFluktuationsquote(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr)},
-								{"Flukuationsquote Gesamt", a.showFluktuationsquoteAll(gewaehltesJahr)},
-								{null,null},
+								{null,""+gewaehlterAB.getName(),"<html><b>Unternehmen</b></html>"},
+								{null,null,null},
+								{"     Durchschnittsalter", ""+a.showDurchschnittsalter(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr),null},
+								{"     Flukuationsquote", a.showFluktuationsquote(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr),a.showFluktuationsquoteAll(gewaehltesJahr)},
+								//{"     Flukuationsquote Gesamt", a.showFluktuationsquoteAll(gewaehltesJahr),null},
+								{null,null,null},
 							},
 							new String[] {
-								"Statistik", "Wert"
+									"Statistik", "Arbeitsbereich", "Unternehmen"
 							}
 						));
 				}
-				table.getColumnModel().getColumn(0).setPreferredWidth(100);
-				table.getColumnModel().getColumn(1).setPreferredWidth(100);
-				//table.setBounds(47, 274, 200, 115);
-//				panel.add(table);
-				
-				
-				
-				
-				
-				
-				
-				
+				table.getColumnModel().getColumn(0).setPreferredWidth(150);
+				table.getColumnModel().getColumn(1).setPreferredWidth(75);
+				table.getColumnModel().getColumn(2).setPreferredWidth(75);
+				table.setShowGrid(false);
 				pnlReport.removeAll();
 				pnlReportGender.removeAll();
 				pnlReport.add(chartPanel);
-				pnlReport.add(rahmenUnten);
-				panel.add(table);
 				pnlReportGender.add(chartPanelGender);
+				panel.add(table);
 				pnlReportGender.updateUI();
-				pnlReport.updateUI();
-				
-				
-				
+				pnlReport.updateUI();				
 			}
-
-
-
 		});
-		btnAktualisieren.setBounds(420, 160, 120, 24);
+		btnAktualisieren.setBounds(412, 118, 124, 24);
 		btnAktualisieren.setBackground(new Color(255,255,255));
 		getContentPane().add(btnAktualisieren);
 		
-		
 		JScrollPane scrollPane = new JScrollPane(panel);
-		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-		panel.add(pnlReport);
-		panel.add(pnlReportGender);
-		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-		panel.add(pnlReport);
-		pnlReport.setLayout(new BoxLayout(pnlReport, BoxLayout.PAGE_AXIS));
-		panel.add(pnlReportGender);
-		panel.setBackground(new Color(255,255,255));
-		pnlReportGender.setLayout(new BoxLayout(pnlReportGender, BoxLayout.PAGE_AXIS));
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(0, 204, 595, 408);
+		scrollPane.setBounds(0, 200, 595, 408);
 		scrollPane.setLayout(new ScrollPaneLayout());
 		getContentPane().add(scrollPane);
-		
 
-		
-		
-		
-		
-//		getContentPane().add(table);
-		
-
-		
-
-		
-		setVisible(true);
 		panel.updateUI();
 		getContentPane().update(getGraphics());
+		
+		setVisible(true);
 	}
 	
 	public Arbeitsbereich getContentPaneValue() {
