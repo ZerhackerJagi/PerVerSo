@@ -269,22 +269,38 @@ public class StatistikGUI extends JFrame{
 				
 				// Tabelle mit allen Daten
 				table = new JTable();
-				table.setModel(new DefaultTableModel(
-					new Object[][] {
-						{null,null},
-						{"Durchschnittsalter", ""+a.showDurchschnittsalter(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr)},
-						{"Fehltage gesamt", a.showFehltage(gewaehlterAB.getArbeitsbereichnummer())},
-						{"maximale Fehltage", a.showFehltageMaximal(gewaehlterAB.getArbeitsbereichnummer())},
-						{"Überstunden des AB", a.showUeberstunden(gewaehlterAB.getArbeitsbereichnummer())},
-						{"Überstunden im Durchschnitt", a.showUeberstundenSchnitt()},
-						{"Flukuationsquote des AB", a.showFluktuationsquote(gewaehlterAB.getArbeitsbereichnummer())},
-						{"Flukuationsquote Gesamt", a.showFluktuationsquoteAll()},
-						{null,null},
-					},
-					new String[] {
-						"Statistik", "Wert"
-					}
-				));
+				
+				if(gewaehltesJahr == (new Datum()).getJahr()) {
+					table.setModel(new DefaultTableModel(
+						new Object[][] {
+							{null,null},
+							{"Durchschnittsalter", ""+a.showDurchschnittsalter(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr)},
+							{"Fehltage gesamt", a.showFehltage(gewaehlterAB.getArbeitsbereichnummer())},
+							{"maximale Fehltage", a.showFehltageMaximal(gewaehlterAB.getArbeitsbereichnummer())},
+							{"Überstunden des AB", a.showUeberstunden(gewaehlterAB.getArbeitsbereichnummer())},
+							{"Überstunden im Durchschnitt", a.showUeberstundenSchnitt()},
+							{"Flukuationsquote des AB", a.showFluktuationsquote(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr)},
+							{"Flukuationsquote Gesamt", a.showFluktuationsquoteAll(gewaehltesJahr)},
+							{null,null},
+						},
+						new String[] {
+							"Statistik", "Wert"
+						}
+					));
+				} else {
+					table.setModel(new DefaultTableModel(
+							new Object[][] {
+								{null,null},
+								{"Durchschnittsalter", ""+a.showDurchschnittsalter(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr)},
+								{"Flukuationsquote des AB", a.showFluktuationsquote(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr)},
+								{"Flukuationsquote Gesamt", a.showFluktuationsquoteAll(gewaehltesJahr)},
+								{null,null},
+							},
+							new String[] {
+								"Statistik", "Wert"
+							}
+						));
+				}
 				table.getColumnModel().getColumn(0).setPreferredWidth(100);
 				table.getColumnModel().getColumn(1).setPreferredWidth(100);
 				//table.setBounds(47, 274, 200, 115);

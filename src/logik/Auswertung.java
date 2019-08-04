@@ -237,7 +237,6 @@ public class Auswertung {
 		if(aktiveMA == 0) {
 			aktiveMA++;
 		}
-		System.out.println("Unter 30: "+ ageUnder30All+"\n30-39: "+age30to39All+"\n40-50: "+age40to50All+"\nüber 50: "+ageOver50All);
 		return (""+(Gesamtalter/aktiveMA)+" Jahre");
 	}
 	
@@ -288,14 +287,6 @@ public class Auswertung {
 		
 		showGeschlechtsverteilung(arbeitsbereichnummer, selectedYear);
 		
-		
-		System.out.println("m all: " +countGenderMAllp+ "\nw all: "+ countGenderWAllp+"\nd all: "+countGenderDAllp);
-		System.out.println("********************************");
-		System.out.println("m: " +countGenderMp+ "\nw: "+ countGenderWp+"\nd: "+countGenderDp);
-		System.out.println("********************************");
-		System.out.println("aktive MA: "+aktiveMA);
-		System.out.println("********************************");
-		
 		double countGenderMd = (double) countGenderM;
 		double countGenderWd = (double) countGenderW;
 		double countGenderDd = (double) countGenderD;
@@ -337,7 +328,6 @@ public class Auswertung {
 			Mitarbeiter ma = Personalverwaltung.getaMA().get(i);
 			char gender = Personalverwaltung.getaMA().get(i).getGeschlecht();
 			
-			System.out.println("gender: "+ gender + "\nEinstellungsdatum: "+ma.getEinstellungsdatum().toString()+"\nSelected Date: "+selectedDate.toString());
 			// Test ob MA schon eingestellt zu dem Zeitpunkt
 			if(Personalverwaltung.getaMA().get(i).getEinstellungsdatum().compareTo(selectedDate)==-1||Personalverwaltung.getaMA().get(i).getEinstellungsdatum().compareTo(selectedDate)==0 ) {
 				
@@ -346,7 +336,6 @@ public class Auswertung {
 				
 				if(zugListe.size()>1) {
 					// War in mehr als einer Abteilung
-					System.out.println("GRRROße LISTE");
 					int j = 0;
 					int verbleibend = zugListe.size();
 					// Suche das Startdatum, welches am Nächsten am gewählten Datum liegt.
@@ -381,7 +370,6 @@ public class Auswertung {
 					
 				} else {
 					// MA nur in einem Arbeitsbereich
-					System.out.println("kleine LISTE");
 					if(arbeitsbereichnummer == -1) {
 						
 						if(ma.getActualAB().getArbeitsbereichnummer() != 1) {
@@ -414,14 +402,13 @@ public class Auswertung {
 		}
 	}
 	
-	public String showFluktuationsquoteAll() {
+	public String showFluktuationsquoteAll(int selectedYear) {
 		/* @author: 	Jakob Küchler
 		 * @date: 		01.08.2019
 		 * @description:Gibt die Fluktuationsquote nach Schlüter für das aktuelle Jahr aus
 		 */
 		
-		Datum date = new Datum();
-		int year = date.getJahr();
+		int year = selectedYear;
 		int zugaenge = 0;
 		int abgaenge = 0;
 		int gesamteMA = 0;
@@ -459,14 +446,13 @@ public class Auswertung {
 			
 	}
 	
-	public String showFluktuationsquote(int arbeitsbereichnummer) {
+	public String showFluktuationsquote(int arbeitsbereichnummer, int selectedYear) {
 		/* @author: 	Jakob Küchler
 		 * @date: 		01.08.2019
 		 * @description:Gibt die Fluktuationsquote nach Schlüter für das aktuelle Jahr aus
 		 */
 		
-		Datum date = new Datum();
-		int year = date.getJahr();
+		int year = selectedYear;
 		
 		int zugaenge = 0;
 		int abgaenge = 0;
@@ -527,6 +513,8 @@ public class Auswertung {
 		 * @date: 		31.07.2019
 		 * @description:Gibt die gesamten Überstunden im aktuellen Jahr aus 
 		 */
+		
+		
 		int ueberstunden = 0;
 		for(int i = 0;i<Personalverwaltung.getaMA().size();i++) {
 			Mitarbeiter ma = Personalverwaltung.getaMA().get(i);
