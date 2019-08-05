@@ -185,24 +185,28 @@ public class DeleteMitarbeiterGUI extends JFrame{
 				} else if(tfAusscheidenT.getText().isEmpty() || tfAusscheidenM.getText().isEmpty() || tfAusscheidenJ.getText().isEmpty() ) {
 					JOptionPane.showMessageDialog(null, "Bitte Ausscheidungsdatum ausfüllen.", null, JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					Datum ausscheiden = new Datum(Integer.parseInt(tfAusscheidenT.getText()),Integer.parseInt(tfAusscheidenM.getText()),Integer.parseInt(tfAusscheidenJ.getText()));
-					Datum einstellung = ma.getEinstellungsdatum();
-					Datum today = new Datum();
-					if (today.compareTo(ausscheiden) < 0){
-						JOptionPane.showMessageDialog(null, "Das Ausscheidungsdatum liegt nicht in der Vergangenheit!", null, JOptionPane.INFORMATION_MESSAGE);
-					} else if(ausscheiden.compareTo(einstellung) < 0) {
-						JOptionPane.showMessageDialog(null, "Das Ausscheidungsdatum vor dem Einstellungsdatum!", null, JOptionPane.INFORMATION_MESSAGE);
-					}else {
-						if((JOptionPane.showConfirmDialog(null, ma.getVorname()+" "+ma.getName()+" ausscheiden?", null, JOptionPane.YES_NO_OPTION)) == 0) {
-							Admin admin = new Admin(PID);
-							admin.ausscheidenMA(wer, ausscheiden);
-							try {
-								pv.speichern();
-							} catch (Exception e1) {
-								e1.printStackTrace();
+					try {
+						Datum ausscheiden = new Datum(Integer.parseInt(tfAusscheidenT.getText()),Integer.parseInt(tfAusscheidenM.getText()),Integer.parseInt(tfAusscheidenJ.getText()));
+						Datum einstellung = ma.getEinstellungsdatum();
+						Datum today = new Datum();
+						if (today.compareTo(ausscheiden) < 0){
+							JOptionPane.showMessageDialog(null, "Das Ausscheidungsdatum liegt nicht in der Vergangenheit!", null, JOptionPane.INFORMATION_MESSAGE);
+						} else if(ausscheiden.compareTo(einstellung) < 0) {
+							JOptionPane.showMessageDialog(null, "Das Ausscheidungsdatum vor dem Einstellungsdatum!", null, JOptionPane.INFORMATION_MESSAGE);
+						}else {
+							if((JOptionPane.showConfirmDialog(null, ma.getVorname()+" "+ma.getName()+" ausscheiden?", null, JOptionPane.YES_NO_OPTION)) == 0) {
+								Admin admin = new Admin(PID);
+								admin.ausscheidenMA(wer, ausscheiden);
+								try {
+									pv.speichern();
+								} catch (Exception e1) {
+									e1.printStackTrace();
+								}
+								dispose();
 							}
-						dispose();
 						}
+					} catch (Exception e2) {
+						e2.printStackTrace();
 					}
 				}
 			}

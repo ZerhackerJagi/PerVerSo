@@ -349,7 +349,7 @@ public class ABVGUI extends JFrame{
 		
 		Arbeitsbereichverwaltung.getInstance().laden();		
 		Personalverwaltung.getInstance().laden();
-		new ABVGUI(0);
+		new ABVGUI(100000);
 	}
 	
 }
