@@ -271,11 +271,11 @@ public class StatistikGUI extends JFrame{
 						new Object[][] {
 							{null,"<html><b>"+gewaehlterAB.getName()+"</b></html>","<html><b>Unternehmen</b></html>"},
 							{null,null,null},
-							{"     Durchschnittsalter", ""+a.showDurchschnittsalter(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr),null},
-							{"     Fehltage gesamt", a.showFehltage(gewaehlterAB.getArbeitsbereichnummer()),null},
-							{"     maximale Fehltage", a.showFehltageMaximal(gewaehlterAB.getArbeitsbereichnummer()),null},
-							{"     Überstunden", a.showUeberstunden(gewaehlterAB.getArbeitsbereichnummer()),null},
-							{"     Überstunden im Durchschnitt", a.showUeberstundenSchnitt(),null},
+							{"     Durchschnittsalter", ""+a.showDurchschnittsalter(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr),a.showDurchschnittsalter(-1, gewaehltesJahr)},
+							{"     Fehltage gesamt", a.showFehltage(gewaehlterAB.getArbeitsbereichnummer()),a.showFehltage(-1)},
+							{"     maximale Fehltage", a.showFehltageMaximal(gewaehlterAB.getArbeitsbereichnummer()),a.showFehltageMaximal(-1)},
+							{"     Überstunden", a.showUeberstunden(gewaehlterAB.getArbeitsbereichnummer()),a.showUeberstunden(-1)},
+							{"     Überstunden im Durchschnitt", a.showUeberstundenSchnitt(gewaehlterAB.getArbeitsbereichnummer()),a.showUeberstundenSchnitt(-1)},
 							{"     Flukuationsquote", a.showFluktuationsquote(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr),a.showFluktuationsquoteAll(gewaehltesJahr)},
 							//{"     Flukuationsquote Gesamt", a.showFluktuationsquoteAll(gewaehltesJahr),null},
 							{null,null,null},
@@ -287,9 +287,9 @@ public class StatistikGUI extends JFrame{
 				} else {
 					table.setModel(new DefaultTableModel(
 							new Object[][] {
-								{null,""+gewaehlterAB.getName(),"<html><b>Unternehmen</b></html>"},
+								{null,"<html><b>"+gewaehlterAB.getName()+"</b></html>","<html><b>Unternehmen</b></html>"},
 								{null,null,null},
-								{"     Durchschnittsalter", ""+a.showDurchschnittsalter(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr),null},
+								{"     Durchschnittsalter", ""+a.showDurchschnittsalter(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr),a.showDurchschnittsalter(-1, gewaehltesJahr)},
 								{"     Flukuationsquote", a.showFluktuationsquote(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr),a.showFluktuationsquoteAll(gewaehltesJahr)},
 								//{"     Flukuationsquote Gesamt", a.showFluktuationsquoteAll(gewaehltesJahr),null},
 								{null,null,null},

@@ -54,6 +54,7 @@ public class Auswertung {
 	
 	// Gesamte Überstunden eines Arbeitsbereiches
 	private int gesamtUeberstunden;
+	private int gesamtUeberstundenU;
 	
 
 	public void resetAgeValues() {
@@ -146,6 +147,7 @@ public class Auswertung {
 							j--;
 						}
 						if(zugListe.get(j).getArbeitsbereichnummer()!=1) {
+							Gesamtalter = Gesamtalter + ma.getAlter();
 							aktiveMA++;
 							if(ma.getAlter()<30) 							{ageUnder30All++;} 
 							else if(ma.getAlter()>=30&&ma.getAlter()<40)	{age30to39All++;} 
@@ -209,7 +211,7 @@ public class Auswertung {
 						else if(ma.getAlter()>=30&&ma.getAlter()<40)	{age30to39All++;} 
 						else if(ma.getAlter()>=40&&ma.getAlter()<=50) 	{age40to50All++;}
 						else 											{ageOver50All++;}
-					
+						Gesamtalter = Gesamtalter + ma.getAlter();
 						aktiveMA++;
 					}
 				}else {
@@ -515,20 +517,29 @@ public class Auswertung {
 		 */
 		
 		
-		int ueberstunden = 0;
+		int ueberminuten = 0;
 		for(int i = 0;i<Personalverwaltung.getaMA().size();i++) {
 			Mitarbeiter ma = Personalverwaltung.getaMA().get(i);
 			Zugehoerigkeit MaAb = ma.getActualAB();
-			if(MaAb.getArbeitsbereichnummer() == arbeitsbereichnummer) {
-				ueberstunden = ueberstunden + ma.getAzk().getUeberminuten();
+			if(arbeitsbereichnummer!=-1) {
+				if(MaAb.getArbeitsbereichnummer() == arbeitsbereichnummer) {
+					ueberminuten = ueberminuten + ma.getAzk().getUeberminuten();
+					this.gesamtUeberstunden = (ueberminuten/60);
+				}
+			} else {
+				if(arbeitsbereichnummer!=1) {
+					ueberminuten = ueberminuten + ma.getAzk().getUeberminuten();
+					this.gesamtUeberstundenU = ueberminuten/60;
+				}
 			}
 		}
-		this.gesamtUeberstunden = (ueberstunden/60);
-		return ""+(ueberstunden/60)+" Stunden";
+		
+		
+		return ""+(ueberminuten/60)+" Stunden";
 		
 	}
 	
-	public String showUeberstundenSchnitt() {
+	public String showUeberstundenSchnitt(int arbeitsbereichnummer) {
 		/* @author: 	Jakob Küchler
 		 * @date: 		31.07.2019
 		 * @description:Gibt die gesamten Überstunden im aktuellen Jahr pro Person aus 
@@ -536,6 +547,9 @@ public class Auswertung {
 		if(gesamtUeberstunden == 0 || aktiveMA == 0) {
 			return ""+0+" Stunden";
 		}
+		if(arbeitsbereichnummer == -1) {
+			return ""+(gesamtUeberstundenU/aktiveMA)+" Stunden";
+		} 
 		return ""+(gesamtUeberstunden/aktiveMA)+" Stunden";
 		
 		
@@ -551,16 +565,29 @@ public class Auswertung {
 		for(int i = 0;i<Personalverwaltung.getaMA().size();i++) {
 			Mitarbeiter ma = Personalverwaltung.getaMA().get(i);
 			Zugehoerigkeit MaAb = ma.getActualAB();
-			if(MaAb.getArbeitsbereichnummer() == arbeitsbereichnummer) {
-				ArrayList<Eintrag> listFehltage = Personalverwaltung.getaMA().get(i).getAzk().getListe();
-				for(int j = 0;j<listFehltage.size();j++) {
-					System.out.println(listFehltage.get(j));
-					if(listFehltage.get(j) instanceof Krankheitseintrag) {
-						fehltage = fehltage +(listFehltage.get(j).getArbeitstage());
-						
+			if(arbeitsbereichnummer!=-1) {
+				if(MaAb.getArbeitsbereichnummer() == arbeitsbereichnummer) {
+					ArrayList<Eintrag> listFehltage = Personalverwaltung.getaMA().get(i).getAzk().getListe();
+					for(int j = 0;j<listFehltage.size();j++) {
+						System.out.println(listFehltage.get(j));
+						if(listFehltage.get(j) instanceof Krankheitseintrag) {
+							fehltage = fehltage +(listFehltage.get(j).getArbeitstage());
+							
+						}
 					}
-				}
-			}	
+				}	
+			} else {
+				if(arbeitsbereichnummer!=1) {
+					ArrayList<Eintrag> listFehltage = Personalverwaltung.getaMA().get(i).getAzk().getListe();
+					for(int j = 0;j<listFehltage.size();j++) {
+						System.out.println(listFehltage.get(j));
+						if(listFehltage.get(j) instanceof Krankheitseintrag) {
+							fehltage = fehltage +(listFehltage.get(j).getArbeitstage());
+							
+						}
+					}
+				}	
+			}
 		}
 		return ""+fehltage+" Tage";
 		
@@ -578,18 +605,33 @@ public class Auswertung {
 		for(int i = 0;i<Personalverwaltung.getaMA().size();i++) {
 			Mitarbeiter ma = Personalverwaltung.getaMA().get(i);
 			Zugehoerigkeit MaAb = ma.getActualAB();
-			if(MaAb.getArbeitsbereichnummer() == arbeitsbereichnummer) {
+			if(arbeitsbereichnummer!=-1) {	
+				if(MaAb.getArbeitsbereichnummer() == arbeitsbereichnummer) {
+					ArrayList<Eintrag> listFehltage = Personalverwaltung.getaMA().get(i).getAzk().getListe();
+					fehltagePerson = 0;
+					for(int j = 0;j<listFehltage.size();j++) {
+						if(listFehltage.get(j) instanceof Krankheitseintrag) {
+							fehltagePerson = fehltagePerson +listFehltage.get(j).getArbeitstage();
+						}
+					}
+					if(fehltagePerson>fehltageMax) {
+						fehltageMax = fehltagePerson;
+					}
+				}	
+			} else {
 				ArrayList<Eintrag> listFehltage = Personalverwaltung.getaMA().get(i).getAzk().getListe();
 				fehltagePerson = 0;
-				for(int j = 0;j<listFehltage.size();j++) {
-					if(listFehltage.get(j) instanceof Krankheitseintrag) {
-						fehltagePerson = fehltagePerson +listFehltage.get(j).getArbeitstage();
+				if(arbeitsbereichnummer!=1) {
+					for(int j = 0;j<listFehltage.size();j++) {
+						if(listFehltage.get(j) instanceof Krankheitseintrag) {
+							fehltagePerson = fehltagePerson +listFehltage.get(j).getArbeitstage();
+						}
+					}
+					if(fehltagePerson>fehltageMax) {
+						fehltageMax = fehltagePerson;
 					}
 				}
-				if(fehltagePerson>fehltageMax) {
-					fehltageMax = fehltagePerson;
-				}
-			}	
+			}
 		}
 		return ""+fehltageMax+" Tage";
 		
