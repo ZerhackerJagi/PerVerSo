@@ -60,7 +60,7 @@ public class Dateizugriff implements DateizugriffIF{
 		 */
 		
 		try {
-			ObjectInputStream in = new ObjectInputStream(new FileInputStream("DataPV.dat"));
+			ObjectInputStream in = new ObjectInputStream(new FileInputStream("DataPV.pvs"));
 			ArrayList <Mitarbeiter> AL = (ArrayList <Mitarbeiter>)in.readObject();
 			in.close();		
 			return AL;
@@ -76,7 +76,7 @@ public class Dateizugriff implements DateizugriffIF{
 		 */
 		
 		try {
-			ObjectInputStream in = new ObjectInputStream(new FileInputStream("DataABV.dat"));
+			ObjectInputStream in = new ObjectInputStream(new FileInputStream("DataABV.pvs"));
 			ArrayList <Arbeitsbereich> AL = (ArrayList <Arbeitsbereich>)in.readObject();
 			in.close();		
 			return AL;
@@ -113,7 +113,7 @@ public class Dateizugriff implements DateizugriffIF{
 		
 		backup("DataPV");
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("DataPV.dat"));
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("DataPV.pvs"));
 			out.writeObject((ArrayList<Mitarbeiter>) obj);
 			out.close();
 			return true;
@@ -130,7 +130,7 @@ public class Dateizugriff implements DateizugriffIF{
 		
 		backup("DataABV");
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("DataABV.dat"));
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("DataABV.pvs"));
 			out.writeObject((ArrayList<Arbeitsbereich>) obj);
 			out.close();
 			return true;
@@ -145,8 +145,8 @@ public class Dateizugriff implements DateizugriffIF{
 		 *@description:	legt ein Backup an 
 		 */
 		
-		File alt = new File(name+".dat");
-		File neu = new File(name+"_old.dat");
+		File alt = new File(name+".pvs");
+		File neu = new File(name+"_old.pvs");
 		neu.delete();
 		return alt.renameTo(neu);
 	}
