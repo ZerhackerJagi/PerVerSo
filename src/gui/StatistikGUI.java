@@ -47,7 +47,7 @@ public class StatistikGUI extends JFrame{
 //******************** KONSTRUKTOR ********************
 	
 	public StatistikGUI(int PID) {
-		/*@author:		Soeren Hebestreit, Jakob Küchler
+		/*@author:		Soeren Hebestreit (Layout), Jakob Küchler (Content)
 		 *@date: 		20.07.2019, 31.07.2019
 		 *@description: GUI zur Ansicht der Statistiken, Arbeitsbereichsauswahl
 		 */
@@ -75,10 +75,14 @@ public class StatistikGUI extends JFrame{
 		JLabel lblArbeitsbereich = new JLabel("Arbeitsbereich");
 		lblArbeitsbereich.setBounds(40, 80, 120, 20);
 		getContentPane().add(lblArbeitsbereich);
-				
-		String[] list = new String[Arbeitsbereichverwaltung.getBereiche().size()];
-		for(int i = 0;i<Arbeitsbereichverwaltung.getBereiche().size();i++) {
-			list[i] = Arbeitsbereichverwaltung.getBereiche().get(i).getName();
+		
+		int length = Arbeitsbereichverwaltung.getBereiche().size();
+		String[] list = new String[length-1];
+		list[0] = Arbeitsbereichverwaltung.getBereiche().get(0).getName();
+		if (length > 1) {
+			for(int i = 2;i<length;i++) {
+				list[i-1] = Arbeitsbereichverwaltung.getBereiche().get(i).getName();
+			}
 		}
 
 		JComboBox<String> cBArbeitsbereiche = new JComboBox<String>(list);
@@ -139,7 +143,7 @@ public class StatistikGUI extends JFrame{
 		
 		JPanel frei2 = new JPanel();
 		frei2.setBackground(new Color(255, 255, 255));
-		frei2.setPreferredSize(new Dimension(100, 36));
+		frei2.setPreferredSize(new Dimension(100, 48));
 		panel.add(frei2);
 		
 		JPanel pnlReportGender = new JPanel();

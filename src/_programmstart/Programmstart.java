@@ -1,5 +1,7 @@
 package _programmstart;
 
+import javax.swing.JOptionPane;
+
 import gui.LoginGUI;
 import logik.*;
 
@@ -13,9 +15,14 @@ public class Programmstart {
 
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Arbeitsbereichverwaltung abv = Arbeitsbereichverwaltung.getInstance();
-		pv.laden();
-		abv.laden();
-		
+		try {
+			pv.laden();
+			abv.laden();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Datenbank angelegt.", null, JOptionPane.INFORMATION_MESSAGE);
+			pv.speichern();
+			abv.speichern();
+		}	
 		
 		new LoginGUI();
 	}
