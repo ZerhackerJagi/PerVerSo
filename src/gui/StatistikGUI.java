@@ -24,6 +24,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import extern.Datum;
 
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
@@ -265,6 +266,9 @@ public class StatistikGUI extends JFrame{
 				
 				// Tabelle mit allen Daten
 				table = new JTable();
+				
+				NumberFormat n = NumberFormat.getInstance();
+				n.setMaximumFractionDigits(2); // max. 2 stellen hinter komma
 				
 				if(gewaehltesJahr == (new Datum()).getJahr()) {
 					table.setModel(new DefaultTableModel(

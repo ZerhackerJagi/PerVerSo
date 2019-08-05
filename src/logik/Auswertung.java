@@ -53,8 +53,8 @@ public class Auswertung {
 	private int aktiveMA;
 	
 	// Gesamte Überstunden eines Arbeitsbereiches
-	private int gesamtUeberstunden;
-	private int gesamtUeberstundenU;
+	private double gesamtUeberstunden;
+	private double gesamtUeberstundenU;
 	
 
 	public void resetAgeValues() {
@@ -517,7 +517,9 @@ public class Auswertung {
 		 */
 		
 		
-		int ueberminuten = 0;
+		double ueberminuten = 0;
+		NumberFormat n = NumberFormat.getInstance();
+		n.setMaximumFractionDigits(2); // max. 2 stellen hinter komma
 		for(int i = 0;i<Personalverwaltung.getaMA().size();i++) {
 			Mitarbeiter ma = Personalverwaltung.getaMA().get(i);
 			Zugehoerigkeit MaAb = ma.getActualAB();
@@ -529,13 +531,13 @@ public class Auswertung {
 			} else {
 				if(arbeitsbereichnummer!=1) {
 					ueberminuten = ueberminuten + ma.getAzk().getUeberminuten();
-					this.gesamtUeberstundenU = ueberminuten/60;
+					this.gesamtUeberstundenU = (ueberminuten/60);
 				}
 			}
 		}
 		
 		
-		return ""+(ueberminuten/60)+" Stunden";
+		return ""+(n.format((ueberminuten/60)))+" Stunden";
 		
 	}
 	
@@ -544,13 +546,20 @@ public class Auswertung {
 		 * @date: 		31.07.2019
 		 * @description:Gibt die gesamten Überstunden im aktuellen Jahr pro Person aus 
 		 */
-		if(gesamtUeberstunden == 0 || aktiveMA == 0) {
+		double MA = (double) aktiveMA;
+		NumberFormat n = NumberFormat.getInstance();
+		n.setMaximumFractionDigits(2); // max. 2 stellen hinter komma
+		
+		if(gesamtUeberstundenU == 0 || aktiveMA == 0) {
 			return ""+0+" Stunden";
 		}
 		if(arbeitsbereichnummer == -1) {
-			return ""+(gesamtUeberstundenU/aktiveMA)+" Stunden";
+			return ""+n.format((gesamtUeberstundenU/MA))+" Stunden";
 		} 
-		return ""+(gesamtUeberstunden/aktiveMA)+" Stunden";
+		if(gesamtUeberstunden == 0 || aktiveMA == 0) {
+			return ""+0+" Stunden";
+		}
+		return ""+n.format((gesamtUeberstunden/MA))+" Stunden";
 		
 		
 	}
@@ -716,7 +725,7 @@ public class Auswertung {
 		return aktiveMA;
 	}
 
-	public int getGesamtUeberstunden() {
+	public double getGesamtUeberstunden() {
 		return gesamtUeberstunden;
 	}
 
