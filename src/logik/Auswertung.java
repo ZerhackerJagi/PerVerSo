@@ -647,6 +647,83 @@ public class Auswertung {
 		
 	}
 	
+	public String showAnzahlMitarbeiterImUnternehmen(int selectedYear) {
+		Datum selectedDate = new Datum(selectedYear);
+		
+		int countAllMA = 0;
+		
+		for(int i = 0; i< Personalverwaltung.getaMA().size();i++) {
+			if(selectedYear == (new Datum()).getJahr()) {
+				if(Personalverwaltung.getaMA().get(i).getEinstellungsdatum().compareTo(selectedDate)==-1) {
+					ArrayList<Zugehoerigkeit> zugListe = Personalverwaltung.getaMA().get(i).getZugehoerigkeit();
+					
+					if(zugListe.size()>1) {
+						// War in mehr als einer Abteilung
+						int j = 0;
+						int verbleibend = zugListe.size();
+						// Suche das Startdatum, welches am Nächsten am gewählten Datum liegt.
+						while(zugListe.get(j).getStart().compareTo(selectedDate)==-1&&verbleibend>=0) {
+							j++;
+							verbleibend = zugListe.size()-j;
+						}
+						if(zugListe.get(j).getArbeitsbereichnummer()!=1) {
+							countAllMA++;
+						}
+					} else {
+						if(Personalverwaltung.getaMA().get(i).getActualAB().getArbeitsbereichnummer()!=1) {
+							countAllMA++;
+						}
+					}
+					
+				} else {
+					if(Personalverwaltung.getaMA().get(i).getActualAB().getArbeitsbereichnummer()!=1) {
+						countAllMA++;
+					}
+				}
+			}
+		}
+		return ""+countAllMA+" MitarbeiterInnen";
+		
+	}
+	
+	public String showAnzahlMitarbeiterInArbeitsbereich(int arbeitsbereichnummer, int selectedYear) {
+		Datum selectedDate = new Datum(selectedYear);
+		
+		int countAllMA = 0;
+		
+		for(int i = 0; i< Personalverwaltung.getaMA().size();i++) {
+			if(selectedYear == (new Datum()).getJahr()) {
+				if(Personalverwaltung.getaMA().get(i).getEinstellungsdatum().compareTo(selectedDate)==-1) {
+					ArrayList<Zugehoerigkeit> zugListe = Personalverwaltung.getaMA().get(i).getZugehoerigkeit();
+					
+					if(zugListe.size()>1) {
+						// War in mehr als einer Abteilung
+						int j = 0;
+						int verbleibend = zugListe.size();
+						// Suche das Startdatum, welches am Nächsten am gewählten Datum liegt.
+						while(zugListe.get(j).getStart().compareTo(selectedDate)==-1&&verbleibend>=0) {
+							j++;
+							verbleibend = zugListe.size()-j;
+						}
+						if(zugListe.get(j).getArbeitsbereichnummer()==arbeitsbereichnummer) {
+							countAllMA++;
+						}
+					} else {
+						if(Personalverwaltung.getaMA().get(i).getActualAB().getArbeitsbereichnummer()==arbeitsbereichnummer) {
+							countAllMA++;
+						}
+					}
+					
+				} else {
+					if(Personalverwaltung.getaMA().get(i).getActualAB().getArbeitsbereichnummer()==arbeitsbereichnummer) {
+						countAllMA++;
+					}
+				}
+			}
+		}
+		return ""+countAllMA+" MitarbeiterInnen";
+		
+	}
 
 
 	public int getAgeUnder30() {

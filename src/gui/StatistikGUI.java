@@ -282,6 +282,7 @@ public class StatistikGUI extends JFrame{
 							{"     Überstunden im Durchschnitt", a.showUeberstundenSchnitt(gewaehlterAB.getArbeitsbereichnummer()),a.showUeberstundenSchnitt(-1)},
 							{"     Flukuationsquote", a.showFluktuationsquote(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr),a.showFluktuationsquoteAll(gewaehltesJahr)},
 							//{"     Flukuationsquote Gesamt", a.showFluktuationsquoteAll(gewaehltesJahr),null},
+							{"     Anzahl MitarbeiterInnen",a.showAnzahlMitarbeiterInArbeitsbereich(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr),a.showAnzahlMitarbeiterImUnternehmen(gewaehltesJahr)},
 							{null,null,null},
 						},
 						new String[] {
@@ -296,6 +297,7 @@ public class StatistikGUI extends JFrame{
 								{"     Durchschnittsalter", ""+a.showDurchschnittsalter(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr),a.showDurchschnittsalter(-1, gewaehltesJahr)},
 								{"     Flukuationsquote", a.showFluktuationsquote(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr),a.showFluktuationsquoteAll(gewaehltesJahr)},
 								//{"     Flukuationsquote Gesamt", a.showFluktuationsquoteAll(gewaehltesJahr),null},
+								{"     Anzahl MitarbeiterInnen",a.getAktiveMA()+" MitarbeiterInnen",a.showAnzahlMitarbeiterImUnternehmen(gewaehltesJahr)},
 								{null,null,null},
 							},
 							new String[] {
