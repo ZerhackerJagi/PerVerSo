@@ -245,22 +245,33 @@ public class EditMitarbeiterGUI extends JFrame{
 						gender = 'd';
 					}
 					if(edit == true) {
-						admin.editMAStammdaten(wer, tfName.getText(), tfVorname.getText(), gender, new Datum(Integer.parseInt(tfGeburtstagT.getText()),Integer.parseInt(tfGeburtstagM.getText()),Integer.parseInt(tfGeburtstagJ.getText())));
-						admin.editAZKVertragsdaten(wer, Integer.parseInt(tfSollstunden.getText()), Integer.parseInt(tfUrlaub.getText()));			
+						try {
+							admin.editMAStammdaten(wer, tfName.getText(), tfVorname.getText(), gender, new Datum(Integer.parseInt(tfGeburtstagT.getText()),Integer.parseInt(tfGeburtstagM.getText()),Integer.parseInt(tfGeburtstagJ.getText())));
+							admin.editAZKVertragsdaten(wer, Integer.parseInt(tfSollstunden.getText()), Integer.parseInt(tfUrlaub.getText()));		
+							try {
+								pv.speichern();
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
+							dispose();
+						} catch (Exception e2) {
+							e2.printStackTrace();
+						}
 					} else {
 						try {
 							admin.addMA(tfName.getText(), tfVorname.getText(), gender, new Datum(Integer.parseInt(tfGeburtstagT.getText()),Integer.parseInt(tfGeburtstagM.getText()),Integer.parseInt(tfGeburtstagJ.getText())), new Datum(Integer.parseInt(tfEinstellungT.getText()),Integer.parseInt(tfEinstellungM.getText()),Integer.parseInt(tfEinstellungJ.getText())), Integer.parseInt(((String)bereicheBox.getSelectedItem()).substring(0,((String)bereicheBox.getSelectedItem()).indexOf(" "))));
-							admin.editAZKVertragsdaten(wer, Integer.parseInt(tfSollstunden.getText()), Integer.parseInt(tfUrlaub.getText()));			
-						} catch (Exception e1) {
-							e1.printStackTrace();
+							admin.editAZKVertragsdaten(wer, Integer.parseInt(tfSollstunden.getText()), Integer.parseInt(tfUrlaub.getText()));	
+							try {
+								pv.speichern();
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
+							dispose();
+						} catch (Exception e2) {
+							e2.printStackTrace();
 						}
 					}
-					try {
-						pv.speichern();
-					} catch (Exception e1) {
-						e1.printStackTrace();
-					}
-					dispose();
+					
 				}
 			}
 		});

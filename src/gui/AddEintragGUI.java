@@ -144,34 +144,36 @@ public class AddEintragGUI extends JFrame{
 			public void mouseClicked(MouseEvent e) {
 				if(tfStartT.getText().isEmpty() || tfStartM.getText().isEmpty() || tfStartJ.getText().isEmpty() || tfEndeT.getText().isEmpty() || tfEndeM.getText().isEmpty() || tfEndeJ.getText().isEmpty() || tfTage.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Bitte alle Felder ausfüllen.", null, JOptionPane.INFORMATION_MESSAGE);
-				} else if(Integer.parseInt(tfStartJ.getText()) != Integer.parseInt(tfEndeJ.getText())) {
-					JOptionPane.showMessageDialog(null, "Bitte nicht jahresübergreifend angeben.", null, JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					Datum start = new Datum(Integer.parseInt(tfStartT.getText()),Integer.parseInt(tfStartM.getText()),Integer.parseInt(tfStartJ.getText()));
-					Datum ende = new Datum(Integer.parseInt(tfEndeT.getText()),Integer.parseInt(tfEndeM.getText()),Integer.parseInt(tfEndeJ.getText()));
-					if(start.compareTo(ende) == 1) {
-						JOptionPane.showMessageDialog(null, "Das Enddatum liegt vor dem Startdatum!", null, JOptionPane.INFORMATION_MESSAGE);
-					} else {	
-						Admin admin = new Admin(PID);
-						if(rdbtnUrlaub.isSelected()) {
-							try {
-								admin.addAZKUrlaub(wer, start, ende, Integer.parseInt(tfTage.getText()));
-							} catch (Exception e1) {
-								e1.printStackTrace();
-							}
-						} else {
-							try {
-								admin.addAZKKrankheit(wer, start, ende, Integer.parseInt(tfTage.getText()));
-							} catch (Exception e1) {
-								e1.printStackTrace();
+					try {
+						Datum start = new Datum(Integer.parseInt(tfStartT.getText()),Integer.parseInt(tfStartM.getText()),Integer.parseInt(tfStartJ.getText()));
+						Datum ende = new Datum(Integer.parseInt(tfEndeT.getText()),Integer.parseInt(tfEndeM.getText()),Integer.parseInt(tfEndeJ.getText()));			
+						if(start.getJahr() != ende.getJahr()) {
+							JOptionPane.showMessageDialog(null, "Bitte nicht jahresübergreifend angeben.", null, JOptionPane.INFORMATION_MESSAGE);
+						} else if(start.compareTo(ende) == 1) {
+							JOptionPane.showMessageDialog(null, "Das Enddatum liegt vor dem Startdatum!", null, JOptionPane.INFORMATION_MESSAGE);
+						} else {	
+							Admin admin = new Admin(PID);
+							if(rdbtnUrlaub.isSelected()) {
+								try {
+									admin.addAZKUrlaub(wer, start, ende, Integer.parseInt(tfTage.getText()));
+									pv.speichern();
+									dispose();
+								} catch (Exception e1) {
+									e1.printStackTrace();
+								}
+							} else {
+								try {
+									admin.addAZKKrankheit(wer, start, ende, Integer.parseInt(tfTage.getText()));
+									pv.speichern();
+									dispose();
+								} catch (Exception e1) {
+									e1.printStackTrace();
+								}
 							}
 						}
-						try {
-							pv.speichern();
-						} catch (Exception e1) {
-							e1.printStackTrace();
-						}
-						dispose();
+					} catch (Exception e2) {
+						e2.printStackTrace();
 					}
 				}
 			}

@@ -326,6 +326,7 @@ public class Auswertung {
 		}
 		
 		for(int i = 0;i<Personalverwaltung.getaMA().size();i++) {
+			System.out.println(Personalverwaltung.getaMA().size());
 			
 			Mitarbeiter ma = Personalverwaltung.getaMA().get(i);
 			char gender = Personalverwaltung.getaMA().get(i).getGeschlecht();
@@ -341,7 +342,7 @@ public class Auswertung {
 					int j = 0;
 					int verbleibend = zugListe.size();
 					// Suche das Startdatum, welches am Nächsten am gewählten Datum liegt.
-					while(zugListe.get(j).getStart().compareTo(selectedDate)==-1&&verbleibend>=0) {
+					while(zugListe.get(j).getStart().compareTo(selectedDate)==-1 && verbleibend>=0) {
 						j++;
 						verbleibend = zugListe.size()-j;
 					}

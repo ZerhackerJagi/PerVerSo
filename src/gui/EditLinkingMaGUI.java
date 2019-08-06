@@ -183,18 +183,22 @@ public class EditLinkingMaGUI extends JFrame{
 				} else if(PID == wer && Integer.parseInt(((String)bereicheBox.getSelectedItem()).substring(0,((String)bereicheBox.getSelectedItem()).indexOf(" "))) == 1) {
 					JOptionPane.showMessageDialog(null, "Für diesen Bereich für den Anweder selbst nicht möglich.", null, JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					Datum wechseln = new Datum(Integer.parseInt(tfWechselT.getText()),Integer.parseInt(tfWechselM.getText()),Integer.parseInt(tfWechselJ.getText()));
-					if(wechseln.compareTo(ma.getEinstellungsdatum())<0) {
-						JOptionPane.showMessageDialog(null, "Das Wechseldatum darf nicht vor dem der Einstellung liegen.", null, JOptionPane.INFORMATION_MESSAGE);
-					} else {
-						Admin admin = new Admin(PID);
-						admin.linkMAtoAB(wer, Integer.parseInt(((String)bereicheBox.getSelectedItem()).substring(0,((String)bereicheBox.getSelectedItem()).indexOf(" "))), wechseln,tfBemerkung.getText());
-						try {
-							pv.speichern();
-						} catch (Exception e1) {
-						e1.printStackTrace();
+					try {
+						Datum wechseln = new Datum(Integer.parseInt(tfWechselT.getText()),Integer.parseInt(tfWechselM.getText()),Integer.parseInt(tfWechselJ.getText()));
+						if(wechseln.compareTo(ma.getEinstellungsdatum())<0) {
+							JOptionPane.showMessageDialog(null, "Das Wechseldatum darf nicht vor dem der Einstellung liegen.", null, JOptionPane.INFORMATION_MESSAGE);
+						} else {
+							Admin admin = new Admin(PID);
+							admin.linkMAtoAB(wer, Integer.parseInt(((String)bereicheBox.getSelectedItem()).substring(0,((String)bereicheBox.getSelectedItem()).indexOf(" "))), wechseln,tfBemerkung.getText());
+							try {
+								pv.speichern();
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
+							dispose();
 						}
-						dispose();
+					} catch (Exception e2) {
+						e2.printStackTrace();
 					}
 				}
 			}
