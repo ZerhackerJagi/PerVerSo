@@ -18,6 +18,10 @@ public class Dateizugriff implements DateizugriffIF{
 //******************** PARAMETER ********************
 	
 	private static Dateizugriff uniqueInstance;
+	private String DateiNamePv;
+	private String DateiNameAbv;
+	private String NamePv;
+	private String NameAbv;
 	
 //******************** KONSTRUKTOR ********************
 	
@@ -34,6 +38,31 @@ public class Dateizugriff implements DateizugriffIF{
 	}
 	
 //******************** LADEN ********************
+	
+	/*@author: 		Charly Spina
+	 *@date: 		07.08.2019
+	 *@description:	setzt den laden und speicher modus
+	 */
+	public void setDatenBank(String modus) {
+		if(modus == "Test") {
+			DateiNamePv = "TestPV.ppvs";	
+			NamePv = "TestPV";
+			DateiNameAbv = "TestABV.apvs";
+			NameAbv = "TestABV";
+		} else if(modus == "Beispiel") {
+			DateiNamePv = "BeispielPV.ppvs";
+			NamePv = "BeispielPV";
+			DateiNameAbv = "BeispielABV.apvs";
+			NameAbv = "BeispielABV";
+		} else if(modus == "Normal"){
+			DateiNamePv = "DataPV.ppvs";
+			NamePv = "DataPV";
+			DateiNameAbv = "DataABV.apvs";
+			NameAbv = "DataABV";
+		}
+		Personalverwaltung.getInstance().setPath(DateiNamePv);
+		Arbeitsbereichverwaltung.getInstance().setPath(DateiNameAbv);
+	}
 	
 	@Override
 	public Object laden() throws Exception {
@@ -113,9 +142,9 @@ public class Dateizugriff implements DateizugriffIF{
 		 *@description:	legt Backup an und speichert uebergebene Daten in der PV-Datei 
 		 */
 		
-		backup("DataPV","ppvs");
+		backup(NamePv,"ppvs");
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("DataPV.ppvs"));
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(DateiNamePv));
 			out.writeObject((ArrayList<Mitarbeiter>) obj);
 			out.close();
 			return true;
@@ -130,9 +159,9 @@ public class Dateizugriff implements DateizugriffIF{
 		 *@description:	legt Backup an und speichert uebergebene Daten in der ABV-Datei 
 		 */
 		
-		backup("DataABV","apvs");
+		backup(NameAbv,"apvs");
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("DataABV.apvs"));
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(DateiNameAbv));
 			out.writeObject((ArrayList<Arbeitsbereich>) obj);
 			out.close();
 			return true;

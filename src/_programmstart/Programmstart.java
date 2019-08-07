@@ -16,6 +16,7 @@ public class Programmstart {
 		Personalverwaltung pv = Personalverwaltung.getInstance();
 		Arbeitsbereichverwaltung abv = Arbeitsbereichverwaltung.getInstance();
 		try {
+			pv.setModus("Normal");
 			pv.laden();
 			abv.laden();
 			new LoginGUI();
