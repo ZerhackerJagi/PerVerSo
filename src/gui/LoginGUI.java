@@ -47,7 +47,7 @@ public class LoginGUI extends JFrame{
 		lblLoginPerverso.setBounds(164, 20, 240, 40);
 		getContentPane().add(lblLoginPerverso);
 		
-		JLabel lblPersonalnummer = new JLabel("PNr.: ");
+		JLabel lblPersonalnummer = new JLabel("Personal-Nr.: ");
 		lblPersonalnummer.setForeground(new Color(255, 255, 255));
 		lblPersonalnummer.setFont(new Font("Dialog", Font.BOLD, 14));
 		lblPersonalnummer.setBounds(40, 80, 120, 20);

@@ -75,7 +75,7 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 	
 //******************** VERWALTUNG ********************
 	
-	public void add(String name, String vorname, char gender, Datum geburtstag, Datum einstellung, int bereichsnummer, String user, String pwd) throws Exception {
+	public void add(String name, String vorname, char gender, Datum geburtstag, Datum einstellung, int bereichsnummer, String pwd) throws Exception {
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		18.07.2019
 		 *@description:	fuegt einen Mitarbeiter hinzu, komplette Angabe

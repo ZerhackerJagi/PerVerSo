@@ -10,7 +10,7 @@ public class Programmstart {
 	public static void main(String[] args) throws Exception {		
 		/*@author:		Soeren Hebestreit
 		 *@date: 		19.07.2019
-		 *@description: Programmstart: PV und ABV laden, GUI starten | Initialisieren
+		 *@description: Programmstart: PV und ABV laden, GUI starten | Initialisieren falls Daten nicht gefunden
 		 */
 
 		Personalverwaltung pv = Personalverwaltung.getInstance();
