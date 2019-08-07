@@ -16,7 +16,7 @@ public class FileFilterABV extends FileFilter {
 		}
 		String extension = f.getName().substring(f.getName().lastIndexOf("."));
 		if (extension != null) {
-			if (extension.equals(".apvs")) {
+			if (extension.equals(".avd")) {
 				return true;
 			}
 		}

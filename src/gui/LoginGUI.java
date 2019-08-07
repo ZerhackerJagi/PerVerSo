@@ -72,7 +72,7 @@ public class LoginGUI extends JFrame{
 		btnAnmelden.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(Integer.parseInt(tfPersonalnummer.getText()) == 1) {
+				if(tfPersonalnummer.getText().equals("Beispiel")) {
 					setVisible(false);
 					ladeneu();
 					new AdminGUI(100000);
@@ -100,7 +100,7 @@ public class LoginGUI extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				if(Integer.parseInt(tfPersonalnummer.getText()) == 1) {
+				if(tfPersonalnummer.getText().equals("Beispiel")) {
 					setVisible(false);
 					ladeneu();
 					new AdminGUI(100000);

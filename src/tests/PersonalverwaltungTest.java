@@ -25,7 +25,7 @@ public class PersonalverwaltungTest {
 	public void BtestAddAuto() throws Exception {
 		pv = Personalverwaltung.getInstance();
 		pv.add("Spina","Charly",'d', new Datum(9,9,1996), new Datum(10,9,2019), 0); // 2
-		assertNotNull(pv.suchen(100002));
+		assertNotNull(pv.suchen(100001));
 	}
 	
 	@Test
@@ -33,23 +33,23 @@ public class PersonalverwaltungTest {
 		pv = Personalverwaltung.getInstance();
 		pv.add("Spina","Charly",'A', new Datum(9,9,1996), new Datum(10,9,2019), 1); //3
 		pv.add("Wolf","Burki",'B',new Datum(12,8,1970), new Datum(10,9,2019),1); //4
+		assertNotNull(pv.suchen(100002));
 		assertNotNull(pv.suchen(100003));
-		assertNotNull(pv.suchen(100004));
 	}
 	
 	@Test
 	public void DtestAddManuell() throws Exception {
 		pv = Personalverwaltung.getInstance();
-		pv.add("Spina","Charly",'A', new Datum(9,9,1996), new Datum(10,9,2019), 1,"Charlynator","ABC"); // 5
-		assertNotNull(pv.suchen(100005));
+		pv.add("Spina","Charly",'A', new Datum(9,9,1996), new Datum(10,9,2019), 1,"ABC"); // 5
+		assertNotNull(pv.suchen(100004));
 	}
 		
 	@Test
 	public void EtestDelete() throws Exception {
 		pv = Personalverwaltung.getInstance();
 		pv.add("Spina","Charly",'A', new Datum(9,9,1996), new Datum(10,9,2019), 1); //6
-		assertTrue(pv.delete(100006));
-		assertNull(pv.suchen(100006));
+		assertTrue(pv.delete(100005));
+		assertNull(pv.suchen(100005));
 	}
 	
 	@Test
@@ -63,13 +63,13 @@ public class PersonalverwaltungTest {
 		pv = Personalverwaltung.getInstance();
 		pv.add("Spina","Charly",'A', new Datum(9,9,1996), new Datum(10,9,2019), 1); // 7
 		pv.add("Wolf","Burki",'B',new Datum(12,8,1970), new Datum(10,9,2019),1); // 8
+		assertNotNull(pv.suchen(100006));
 		assertNotNull(pv.suchen(100007));
-		assertNotNull(pv.suchen(100008));
-		assertNull(pv.suchen(100009));
+		assertNull(pv.suchen(100008));
 		pv.speichern();
 		pv.add("Wolf","Burki",'B',new Datum(12,8,1970), new Datum(10,9,2019),1); 
 		pv.laden();
-		assertNull(pv.suchen(100009));
+		assertNull(pv.suchen(100008));
 	}
 	
 	@Test

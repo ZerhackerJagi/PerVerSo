@@ -16,7 +16,7 @@ public class FileFilterPV extends FileFilter {
 		}
 		String extension = f.getName().substring(f.getName().lastIndexOf("."));
 		if (extension != null) {
-			if (extension.equals(".ppvs")) {
+			if (extension.equals(".pvd")) {
 				return true;
 			}
 		}

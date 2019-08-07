@@ -44,33 +44,11 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 	public void start() {
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		18.07.2019
-		 *@description:	fuegt Standardadmin bei der Ersterstellung ein 
+		 *@description:	fuegt Standardadmin bei der Ersterstellung hinzu 
 		 */
 		
 		aMA.add(new Mitarbeiter(personalnummer, "admin", "admin", 'd', new Datum(), "admin", new Admin(personalnummer), new Datum(), new Arbeitszeitkonto(), new Zugehoerigkeit(new Datum(),0,"Standardadmin anlegen")));
 		personalnummer ++;
-		aMA.add(new Mitarbeiter(personalnummer, "user", "test", 'd', new Datum(), "passwort", new User(personalnummer), new Datum(), new Arbeitszeitkonto(), new Zugehoerigkeit(new Datum(),0,"Testuser anlegen")));
-		personalnummer ++;
-		Arbeitszeitkonto azk = aMA.get(1).getAzk();
-		azk.addPlus(3000);
-		try {
-			azk.addUrlaub(new Datum(1,1,2019), new Datum(5,1,2019), 4);
-			azk.addKrankheit(new Datum(3,3,2019), new Datum(5,3,2019), 3);
-			azk.addUrlaub(new Datum(26,4,2019), new Datum(2,5,2019), 4);
-			azk.addUrlaub(new Datum(7,7,2019), new Datum(26,7,2019), 15);
-			azk.addKrankheit(new Datum(1,1,2019), new Datum(5,1,2019), 4);
-			azk.addUrlaub(new Datum(23,12,2019), new Datum(31,12,2019), 5);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}	
-		
-		
-		try {
-			aMA.get(0).getAzk().addKrankheit(new Datum(3,3,2019), new Datum(6,3,2019), 4);
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
 	}
 	
 //******************** VERWALTUNG ********************

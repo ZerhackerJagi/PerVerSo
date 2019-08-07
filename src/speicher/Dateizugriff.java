@@ -45,23 +45,25 @@ public class Dateizugriff implements DateizugriffIF{
 	 */
 	public void setDatenBank(String modus) {
 		if(modus == "Test") {
-			DateiNamePv = "TestPV.ppvs";	
+			DateiNamePv = "TestPV.pvd";	
 			NamePv = "TestPV";
-			DateiNameAbv = "TestABV.apvs";
+			DateiNameAbv = "TestABV.avd";
 			NameAbv = "TestABV";
 		} else if(modus == "Beispiel") {
-			DateiNamePv = "BeispielPV.ppvs";
+			DateiNamePv = "BeispielPV.pvd";
 			NamePv = "BeispielPV";
-			DateiNameAbv = "BeispielABV.apvs";
+			DateiNameAbv = "BeispielABV.avd";
 			NameAbv = "BeispielABV";
 		} else if(modus == "Normal"){
-			DateiNamePv = "DataPV.ppvs";
+			DateiNamePv = "DataPV.pvd";
 			NamePv = "DataPV";
-			DateiNameAbv = "DataABV.apvs";
+			DateiNameAbv = "DataABV.avd";
 			NameAbv = "DataABV";
 		}
-		Personalverwaltung.getInstance().setPath(DateiNamePv);
-		Arbeitsbereichverwaltung.getInstance().setPath(DateiNameAbv);
+		Personalverwaltung.getInstance();
+		Personalverwaltung.setPath(DateiNamePv);
+		Arbeitsbereichverwaltung.getInstance();
+		Arbeitsbereichverwaltung.setPath(DateiNameAbv);
 	}
 	
 	@Override
@@ -142,7 +144,7 @@ public class Dateizugriff implements DateizugriffIF{
 		 *@description:	legt Backup an und speichert uebergebene Daten in der PV-Datei 
 		 */
 		
-		backup(NamePv,"ppvs");
+		backup(NamePv,"pvd");
 		try {
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(DateiNamePv));
 			out.writeObject((ArrayList<Mitarbeiter>) obj);
@@ -159,7 +161,7 @@ public class Dateizugriff implements DateizugriffIF{
 		 *@description:	legt Backup an und speichert uebergebene Daten in der ABV-Datei 
 		 */
 		
-		backup(NameAbv,"apvs");
+		backup(NameAbv,"avd");
 		try {
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(DateiNameAbv));
 			out.writeObject((ArrayList<Arbeitsbereich>) obj);

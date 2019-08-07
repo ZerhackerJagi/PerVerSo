@@ -1,6 +1,6 @@
 package tests;
 
-public class TestAutoPwd {
+public class TestPwdGen {
 
 	public static void main(String[] args) {
 
