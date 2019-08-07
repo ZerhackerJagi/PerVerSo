@@ -136,6 +136,11 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 
 //******************** LOAD & SAVE ********************
 	
+	public void setModus(String modus) {
+		Dateizugriff data = Dateizugriff.getInstance();
+		data.setDatenBank(modus);
+	}
+	
 	@Override
 	public void speichern() throws Exception {
 		/*@author: 		Soeren Hebestreit
@@ -143,7 +148,7 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 		 *@description:	erzeugt ein Dateizugriff und uebergibt die zu speichernden Daten 
 		 */
 		
-		Dateizugriff data = new Dateizugriff();
+		Dateizugriff data = Dateizugriff.getInstance();
 		data.speichern(bereiche);	
 	}
 			
@@ -154,7 +159,7 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 		 *@description:	erzeugt ein Dateizugriff und laedt Daten in die Mitarbeiterliste
 		 */
 			
-		Dateizugriff data = new Dateizugriff();
+		Dateizugriff data = Dateizugriff.getInstance();
 		bereiche = (ArrayList<Arbeitsbereich>) data.laden();
 		arbeitsbereichnummer  = bereiche.get(bereiche.size()-1).getArbeitsbereichnummer()+1;
 	}

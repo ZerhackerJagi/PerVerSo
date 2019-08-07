@@ -16,6 +16,7 @@ public Arbeitsbereichverwaltung abv;
 	@Test
 	public void AtestInstance() {
 		abv = Arbeitsbereichverwaltung.getInstance();
+		abv.setModus("Test");
 		assertNotNull(abv);
 	}
 	
