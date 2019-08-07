@@ -2,6 +2,8 @@ package gui;
 
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -84,7 +86,30 @@ public class LoginGUI extends JFrame{
 				
 			}
 		});
+		
+		btnAnmelden.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+				if(checkAnmeldung(tfPersonalnummer.getText(), new String(passwordField.getPassword()))) {
+					setVisible(false);
+					if(user.getBerechtigung() instanceof Admin) {
+						new AdminGUI(user.getPersonalnummer());
+						dispose();
+					} else if(user.getBerechtigung() instanceof User){
+						new MitarbeiterGUI(user.getPersonalnummer());
+						dispose();
+					} else {
+						JOptionPane.showMessageDialog(null, "Keine Berechtigung!", null, JOptionPane.INFORMATION_MESSAGE);
+					}
+				}
+				
+			}
+		});
 		btnAnmelden.setBounds(160, 158, 180, 24);
+		getRootPane().setDefaultButton(btnAnmelden);
 		getContentPane().add(btnAnmelden);
 		
 		setVisible(true);
