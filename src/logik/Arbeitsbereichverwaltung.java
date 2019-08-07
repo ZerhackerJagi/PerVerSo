@@ -17,7 +17,7 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 	private static Arbeitsbereichverwaltung uniqueInstance;
 	private static int arbeitsbereichnummer;
 	private static ArrayList <Arbeitsbereich> bereiche;
-	private static String path = "DataABV.apvs";
+	private static String path = "DataABV.avd";
 	
 //******************** KONSTRUKTOR ********************
 		

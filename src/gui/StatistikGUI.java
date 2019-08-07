@@ -13,6 +13,7 @@ import java.awt.Color;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -42,7 +43,8 @@ public class StatistikGUI extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	private JTable table;
-	private Object selectedAB=Arbeitsbereichverwaltung.getBereiche().get(1);
+	private Datum selectedDate = new Datum();
+	private Object selectedAB=Arbeitsbereichverwaltung.getBereiche().get(0);
 	
 //******************** KONSTRUKTOR ********************
 	
@@ -96,6 +98,24 @@ public class StatistikGUI extends JFrame{
 		lblJahr.setBounds(40, 120, 100, 24);
 		getContentPane().add(lblJahr);
 		
+		JTextField tfDay = new JTextField();
+		tfDay.setText(selectedDate.getTag()+"");
+		tfDay.setBounds(172, 118, 40, 24);
+		getContentPane().add(tfDay);
+		
+		JLabel lblPunkt1 = new JLabel(".",0);
+		lblPunkt1.setBounds(212, 120, 10, 20);
+		getContentPane().add(lblPunkt1);
+		
+		JTextField tfMonth = new JTextField();
+		tfMonth.setText(selectedDate.getMonat()+"");
+		tfMonth.setBounds(222, 118, 40, 24);
+		getContentPane().add(tfMonth);
+		
+		JLabel lblPunkt2 = new JLabel(".",0);
+		lblPunkt2.setBounds(262, 120, 10, 20);
+		getContentPane().add(lblPunkt2);
+		
 		int yearActually = new Datum().getJahr();
 		int yearOldest = yearActually;
 		// Frühestes Einstellungsdatum finden
@@ -113,7 +133,7 @@ public class StatistikGUI extends JFrame{
 				
 		JComboBox<String> comboBoxYear = new JComboBox<String>(lastYears);
 		comboBoxYear.setBackground(new Color(255,255,255));
-		comboBoxYear.setBounds(172, 118, 200, 24);
+		comboBoxYear.setBounds(272, 118, 100, 24);
 		getContentPane().add(comboBoxYear);
 		
 		JCheckBox ckbMitUnternehmen = new JCheckBox("mit Unternehmen");
@@ -169,6 +189,21 @@ public class StatistikGUI extends JFrame{
 		JButton btnAktualisieren = new JButton("Aktualisieren");
 		btnAktualisieren.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				try {
+					selectedDate = new Datum(Integer.parseInt(tfDay.getText()), Integer.parseInt(tfMonth.getText()), Integer.parseInt((String) comboBoxYear.getSelectedItem()));
+				} catch (Exception e0) {
+					try {
+						selectedDate = new Datum(1, Integer.parseInt(tfMonth.getText()), Integer.parseInt((String) comboBoxYear.getSelectedItem()));
+					} catch (Exception e1) {
+						try {
+							selectedDate = new Datum(Integer.parseInt(tfDay.getText()), 1, Integer.parseInt((String) comboBoxYear.getSelectedItem()));
+						} catch (Exception e2) {
+							selectedDate = new Datum(1, 1, Integer.parseInt((String) comboBoxYear.getSelectedItem()));
+						}
+					}
+				}
+				System.out.println(selectedDate);
+				
 				// Alte Daten löschen
 				try{
 					panel.remove(table);
