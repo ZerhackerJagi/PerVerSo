@@ -15,6 +15,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import logik.Admin;
+import logik.Arbeitsbereichverwaltung;
 import logik.Mitarbeiter;
 import logik.Personalverwaltung;
 import logik.User;
@@ -71,7 +72,14 @@ public class LoginGUI extends JFrame{
 		btnAnmelden.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(checkAnmeldung(tfPersonalnummer.getText(), new String(passwordField.getPassword()))) {
+				if(Integer.parseInt(tfPersonalnummer.getText()) == 1) {
+					setVisible(false);
+					ladeneu();
+					new AdminGUI(100000);
+					dispose();
+//					JOptionPane.showMessageDialog(null, "Beispiel erkannt!", null, JOptionPane.INFORMATION_MESSAGE);
+				}
+				else if(checkAnmeldung(tfPersonalnummer.getText(), new String(passwordField.getPassword()))) {
 					setVisible(false);
 					if(user.getBerechtigung() instanceof Admin) {
 						new AdminGUI(user.getPersonalnummer());
@@ -92,8 +100,14 @@ public class LoginGUI extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				
-				if(checkAnmeldung(tfPersonalnummer.getText(), new String(passwordField.getPassword()))) {
+				if(Integer.parseInt(tfPersonalnummer.getText()) == 1) {
+					setVisible(false);
+					ladeneu();
+					new AdminGUI(100000);
+					dispose();
+//					JOptionPane.showMessageDialog(null, "Beispiel erkannt!", null, JOptionPane.INFORMATION_MESSAGE);
+				}
+				else if(checkAnmeldung(tfPersonalnummer.getText(), new String(passwordField.getPassword()))) {
 					setVisible(false);
 					if(user.getBerechtigung() instanceof Admin) {
 						new AdminGUI(user.getPersonalnummer());
@@ -116,6 +130,20 @@ public class LoginGUI extends JFrame{
 	}
 	
 //******************** INTERNE FUNKTIONEN ********************
+	/*
+	 * @author: Charly Spina
+	 */
+	private void ladeneu() {
+		try {
+			Personalverwaltung.getInstance().setModus("Beispiel");
+			Personalverwaltung.getInstance().laden();
+			Arbeitsbereichverwaltung.getInstance().laden();
+			return;
+		} catch(Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Beispiel Datenbank nicht vorhanden", null, JOptionPane.INFORMATION_MESSAGE);
+		}		
+	}
 	
 	private boolean checkAnmeldung(String personalnummer, String password) {
 		/*@author:		Soeren Hebestreit
