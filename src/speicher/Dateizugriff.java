@@ -9,7 +9,9 @@ import java.util.ArrayList;
 
 import interfaces.DateizugriffIF;
 import logik.Arbeitsbereich;
+import logik.Arbeitsbereichverwaltung;
 import logik.Mitarbeiter;
+import logik.Personalverwaltung;
 
 public class Dateizugriff implements DateizugriffIF{
 	
@@ -60,7 +62,7 @@ public class Dateizugriff implements DateizugriffIF{
 		 */
 		
 		try {
-			ObjectInputStream in = new ObjectInputStream(new FileInputStream("DataPV.pvs"));
+			ObjectInputStream in = new ObjectInputStream(new FileInputStream(Personalverwaltung.getPath()));
 			ArrayList <Mitarbeiter> AL = (ArrayList <Mitarbeiter>)in.readObject();
 			in.close();		
 			return AL;
@@ -76,7 +78,7 @@ public class Dateizugriff implements DateizugriffIF{
 		 */
 		
 		try {
-			ObjectInputStream in = new ObjectInputStream(new FileInputStream("DataABV.pvs"));
+			ObjectInputStream in = new ObjectInputStream(new FileInputStream(Arbeitsbereichverwaltung.getPath()));
 			ArrayList <Arbeitsbereich> AL = (ArrayList <Arbeitsbereich>)in.readObject();
 			in.close();		
 			return AL;
@@ -111,9 +113,9 @@ public class Dateizugriff implements DateizugriffIF{
 		 *@description:	legt Backup an und speichert uebergebene Daten in der PV-Datei 
 		 */
 		
-		backup("DataPV");
+		backup("DataPV","ppvs");
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("DataPV.pvs"));
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("DataPV.ppvs"));
 			out.writeObject((ArrayList<Mitarbeiter>) obj);
 			out.close();
 			return true;
@@ -128,9 +130,9 @@ public class Dateizugriff implements DateizugriffIF{
 		 *@description:	legt Backup an und speichert uebergebene Daten in der ABV-Datei 
 		 */
 		
-		backup("DataABV");
+		backup("DataABV","apvs");
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("DataABV.pvs"));
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("DataABV.apvs"));
 			out.writeObject((ArrayList<Arbeitsbereich>) obj);
 			out.close();
 			return true;
@@ -139,14 +141,14 @@ public class Dateizugriff implements DateizugriffIF{
 		}	
 	}
 		
-	private boolean backup(String name) {
+	private boolean backup(String name, String expansion) {
 		/*@author: 		Soeren Hebestreit
 		 *@date: 		21.06.2019
 		 *@description:	legt ein Backup an 
 		 */
 		
-		File alt = new File(name+".pvs");
-		File neu = new File(name+"_old.pvs");
+		File alt = new File(name+"."+expansion);
+		File neu = new File(name+"_old."+expansion);
 		neu.delete();
 		return alt.renameTo(neu);
 	}

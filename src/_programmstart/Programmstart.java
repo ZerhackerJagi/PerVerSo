@@ -1,16 +1,16 @@
 package _programmstart;
 
-import javax.swing.JOptionPane;
-
 import gui.LoginGUI;
-import logik.*;
+import logik.Arbeitsbereichverwaltung;
+import logik.Personalverwaltung;
+
 
 public class Programmstart {
 
 	public static void main(String[] args) throws Exception {		
 		/*@author:		Soeren Hebestreit
 		 *@date: 		19.07.2019
-		 *@description: Programmstart: PV und ABV laden, GUI starten
+		 *@description: Programmstart: PV und ABV laden, GUI starten | Initialisieren
 		 */
 
 		Personalverwaltung pv = Personalverwaltung.getInstance();
@@ -18,13 +18,9 @@ public class Programmstart {
 		try {
 			pv.laden();
 			abv.laden();
+			new LoginGUI();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Datenbank angelegt.", null, JOptionPane.INFORMATION_MESSAGE);
-			pv.speichern();
-			abv.speichern();
+			new Init();
 		}	
-		
-		new LoginGUI();
 	}
-	
 }

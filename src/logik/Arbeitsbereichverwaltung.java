@@ -17,6 +17,7 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 	private static Arbeitsbereichverwaltung uniqueInstance;
 	private static int arbeitsbereichnummer;
 	private static ArrayList <Arbeitsbereich> bereiche;
+	private static String path = "DataABV.apvs";
 	
 //******************** KONSTRUKTOR ********************
 		
@@ -166,6 +167,14 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 
 	public static void setBereiche(ArrayList<Arbeitsbereich> bereiche) {
 		Arbeitsbereichverwaltung.bereiche = bereiche;
+	}
+	
+	public static String getPath() {
+		return path;
+	}
+
+	public static void setPath(String path) {
+		Arbeitsbereichverwaltung.path = path;
 	}
 	
 //********************Testumgebung**************************

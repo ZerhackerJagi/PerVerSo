@@ -18,6 +18,7 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 	private static Personalverwaltung uniqueInstance; 	
 	private static int personalnummer;
 	private static ArrayList <Mitarbeiter> aMA;
+	private static String path = "DataPV.ppvs";
 		
 //******************** KONSTRUKTOR ********************
 
@@ -204,6 +205,14 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 
 	public static void setaMA(ArrayList<Mitarbeiter> aMA) {
 		Personalverwaltung.aMA = aMA;
+	}
+	
+	public static String getPath() {
+		return path;
+	}
+
+	public static void setPath(String path) {
+		Personalverwaltung.path = path;
 	}
 	
 //******************** TESTUMGEBUNG **************************
