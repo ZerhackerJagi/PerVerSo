@@ -1,24 +1,15 @@
 package gui;
 
-import java.awt.Font;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.*;
+import javax.swing.*;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-
-import logik.Admin;
-import logik.Arbeitsbereichverwaltung;
-import logik.Mitarbeiter;
-import logik.Personalverwaltung;
-import logik.User;
+import _programmstart.Programmstart;
+import logik.*;
 
 public class LoginGUI extends JFrame{
 	
@@ -34,6 +25,7 @@ public class LoginGUI extends JFrame{
 		 *@date: 		xx.xx.2019, 19.07.2019
 		 *@description: Login GUI
 		 */
+		setIconImages(Programmstart.iconlist);
 		
 		setSize(480,240);
 		setLocationRelativeTo(null);

@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import _programmstart.Programmstart;
 import logik.Admin;
 import logik.Arbeitsbereichverwaltung;
 import logik.Mitarbeiter;
@@ -32,6 +33,8 @@ public class EditBerechtigungGUI extends JFrame{
 		 *@date: 		24.07.2019
 		 *@description: Mitarbeiterberechtigung editieren
 		 */	
+		
+		setIconImages(Programmstart.iconlist);
 		
 		setSize(400, 320);
 		setLocationRelativeTo(null);

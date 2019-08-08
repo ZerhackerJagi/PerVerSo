@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import _programmstart.Programmstart;
 import logik.Admin;
 import logik.Mitarbeiter;
 import logik.Personalverwaltung;
@@ -29,6 +30,9 @@ public class EditPasswortGUI extends JFrame{
 		 *@date: 		24.07.2019
 		 *@description: Mitarbeiterpasswort setzen
 		 */	
+		
+		
+		setIconImages(Programmstart.iconlist);
 		
 		setSize(400, 320);
 		setLocationRelativeTo(null);

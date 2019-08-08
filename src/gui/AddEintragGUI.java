@@ -9,13 +9,17 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import _programmstart.Programmstart;
 import extern.Datum;
 import logik.Admin;
 import logik.Mitarbeiter;
 import logik.Personalverwaltung;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.awt.Color;
 
 public class AddEintragGUI extends JFrame{
@@ -31,6 +35,8 @@ public class AddEintragGUI extends JFrame{
 		 *@date: 		22.07.2019
 		 *@description: Mitarbeiter editieren oder anlegen
 		 */	
+		
+		setIconImages(Programmstart.iconlist);
 		
 		setSize(400, 320);
 		setLocationRelativeTo(null);

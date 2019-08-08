@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import _programmstart.Programmstart;
 import extern.Datum;
 import logik.Admin;
 import logik.Arbeitsbereich;
@@ -33,6 +34,8 @@ public class EditMitarbeiterGUI extends JFrame{
 		 *@date: 		22.07.2019
 		 *@description: Mitarbeiter editieren oder anlegen
 		 */	
+		
+		setIconImages(Programmstart.iconlist);
 		
 		setSize(400, 500);
 		setLocationRelativeTo(null);

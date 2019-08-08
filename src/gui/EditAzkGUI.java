@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import _programmstart.Programmstart;
 import logik.Admin;
 import logik.Eintrag;
 import logik.Krankheitseintrag;
@@ -57,7 +58,8 @@ public class EditAzkGUI extends JFrame{
 		 *@date: 		27.07.2019
 		 *@description: Arbeitszeitkonto verwalten
 		 */	
-	
+		setIconImages(Programmstart.iconlist);
+		
 		setSize(800, 640);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

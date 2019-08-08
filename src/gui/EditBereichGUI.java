@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import _programmstart.Programmstart;
 import logik.Admin;
 import logik.Arbeitsbereich;
 import logik.Arbeitsbereichverwaltung;
@@ -31,6 +32,8 @@ public class EditBereichGUI extends JFrame{
 		 *@date: 		25.07.2019
 		 *@description: Mitarbeiter editieren oder anlegen
 		 */	
+		
+		setIconImages(Programmstart.iconlist);
 		
 		setSize(400, 320);
 		setLocationRelativeTo(null);

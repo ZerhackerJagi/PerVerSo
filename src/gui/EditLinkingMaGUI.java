@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import _programmstart.Programmstart;
 import extern.Datum;
 import logik.Admin;
 import logik.Arbeitsbereich;
@@ -35,6 +36,8 @@ public class EditLinkingMaGUI extends JFrame{
 		 *@date: 		25.07.2019
 		 *@description: Zugehörigkeit eines Mitarbeiters ändern
 		 */	
+		
+		setIconImages(Programmstart.iconlist);
 		
 		setSize(400, 500);
 		setLocationRelativeTo(null);

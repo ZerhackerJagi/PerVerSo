@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import _programmstart.Programmstart;
 import extern.Datum;
 import logik.Mitarbeiter;
 import logik.Personalverwaltung;
@@ -29,6 +30,8 @@ public class ShowAzkGUI extends JFrame{
 		 *				1. Soll + Ueberminuten mit Warnung falls nahe/ueber Grenze
 		 *				2. Urlaub + genommen und die Urlaubseintraege des aktuellen Jahres
 		 */
+		
+		setIconImages(Programmstart.iconlist);
 		
 		setSize(360, 640);
 		setLocationRelativeTo(null);

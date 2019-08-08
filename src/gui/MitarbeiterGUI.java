@@ -5,6 +5,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import _programmstart.Programmstart;
 import logik.Arbeitsbereichverwaltung;
 import logik.Mitarbeiter;
 import logik.Personalverwaltung;
@@ -35,6 +36,8 @@ public class MitarbeiterGUI extends JFrame{
 		 *@date: 		xx.xx.2019, 19.07.2019
 		 *@description: Mitarbeiter GUI
 		 */
+		
+		setIconImages(Programmstart.iconlist);
 		
 		setSize(240, 480);
 		setLocationRelativeTo(null);

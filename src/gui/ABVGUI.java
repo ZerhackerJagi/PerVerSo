@@ -11,6 +11,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import _programmstart.Programmstart;
 import logik.Admin;
 import logik.Arbeitsbereich;
 import logik.Arbeitsbereichverwaltung;
@@ -18,6 +19,8 @@ import logik.Mitarbeiter;
 import logik.Personalverwaltung;
 
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -46,6 +49,9 @@ public class ABVGUI extends JFrame{
 		 *@description: Hauptmenue Arbeitsbereichverwaltung, Arbeitsbereichauswahl
 		 */	
 
+
+		setIconImages(Programmstart.iconlist);
+		
 		setSize(800, 640);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

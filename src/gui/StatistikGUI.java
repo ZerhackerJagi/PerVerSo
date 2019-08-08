@@ -30,6 +30,7 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.TextAnchor;
 
+import _programmstart.Programmstart;
 import extern.Datum;
 
 import java.awt.event.ActionListener;
@@ -61,6 +62,8 @@ public class StatistikGUI extends JFrame{
 		 *@date: 		20.07.2019, 31.07.2019
 		 *@description: GUI zur Ansicht der Statistiken, Arbeitsbereichsauswahl
 		 */
+		
+		setIconImages(Programmstart.iconlist);
 		
 		setSize(600, 640);
 		setLocationRelativeTo(null);

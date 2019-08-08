@@ -6,14 +6,19 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+
+import _programmstart.Programmstart;
 import logik.Admin;
 import logik.Mitarbeiter;
 import logik.Personalverwaltung;
 import logik.User;
 
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.awt.Color;
 
 public class ChangePasswortGUI extends JFrame{
@@ -29,6 +34,7 @@ public class ChangePasswortGUI extends JFrame{
 		 *@date: 		24.07.2019
 		 *@description: Passwort aendern
 		 */	
+		setIconImages(Programmstart.iconlist);
 		
 		setSize(400, 320);
 		setLocationRelativeTo(null);

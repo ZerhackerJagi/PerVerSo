@@ -11,6 +11,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import _programmstart.Programmstart;
 import logik.Arbeitsbereich;
 import logik.Arbeitsbereichverwaltung;
 import logik.Mitarbeiter;
@@ -49,6 +50,8 @@ public class PVGUI extends JFrame{
 		 *@description: Hauptmenue Personalverwaltung, Mitarbeiterauswahl
 		 */	
 	
+		setIconImages(Programmstart.iconlist);
+		
 		setSize(800, 640);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

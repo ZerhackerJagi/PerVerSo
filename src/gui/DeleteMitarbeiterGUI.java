@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import _programmstart.Programmstart;
 import extern.Datum;
 import logik.Admin;
 import logik.Arbeitsbereich;
@@ -32,6 +33,7 @@ public class DeleteMitarbeiterGUI extends JFrame{
 		 *@date: 		24.07.2019
 		 *@description: Mitarbeiter loeschen oder ausscheiden
 		 */	
+		setIconImages(Programmstart.iconlist);
 		
 		setSize(400, 500);
 		setLocationRelativeTo(null);

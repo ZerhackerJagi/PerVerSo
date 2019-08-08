@@ -8,6 +8,8 @@ import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+
+import _programmstart.Programmstart;
 import comparatoren.MitarbeiterNameComparator;
 import comparatoren.MitarbeiterNummerComparator;
 import logik.Arbeitsbereich;
@@ -35,6 +37,8 @@ public class ShowMitarbeiterABGUI extends JFrame{
 		 *@date: 		27.07.2019
 		 *@description: GUI zur Ansicht der Mitarbeiter eines Bereiches
 		 */
+		
+		setIconImages(Programmstart.iconlist);
 		
 		setSize(400, 500);
 		setLocationRelativeTo(null);

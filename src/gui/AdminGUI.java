@@ -5,14 +5,18 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import _programmstart.Programmstart;
 import logik.Arbeitsbereichverwaltung;
 import logik.Mitarbeiter;
 import logik.Personalverwaltung;
@@ -39,6 +43,7 @@ public class AdminGUI extends JFrame{
 		 *@date: 		xx.xx.2019, 20.07.2019
 		 *@description: Admin GUI
 		 */
+		setIconImages(Programmstart.iconlist);
 		
 		setSize(240, 480);
 		setLocationRelativeTo(null);

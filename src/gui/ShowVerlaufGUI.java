@@ -11,6 +11,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import _programmstart.Programmstart;
 import logik.Arbeitsbereich;
 import logik.Arbeitsbereichverwaltung;
 import logik.Mitarbeiter;
@@ -36,6 +37,8 @@ public class ShowVerlaufGUI extends JFrame{
 		 *@date: 		20.07.2019
 		 *@description: GUI zur Ansicht der Zugehörigkeiten eines Mitarbeiters
 		 */
+		
+		setIconImages(Programmstart.iconlist);
 		
 		setSize(360, 640);
 		setLocationRelativeTo(null);
