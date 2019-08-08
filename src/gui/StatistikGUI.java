@@ -18,9 +18,17 @@ import javax.swing.JTextField;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.entity.CategoryItemEntity;import org.jfree.chart.labels.CategoryItemLabelGenerator;
+import org.jfree.chart.labels.ItemLabelAnchor;
+import org.jfree.chart.labels.ItemLabelPosition;
+import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.CategoryItemRenderer;
+import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.ui.TextAnchor;
 
 import extern.Datum;
 
@@ -136,7 +144,7 @@ public class StatistikGUI extends JFrame{
 		comboBoxYear.setBounds(272, 118, 100, 24);
 		getContentPane().add(comboBoxYear);
 		
-		JCheckBox ckbMitUnternehmen = new JCheckBox("mit Unternehmen");
+		JCheckBox ckbMitUnternehmen = new JCheckBox("prozentual");
 		ckbMitUnternehmen.setBackground(new Color(255,255,255));
 		ckbMitUnternehmen.setBounds(412, 78, 124, 24);
 		getContentPane().add(ckbMitUnternehmen);
@@ -227,14 +235,14 @@ public class StatistikGUI extends JFrame{
 					
 					DefaultCategoryDataset dcd = new DefaultCategoryDataset();
 					System.out.println("Arbeitsbereich");
-					a.calcAlterPercent(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr);
+					a.calcAlterPercent(gewaehlterAB.getArbeitsbereichnummer(), selectedDate);
 					dcd.setValue(a.getAgeUnder30p(), "Altersanteil Arbeitsbereich (%)", "unter 30");
 					dcd.setValue(a.getAge30to39p(), "Altersanteil Arbeitsbereich (%)", "30 - 39");
 					dcd.setValue(a.getAge40to50p(), "Altersanteil Arbeitsbereich (%)", "40 - 50");
 					dcd.setValue(a.getAgeOver50p(), "Altersanteil Arbeitsbereich (%)", "über 50");
 					
 					System.out.println("\n********************\nGesamtunternehmen");
-					a.calcAlterPercent(-1,gewaehltesJahr);
+					a.calcAlterPercent(-1,selectedDate);
 					dcd.setValue(a.getAgeUnder30Allp(), "Altersanteil Unternehmen (%)", "unter 30");
 					dcd.setValue(a.getAge30to39Allp(), "Altersanteil Unternehmen (%)", "30 - 39");
 					dcd.setValue(a.getAge40to50Allp(), "Altersanteil Unternehmen (%)", "40 - 50");
@@ -252,7 +260,7 @@ public class StatistikGUI extends JFrame{
 					
 					// Barchart für Geschlechterverteilung (Arbeitsbereich)
 					
-					a.calcGeschlechtPercent(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr);
+					a.calcGeschlechtPercent(gewaehlterAB.getArbeitsbereichnummer(), selectedDate);
 					dcdGender.setValue(a.getCountGenderMp(), "Geschlechterverteilung Arbeitsbereich (%)", "m");
 					dcdGender.setValue(a.getCountGenderWp(), "Geschlechterverteilung Arbeitsbereich (%)", "w");
 					dcdGender.setValue(a.getCountGenderDp(), "Geschlechterverteilung Arbeitsbereich (%)", "d");
@@ -260,7 +268,7 @@ public class StatistikGUI extends JFrame{
 					
 					// Barchart für Geschlechterverteilung (Unternehmen)
 					
-					a.calcGeschlechtPercent(-1, gewaehltesJahr);
+					a.calcGeschlechtPercent(-1, selectedDate);
 					dcdGender.setValue(a.getCountGenderMAllp(), "Geschlechterverteilung Unternehmen (%)", "m");
 					dcdGender.setValue(a.getCountGenderWAllp(), "Geschlechterverteilung Unternehmen (%)", "w");
 					dcdGender.setValue(a.getCountGenderDAllp(), "Geschlechterverteilung Unternehmen (%)", "d");
@@ -273,32 +281,83 @@ public class StatistikGUI extends JFrame{
 					
 				} else {
 				
-					// Barchart für Altersverteilung
+					// **************************************************************************
+					// ******************  Barchart für Altersverteilung ************************
 					
-					a.showDurchschnittsalter(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr);
+					a.showDurchschnittsalter(gewaehlterAB.getArbeitsbereichnummer(), selectedDate);
 					DefaultCategoryDataset dcd = new DefaultCategoryDataset();
 					dcd.setValue(a.getAgeUnder30(), "Alter Arbeitsbereich", "unter 30");
 					dcd.setValue(a.getAge30to39(), "Alter Arbeitsbereich", "30 - 39");
 					dcd.setValue(a.getAge40to50(), "Alter Arbeitsbereich", "40 - 50");
 					dcd.setValue(a.getAgeOver50(), "Alter Arbeitsbereich", "über 50");
 					
+					a.showDurchschnittsalter(-1, selectedDate);
+//					DefaultCategoryDataset dcd = new DefaultCategoryDataset();
+					dcd.setValue(a.getAgeUnder30All(), "Alter Unternehmen", "unter 30");
+					dcd.setValue(a.getAge30to39All(), "Alter Unternehmen", "30 - 39");
+					dcd.setValue(a.getAge40to50All(), "Alter Unternehmen", "40 - 50");
+					dcd.setValue(a.getAgeOver50All(), "Alter Unternehmen", "über 50");
+					
+					// Größten Wert rausfinden für y-Achse (Alter)
+					double maxValueAge=0;
+					if(a.getAgeUnder30All()>maxValueAge) {maxValueAge = a.getAgeUnder30All();}
+					if(a.getAge30to39All()>maxValueAge) {maxValueAge = a.getAge30to39All();}
+					if(a.getAge40to50All()>maxValueAge) {maxValueAge = a.getAge40to50All();}
+					if(a.getAgeOver50All()>maxValueAge) {maxValueAge = a.getAgeOver50All();}
+					
 					JFreeChart jchart = ChartFactory.createBarChart("Altersverteilung", "Altersgruppe", "Häufigkeit", dcd, PlotOrientation.VERTICAL, true, true, false);
 					CategoryPlot plot = jchart.getCategoryPlot();
 					plot.setRangeGridlinePaint(Color.black);
 					
+					// Zahlen über Graph schreiben
+					
+					CategoryItemRenderer renderer = ((CategoryPlot) jchart.getCategoryPlot()).getRenderer();
+					renderer.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator());
+					renderer.setBaseItemLabelsVisible(true);
+					ItemLabelPosition position = new ItemLabelPosition(ItemLabelAnchor.OUTSIDE12, TextAnchor.BOTTOM_CENTER);
+					renderer.setBasePositiveItemLabelPosition(position);
+					
+					// Größe der y-Achse festlegen
+					NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+					rangeAxis.setRange(0.0, (maxValueAge+5));
+					
 					chartPanel = new ChartPanel(jchart);
 					
-					// Barchart für Geschlechterverteilung
+					// ********************************************************************************
+					// ******************  Barchart für Geschlechterverteilung ************************
 					
-					a.showGeschlechterverteilung(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr);
+					a.showGeschlechterverteilung(gewaehlterAB.getArbeitsbereichnummer(), selectedDate);
 					DefaultCategoryDataset dcdGender = new DefaultCategoryDataset();
 					dcdGender.setValue(a.getCountGenderM(), "Geschlecht", "m");
 					dcdGender.setValue(a.getCountGenderW(), "Geschlecht", "w");
 					dcdGender.setValue(a.getCountGenderD(), "Geschlecht", "d");
-					//dcdGender.setValue(a.getCountGender(), "Geschlecht", "unbekannt"); // gibt es nicht
+					
+					a.showGeschlechterverteilung(-1, selectedDate);
+					dcdGender.setValue(a.getCountGenderMAllp(), "Geschlecht Unternehmen", "m");
+					dcdGender.setValue(a.getCountGenderWAllp(), "Geschlecht Unternehmen", "w");
+					dcdGender.setValue(a.getCountGenderDAllp(), "Geschlecht Unternehmen", "d");
 					
 					JFreeChart jchartGender = ChartFactory.createBarChart("Geschlechterverteilung", "Geschlecht", "Häufigkeit", dcdGender, PlotOrientation.VERTICAL, true, true, false);
 					CategoryPlot plotGender = jchartGender.getCategoryPlot();
+					
+					// Zahlen über Graph schreiben
+					
+					CategoryItemRenderer rendererGender = ((CategoryPlot) jchartGender.getCategoryPlot()).getRenderer();
+					rendererGender.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator());
+					rendererGender.setBaseItemLabelsVisible(true);
+					ItemLabelPosition positionGender = new ItemLabelPosition(ItemLabelAnchor.OUTSIDE12, TextAnchor.BOTTOM_CENTER);
+					renderer.setBasePositiveItemLabelPosition(positionGender);
+					
+					// Größten Wert rausfinden für y-Achse Geschlecht
+					double maxValueGender=0;
+					if(a.getCountGenderMAllp()>maxValueGender) {maxValueGender = a.getCountGenderMAllp();}
+					if(a.getCountGenderWAllp()>maxValueGender) {maxValueGender = a.getCountGenderWAllp();}
+					if(a.getCountGenderDAllp()>maxValueGender) {maxValueGender = a.getCountGenderDAllp();}
+					
+					// Größe der y-Achse festlegen
+					NumberAxis rangeAxisGender = (NumberAxis) plotGender.getRangeAxis();
+					rangeAxisGender.setRange(0.0, (maxValueGender+5));
+					
 					plotGender.setRangeGridlinePaint(Color.black);
 					chartPanelGender = new ChartPanel(jchartGender);
 				}
@@ -314,14 +373,14 @@ public class StatistikGUI extends JFrame{
 						new Object[][] {
 							{null,"<html><b>"+gewaehlterAB.getName()+"</b></html>","<html><b>Unternehmen</b></html>"},
 							{null,null,null},
-							{"     Durchschnittsalter", ""+a.showDurchschnittsalter(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr),a.showDurchschnittsalter(-1, gewaehltesJahr)},
+							{"     Durchschnittsalter", ""+a.showDurchschnittsalter(gewaehlterAB.getArbeitsbereichnummer(), selectedDate),a.showDurchschnittsalter(-1, selectedDate)},
 							{"     Fehltage gesamt", a.showFehltage(gewaehlterAB.getArbeitsbereichnummer()),a.showFehltage(-1)},
 							{"     maximale Fehltage", a.showFehltageMaximal(gewaehlterAB.getArbeitsbereichnummer()),a.showFehltageMaximal(-1)},
 							{"     Überstunden", a.showUeberstunden(gewaehlterAB.getArbeitsbereichnummer()),a.showUeberstunden(-1)},
 							{"     Überstunden im Durchschnitt", a.showUeberstundenSchnitt(gewaehlterAB.getArbeitsbereichnummer()),a.showUeberstundenSchnitt(-1)},
-							{"     Flukuationsquote", a.showFluktuationsquote(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr),a.showFluktuationsquoteAll(gewaehltesJahr)},
+							{"     Flukuationsquote", a.showFluktuationsquote(gewaehlterAB.getArbeitsbereichnummer(), selectedDate),a.showFluktuationsquoteAll(selectedDate)},
 							//{"     Flukuationsquote Gesamt", a.showFluktuationsquoteAll(gewaehltesJahr),null},
-							{"     Anzahl MitarbeiterInnen",a.showAnzahlMitarbeiterInArbeitsbereich(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr),a.showAnzahlMitarbeiterImUnternehmen(gewaehltesJahr)},
+							{"     Anzahl MitarbeiterInnen",a.showAnzahlMitarbeiterInArbeitsbereich(gewaehlterAB.getArbeitsbereichnummer(), selectedDate),a.showAnzahlMitarbeiterImUnternehmen(selectedDate)},
 							{null,null,null},
 						},
 						new String[] {
@@ -333,10 +392,10 @@ public class StatistikGUI extends JFrame{
 							new Object[][] {
 								{null,"<html><b>"+gewaehlterAB.getName()+"</b></html>","<html><b>Unternehmen</b></html>"},
 								{null,null,null},
-								{"     Durchschnittsalter", ""+a.showDurchschnittsalter(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr),a.showDurchschnittsalter(-1, gewaehltesJahr)},
-								{"     Flukuationsquote", a.showFluktuationsquote(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr),a.showFluktuationsquoteAll(gewaehltesJahr)},
+								{"     Durchschnittsalter", ""+a.showDurchschnittsalter(gewaehlterAB.getArbeitsbereichnummer(), selectedDate),a.showDurchschnittsalter(-1, selectedDate)},
+								{"     Flukuationsquote", a.showFluktuationsquote(gewaehlterAB.getArbeitsbereichnummer(), selectedDate),a.showFluktuationsquoteAll(selectedDate)},
 								//{"     Flukuationsquote Gesamt", a.showFluktuationsquoteAll(gewaehltesJahr),null},
-								{"     Anzahl MitarbeiterInnen",a.showAnzahlMitarbeiterInArbeitsbereich(gewaehlterAB.getArbeitsbereichnummer(), gewaehltesJahr),a.showAnzahlMitarbeiterImUnternehmen(gewaehltesJahr)},
+								{"     Anzahl MitarbeiterInnen",a.showAnzahlMitarbeiterInArbeitsbereich(gewaehlterAB.getArbeitsbereichnummer(), selectedDate),a.showAnzahlMitarbeiterImUnternehmen(selectedDate)},
 								{null,null,null},
 							},
 							new String[] {

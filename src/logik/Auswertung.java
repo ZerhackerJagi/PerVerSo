@@ -109,133 +109,41 @@ public class Auswertung {
 	
 	
 
-	public String showDurchschnittsalter(int arbeitsbereichnummer, int selectedYear) {
+	public String showDurchschnittsalter(int arbeitsbereichnummer, Datum selectedDate) {
 		/* @author: 	Jakob Küchler
 		 * @date: 		31.07.2019
 		 * @description:Gibt das Durchschnittsalter der aktuellen Mitarbeiter aus
 		 */
 		
 		
-		int Gesamtalter = 0;int aktiveMA = 0;Datum selectedDate = new Datum(selectedYear);
+		int Gesamtalter = 0;int aktiveMA = 0;
 		
 		
 		resetAgeValues();
 		
 		
-		// Test ob das Jahr das Aktuelle ist.
-		if(selectedYear != (new Datum()).getJahr()) {
-			// Mitarbeiter durchgehen
-			for(int i = 0; i<Personalverwaltung.getaMA().size();i++) {
-				
-				// Test ob MA zu dem Zeitpunkt schon angestellt war
-				Mitarbeiter ma = Personalverwaltung.getaMA().get(i);
-				if(ma.getEinstellungsdatum().compareTo(selectedDate)==1) {} 
-				else {
-					// MA war schon angestellt zu dem Zeitpunkt
-					if(arbeitsbereichnummer==-1) {
-						// Gesamtunternehmensauswertung
-						int j = 0;
-						ArrayList<Zugehoerigkeit> zugListe = ma.getZugehoerigkeit();
-						
-						if(zugListe.size()==1) {							
-						} else {
-							
-							int verbleibend = zugListe.size();
-							while(zugListe.get(j).getStart().compareTo(selectedDate)==-1&&(verbleibend>0)) {
-								j++;
-								verbleibend = zugListe.size()-j;
-								
-								
-							}
-							j--;
-						}
-						if(zugListe.get(j).getArbeitsbereichnummer()!=abNrAusgeschieden) {
-							Gesamtalter = Gesamtalter + ma.getAlter();
-							aktiveMA++;
-							if(ma.getAlter()<30) 							{ageUnder30All++;} 
-							else if(ma.getAlter()>=30&&ma.getAlter()<40)	{age30to39All++;} 
-							else if(ma.getAlter()>=40&&ma.getAlter()<=50) 	{age40to50All++;}
-							else 											{ageOver50All++;}
-							
-						}
-						
-						
-					} else {
-						// Auswertung d. Alters für Arbeitsbereich
-						boolean isInAB = false;
-						
-						ArrayList<Zugehoerigkeit> zugListe = ma.getZugehoerigkeit();
-						
-						
-						if(zugListe.size()>1) {
-							// War in mehr als einer Abteilung
-							
-							int j = 0;
-							int verbleibend = zugListe.size();
-							// Solange Startdatum f. Abteilung kleiner als selectedDate ist gehe Liste durch
-							while(zugListe.get(j).getStart().compareTo(selectedDate)==-1&&verbleibend>=0) {
-								j++;
-								verbleibend = zugListe.size()-j;
-							}
-							isInAB = (zugListe.get(j).getArbeitsbereichnummer()==arbeitsbereichnummer);
-							
-						} else {
-							// Ist nur in einer Abteilung - nämlich der aktuellen
-							isInAB=(ma.getActualAB().getArbeitsbereichnummer()==arbeitsbereichnummer);
-						}
-						
-						// MA ist in Arbeitsbereich zu dem gefragten Zeitpunkt
-						if(isInAB) {
-							
-							Gesamtalter = Gesamtalter + ma.getAlter();
-							aktiveMA++;
-							if(ma.getAlter()<30) 							{ageUnder30++;} 
-							else if(ma.getAlter()>=30&&ma.getAlter()<40) 	{age30to39++;} 
-							else if(ma.getAlter()>=40&&ma.getAlter()<=50) 	{age40to50++;} 
-							else 											{ageOver50++;}
-						}
-					}
-					
+		for(int i = 0; i<Personalverwaltung.getaMA().size();i++) {
+			Mitarbeiter ma = Personalverwaltung.getaMA().get(i);
+			if(arbeitsbereichnummer == -1) {
+				if(checkArbeitsbereichZeitraum(i, -1, selectedDate)) {
+					Gesamtalter = Gesamtalter + ma.getAlter();
+					aktiveMA++;
+					if(ma.getAlter()<30) 							{ageUnder30All++;} 
+					else if(ma.getAlter()>=30&&ma.getAlter()<40)	{age30to39All++;} 
+					else if(ma.getAlter()>=40&&ma.getAlter()<=50) 	{age40to50All++;}
+					else 											{ageOver50All++;}
+				}
+			} else {
+				if(checkArbeitsbereichZeitraum(i, arbeitsbereichnummer, selectedDate)) {
+					Gesamtalter = Gesamtalter + ma.getAlter();
+					aktiveMA++;
+					if(ma.getAlter()<30) 							{ageUnder30++;} 
+					else if(ma.getAlter()>=30&&ma.getAlter()<40) 	{age30to39++;} 
+					else if(ma.getAlter()>=40&&ma.getAlter()<=50) 	{age40to50++;} 
+					else 											{ageOver50++;}
 				}
 			}
 			
-			
-		} else {
-			
-			for(int i = 0;i<Personalverwaltung.getaMA().size();i++) {
-				
-				Mitarbeiter ma = Personalverwaltung.getaMA().get(i);
-				Zugehoerigkeit MaAb = ma.getActualAB();
-				// Arbeitsbereich -1 = Gesamtes Unternehmen
-				if(arbeitsbereichnummer == -1) {
-					// Arbeitsbereich 1 = Ausgeschieden
-					if(MaAb.getArbeitsbereichnummer() != abNrAusgeschieden) {
-						if(ma.getAlter()<30) 							{ageUnder30All++;} 
-						else if(ma.getAlter()>=30&&ma.getAlter()<40)	{age30to39All++;} 
-						else if(ma.getAlter()>=40&&ma.getAlter()<=50) 	{age40to50All++;}
-						else 											{ageOver50All++;}
-						Gesamtalter = Gesamtalter + ma.getAlter();
-						aktiveMA++;
-					}
-				}else {
-						
-					if(MaAb.getArbeitsbereichnummer() == arbeitsbereichnummer) {
-						Gesamtalter = Gesamtalter + ma.getAlter();
-						
-						aktiveMA++;
-						
-						if(ma.getAlter()<30) {
-							ageUnder30++;
-						} else if(ma.getAlter()>=30&&ma.getAlter()<40) {
-							age30to39++;
-						} else if(ma.getAlter()>=40&&ma.getAlter()<=50) {
-							age40to50++;
-						} else {
-							ageOver50++;
-						}
-					}
-				}
-			}
 		}
 		
 		this.aktiveMA = aktiveMA;
@@ -245,9 +153,14 @@ public class Auswertung {
 		return (""+(Gesamtalter/aktiveMA)+" Jahre");
 	}
 	
-	public void calcAlterPercent(int arbeitsbereichnummer, int selectedYear) {
+	public void calcAlterPercent(int arbeitsbereichnummer, Datum selectedDate) {
+		/* @author: 	Jakob Küchler
+		 * @date: 		08.08.2019
+		 * @description:Berechnet die Altersverteilung in Prozent
+		 */
+		
 		// aktuelle Werte bekommen
-		showDurchschnittsalter(arbeitsbereichnummer, selectedYear);
+		showDurchschnittsalter(arbeitsbereichnummer, selectedDate);
 		
 		double anzahlMA=this.aktiveMA;
 		
@@ -286,11 +199,16 @@ public class Auswertung {
 	
 	
 
-	public void calcGeschlechtPercent(int arbeitsbereichnummer, int selectedYear) {
+	public void calcGeschlechtPercent(int arbeitsbereichnummer, Datum selectedDate) {
+		/* @author: 	Jakob Küchler
+		 * @date: 		08.08.2019
+		 * @description:Berechnet die Geschlechtsverteilung in Prozent
+		 */
+		
 		resetGenderValues();
 		aktiveMA=0;
 		
-		showGeschlechterverteilung(arbeitsbereichnummer, selectedYear);
+		showGeschlechterverteilung(arbeitsbereichnummer, selectedDate);
 		
 		double countGenderMd = (double) countGenderM;
 		double countGenderWd = (double) countGenderW;
@@ -316,18 +234,12 @@ public class Auswertung {
 	}
 	
 
-	public void showGeschlechterverteilung(int arbeitsbereichnummer, int selectedYear) {
+	public void showGeschlechterverteilung(int arbeitsbereichnummer, Datum selectedDate) {
 		/* @author: 	Jakob Küchler
 		 * @date: 		31.07.2019
 		 * @description:Gibt die Geschlechterverteilung aus
 		 */
-		Datum selectedDate;
-		if(selectedYear == (new Datum()).getJahr()) {
-			selectedDate = new Datum();
-		} else {
-			selectedDate = new Datum(selectedYear);
-		}
-		
+				
 		for(int i = 0;i<Personalverwaltung.getaMA().size();i++) {
 			char gender = Personalverwaltung.getaMA().get(i).getGeschlecht();
 			
@@ -349,89 +261,17 @@ public class Auswertung {
 					} else 						{countGender++;
 					}
 				}
-			}
-			
-//			// Test ob MA schon eingestellt zu dem Zeitpunkt
-//			if(Personalverwaltung.getaMA().get(i).getEinstellungsdatum().compareTo(selectedDate)==-1||Personalverwaltung.getaMA().get(i).getEinstellungsdatum().compareTo(selectedDate)==0 ) {
-//				
-//				ArrayList<Zugehoerigkeit> zugListe = ma.getZugehoerigkeit();
-//				
-//				
-//				if(zugListe.size()>1) {
-//					// War in mehr als einer Abteilung
-//					int j = 0;
-//					int verbleibend = zugListe.size();
-//					// Suche das Startdatum, welches am Nächsten am gewählten Datum liegt.
-//					while(zugListe.get(j).getStart().compareTo(selectedDate)==-1 && verbleibend>1) {
-//						j++;
-//						verbleibend = zugListe.size()-j;
-//					}
-//					boolean isInAB = (zugListe.get(j).getArbeitsbereichnummer()==arbeitsbereichnummer);
-//					
-//					if(arbeitsbereichnummer==-1) {
-//						
-//						if(ma.getActualAB().getArbeitsbereichnummer() != abNrAusgeschieden) {
-//							aktiveMA++;
-//							if(gender == 'm') 			{countGenderMAllp++;
-//							} else if (gender == 'w') 	{countGenderWAllp++;
-//							} else if (gender == 'd') 	{countGenderDAllp++;
-//							} else 						{countGenderAllp++;
-//							}
-//						}
-//						
-//					} else if (isInAB) {
-//						
-//						aktiveMA++;
-//						if(gender == 'm') 			{countGenderM++;
-//						} else if (gender == 'w')	{countGenderW++;
-//						} else if (gender == 'd') 	{countGenderD++;
-//						} else 						{countGender++;
-//						}
-//						
-//					}
-//					
-//					
-//				} else {
-//					// MA nur in einem Arbeitsbereich
-//					if(arbeitsbereichnummer == -1) {
-//						
-//						if(ma.getActualAB().getArbeitsbereichnummer() != abNrAusgeschieden) {
-//							
-//							aktiveMA++;
-//							if(gender == 'm') 			{countGenderMAllp++;
-//							} else if (gender == 'w') 	{countGenderWAllp++;
-//							} else if (gender == 'd') 	{countGenderDAllp++;
-//							} else 						{countGenderAllp++;
-//							}
-//						}
-//						
-//					} else if (ma.getActualAB().getArbeitsbereichnummer() == arbeitsbereichnummer){
-//										
-//						aktiveMA++;
-//						if(gender == 'm') 			{countGenderM++;
-//						} else if (gender == 'w')	{countGenderW++;
-//						} else if (gender == 'd') 	{countGenderD++;
-//						} else 						{countGender++;
-//						}
-//						
-//					}
-//					
-//					
-//				}
-//				
-//			}
-			
-			
+			}			
 		}
 	}
 	
-	public String showFluktuationsquoteAll(int selectedYear) {
+	public String showFluktuationsquoteAll(Datum selectedDate) {
 		/* @author: 	Jakob Küchler
 		 * @date: 		01.08.2019
 		 * @description:Gibt die Fluktuationsquote nach Schlüter für das aktuelle Jahr aus
 		 */
 		
-		int year = selectedYear;
+		int year = selectedDate.getJahr();
 		int zugaenge = 0;
 		int abgaenge = 0;
 		int gesamteMA = 0;
@@ -469,13 +309,13 @@ public class Auswertung {
 			
 	}
 	
-	public String showFluktuationsquote(int arbeitsbereichnummer, int selectedYear) {
+	public String showFluktuationsquote(int arbeitsbereichnummer, Datum selectedDate) {
 		/* @author: 	Jakob Küchler
 		 * @date: 		01.08.2019
 		 * @description:Gibt die Fluktuationsquote nach Schlüter für das aktuelle Jahr aus
 		 */
 		
-		int year = selectedYear;
+		int year = selectedDate.getJahr();
 		
 		int zugaenge = 0;
 		int abgaenge = 0;
@@ -654,14 +494,11 @@ public class Auswertung {
 		
 	}
 	
-	public String showAnzahlMitarbeiterImUnternehmen(int selectedYear) {
-		
-		Datum selectedDate;
-		if(selectedYear==(new Datum()).getJahr()) {
-			selectedDate = new Datum();
-		} else {
-			selectedDate = new Datum(selectedYear);
-		}
+	public String showAnzahlMitarbeiterImUnternehmen(Datum selectedDate) {
+		/* @author: 	Jakob Küchler
+		 * @date: 		08.08.2019
+		 * @description:Ermittelt die Anzahl der MA im Unternehmen zu einem Zeitpunkt
+		 */
 		
 		int countAllMA = 0;
 		
@@ -676,13 +513,11 @@ public class Auswertung {
 		
 	}
 	
-	public String showAnzahlMitarbeiterInArbeitsbereich(int arbeitsbereichnummer, int selectedYear) {
-		Datum selectedDate;
-		if(selectedYear==(new Datum()).getJahr()) {
-			selectedDate = new Datum();
-		} else {
-			selectedDate = new Datum(selectedYear);
-		}
+	public String showAnzahlMitarbeiterInArbeitsbereich(int arbeitsbereichnummer, Datum selectedDate) {
+		/* @author: 	Jakob Küchler
+		 * @date: 		08.08.2019
+		 * @description:Ermittelt die Anzahl der MA in einem Arbeitsbereich zu einem Zeitpunkt
+		 */
 		
 		int countAllMA = 0;
 		
@@ -698,66 +533,70 @@ public class Auswertung {
 	}
 	
 	private boolean checkArbeitsbereichZeitraum(int i,int arbeitsbereichnummer, Datum selectedDate) {
+		/* @author: 	Jakob Küchler
+		 * @date: 		08.08.2019
+		 * @description:Ermittelt, ob ein Mitarbeiter zu einem bestimmten Zeitraum in einem bestimmten Arbeitsbereich war
+		 */
+		
 		
 		Mitarbeiter ma = Personalverwaltung.getaMA().get(i);
 		ArrayList<Zugehoerigkeit> zugListe = ma.getZugehoerigkeit();	
-	// ZWEITER VERSUCH
-	if(selectedDate.compareTo((new Datum()))==0){
-		if(arbeitsbereichnummer == -1) {
-			
-			if(ma.getActualAB().getArbeitsbereichnummer() != abNrAusgeschieden) {
+		if(selectedDate.compareTo((new Datum()))==0){
+			if(arbeitsbereichnummer == -1) {
+				
+				if(ma.getActualAB().getArbeitsbereichnummer() != abNrAusgeschieden) {
+					return true;
+				}
+				
+			} else if (ma.getActualAB().getArbeitsbereichnummer() == arbeitsbereichnummer){
 				return true;
 			}
 			
-		} else if (ma.getActualAB().getArbeitsbereichnummer() == arbeitsbereichnummer){
-			return true;
-		}
-		
-	} else if (selectedDate.compareTo((new Datum()))==1){
-		System.out.println("Datum liegt in der Zukunft");
-	} else {
-		
-		// Datum liegt in der Vergangenheit
-		if(Personalverwaltung.getaMA().get(i).getEinstellungsdatum().compareTo(selectedDate)==-1||Personalverwaltung.getaMA().get(i).getEinstellungsdatum().compareTo(selectedDate)==0) {
+		} else if (selectedDate.compareTo((new Datum()))==1){
+			System.out.println("Datum liegt in der Zukunft");
+		} else {
 			
-			if(zugListe.size()>1) {
-				// War in mehr als einer Abteilung
-				int j = 0;
-				int verbleibend = zugListe.size();
-				// Suche das Startdatum, welches am Nächsten am gewählten Datum liegt.
-				while(zugListe.get(j).getStart().compareTo(selectedDate)==-1 && verbleibend>1) {
-					j++;
-					verbleibend = zugListe.size()-j;
-				}
-
+			// Datum liegt in der Vergangenheit
+			if(Personalverwaltung.getaMA().get(i).getEinstellungsdatum().compareTo(selectedDate)==-1||Personalverwaltung.getaMA().get(i).getEinstellungsdatum().compareTo(selectedDate)==0) {
 				
-				if(arbeitsbereichnummer==-1) {
-					if(zugListe.get(j).getArbeitsbereichnummer() != abNrAusgeschieden) {
+				if(zugListe.size()>1) {
+					// War in mehr als einer Abteilung
+					int j = 0;
+					int verbleibend = zugListe.size();
+					// Suche das Startdatum, welches am Nächsten am gewählten Datum liegt.
+					while(zugListe.get(j).getStart().compareTo(selectedDate)==-1 && verbleibend>1) {
+						j++;
+						verbleibend = zugListe.size()-j;
+					}
+	
+					
+					if(arbeitsbereichnummer==-1) {
+						if(zugListe.get(j).getArbeitsbereichnummer() != abNrAusgeschieden) {
+							return true;
+						}
+						
+					} else if (zugListe.get(j).getArbeitsbereichnummer()==arbeitsbereichnummer) {
+						
 						return true;
+						
 					}
 					
-				} else if (zugListe.get(j).getArbeitsbereichnummer()==arbeitsbereichnummer) {
 					
-					return true;
-					
-				}
-				
-				
-			} else {
-				// MA nur in einem Arbeitsbereich
-				if(arbeitsbereichnummer == -1) {
-					
-					if(ma.getActualAB().getArbeitsbereichnummer() != abNrAusgeschieden) {
+				} else {
+					// MA nur in einem Arbeitsbereich
+					if(arbeitsbereichnummer == -1) {
+						
+						if(ma.getActualAB().getArbeitsbereichnummer() != abNrAusgeschieden) {
+							return true;
+						}
+						
+					} else if (ma.getActualAB().getArbeitsbereichnummer() == arbeitsbereichnummer){
 						return true;
 					}
-					
-				} else if (ma.getActualAB().getArbeitsbereichnummer() == arbeitsbereichnummer){
-					return true;
 				}
 			}
 		}
-	}
-	return false;		
+		return false;		
 		
 	}
 	
