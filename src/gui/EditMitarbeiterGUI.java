@@ -170,7 +170,7 @@ public class EditMitarbeiterGUI extends JFrame{
 		tfUrlaub.setBounds(x, y+254, 180, 24);
 		getContentPane().add(tfUrlaub);
 		
-		JLabel lblEinstellung = new JLabel("Engestellt zum:");
+		JLabel lblEinstellung = new JLabel("Eingestellt zum:");
 		lblEinstellung.setBounds(40, y+296, 120, 20);
 		getContentPane().add(lblEinstellung);
 		

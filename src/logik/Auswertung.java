@@ -317,15 +317,19 @@ public class Auswertung {
 		
 		int year = selectedDate.getJahr();
 		
-		int zugaenge = 0;
-		int abgaenge = 0;
-		
+		double zugaenge = 0;
+		double abgaenge = 0;
+		double aktiveMA = 0;
 		
 		// Personalabgaenge & Zugaenge der Periode zaehlen
 		for(int i = 0;i<Personalverwaltung.getaMA().size();i++){
 			Mitarbeiter ma = Personalverwaltung.getaMA().get(i);
 			
-			// Test ob MA vorher in entsprechendem AB war
+			if(checkArbeitsbereichZeitraum(i, arbeitsbereichnummer, (new Datum()))){
+				aktiveMA++;
+			}
+			
+			 //Test ob MA vorher in entsprechendem AB war
 			boolean boolAB;
 			if(Personalverwaltung.getaMA().get(i).getZugehoerigkeit().size()==1&&Personalverwaltung.getaMA().get(i).getActualAB().getArbeitsbereichnummer()!=arbeitsbereichnummer) {
 				boolAB = false;
@@ -353,15 +357,12 @@ public class Auswertung {
 			}
 		}
 		
-		
-		int bestandBeginnPeriode = this.aktiveMA-zugaenge+abgaenge;
+		System.out.println("aktuelle MA: "+ aktiveMA+"\nZugaenge: "+zugaenge+"\nAbgaenge: "+abgaenge);
+		double bestandBeginnPeriode = aktiveMA-zugaenge+abgaenge;
 		
 		// Berechnung nach Schlüter
 		
-		double dabgaenge = (double) abgaenge;
-		double dzugaenge = (double) zugaenge;
-		double dbestandBeginnPeriode = (double) bestandBeginnPeriode;
-		double fluktuationsquote = (double) ((dabgaenge/(dzugaenge+dbestandBeginnPeriode))*100);
+		double fluktuationsquote = (double) ((abgaenge/(zugaenge+bestandBeginnPeriode))*100);
 		
 		NumberFormat n = NumberFormat.getInstance();
 		n.setMaximumFractionDigits(2); // max. 2 stellen hinter komma
