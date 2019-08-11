@@ -438,7 +438,7 @@ public class Auswertung {
 			if(checkArbeitsbereichZeitraum(i, arbeitsbereichnummer, (new Datum()))) {
 				ArrayList<Eintrag> listFehltage = Personalverwaltung.getaMA().get(i).getAzk().getListe();
 				for(int j = 0;j<listFehltage.size();j++) {
-					System.out.println(listFehltage.get(j));
+//					System.out.println(listFehltage.get(j));
 					if(listFehltage.get(j) instanceof Krankheitseintrag) {
 						fehltage = fehltage +(listFehltage.get(j).getArbeitstage());
 						
@@ -558,41 +558,91 @@ public class Auswertung {
 		} else {
 			
 			// Datum liegt in der Vergangenheit
+			
 			if(Personalverwaltung.getaMA().get(i).getEinstellungsdatum().compareTo(selectedDate)==-1||Personalverwaltung.getaMA().get(i).getEinstellungsdatum().compareTo(selectedDate)==0) {
+				
+				// Mitarbeiter wurde am ausgewählten Tag oder davor eingestellt
 				
 				if(zugListe.size()>1) {
 					// War in mehr als einer Abteilung
+					
+					
+					
 					int j = 0;
 					int verbleibend = zugListe.size();
-					// Suche das Startdatum, welches am Nächsten am gewählten Datum liegt.
-					while(zugListe.get(j).getStart().compareTo(selectedDate)==-1 && verbleibend>1) {
-						j++;
-						verbleibend = zugListe.size()-j;
-					}
-	
+					int counter = 0;
 					
-					if(arbeitsbereichnummer==-1) {
-						if(zugListe.get(j).getArbeitsbereichnummer() != abNrAusgeschieden) {
-							return true;
+					try {
+						if(ma.getAusscheidungsdatum().compareTo(selectedDate)==1||ma.getAusscheidungsdatum()==null) {
+						
+							System.out.println(ma.getVorname()+" "+ma.getName()+" - "+ma.getEinstellungsdatum().toString()+" - "+ma.getActualAB().getStart()+" - "+ma.getActualAB().getArbeitsbereichnummer());
+							
+							// Suche das Startdatum, welches am Nächsten am gewählten Datum liegt.
+							while((zugListe.get(j).getStart().compareTo(selectedDate)==-1) && verbleibend>1) {
+								j++;
+								verbleibend = zugListe.size()-j;
+								counter++;
+								
+							}
+							if(counter==1) {
+								j--;
+							}
+							
+							if(arbeitsbereichnummer==-1) {
+								if(zugListe.get(j).getArbeitsbereichnummer() != abNrAusgeschieden) {
+									return true;
+								}
+								
+							} else if (zugListe.get(j).getArbeitsbereichnummer()==arbeitsbereichnummer) {
+								
+								return true;
+								
+							}
+						}
+					} catch (NullPointerException e){
+						while((zugListe.get(j).getStart().compareTo(selectedDate)==-1 || zugListe.get(j).getStart().compareTo(selectedDate)==0) && verbleibend>1) {
+							j++;
+							verbleibend = zugListe.size()-j;
+							counter++;
+						}
+		
+						if(counter==1) {
+							j--;
 						}
 						
-					} else if (zugListe.get(j).getArbeitsbereichnummer()==arbeitsbereichnummer) {
-						
-						return true;
-						
+						if(arbeitsbereichnummer==-1) {
+							if(zugListe.get(j).getArbeitsbereichnummer() != abNrAusgeschieden) {
+								return true;
+							}
+							
+						} else if (zugListe.get(j).getArbeitsbereichnummer()==arbeitsbereichnummer) {
+							
+							return true;
+							
+						}
 					}
 					
 					
 				} else {
 					// MA nur in einem Arbeitsbereich
-					if(arbeitsbereichnummer == -1) {
-						
-						if(ma.getActualAB().getArbeitsbereichnummer() != abNrAusgeschieden) {
-							return true;
+					try {
+						if(arbeitsbereichnummer == -1) {
+							
+							if(ma.getAusscheidungsdatum().compareTo(selectedDate)==1||ma.getAusscheidungsdatum()==null) {
+								return true;
+							}
+							
+						} else if (ma.getActualAB().getArbeitsbereichnummer() == arbeitsbereichnummer){
+							if(ma.getAusscheidungsdatum().compareTo(selectedDate)==1||ma.getAusscheidungsdatum()==null) {
+								return true;
+							}
 						}
-						
-					} else if (ma.getActualAB().getArbeitsbereichnummer() == arbeitsbereichnummer){
-						return true;
+					} catch(NullPointerException e) {
+						if(arbeitsbereichnummer == -1) {
+								return true;
+						} else if (ma.getActualAB().getArbeitsbereichnummer() == arbeitsbereichnummer){
+								return true;
+						}
 					}
 				}
 			}
