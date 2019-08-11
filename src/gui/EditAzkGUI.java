@@ -18,6 +18,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import _programmstart.Programmstart;
+import extern.Datum;
 import logik.Admin;
 import logik.Eintrag;
 import logik.Krankheitseintrag;
@@ -277,7 +278,9 @@ public class EditAzkGUI extends JFrame{
 		
 		int length = 1;
 		if(ma.getAzk().getListe().size()>0) {
-			length = ma.getAzk().getListe().get(ma.getAzk().getListe().size()-1).getStart().getJahr()-ma.getEinstellungsdatum().getJahr()+1;
+			length = Math.max(ma.getAzk().getListe().get(ma.getAzk().getListe().size()-1).getStart().getJahr(),(new Datum()).getJahr())-ma.getEinstellungsdatum().getJahr()+2;
+		} else {
+			length = (new Datum()).getJahr()-ma.getEinstellungsdatum().getJahr()+2;
 		}
 		String[] jahre = new String[length];
 		jahre[0] = "alle";
