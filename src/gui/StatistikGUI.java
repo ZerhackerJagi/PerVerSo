@@ -267,7 +267,6 @@ public class StatistikGUI extends JFrame{
 					dcdGender.setValue(a.getCountGenderMp(), "Geschlechterverteilung Arbeitsbereich (%)", "m");
 					dcdGender.setValue(a.getCountGenderWp(), "Geschlechterverteilung Arbeitsbereich (%)", "w");
 					dcdGender.setValue(a.getCountGenderDp(), "Geschlechterverteilung Arbeitsbereich (%)", "d");
-					//dcdGender.setValue(a.getCountGenderp(), "Geschlechterverteilung Arbeitsbereich (%)", "unbekannt");
 					
 					// Barchart für Geschlechterverteilung (Unternehmen)
 					
@@ -275,7 +274,6 @@ public class StatistikGUI extends JFrame{
 					dcdGender.setValue(a.getCountGenderMAllp(), "Geschlechterverteilung Unternehmen (%)", "m");
 					dcdGender.setValue(a.getCountGenderWAllp(), "Geschlechterverteilung Unternehmen (%)", "w");
 					dcdGender.setValue(a.getCountGenderDAllp(), "Geschlechterverteilung Unternehmen (%)", "d");
-					//dcdGender.setValue(a.getCountGenderAllp(), "Geschlechterverteilung Unternehmen (%)", "unbekannt");
 					
 					JFreeChart jchartGender = ChartFactory.createBarChart("Geschlechterverteilung", "Geschlecht", "Prozentuale Häufigkeit", dcdGender, PlotOrientation.VERTICAL, true, true, false);
 					CategoryPlot plotGender = jchartGender.getCategoryPlot();
@@ -295,7 +293,6 @@ public class StatistikGUI extends JFrame{
 					dcd.setValue(a.getAgeOver50(), "Alter Arbeitsbereich", "über 50");
 					
 					a.showDurchschnittsalter(-1, selectedDate);
-//					DefaultCategoryDataset dcd = new DefaultCategoryDataset();
 					dcd.setValue(a.getAgeUnder30All(), "Alter Unternehmen", "unter 30");
 					dcd.setValue(a.getAge30to39All(), "Alter Unternehmen", "30 - 39");
 					dcd.setValue(a.getAge40to50All(), "Alter Unternehmen", "40 - 50");
@@ -382,7 +379,6 @@ public class StatistikGUI extends JFrame{
 							{"     Überstunden", a.showUeberstunden(gewaehlterAB.getArbeitsbereichnummer()),a.showUeberstunden(-1)},
 							{"     Überstunden im Durchschnitt", a.showUeberstundenSchnitt(gewaehlterAB.getArbeitsbereichnummer()),a.showUeberstundenSchnitt(-1)},
 							{"     Flukuationsquote", a.showFluktuationsquote(gewaehlterAB.getArbeitsbereichnummer(), selectedDate),a.showFluktuationsquoteAll(selectedDate)},
-							//{"     Flukuationsquote Gesamt", a.showFluktuationsquoteAll(gewaehltesJahr),null},
 							{"     Anzahl MitarbeiterInnen",a.showAnzahlMitarbeiterInArbeitsbereich(gewaehlterAB.getArbeitsbereichnummer(), selectedDate),a.showAnzahlMitarbeiterImUnternehmen(selectedDate)},
 							{null,null,null},
 						},
@@ -397,7 +393,6 @@ public class StatistikGUI extends JFrame{
 								{null,null,null},
 								{"     Durchschnittsalter", ""+a.showDurchschnittsalter(gewaehlterAB.getArbeitsbereichnummer(), selectedDate),a.showDurchschnittsalter(-1, selectedDate)},
 								{"     Flukuationsquote", a.showFluktuationsquote(gewaehlterAB.getArbeitsbereichnummer(), selectedDate),a.showFluktuationsquoteAll(selectedDate)},
-								//{"     Flukuationsquote Gesamt", a.showFluktuationsquoteAll(gewaehltesJahr),null},
 								{"     Anzahl MitarbeiterInnen",a.showAnzahlMitarbeiterInArbeitsbereich(gewaehlterAB.getArbeitsbereichnummer(), selectedDate),a.showAnzahlMitarbeiterImUnternehmen(selectedDate)},
 								{null,null,null},
 							},

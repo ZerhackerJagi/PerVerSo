@@ -402,7 +402,6 @@ public class Auswertung {
 			if(checkArbeitsbereichZeitraum(i, arbeitsbereichnummer, (new Datum()))) {
 				ArrayList<Eintrag> listFehltage = Personalverwaltung.getaMA().get(i).getAzk().getListe();
 				for(int j = 0;j<listFehltage.size();j++) {
-//					System.out.println(listFehltage.get(j));
 					if(listFehltage.get(j) instanceof Krankheitseintrag) {
 						fehltage = fehltage +(listFehltage.get(j).getArbeitstage());
 						

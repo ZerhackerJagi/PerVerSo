@@ -91,7 +91,6 @@ public class LoginGUI extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				if(tfPersonalnummer.getText().equals("Beispiel")) {
 					setVisible(false);
 					ladeneu();

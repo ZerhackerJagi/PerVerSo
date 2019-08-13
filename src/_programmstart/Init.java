@@ -20,7 +20,7 @@ public class Init {
 	
 		Object[] options = {"Importieren", "Neu anlegen", "Exit"};
 		int selected = JOptionPane.showOptionDialog(null, "<html>Daten nicht gefunden.<br>Bitte wählen sie eine Aktion:<br>_______________________ </html>", null, JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, null);
-		//System.out.println(selected);
+
 		switch(selected) {
     		case 0: {
     			JFileChooser fc = new JFileChooser();
@@ -29,7 +29,6 @@ public class Init {
     			fc.addChoosableFileFilter(fPV);
     			int returnVal = fc.showOpenDialog(null);
     			if (returnVal == 0) {
-    				//System.out.println("öffnen");
     				System.out.println(fc.getSelectedFile().getAbsolutePath());
     				try {
     					Personalverwaltung.setPath(fc.getSelectedFile().getAbsolutePath());
@@ -39,7 +38,6 @@ public class Init {
 						fc.addChoosableFileFilter(new FileFilterABV());
 		    			returnVal = fc.showOpenDialog(null);
 		    			if (returnVal == 0) {
-		    				//System.out.println("öffnen");
 		    				System.out.println(fc.getSelectedFile().getAbsolutePath());
 		    				try {
 		    					Arbeitsbereichverwaltung.setPath(fc.getSelectedFile().getAbsolutePath());
@@ -48,19 +46,15 @@ public class Init {
 		    					Arbeitsbereichverwaltung.getInstance().speichern();
 								new LoginGUI();
 							} catch (Exception e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 		    			} else if (returnVal == 1) {
-		    				//System.out.println("abbrechen");
 		    				new Init();
 		    			}
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
     			} else if (returnVal == 1) {
-    				//System.out.println("abbrechen");
     				new Init();
     			}
     			break;

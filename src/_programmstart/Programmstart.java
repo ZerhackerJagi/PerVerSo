@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import gui.LoginGUI;
 import logik.Arbeitsbereichverwaltung;
 import logik.Personalverwaltung;
-
 /*@author:		Soeren Hebestreit
  *@date: 		19.07.2019
  *@description: Programmstart: PV und ABV laden, GUI starten | Initialisieren falls Daten nicht gefunden
  */
+
 public class Programmstart {
 	
 	public static ArrayList<Image> iconlist;

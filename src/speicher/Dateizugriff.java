@@ -73,7 +73,6 @@ public class Dateizugriff implements DateizugriffIF{
 	public Object laden() throws Exception {
 		
 		StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-		//System.out.println(stackTraceElements[2].getClassName().substring(stackTraceElements[2].getClassName().lastIndexOf(".")+1,stackTraceElements[2].getClassName().length()));
 		String caller = stackTraceElements[2].getClassName().substring(stackTraceElements[2].getClassName().lastIndexOf(".")+1,stackTraceElements[2].getClassName().length());
 		
 		switch (caller) {
@@ -121,7 +120,6 @@ public class Dateizugriff implements DateizugriffIF{
 	public boolean speichern(Object obj) throws Exception {
 		
 		StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-		//System.out.println(stackTraceElements[2].getClassName().substring(stackTraceElements[2].getClassName().lastIndexOf(".")+1,stackTraceElements[2].getClassName().length()));
 		String caller = stackTraceElements[2].getClassName().substring(stackTraceElements[2].getClassName().lastIndexOf(".")+1,stackTraceElements[2].getClassName().length());
 		
 		switch (caller) {

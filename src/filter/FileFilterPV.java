@@ -25,7 +25,6 @@ public class FileFilterPV extends FileFilter {
 
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
 		return "Daten zur Personalverwaltung";
 	}
 
