@@ -20,6 +20,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.awt.Color;
+/*@author:		Soeren Hebestreit
+ *@date: 		24.07.2019
+ *@description: Passwort aendern
+ */	
 
 public class ChangePasswortGUI extends JFrame{
 	
@@ -30,10 +34,7 @@ public class ChangePasswortGUI extends JFrame{
 //******************** KONSTRUKTOR ********************
 	
 	public ChangePasswortGUI(int PID) {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		24.07.2019
-		 *@description: Passwort aendern
-		 */	
+		
 		setIconImages(Programmstart.iconlist);
 		
 		setSize(400, 320);

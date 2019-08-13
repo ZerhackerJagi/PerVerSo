@@ -19,6 +19,10 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
+/*@author:		Soeren Hebestreit
+ *@date: 		24.07.2019
+ *@description: Mitarbeiter loeschen oder ausscheiden
+ */
 
 public class DeleteMitarbeiterGUI extends JFrame{
 	
@@ -29,10 +33,7 @@ public class DeleteMitarbeiterGUI extends JFrame{
 //******************** KONSTRUKTOR ********************
 	
 	public DeleteMitarbeiterGUI(int PID, int wer) {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		24.07.2019
-		 *@description: Mitarbeiter loeschen oder ausscheiden
-		 */	
+			
 		setIconImages(Programmstart.iconlist);
 		
 		setSize(400, 500);

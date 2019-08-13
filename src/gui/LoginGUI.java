@@ -10,6 +10,10 @@ import javax.swing.*;
 
 import _programmstart.Programmstart;
 import logik.*;
+/*@author:		Jakob Kuechler, Soeren Hebestreit
+ *@date: 		xx.xx.2019, 19.07.2019
+ *@description: Login GUI
+ */
 
 public class LoginGUI extends JFrame{
 	
@@ -21,10 +25,7 @@ public class LoginGUI extends JFrame{
 //******************** KONSTRUKTOR ********************
 	
 	public LoginGUI() {
-		/*@author:		Jakob Kuechler, Soeren Hebestreit
-		 *@date: 		xx.xx.2019, 19.07.2019
-		 *@description: Login GUI
-		 */
+		
 		setIconImages(Programmstart.iconlist);
 		
 		setSize(480,240);
@@ -69,7 +70,6 @@ public class LoginGUI extends JFrame{
 					ladeneu();
 					new AdminGUI(100000);
 					dispose();
-//					JOptionPane.showMessageDialog(null, "Beispiel erkannt!", null, JOptionPane.INFORMATION_MESSAGE);
 				}
 				else if(checkAnmeldung(tfPersonalnummer.getText(), new String(passwordField.getPassword()))) {
 					setVisible(false);
@@ -97,7 +97,6 @@ public class LoginGUI extends JFrame{
 					ladeneu();
 					new AdminGUI(100000);
 					dispose();
-//					JOptionPane.showMessageDialog(null, "Beispiel erkannt!", null, JOptionPane.INFORMATION_MESSAGE);
 				}
 				else if(checkAnmeldung(tfPersonalnummer.getText(), new String(passwordField.getPassword()))) {
 					setVisible(false);
@@ -137,12 +136,11 @@ public class LoginGUI extends JFrame{
 		}		
 	}
 	
+	/*
+	 *@description: Passwortkontrolle
+	 */
 	private boolean checkAnmeldung(String personalnummer, String password) {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		01.08.2019
-		 *@description: Passwortkontrolle
-		 */
-		
+				
 		try {
 			Mitarbeiter ma = (Mitarbeiter) Personalverwaltung.getInstance().suchen(Integer.parseInt(personalnummer));
 			if(ma != null) {

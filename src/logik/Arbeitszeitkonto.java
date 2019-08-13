@@ -6,6 +6,10 @@ import java.util.Collections;
 
 import comparatoren.EintragStartComparator;
 import extern.Datum;
+/*@author: 		Soeren Hebestreit
+ *@date: 		19.07.2019
+ *@description:	
+ */
 
 public class Arbeitszeitkonto implements Serializable {
 
@@ -21,12 +25,11 @@ public class Arbeitszeitkonto implements Serializable {
 				
 //******************** KONSTRUKTOR ********************
 		
+	/*
+	 *@description:	Konstruktor Arbeitsbereich Standard
+	 */
 	public Arbeitszeitkonto() {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		19.07.2019
-		 *@description:	Konstruktor Arbeitsbereich Standard
-		 */
-			
+				
 		sollstunden = 40;
 		ueberminuten = 0;
 		ueberminutenmin = -sollstunden*30;
@@ -34,13 +37,12 @@ public class Arbeitszeitkonto implements Serializable {
 		urlaubbasis = 30;
 		liste = new ArrayList <Eintrag>();
 	}
-		
+	
+	/*
+	 *@description:	Konstruktor Arbeitsbereich mit Angaben
+	 */
 	public Arbeitszeitkonto(int sollstunden, int min, int max, int kontingent) {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		19.07.2019
-		 *@description:	Konstruktor Arbeitsbereich mit Angaben
-		 */
-			
+				
 		this.sollstunden = sollstunden;
 		ueberminuten = 0;
 		if (min < 0) {
@@ -55,12 +57,11 @@ public class Arbeitszeitkonto implements Serializable {
 
 //******************** VERWALTUNG ********************	
 	
+	/*
+	 *@description:	Urlaubseintrag hinzufuegen
+	 */
 	public void addUrlaub (Datum start, Datum ende, int tage) throws Exception {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		19.07.2019
-		 *@description:	Urlaubseintrag hinzufuegen
-		 */
-		
+			
 		if (start.getJahr() == ende.getJahr()) {
 			liste.add(new Urlaubseintrag(start, ende, tage));
 			sort();
@@ -69,12 +70,11 @@ public class Arbeitszeitkonto implements Serializable {
 		}
 	}
 	
+	/*
+	 *@description:	Krankheitseintrag hinzufuegen
+	 *				Urlaub muss manuell geloescht und neu eingetragen werden, um die Ueberschneidung zu entfernen, sofern der Urlaub erstattet werden soll
+	 */
 	public void addKrankheit (Datum start, Datum ende, int tage) throws Exception {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		19.07.2019
-		 *@description:	Krankheitseintrag hinzufuegen
-		 *				Urlaub muss manuell geloescht und neu eingetragen werden, um die Ueberschneidung zu entfernen, sofern der Urlaub erstattet werden soll
-		 */
 		
 		if (start.getJahr() == ende.getJahr()) {
 			liste.add(new Krankheitseintrag(start, ende, tage));
@@ -84,12 +84,11 @@ public class Arbeitszeitkonto implements Serializable {
 		}
 	}
 	
+	/*
+	 *@description:	Urlaubseintrag loeschen
+	 */
 	public boolean deleteUrlaub (int eintrag) {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		19.07.2019
-		 *@description:	Urlaubseintrag loeschen
-		 */
-
+		
 		if (liste.size() > eintrag) {
 			if(liste.get(eintrag) instanceof Urlaubseintrag) {
 				liste.remove(liste.get(eintrag));
@@ -99,12 +98,11 @@ public class Arbeitszeitkonto implements Serializable {
 		return false;
 	}
 	
+	/*
+	 *@description:	Krankheitseintrag loeschen
+	 */
 	public boolean deleteKrankheit (int eintrag) {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		19.07.2019
-		 *@description:	Krankheitseintrag loeschen
-		 */
-
+		
 		if (liste.size() > eintrag) {
 			if(liste.get(eintrag) instanceof Krankheitseintrag) {
 				liste.remove(liste.get(eintrag));
@@ -114,52 +112,46 @@ public class Arbeitszeitkonto implements Serializable {
 		return false;
 	}
 	
+	/*
+	 *@description:	positiven Betrag den Ueberminuten hinzufuegen
+	 */
 	public void addPlus (int betrag) {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		19.07.2019
-		 *@description:	positiven Betrag den Ueberminuten hinzufuegen
-		 */
-		
+			
 		ueberminuten = ueberminuten + betrag;
 	}
 	
-	
+	/*
+	 *@description:	negativen Betrag den Ueberminuten hinzufuegen
+	 */
 	public void addMinus (int betrag) {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		19.07.2019
-		 *@description:	negativen Betrag den Ueberminuten hinzufuegen
-		 */
 		
 		ueberminuten = ueberminuten - betrag;
 	}
 
 //******************** AUSGABE ********************
 
+	/*
+	 *@description:	Textrueckgabe String
+	 */
 	public String toString() {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		19.07.2019
-		 *@description:	Textrueckgabe String
-		 */
 			
 		return "Sollstunden: "+sollstunden+"\t, Ueberminuten: "+ueberminuten+"\t, Urlaubstage: "+urlaubbasis;
 	}
-			
-	public void display() {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		19.07.2019
-		 *@description:	Textausgabe Konsole
-		 */
 		
+	/*
+	 *@description:	Textausgabe Konsole
+	 */
+	public void display() {
+			
 		System.out.println("Sollstunden: "+sollstunden);
 		System.out.println("Überminuten: "+ueberminuten);
 		System.out.println("Urlaubstage: \t"+urlaubbasis);
 	}
 	
+	/*
+	 *@description:	Urlaubseintraege anzeigen (Konsole) 
+	 */
 	public void showUrlaub() {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		19.07.2019
-		 *@description:	Urlaubseintraege anzeigen (Konsole) 
-		 */
 		
 		if (liste.size()!=0) {
 			for (int i = 0; i < liste.size(); i++) {
@@ -172,11 +164,10 @@ public class Arbeitszeitkonto implements Serializable {
 		}
 	}
 	
+	/*
+	 *@description:	Urlaubseintraege anzeigen (Konsole), mit Jahreseingrenzung
+	 */
 	public void showUrlaub(int jahr) {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		19.07.2019
-		 *@description:	Urlaubseintraege anzeigen (Konsole), mit Jahreseingrenzung
-		 */
 		
 		if (liste.size()!=0) {
 			for (int i = 0; i < liste.size(); i++) {
@@ -191,11 +182,10 @@ public class Arbeitszeitkonto implements Serializable {
 		}
 	}
 	
+	/*
+	 *@description:	Urlaubseintraege anzeigen (Konsole) 
+	 */
 	public void showKrankheit() {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		19.07.2019
-		 *@description:	Urlaubseintraege anzeigen (Konsole) 
-		 */
 		
 		if (liste.size()!=0) {
 			for (int i = 0; i < liste.size(); i++) {
@@ -210,11 +200,10 @@ public class Arbeitszeitkonto implements Serializable {
 	
 //******************** SORTIEREN & SUCHEN ********************
 	
+	/*
+	 *@description:	Mitarbeiterliste nach Name, Vorname sortieren
+	 */
 	public void sort() {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		21.06.2019
-		 *@description:	Mitarbeiterliste nach Name, Vorname sortieren
-		 */
 		
 		Collections.sort(liste, new EintragStartComparator());
 	}

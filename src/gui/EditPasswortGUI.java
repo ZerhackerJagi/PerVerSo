@@ -16,6 +16,10 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
+/*@author:		Soeren Hebestreit
+ *@date: 		24.07.2019
+ *@description: Mitarbeiterpasswort setzen
+ */	
 
 public class EditPasswortGUI extends JFrame{
 	
@@ -26,12 +30,7 @@ public class EditPasswortGUI extends JFrame{
 //******************** KONSTRUKTOR ********************
 	
 	public EditPasswortGUI(int PID, int wer) {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		24.07.2019
-		 *@description: Mitarbeiterpasswort setzen
-		 */	
-		
-		
+			
 		setIconImages(Programmstart.iconlist);
 		
 		setSize(400, 320);

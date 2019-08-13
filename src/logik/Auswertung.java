@@ -4,6 +4,10 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import extern.Datum;
+/* @author: 	Jakob Küchler
+ * @date: 		31.07.2019
+ * @description:
+ */
 
 public class Auswertung {
 	
@@ -106,22 +110,16 @@ public class Auswertung {
 		countGenderp=0;
 	}
 	
-	
-	
-
+		
+	/* 
+	 * @description:Gibt das Durchschnittsalter der aktuellen Mitarbeiter aus
+	 */
 	public String showDurchschnittsalter(int arbeitsbereichnummer, Datum selectedDate) {
-		/* @author: 	Jakob Küchler
-		 * @date: 		31.07.2019
-		 * @description:Gibt das Durchschnittsalter der aktuellen Mitarbeiter aus
-		 */
-		
-		
+			
 		int Gesamtalter = 0;int aktiveMA = 0;
 		
-		
 		resetAgeValues();
-		
-		
+			
 		for(int i = 0; i<Personalverwaltung.getaMA().size();i++) {
 			Mitarbeiter ma = Personalverwaltung.getaMA().get(i);
 			if(arbeitsbereichnummer == -1) {
@@ -153,18 +151,16 @@ public class Auswertung {
 		return (""+(Gesamtalter/aktiveMA)+" Jahre");
 	}
 	
+	/* 
+	 * @description:Berechnet die Altersverteilung in Prozent
+	 */
 	public void calcAlterPercent(int arbeitsbereichnummer, Datum selectedDate) {
-		/* @author: 	Jakob Küchler
-		 * @date: 		08.08.2019
-		 * @description:Berechnet die Altersverteilung in Prozent
-		 */
-		
+			
 		// aktuelle Werte bekommen
 		showDurchschnittsalter(arbeitsbereichnummer, selectedDate);
 		
 		double anzahlMA=this.aktiveMA;
-		
-		
+			
 		if(arbeitsbereichnummer == -1) {
 			// Arbeitsbereich -1 = gesamtes Unternehmen
 			double ageUnder30Alld = (double) ageUnder30All;
@@ -176,8 +172,7 @@ public class Auswertung {
 			age30to39Allp = (age30to39Alld/anzahlMA)*100;
 			age40to50Allp = (age40to50Alld/anzahlMA)*100;
 			ageOver50Allp = (ageOver50Alld/anzahlMA)*100;
-		
-			
+				
 		} else {
 			
 			double ageUnder30d = (double) ageUnder30;
@@ -189,22 +184,16 @@ public class Auswertung {
 			age30to39p = (age30to39d/aktiveMA)*100;
 			age40to50p = (age40to50d/aktiveMA)*100;
 			ageOver50p = (ageOver50d/aktiveMA)*100;
-			
-			
+					
 		}
-		
-		
+			
 	}
 	
-	
-	
-
+	/*
+	 * @description:Berechnet die Geschlechtsverteilung in Prozent
+	 */
 	public void calcGeschlechtPercent(int arbeitsbereichnummer, Datum selectedDate) {
-		/* @author: 	Jakob Küchler
-		 * @date: 		08.08.2019
-		 * @description:Berechnet die Geschlechtsverteilung in Prozent
-		 */
-		
+			
 		resetGenderValues();
 		aktiveMA=0;
 		
@@ -214,32 +203,25 @@ public class Auswertung {
 		double countGenderWd = (double) countGenderW;
 		double countGenderDd = (double) countGenderD;
 		double countGenderd = (double) countGender;
-		
-		
-		
+			
 		if(arbeitsbereichnummer==-1) {
-		countGenderMAllp = countGenderMAllp/aktiveMA*100;
-		countGenderWAllp = countGenderWAllp/aktiveMA*100;
-		countGenderDAllp = countGenderDAllp/aktiveMA*100;
-		countGenderAllp = countGenderAllp/aktiveMA*100;
+			countGenderMAllp = countGenderMAllp/aktiveMA*100;
+			countGenderWAllp = countGenderWAllp/aktiveMA*100;
+			countGenderDAllp = countGenderDAllp/aktiveMA*100;
+			countGenderAllp = countGenderAllp/aktiveMA*100;
 		} else {
-		countGenderMp = countGenderMd/aktiveMA*100;
-		countGenderWp = countGenderWd/aktiveMA*100;
-		countGenderDp = countGenderDd/aktiveMA*100;
-		countGenderp = countGenderd/aktiveMA*100;
-		}
-		
-		
-		
+			countGenderMp = countGenderMd/aktiveMA*100;
+			countGenderWp = countGenderWd/aktiveMA*100;
+			countGenderDp = countGenderDd/aktiveMA*100;
+			countGenderp = countGenderd/aktiveMA*100;
+		}	
 	}
 	
-
+	/* 
+	 * @description:Gibt die Geschlechterverteilung aus
+	 */
 	public void showGeschlechterverteilung(int arbeitsbereichnummer, Datum selectedDate) {
-		/* @author: 	Jakob Küchler
-		 * @date: 		31.07.2019
-		 * @description:Gibt die Geschlechterverteilung aus
-		 */
-				
+					
 		for(int i = 0;i<Personalverwaltung.getaMA().size();i++) {
 			char gender = Personalverwaltung.getaMA().get(i).getGeschlecht();
 			
@@ -265,12 +247,11 @@ public class Auswertung {
 		}
 	}
 	
+	/* 
+	 * @description:Gibt die Fluktuationsquote nach Schlüter für das aktuelle Jahr aus
+	 */
 	public String showFluktuationsquoteAll(Datum selectedDate) {
-		/* @author: 	Jakob Küchler
-		 * @date: 		01.08.2019
-		 * @description:Gibt die Fluktuationsquote nach Schlüter für das aktuelle Jahr aus
-		 */
-		
+			
 		int year = selectedDate.getJahr();
 		int zugaenge = 0;
 		int abgaenge = 0;
@@ -281,12 +262,11 @@ public class Auswertung {
 			Mitarbeiter ma = Personalverwaltung.getaMA().get(i);
 			gesamteMA++;
 			try {
-			if(ma.getAusscheidungsdatum().getJahr() == year) {
-				abgaenge++;
-			} 
+				if(ma.getAusscheidungsdatum().getJahr() == year) {
+					abgaenge++;
+				} 
 			
-			} catch (NullPointerException e){
-			}
+			} catch (NullPointerException e){ }
 			if(ma.getEinstellungsdatum().getJahr() == year) {
 				zugaenge++;
 			}
@@ -303,20 +283,16 @@ public class Auswertung {
 		
 		NumberFormat n = NumberFormat.getInstance();
 		n.setMaximumFractionDigits(2); // max. 2 stellen hinter komma
-		
-		
-		return ""+(n.format(fluktuationsquote))+" %";
 			
+		return ""+(n.format(fluktuationsquote))+" %";		
 	}
 	
+	/*
+	 * @description:Gibt die Fluktuationsquote nach Schlüter für das aktuelle Jahr aus
+	 */
 	public String showFluktuationsquote(int arbeitsbereichnummer, Datum selectedDate) {
-		/* @author: 	Jakob Küchler
-		 * @date: 		01.08.2019
-		 * @description:Gibt die Fluktuationsquote nach Schlüter für das aktuelle Jahr aus
-		 */
-		
-		int year = selectedDate.getJahr();
-		
+			
+		int year = selectedDate.getJahr();	
 		double zugaenge = 0;
 		double abgaenge = 0;
 		double aktiveMA = 0;
@@ -342,15 +318,12 @@ public class Auswertung {
 			boolean boolJahr = Personalverwaltung.getaMA().get(i).getZugehoerigkeit().get(Personalverwaltung.getaMA().get(i).getZugehoerigkeit().size()-1).getStart().getJahr() == year;
 			
 			
-			if(ma.getActualAB().getArbeitsbereichnummer() == arbeitsbereichnummer || (boolAB && boolJahr)) {
-				
+			if(ma.getActualAB().getArbeitsbereichnummer() == arbeitsbereichnummer || (boolAB && boolJahr)) {			
 				try {
 					if(ma.getAusscheidungsdatum().getJahr() == year) {
 						abgaenge++;
 					}
-				} catch (NullPointerException e){
-				}
-				
+				} catch (NullPointerException e){ }	
 				if(ma.getEinstellungsdatum().getJahr() == year) {
 					zugaenge++;
 				}
@@ -360,25 +333,21 @@ public class Auswertung {
 		System.out.println("aktuelle MA: "+ aktiveMA+"\nZugaenge: "+zugaenge+"\nAbgaenge: "+abgaenge);
 		double bestandBeginnPeriode = aktiveMA-zugaenge+abgaenge;
 		
-		// Berechnung nach Schlüter
-		
+		// Berechnung nach Schlüter	
 		double fluktuationsquote = (double) ((abgaenge/(zugaenge+bestandBeginnPeriode))*100);
 		
 		NumberFormat n = NumberFormat.getInstance();
 		n.setMaximumFractionDigits(2); // max. 2 stellen hinter komma
 		
-		
 		return ""+(n.format(fluktuationsquote))+" %";
 			
 	}
 	
+	/*
+	 * @description:Gibt die gesamten Überstunden im aktuellen Jahr aus 
+	 */
 	public String showUeberstunden(int arbeitsbereichnummer) {
-		/* @author: 	Jakob Küchler
-		 * @date: 		31.07.2019
-		 * @description:Gibt die gesamten Überstunden im aktuellen Jahr aus 
-		 */
-		
-		
+			
 		double ueberminuten = 0;
 		NumberFormat n = NumberFormat.getInstance();
 		n.setMaximumFractionDigits(2); // max. 2 stellen hinter komma
@@ -396,18 +365,15 @@ public class Auswertung {
 					this.gesamtUeberstundenU = (ueberminuten/60);
 				}
 			}
-		}
-		
-		
-		return ""+(n.format((ueberminuten/60)))+" Stunden";
-		
+		}	
+		return ""+(n.format((ueberminuten/60)))+" Stunden";	
 	}
 	
+	/* 
+	 * @description:Gibt die gesamten Überstunden im aktuellen Jahr pro Person aus 
+	 */
 	public String showUeberstundenSchnitt(int arbeitsbereichnummer) {
-		/* @author: 	Jakob Küchler
-		 * @date: 		31.07.2019
-		 * @description:Gibt die gesamten Überstunden im aktuellen Jahr pro Person aus 
-		 */
+		
 		double MA = (double) aktiveMA;
 		NumberFormat n = NumberFormat.getInstance();
 		n.setMaximumFractionDigits(2); // max. 2 stellen hinter komma
@@ -421,16 +387,14 @@ public class Auswertung {
 		if(gesamtUeberstunden == 0 || aktiveMA == 0) {
 			return ""+0+" Stunden";
 		}
-		return ""+n.format((gesamtUeberstunden/MA))+" Stunden";
-		
-		
+		return ""+n.format((gesamtUeberstunden/MA))+" Stunden";	
 	}
 	
+	/*
+	 * @description:Gibt die gesamten Fehltage im aktuellen Jahr aus 
+	 */
 	public String showFehltage(int arbeitsbereichnummer) {
-		/* @author: 	Jakob Küchler
-		 * @date: 		31.07.2019
-		 * @description:Gibt die gesamten Fehltage im aktuellen Jahr aus 
-		 */
+		
 		int fehltage = 0;
 		
 		for(int i = 0;i<Personalverwaltung.getaMA().size();i++) {
@@ -446,16 +410,14 @@ public class Auswertung {
 				}
 			}
 		}
-		return ""+fehltage+" Tage";
-		
+		return ""+fehltage+" Tage";	
 	}
 	
+	/* 
+	 * @description:Gibt die maximalen Fehltage einer Person im aktuellen Jahr aus 
+	 */
 	public String showFehltageMaximal(int arbeitsbereichnummer) {
-		/* @author: 	Jakob Küchler
-		 * @date: 		31.07.2019
-		 * @description:Gibt die maximalen Fehltage einer Person im aktuellen Jahr aus 
-		 */
-		
+			
 		int fehltageMax = 0;
 		int fehltagePerson = 0;
 		
@@ -490,16 +452,13 @@ public class Auswertung {
 				}
 			}
 		}
-		return ""+fehltageMax+" Tage";
-		
-		
+		return ""+fehltageMax+" Tage";	
 	}
 	
+	/* 
+	 * @description:Ermittelt die Anzahl der MA im Unternehmen zu einem Zeitpunkt
+	 */
 	public String showAnzahlMitarbeiterImUnternehmen(Datum selectedDate) {
-		/* @author: 	Jakob Küchler
-		 * @date: 		08.08.2019
-		 * @description:Ermittelt die Anzahl der MA im Unternehmen zu einem Zeitpunkt
-		 */
 		
 		int countAllMA = 0;
 		
@@ -507,18 +466,15 @@ public class Auswertung {
 			
 				if(checkArbeitsbereichZeitraum(i, -1, selectedDate)) {
 					countAllMA++;
-				}
-				
+				}		
 		}
-		return ""+countAllMA+" MitarbeiterInnen";
-		
+		return ""+countAllMA+" MitarbeiterInnen";	
 	}
 	
+	/*
+	 * @description:Ermittelt die Anzahl der MA in einem Arbeitsbereich zu einem Zeitpunkt
+	 */
 	public String showAnzahlMitarbeiterInArbeitsbereich(int arbeitsbereichnummer, Datum selectedDate) {
-		/* @author: 	Jakob Küchler
-		 * @date: 		08.08.2019
-		 * @description:Ermittelt die Anzahl der MA in einem Arbeitsbereich zu einem Zeitpunkt
-		 */
 		
 		int countAllMA = 0;
 		
@@ -527,18 +483,14 @@ public class Auswertung {
 				if(checkArbeitsbereichZeitraum(i, arbeitsbereichnummer, selectedDate)) {
 					countAllMA++;
 				}
-			
 		}
 		return ""+countAllMA+" MitarbeiterInnen";
-		
 	}
 	
+	/* 
+	 * @description:Ermittelt, ob ein Mitarbeiter zu einem bestimmten Zeitraum in einem bestimmten Arbeitsbereich war
+	 */
 	private boolean checkArbeitsbereichZeitraum(int i,int arbeitsbereichnummer, Datum selectedDate) {
-		/* @author: 	Jakob Küchler
-		 * @date: 		08.08.2019
-		 * @description:Ermittelt, ob ein Mitarbeiter zu einem bestimmten Zeitraum in einem bestimmten Arbeitsbereich war
-		 */
-		
 		
 		Mitarbeiter ma = Personalverwaltung.getaMA().get(i);
 		ArrayList<Zugehoerigkeit> zugListe = ma.getZugehoerigkeit();	
@@ -558,16 +510,11 @@ public class Auswertung {
 		} else {
 			
 			// Datum liegt in der Vergangenheit
-			
 			if(Personalverwaltung.getaMA().get(i).getEinstellungsdatum().compareTo(selectedDate)==-1||Personalverwaltung.getaMA().get(i).getEinstellungsdatum().compareTo(selectedDate)==0) {
 				
 				// Mitarbeiter wurde am ausgewählten Tag oder davor eingestellt
-				
 				if(zugListe.size()>1) {
 					// War in mehr als einer Abteilung
-					
-					
-					
 					int j = 0;
 					int verbleibend = zugListe.size();
 					int counter = 0;
@@ -651,10 +598,6 @@ public class Auswertung {
 		
 	}
 	
-	
-	
-
-
 	public int getAgeUnder30() {
 		return ageUnder30;
 	}
@@ -692,8 +635,6 @@ public class Auswertung {
 	public int getAgeOver50All() {
 		return ageOver50All;
 	}
-	
-	
 	
 	public double getAgeUnder30Allp() {
 		return ageUnder30Allp;
@@ -785,7 +726,4 @@ public class Auswertung {
 	public double getCountGenderp() {
 		return countGenderp;
 	}
-	
-	
-	
 }

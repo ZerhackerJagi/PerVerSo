@@ -45,6 +45,10 @@ import javax.swing.ScrollPaneLayout;
 import java.awt.Dimension;
 
 import javax.swing.JCheckBox;
+/*@author:		Soeren Hebestreit (Layout), Jakob Küchler (Content)
+ *@date: 		20.07.2019, 31.07.2019
+ *@description: GUI zur Ansicht der Statistiken, Arbeitsbereichsauswahl
+ */
 
 public class StatistikGUI extends JFrame{
 	
@@ -58,11 +62,7 @@ public class StatistikGUI extends JFrame{
 //******************** KONSTRUKTOR ********************
 	
 	public StatistikGUI(int PID) {
-		/*@author:		Soeren Hebestreit (Layout), Jakob Küchler (Content)
-		 *@date: 		20.07.2019, 31.07.2019
-		 *@description: GUI zur Ansicht der Statistiken, Arbeitsbereichsauswahl
-		 */
-		
+			
 		setIconImages(Programmstart.iconlist);
 		
 		setSize(600, 640);

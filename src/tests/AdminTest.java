@@ -8,7 +8,8 @@ import logik.Admin;
 import logik.Berechtigung;
 
 import org.junit.FixMethodOrder;
-
+/*@author: 		Charly Spina
+ */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AdminTest {
 	

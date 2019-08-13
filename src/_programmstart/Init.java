@@ -8,16 +8,15 @@ import filter.FileFilterPV;
 import gui.LoginGUI;
 import logik.Arbeitsbereichverwaltung;
 import logik.Personalverwaltung;
-
+/*@author:		Soeren Hebestreit
+ *@date: 		06.08.2019
+ *@description: Initialisierung wenn Daten nicht vorhanden
+ *				1. Suche und neuen Pfad speichern
+ *				2. Neu anlegen (nur Standardadmin)
+ */
 public class Init {
 	
-	public Init() {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		06.08.2019
-		 *@description: Initialisierung wenn Daten nicht vorhanden
-		 *				1. Suche und neuen Pfad speichern
-		 *				2. Neu anlegen (nur Standardadmin)
-		 */
+	public Init() {	
 	
 		Object[] options = {"Importieren", "Neu anlegen", "Exit"};
 		int selected = JOptionPane.showOptionDialog(null, "<html>Daten nicht gefunden.<br>Bitte wählen sie eine Aktion:<br>_______________________ </html>", null, JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, null);

@@ -13,6 +13,12 @@ import logik.Urlaubseintrag;
 import java.awt.Font;
 import java.awt.Color;
 import java.util.ArrayList;
+/*@author:		Soeren Hebestreit
+ *@date: 		25.07.2019
+ *@description: GUI zur Ansicht des eigenen AZK
+ *				1. Soll + Ueberminuten mit Warnung falls nahe/ueber Grenze
+ *				2. Urlaub + genommen und die Urlaubseintraege des aktuellen Jahres
+ */
 
 public class ShowAzkGUI extends JFrame{
 	
@@ -24,13 +30,7 @@ public class ShowAzkGUI extends JFrame{
 //******************** KONSTRUKTOR ********************
 	
 	public ShowAzkGUI(int PID) {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		25.07.2019
-		 *@description: GUI zur Ansicht des eigenen AZK
-		 *				1. Soll + Ueberminuten mit Warnung falls nahe/ueber Grenze
-		 *				2. Urlaub + genommen und die Urlaubseintraege des aktuellen Jahres
-		 */
-		
+			
 		setIconImages(Programmstart.iconlist);
 		
 		setSize(360, 640);

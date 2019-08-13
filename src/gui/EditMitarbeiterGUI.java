@@ -20,6 +20,10 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
+/*@author:		Soeren Hebestreit
+ *@date: 		22.07.2019
+ *@description: Mitarbeiter editieren oder anlegen
+ */	
 
 public class EditMitarbeiterGUI extends JFrame{
 	
@@ -30,11 +34,7 @@ public class EditMitarbeiterGUI extends JFrame{
 //******************** KONSTRUKTOR ********************
 	
 	public EditMitarbeiterGUI(int PID, int wer, boolean edit) {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		22.07.2019
-		 *@description: Mitarbeiter editieren oder anlegen
-		 */	
-		
+			
 		setIconImages(Programmstart.iconlist);
 		
 		setSize(400, 500);

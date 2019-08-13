@@ -19,6 +19,10 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
+/*@author:		Soeren Hebestreit
+ *@date: 		24.07.2019
+ *@description: Mitarbeiterberechtigung editieren
+ */	
 
 public class EditBerechtigungGUI extends JFrame{
 	
@@ -29,11 +33,7 @@ public class EditBerechtigungGUI extends JFrame{
 //******************** KONSTRUKTOR ********************
 	
 	public EditBerechtigungGUI(int PID, int wer) {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		24.07.2019
-		 *@description: Mitarbeiterberechtigung editieren
-		 */	
-		
+			
 		setIconImages(Programmstart.iconlist);
 		
 		setSize(400, 320);

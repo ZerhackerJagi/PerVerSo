@@ -22,6 +22,10 @@ import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
+/*@author:		Soeren Hebestreit
+ *@date: 		25.07.2019
+ *@description: Zugehörigkeit eines Mitarbeiters ändern
+ */	
 
 public class EditLinkingMaGUI extends JFrame{
 	
@@ -32,11 +36,7 @@ public class EditLinkingMaGUI extends JFrame{
 //******************** KONSTRUKTOR ********************
 	
 	public EditLinkingMaGUI(int PID, int wer) {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		25.07.2019
-		 *@description: Zugehörigkeit eines Mitarbeiters ändern
-		 */	
-		
+				
 		setIconImages(Programmstart.iconlist);
 		
 		setSize(400, 500);

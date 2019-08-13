@@ -3,6 +3,10 @@ package logik;
 import java.io.Serializable;
 
 import extern.Datum;
+/*@author: 		Soeren Hebestreit
+ *@date: 		19.07.2019
+ *@description:	Konstruktor Urlaubseintraege
+ */
 
 public class Urlaubseintrag extends Eintrag implements Serializable{
 
@@ -13,11 +17,7 @@ public class Urlaubseintrag extends Eintrag implements Serializable{
 //******************** KONSTRUKTOR ********************
 			
 	public Urlaubseintrag(Datum start, Datum ende, int arbeitstage) {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		19.07.2019
-		 *@description:	Konstruktor Urlaubseintraege
-		 */
-				
+					
 		super(start, ende, arbeitstage);
 	}
 }

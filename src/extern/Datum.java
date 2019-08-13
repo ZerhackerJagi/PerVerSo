@@ -2,7 +2,9 @@ package extern;
 
 import java.util.GregorianCalendar;
 import java.io.*;
-
+/*@author: 		Soeren Hebestreit
+ *@date: 		2019
+ */ 
 public class Datum implements Comparable <Datum>, Serializable {
 	
 //******************** PARAMETER ********************
@@ -15,44 +17,37 @@ public class Datum implements Comparable <Datum>, Serializable {
 //******************** KONSTRUKTOR ********************
 
 	public Datum (int Tag, int Monat, int Jahr) {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		2019
-		 *@description:	Konstruktor: Tag-Monat-Jahr
-		 */ 
-		
+				
 		this.Jahr = Jahr;
 		this.Monat = Monat;
 		this.Tag = Tag;	
 	}
 	
+	/*
+	 *@description:	Konstruktor: Monat-Jahr
+	 */
 	public Datum (int Monat, int Jahr) {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		2019
-		 *@description:	Konstruktor: Monat-Jahr
-		 */
-		
+				
 		this.Jahr = Jahr;
 		this.Monat = Monat;
 		this.Tag = 1;	
 	}
 	
+	/*
+	 *@description:	Konstruktor: Jahr
+	 */
 	public Datum (int Jahr) {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		2019
-		 *@description:	Konstruktor: Jahr
-		 */
-		
+			
 		this.Jahr = Jahr;
 		this.Monat = 1;
 		this.Tag = 1;	
 	}
 	
+	/*
+	 *@description:	Konstruktor heute
+	 */
 	public Datum () {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		2019
-		 *@description:	Konstruktor heute
-		 */
-		
+				
 		GregorianCalendar cal = new GregorianCalendar();
 		
 		this.Jahr = cal.get(GregorianCalendar.YEAR);
@@ -62,33 +57,30 @@ public class Datum implements Comparable <Datum>, Serializable {
 		
 //******************** AUSGABE ********************	
 	
+	/*
+	 *@description:	Textrueckgabe String
+	 */
 	public String toString () {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		2019
-		 *@description:	Textrueckgabe String
-		 */
-		
+			
 		return String.format("%02d" , this.Tag)+"."+String.format("%02d" , this.Monat)+"."+this.Jahr;
 	}
 	
+	/*
+	 *@description:	Textausgabe Konsole Monatsname + Jahr
+	 */
 	public void display () {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		2019
-		 *@description:	Textausgabe Konsole Monatsname + Jahr
-		 */
-		
+			
 		String[] Monate = {"Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"};
 		System.out.println (Monate[this.Monat-1]+" "+this.Jahr);	
 	}
 	
 //******************** COMPERATOR ********************	
 	
+	/*
+	 *@description:	Comperator Datumsformat
+	 */
 	public int compareTo (Datum anderesDatum) {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		2019
-		 *@description:	Comperator Datumsformat
-		 */
-		
+				
 		if (Jahr < anderesDatum.Jahr) return -1;
 		if (Jahr > anderesDatum.Jahr) return 1;
 		if (Monat < anderesDatum.Monat) return -1;

@@ -22,6 +22,10 @@ import java.awt.event.MouseEvent;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
+/*@author:		Soeren Hebestreit
+ *@date: 		27.07.2019
+ *@description: GUI zur Ansicht der Mitarbeiter eines Bereiches
+ */
 
 public class ShowMitarbeiterABGUI extends JFrame{
 	
@@ -33,11 +37,7 @@ public class ShowMitarbeiterABGUI extends JFrame{
 //******************** KONSTRUKTOR ********************
 	
 	public ShowMitarbeiterABGUI(int ID) {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		27.07.2019
-		 *@description: GUI zur Ansicht der Mitarbeiter eines Bereiches
-		 */
-		
+				
 		setIconImages(Programmstart.iconlist);
 		
 		setSize(400, 500);
@@ -112,12 +112,11 @@ public class ShowMitarbeiterABGUI extends JFrame{
 		setVisible(true);
 	}
 	
+	/*
+	 *@description: Tabellenmodell (inkl. Daten) erzeugen
+	 */
 	private static DefaultTableModel getModel(ArrayList<Mitarbeiter> mitarbeiterliste) {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		27.07.2019
-		 *@description: Tabellenmodell (inkl. Daten) erzeugen
-		 */
-		
+			
 		String [][] Data = new String [mitarbeiterliste.size()][3];
 		for(int i=0; i < mitarbeiterliste.size(); i++) {
 			Data[i][0] = mitarbeiterliste.get(i).getPersonalnummer()+"";
@@ -130,12 +129,11 @@ public class ShowMitarbeiterABGUI extends JFrame{
 		return model;
 	}
 	
+	/*
+	 *@description: Spaltenbreite der Tabelle aendern
+	 */
 	private static void setColWidth() {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		22.07.2019
-		 *@description: Spaltenbreite der Tabelle aendern
-		 */
-		
+			
 		table.getColumnModel().getColumn( 0 ).setPreferredWidth( 50 );
 		table.getColumnModel().getColumn( 1 ).setPreferredWidth( 130 );
 		table.getColumnModel().getColumn( 2 ).setPreferredWidth( 160 );

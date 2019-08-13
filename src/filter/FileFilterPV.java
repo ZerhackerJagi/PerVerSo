@@ -4,12 +4,12 @@ import java.io.File;
 
 import javax.swing.filechooser.FileFilter;
 
+/*@author: 		Soeren Hebestreit
+ *@date: 		06.08.2019
+ *@description:	File Filter für die Datei der Personalverwaltung
+ */
 public class FileFilterPV extends FileFilter {
-	/*@author: 		Soeren Hebestreit
-	 *@date: 		06.08.2019
-	 *@description:	File Filter für die Datei der Personalverwaltung
-	 */
-	
+		
 	public boolean accept(File f) {
 		if (f.isDirectory()) {
 			return true;

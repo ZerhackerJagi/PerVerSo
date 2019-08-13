@@ -2,12 +2,12 @@ package comparatoren;
 
 import java.util.Comparator;
 import logik.Arbeitsbereich;
-
+/*@author: 		Soeren Hebestreit
+ *@date: 		21.06.2019
+ *@description:	Comparator Arbeitsbereich nach Name
+ */
 public class ArbeitsbereichNameComparator implements Comparator <Arbeitsbereich> {
-	/*@author: 		Soeren Hebestreit
-	 *@date: 		21.06.2019
-	 *@description:	Comparator Arbeitsbereich nach Name
-	 */
+	
 	
 	public ArbeitsbereichNameComparator () {
 		

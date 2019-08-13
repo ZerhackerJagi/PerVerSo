@@ -24,6 +24,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.awt.Color;
+/*@author:		Soeren Hebestreit
+ *@date: 		21.07.2019
+ *@description: Hauptmenue Personalverwaltung, Mitarbeiterauswahl
+ */	
 
 public class PVGUI extends JFrame{
 	
@@ -45,11 +49,7 @@ public class PVGUI extends JFrame{
 //******************** KONSTRUKTOR ********************
 	
 	public PVGUI(int PID) {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		21.07.2019
-		 *@description: Hauptmenue Personalverwaltung, Mitarbeiterauswahl
-		 */	
-	
+			
 		setIconImages(Programmstart.iconlist);
 		
 		setSize(800, 640);
@@ -444,12 +444,11 @@ public class PVGUI extends JFrame{
 		setVisible(true);	
 	}	
 	
+	/*
+	 *@description: Tabellenmodell (inkl. Daten) erzeugen
+	 */
 	private static DefaultTableModel getModel(ArrayList<Mitarbeiter> mitarbeiterliste) {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		22.07.2019
-		 *@description: Tabellenmodell (inkl. Daten) erzeugen
-		 */
-		
+			
 		String [][] Data = new String [mitarbeiterliste.size()][3];
 		for(int i=0; i < mitarbeiterliste.size(); i++) {
 			Data[i][0] = mitarbeiterliste.get(i).getPersonalnummer()+"";
@@ -462,23 +461,21 @@ public class PVGUI extends JFrame{
 		return model;
 	}
 	
+	/*
+	 *@description: Spaltenbreite der Tabelle aendern
+	 */
 	private static void setColWidth() {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		22.07.2019
-		 *@description: Spaltenbreite der Tabelle aendern
-		 */
-		
+			
 		table.getColumnModel().getColumn( 0 ).setPreferredWidth( 80 );
 		table.getColumnModel().getColumn( 1 ).setPreferredWidth( 180 );
 		table.getColumnModel().getColumn( 2 ).setPreferredWidth( 240 );
 	}
 	
+	/*
+	 *@description: Daten bezueglich Auswahl anzeigen
+	 */
 	private static void getInfo(int number) {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		22.07.2019
-		 *@description: Daten bezueglich Auswahl anzeigen
-		 */
-		
+			
 		if(number < 0) {
 			lblData[0][1].setText("");
 			lblData[1][1].setText("");

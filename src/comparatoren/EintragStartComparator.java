@@ -2,12 +2,13 @@ package comparatoren;
 
 import java.util.Comparator;
 import logik.Eintrag;
+/*@author: 		Soeren Hebestreit
+ *@date: 		19.07.2019
+ *@description:	Comparator Eintrag nach Startdatum
+ */
 
 public class EintragStartComparator implements Comparator <Eintrag> {
-	/*@author: 		Soeren Hebestreit
-	 *@date: 		19.07.2019
-	 *@description:	Comparator Eintrag nach Startdatum
-	 */
+	
 	
 	public EintragStartComparator () {
 		

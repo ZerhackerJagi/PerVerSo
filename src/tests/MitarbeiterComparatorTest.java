@@ -6,6 +6,8 @@ import org.junit.Test;
 
 import tests.Mocks.MitarbeiterMock;
 import comparatoren.*;
+/*@author: 		Charly Spina
+ */
 
 public class MitarbeiterComparatorTest {
 	

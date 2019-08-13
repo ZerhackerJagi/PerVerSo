@@ -8,6 +8,10 @@ import comparatoren.ArbeitsbereichNameComparator;
 import comparatoren.ArbeitsbereichNummerComparator;
 import interfaces.VerwaltungIF;
 import speicher.Dateizugriff;
+/*@author: 		Soeren Hebestreit
+ *@date: 		20.06.2019
+ *@description:
+ */
 
 public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 
@@ -20,13 +24,13 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 	private static String path = "DataABV.avd";
 	
 //******************** KONSTRUKTOR ********************
-		
+	
+	/*@author: 		Jakob Kuechler
+	 *@date: 		20.06.2019
+	 *@description:	gibt die einzige Instanz von Arbeitsbereichverwaltung aus (Singleton)
+	 */
 	public static Arbeitsbereichverwaltung getInstance() {
-		/*@author: 		Jakob Kuechler
-		 *@date: 		20.06.2019
-		 *@description:	gibt die einzige Instanz von Arbeitsbereichverwaltung aus (Singleton)
-		 */
-			
+				
 		if(uniqueInstance == null) {
 			uniqueInstance = new Arbeitsbereichverwaltung();
 		}
@@ -39,13 +43,11 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 		start();
 	}
 	
-	@Override
+	/*
+	 *@description:	fuegt Grundbereiche bei der Ersterstellung ein 
+	 */
 	public void start() {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		18.07.2019
-		 *@description:	fuegt Grundbereiche bei der Ersterstellung ein 
-		 */
-		
+			
 		add("Undefined","unzugeordnete Mitarbeiter");
 		add("Ausgeschieden","ausgeschiedene Mitarbeiter");
 	}
@@ -53,8 +55,7 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 //******************** VERWALTUNG ********************
 	
 	public void add(String name, String beschreibung) {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		21.06.2019
+		/*
 		 *@description:	fuegt einen Arbeitsbereich hinzu 
 		 */
 		
@@ -62,13 +63,11 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 		arbeitsbereichnummer++;
 	}
 
-	@Override
+	/*
+	 *@description:	Bereiche an Hand der uebergebenen Nummer suchen und loeschen
+	 */
 	public boolean delete(int nummer) {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		18.07.2019
-		 *@description:	Bereiche an Hand der uebergebenen Nummer suchen und loeschen
-		 */
-		
+				
 		Arbeitsbereich bereich = (Arbeitsbereich) suchen(nummer);
 		if (bereich != null) {
 			bereiche.remove(bereich);
@@ -79,13 +78,11 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 		
 //******************** AUSGABE ********************
 	
-	@Override
+	/*
+	 *@description:	Bereiche anzeigen (Konsole)
+	 */
 	public void show () {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		22.06.2019
-		 *@description:	Bereiche anzeigen (Konsole)
-		 */
-		
+			
 		if (bereiche.size()!=0) {
 			for (int i = 0; i < bereiche.size(); i++) {
 				bereiche.get(i).display();
@@ -97,33 +94,27 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 
 //******************** SORTIEREN & SUCHEN ********************
 	
-	@Override
+	/*
+	 *@description:	Arbeitsbereiche nach Name sortieren
+	 */
 	public void sortName() {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		21.06.2019
-		 *@description:	Arbeitsbereiche nach Name sortieren
-		 */
-		
+			
 		Collections.sort(bereiche,new ArbeitsbereichNameComparator());
 	}
 
-	@Override
+	/*
+	 *@description:	Arbeitsbereich nach Nummer sortieren
+	 */
 	public void sortNumber() {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		21.06.2019
-		 *@description:	Arbeitsbereich nach Nummer sortieren
-		 */
-		
+			
 		Collections.sort(bereiche,new ArbeitsbereichNummerComparator());
 	}
 
-	@Override
+	/*
+	 *@description:	bekommt eine Arbeitsbereichnummer und durchsucht Bereiche anhand dessen
+	 */
 	public Object suchen(int nummer) {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		22.06.2019
-		 *@description:	bekommt eine Arbeitsbereichnummer und durchsucht Bereiche anhand dessen
-		 */
-		
+			
 		if (bereiche.size()!=0) {
 			for (int i = 0; i < bereiche.size(); i++) {
 				if (bereiche.get(i).getArbeitsbereichnummer() == nummer) {
@@ -136,29 +127,28 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 
 //******************** LOAD & SAVE ********************
 	
+	/*@author: 		Charly Spina
+	 *@description:	setzt den Modus/datenbank fürs speichern und laden
+	 */
 	public void setModus(String modus) {
 		Dateizugriff data = Dateizugriff.getInstance();
 		data.setDatenBank(modus);
 	}
 	
-	@Override
+	/*
+	 *@description:	erzeugt ein Dateizugriff und uebergibt die zu speichernden Daten 
+	 */
 	public void speichern() throws Exception {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		21.06.2019
-		 *@description:	erzeugt ein Dateizugriff und uebergibt die zu speichernden Daten 
-		 */
-		
+			
 		Dateizugriff data = Dateizugriff.getInstance();
 		data.speichern(bereiche);	
 	}
 			
-	@Override
+	/*
+	 *@description:	erzeugt ein Dateizugriff und laedt Daten in die Mitarbeiterliste
+	 */
 	public void laden() throws Exception {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		21.06.2019
-		 *@description:	erzeugt ein Dateizugriff und laedt Daten in die Mitarbeiterliste
-		 */
-			
+				
 		Dateizugriff data = Dateizugriff.getInstance();
 		bereiche = (ArrayList<Arbeitsbereich>) data.laden();
 		arbeitsbereichnummer  = bereiche.get(bereiche.size()-1).getArbeitsbereichnummer()+1;
@@ -183,7 +173,9 @@ public class Arbeitsbereichverwaltung implements VerwaltungIF,Serializable {
 	}
 	
 //********************Testumgebung**************************
-	
+	/*
+	 * @author: Charly Spina
+	 */
 	public void resetArbeitsbereichverwaltung() {
 		uniqueInstance = new Arbeitsbereichverwaltung();
 	}

@@ -1,5 +1,6 @@
 package tests;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 import org.junit.runners.MethodSorters;
 import org.junit.FixMethodOrder;
@@ -9,6 +10,9 @@ import java.util.ArrayList;
 import extern.Datum;
 import logik.Mitarbeiter;
 import logik.Personalverwaltung;
+/*@author: 		Charly Spina
+ */
+
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PersonalverwaltungTest {
 

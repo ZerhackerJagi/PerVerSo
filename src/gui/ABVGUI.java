@@ -27,6 +27,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.awt.Color;
+/*@author:		Soeren Hebestreit
+ *@date: 		24.07.2019
+ *@description: Hauptmenue Arbeitsbereichverwaltung, Arbeitsbereichauswahl
+ */	
 
 public class ABVGUI extends JFrame{
 	
@@ -44,12 +48,7 @@ public class ABVGUI extends JFrame{
 //******************** KONSTRUKTOR ********************
 	
 	public ABVGUI(int PID) {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		24.07.2019
-		 *@description: Hauptmenue Arbeitsbereichverwaltung, Arbeitsbereichauswahl
-		 */	
-
-
+		
 		setIconImages(Programmstart.iconlist);
 		
 		setSize(800, 640);
@@ -306,12 +305,11 @@ public class ABVGUI extends JFrame{
 		setVisible(true);	
 	}	
 	
+	/*
+	 *@description: Tabellenmodell (inkl. Daten) erzeugen
+	 */
 	private static DefaultTableModel getModel(ArrayList<Arbeitsbereich> bereichsliste) {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		24.07.2019
-		 *@description: Tabellenmodell (inkl. Daten) erzeugen
-		 */
-		
+				
 		String [][] Data = new String [bereichsliste.size()][2];
 		for(int i=0; i < bereichsliste.size(); i++) {
 			Data[i][0] = bereichsliste.get(i).getArbeitsbereichnummer()+"";
@@ -323,22 +321,20 @@ public class ABVGUI extends JFrame{
 		return model;
 	}
 	
+	/*
+	 *@description: Spaltenbreite der Tabelle aendern
+	 */
 	private static void setColWidth() {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		24.07.2019
-		 *@description: Spaltenbreite der Tabelle aendern
-		 */
-		
+				
 		table.getColumnModel().getColumn( 0 ).setPreferredWidth( 50 );
 		table.getColumnModel().getColumn( 1 ).setPreferredWidth( 450 );
 	}
 	
+	/*
+	 *@description: Daten bezueglich Auswahl anzeigen
+	 */
 	private static void getInfo(int number) {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		22.07.2019
-		 *@description: Daten bezueglich Auswahl anzeigen
-		 */
-		
+			
 		if(number < 0) {
 			lblData[0][1].setText("");
 			lblData[1][1].setText("");

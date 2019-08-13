@@ -7,6 +7,8 @@ import org.junit.Test;
 import comparatoren.EintragStartComparator;
 import extern.Datum;
 import logik.*;
+/*@author: 		Charly Spina
+ */
 
 public class EintragStartComparatorTest {
 

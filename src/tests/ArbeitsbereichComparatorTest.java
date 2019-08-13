@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import comparatoren.*;
 import logik.Arbeitsbereich;
+/*@author: 		Charly Spina
+ */
 
 public class ArbeitsbereichComparatorTest {
 

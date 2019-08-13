@@ -35,6 +35,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.awt.Color;
+/*@author:		Soeren Hebestreit
+ *@date: 		27.07.2019
+ *@description: Arbeitszeitkonto verwalten
+ */	
 
 public class EditAzkGUI extends JFrame{
 	
@@ -55,10 +59,7 @@ public class EditAzkGUI extends JFrame{
 //******************** KONSTRUKTOR ********************
 	
 	public EditAzkGUI(int PID, int wer) {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		27.07.2019
-		 *@description: Arbeitszeitkonto verwalten
-		 */	
+		
 		setIconImages(Programmstart.iconlist);
 		
 		setSize(800, 640);
@@ -403,12 +404,12 @@ public class EditAzkGUI extends JFrame{
 	     
 		sorter.setRowFilter(filter);
 	}
-
+	
+	/*
+	 *@description: Tabellenmodell (inkl. Daten) erzeugen
+	 */
 	private static DefaultTableModel getModel(ArrayList<Eintrag> liste) {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		27.07.2019
-		 *@description: Tabellenmodell (inkl. Daten) erzeugen
-		 */
+		
 		
 		String [][] Data = new String [liste.size()][5];
 		for(int i=0; i < liste.size(); i++) {
@@ -428,12 +429,11 @@ public class EditAzkGUI extends JFrame{
 		return model;
 	}
 	
+	/*
+	 *@description: Spaltenbreite der Tabelle aendern
+	 */
 	private static void setColWidth() {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		27.07.2019
-		 *@description: Spaltenbreite der Tabelle aendern
-		 */
-		
+			
 		table.getColumnModel().getColumn( 0 ).setPreferredWidth( 50 );
 		table.getColumnModel().getColumn( 1 ).setPreferredWidth( 125 );
 		table.getColumnModel().getColumn( 2 ).setPreferredWidth( 100 );
@@ -441,12 +441,11 @@ public class EditAzkGUI extends JFrame{
 		table.getColumnModel().getColumn( 4 ).setPreferredWidth( 100 );
 	}
 	
+	/*
+	 *@description: Anzahl Urlaub/Krankheit fuer angegebenes Jahr ermitteln und ausgeben
+	 */
 	private static void showAnzahlTage(Mitarbeiter ma) {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		27.07.2019
-		 *@description: Anzahl Urlaub/Krankheit fuer angegebenes Jahr ermitteln und ausgeben
-		 */
-		
+				
 		int anzahl = 0;
 		if(jahr == "" || typ == "") {
 			lblAnzahl.setText("");

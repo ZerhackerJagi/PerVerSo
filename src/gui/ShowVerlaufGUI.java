@@ -22,6 +22,10 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
+/*@author:		Soeren Hebestreit
+ *@date: 		20.07.2019
+ *@description: GUI zur Ansicht der Zugehörigkeiten eines Mitarbeiters
+ */
 
 public class ShowVerlaufGUI extends JFrame{
 	
@@ -33,11 +37,7 @@ public class ShowVerlaufGUI extends JFrame{
 //******************** KONSTRUKTOR ********************
 	
 	public ShowVerlaufGUI(int PID) {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		20.07.2019
-		 *@description: GUI zur Ansicht der Zugehörigkeiten eines Mitarbeiters
-		 */
-		
+				
 		setIconImages(Programmstart.iconlist);
 		
 		setSize(360, 640);
@@ -95,12 +95,11 @@ public class ShowVerlaufGUI extends JFrame{
 		setVisible(true);
 	}
 	
+	/*
+	 *@description: Tabellenmodell (inkl. Daten) erzeugen
+	 */
 	private static DefaultTableModel getModel(ArrayList<Zugehoerigkeit> liste) {
-		/*@author:		Soeren Hebestreit
-		 *@date: 		26.07.2019
-		 *@description: Tabellenmodell (inkl. Daten) erzeugen
-		 */
-		
+			
 		String [][] Data = new String [liste.size()*2][2];
 		for(int i=0; i < liste.size()*2; i=i+2) {
 			Data[i][0] = liste.get(i/2).getStart()+"";
@@ -114,17 +113,17 @@ public class ShowVerlaufGUI extends JFrame{
 		return model;
 	}
 	
+	/*
+	 *@description: Zugehoerigkeits-Tabelle formatieren
+	 */
 	private void formatTable(ArrayList<Zugehoerigkeit> liste) {
+		
 		/*@author:		Soeren Hebestreit
 		 *@date: 		26.07.2019
-		 *@description: Zugehoerigkeits-Tabelle formatieren
+		 *@description: CellRenderer zur Formatierung der Zellen (Text: oben, ungerade Zeilen: Fett)
 		 */
-		
 		class CellRenderer extends JTextArea implements TableCellRenderer {
-			/*@author:		Soeren Hebestreit
-			 *@date: 		26.07.2019
-			 *@description: CellRenderer zur Formatierung der Zellen (Text: oben, ungerade Zeilen: Fett)
-			 */
+			
 
 			private static final long serialVersionUID = 1L;
 

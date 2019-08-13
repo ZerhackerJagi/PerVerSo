@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import logik.Arbeitsbereichverwaltung;
+/*@author: 		Charly Spina
+ */
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ArbeitsbereichverwaltungTest {

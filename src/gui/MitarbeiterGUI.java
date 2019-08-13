@@ -19,6 +19,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+/*@author:		Jakob Kuechler, Soeren Hebestreit
+ *@date: 		xx.xx.2019, 19.07.2019
+ *@description: Mitarbeiter GUI
+ */
 
 public class MitarbeiterGUI extends JFrame{
 	
@@ -32,11 +36,7 @@ public class MitarbeiterGUI extends JFrame{
 //******************** KONSTRUKTOR ********************
 	
 	public MitarbeiterGUI(int PID) {
-		/*@author:		Jakob Kuechler, Soeren Hebestreit
-		 *@date: 		xx.xx.2019, 19.07.2019
-		 *@description: Mitarbeiter GUI
-		 */
-		
+			
 		setIconImages(Programmstart.iconlist);
 		
 		setSize(240, 480);

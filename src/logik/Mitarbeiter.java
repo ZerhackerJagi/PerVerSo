@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import extern.Datum;
+/*@author: 		Soeren Hebestreit
+ *@date: 		21.06.2019
+ *@description:	
+ */
 
 public class Mitarbeiter implements Serializable {
 
@@ -28,13 +32,12 @@ public class Mitarbeiter implements Serializable {
 		
 //******************** KONSTRUKTOR ********************
 	
+	/*
+	 *@description:	Konstruktor Mitarbeiter komplett
+	 */
 	public Mitarbeiter(int personalnummer, String name, String vorname, char geschlecht, Datum geburtstag, 
 			String passwort, Berechtigung berechtigung, 
 			Datum einstellungsdatum, Arbeitszeitkonto azk, Zugehoerigkeit zugehoerigkeit) {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		21.06.2019
-		 *@description:	Konstruktor Mitarbeiter komplett
-		 */
 		
 		this.personalnummer = personalnummer;
 		this.name = name;
@@ -52,26 +55,29 @@ public class Mitarbeiter implements Serializable {
 		this.zugehoerigkeit = new ArrayList<Zugehoerigkeit>();
 		this.zugehoerigkeit.add(zugehoerigkeit);
 	}
-
+	
+	/*
+	 * @author: Charly Spina 
+	 * @description: Für die Test(MitarbeiterMock)
+	 */
 	public Mitarbeiter() {
-		//Für die Test(MitarbeiterMock)
+
 	}
+	
 //******************** AUSGABE ********************
 	
+	/*
+	 *@description:	Textrueckgabe String
+	 */
 	public String toString() {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		21.06.2019
-		 *@description:	Textrueckgabe String
-		 */
 		
 		return  personalnummer+"\t"+name+" "+vorname;
 	}
 		
+	/*
+	 *@description:	Textausgabe Konsole
+	 */
 	public void display() {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		21.06.2019
-		 *@description:	Textausgabe Konsole
-		 */
 		
 		System.out.println(personalnummer+"\t"+name+" "+vorname+"\t"+geschlecht+"\t"+geburtsdatum);
 	}

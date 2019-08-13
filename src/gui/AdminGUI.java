@@ -23,6 +23,10 @@ import logik.Personalverwaltung;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+/*@author:		Jakob Kuechler, Soeren Hebestreit
+ *@date: 		xx.xx.2019, 20.07.2019
+ *@description: Admin GUI
+ */
 
 public class AdminGUI extends JFrame{
 	
@@ -39,10 +43,7 @@ public class AdminGUI extends JFrame{
 //******************** KONSTRUKTOR ********************	
 	
 	public AdminGUI(int PID) {
-		/*@author:		Jakob Kuechler, Soeren Hebestreit
-		 *@date: 		xx.xx.2019, 20.07.2019
-		 *@description: Admin GUI
-		 */
+		
 		setIconImages(Programmstart.iconlist);
 		
 		setSize(240, 480);

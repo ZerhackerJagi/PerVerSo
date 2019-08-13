@@ -1,6 +1,8 @@
 package tests.Mocks;
 
 import logik.*;
+/*@author: 		Charly Spina
+ */
 
 public class MitarbeiterMock extends Mitarbeiter{
 	private static final long serialVersionUID = 1L;

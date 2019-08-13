@@ -2,12 +2,13 @@ package comparatoren;
 
 import java.util.Comparator;
 import logik.Mitarbeiter;
+/*@author: 		Soeren Hebestreit
+ *@date: 		21.06.2019
+ *@description:	Comparator Mitarbeiter nach Namen, Vorname
+ */
 
 public class MitarbeiterNameComparator implements Comparator <Mitarbeiter> {
-	/*@author: 		Soeren Hebestreit
-	 *@date: 		21.06.2019
-	 *@description:	Comparator Mitarbeiter nach Namen, Vorname
-	 */
+	
 	
 	public MitarbeiterNameComparator () {
 		

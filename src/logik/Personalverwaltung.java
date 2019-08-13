@@ -9,7 +9,10 @@ import comparatoren.MitarbeiterNummerComparator;
 import extern.Datum;
 import interfaces.VerwaltungIF;
 import speicher.Dateizugriff;
-
+/*@author: 		Soeren Hebestreit
+ *@date: 		20.06.2019
+ *@description:	
+ */
 public class Personalverwaltung implements VerwaltungIF,Serializable {
 	
 //******************** PARAMETER ********************
@@ -21,12 +24,13 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 	private static String path = "DataPV.pvd";
 		
 //******************** KONSTRUKTOR ********************
-
+	
+	/*@author: 		Jakob Kuechler
+	 *@date: 		20.06.2019
+	 *@description:	Gibt die einzige Instanz von Personalverwaltung aus (Singleton)
+	 */
 	public static Personalverwaltung getInstance() {
-		/*@author: 		Jakob Kuechler
-		 *@date: 		20.06.2019
-		 *@description:	Gibt die einzige Instanz von Personalverwaltung aus (Singleton)
-		 */
+		
 			
 		if(uniqueInstance == null) {
 			uniqueInstance = new Personalverwaltung();
@@ -40,36 +44,32 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 		start();
 	}
 	
-	@Override
+	/*
+	 *@description:	fuegt Standardadmin bei der Ersterstellung hinzu 
+	 */
 	public void start() {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		18.07.2019
-		 *@description:	fuegt Standardadmin bei der Ersterstellung hinzu 
-		 */
-		
+			
 		aMA.add(new Mitarbeiter(personalnummer, "admin", "default", 'd', new Datum(), "admin", new Admin(personalnummer), new Datum(), new Arbeitszeitkonto(0,0,0,0), new Zugehoerigkeit(new Datum(),0,"Standardadmin anlegen")));
 		personalnummer ++;
 	}
 	
 //******************** VERWALTUNG ********************
 	
+	/*
+	 *@description:	fuegt einen Mitarbeiter hinzu, komplette Angabe
+	 */
 	public void add(String name, String vorname, char gender, Datum geburtstag, Datum einstellung, int bereichsnummer, String pwd) throws Exception {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		18.07.2019
-		 *@description:	fuegt einen Mitarbeiter hinzu, komplette Angabe
-		 */
-	
+		
 		Zugehoerigkeit wo = new Zugehoerigkeit(einstellung,bereichsnummer,"Einstellung");
 		aMA.add(new Mitarbeiter(personalnummer,name,vorname,gender,geburtstag,pwd,new User(personalnummer),einstellung,new Arbeitszeitkonto(),wo));
 		personalnummer ++;
 	}
 	
+	/*
+	 *@description:	fuegt einen Mitarbeiter hinzu, autogenerierter Username und Passwort
+	 */
 	public void add(String name, String vorname, char gender, Datum geburtstag, Datum einstellung, int bereichsnummer) throws Exception {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		18.07.2019
-		 *@description:	fuegt einen Mitarbeiter hinzu, autogenerierter Username und Passwort
-		 */
-	
+		
 		// Beispiel Passwort: sH_715re
 		// String passwort = vorname.substring(0,1).toLowerCase()+name.substring(0,1).toUpperCase()+"_"+einstellung.getMonat()+geburtstag.getTag()+vorname.charAt(vorname.length()/2)+name.charAt(name.length()/3);
 		Zugehoerigkeit wo = new Zugehoerigkeit(einstellung,bereichsnummer,"Einstellung");
@@ -77,12 +77,10 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 		personalnummer ++;
 	}
 
-	@Override
+	/*
+	 *@description:	Bereiche an Hand der uebergebenen Nummer suchen und loeschen
+	 */
 	public boolean delete(int nummer) {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		18.07.2019
-		 *@description:	Bereiche an Hand der uebergebenen Nummer suchen und loeschen
-		 */
 		
 		Mitarbeiter wen = (Mitarbeiter) suchen(nummer);
 		if (wen != null) {
@@ -94,11 +92,10 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 	
 //******************** AUSGABE ********************	
 	
+	/*
+	 *@description:	Mitarbeiter anzeigen (Konsole) 
+	 */
 	public void show() {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		22.06.2019
-		 *@description:	Mitarbeiter anzeigen (Konsole) 
-		 */
 		
 		if (aMA.size()!=0) {
 			for (int i = 0; i < aMA.size(); i++) {
@@ -111,35 +108,27 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 
 //******************** SORTIEREN & SUCHEN ********************
 	
-	@Override
+	/*
+	 *@description:	Mitarbeiterliste nach Name, Vorname sortieren
+	 */
 	public void sortName() {
-		// TODO Auto-generated method stub
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		21.06.2019
-		 *@description:	Mitarbeiterliste nach Name, Vorname sortieren
-		 */
-		
+	
 		Collections.sort(aMA,new MitarbeiterNameComparator());
 	}
 
-	@Override
+	/*
+	 *@description:	Mitarbeiterliste nach Personalnummer sortieren
+	 */
 	public void sortNumber() {
-		// TODO Auto-generated method stub
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		21.06.2019
-		 *@description:	Mitarbeiterliste nach Personalnummer sortieren
-		 */
 		
 		Collections.sort(aMA,new MitarbeiterNummerComparator());
 	}
 	
-	@Override
+	/*
+	 *@description:	bekommt eine Personalnummer und durchsucht Mitarbeiterliste anhand dessen
+	 */
 	public Object suchen(int nummer) {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		22.06.2019
-		 *@description:	bekommt eine Personalnummer und durchsucht Mitarbeiterliste anhand dessen
-		 */
-		
+	
 		if (aMA.size()!=0) {
 			for (int i = 0; i < aMA.size(); i++) {
 				if (aMA.get(i).getPersonalnummer() == nummer) {
@@ -151,29 +140,27 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 	}
 	
 //******************** LOAD & SAVE ********************
-	
+	/*@author: 		Charly Spina
+	 *@description:	setzt den Modus/datenbank fürs speichern und laden
+	 */
 	public void setModus(String modus) {
 		Dateizugriff data = Dateizugriff.getInstance();
 		data.setDatenBank(modus);
 	}
 	
-	@Override
+	/*
+	 *@description:	erzeugt ein Dateizugriff und uebergibt die zu speichernden Daten 
+	 */
 	public void speichern() throws Exception {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		21.06.2019
-		 *@description:	erzeugt ein Dateizugriff und uebergibt die zu speichernden Daten 
-		 */
 		
 		Dateizugriff data = Dateizugriff.getInstance();
 		data.speichern(aMA);	
 	}	
 		
-	@Override
+	/*
+	 *@description:	erzeugt ein Dateizugriff und laedt Daten in die Mitarbeiterliste
+	 */
 	public void laden() throws Exception {
-		/*@author: 		Soeren Hebestreit
-		 *@date: 		21.06.2019
-		 *@description:	erzeugt ein Dateizugriff und laedt Daten in die Mitarbeiterliste
-		 */
 			
 		Dateizugriff data = Dateizugriff.getInstance();
 		aMA = (ArrayList<Mitarbeiter>) data.laden();
@@ -200,6 +187,9 @@ public class Personalverwaltung implements VerwaltungIF,Serializable {
 	
 //******************** TESTUMGEBUNG **************************
 	
+	/*
+	 * @author: 		Charly Spina
+	 */
 	public void resetPersonalverwaltung() {
 		uniqueInstance = new Personalverwaltung();
 	}
