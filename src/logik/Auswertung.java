@@ -119,14 +119,19 @@ public class Auswertung {
 	 */
 	public String showDurchschnittsalter(int arbeitsbereichnummer, Datum selectedDate) {
 			
-		int Gesamtalter = 0;int aktiveMA = 0;
+		int Gesamtalter = 0;int aktiveMA = 0;int zähler = 0;
 		
 		resetAgeValues();
+		
+		Personalverwaltung.getInstance().sortNumber();
+		if(100000 == Personalverwaltung.getaMA().get(0).getPersonalnummer()) {
+			zähler = 1;
+		}
 			
-		for(int i = 0; i<Personalverwaltung.getaMA().size();i++) {
-			Mitarbeiter ma = Personalverwaltung.getaMA().get(i);
+		for(; zähler<Personalverwaltung.getaMA().size();zähler++) {
+			Mitarbeiter ma = Personalverwaltung.getaMA().get(zähler);
 			if(arbeitsbereichnummer == GesamtUnternehmen) {
-				if(checkArbeitsbereichZeitraum(i, GesamtUnternehmen, selectedDate)) {
+				if(checkArbeitsbereichZeitraum(zähler, GesamtUnternehmen, selectedDate)) {
 					Gesamtalter = Gesamtalter + ma.getAlter();
 					aktiveMA++;
 					if(ma.getAlter()<30) 							{ageUnder30All++;} 
@@ -135,7 +140,7 @@ public class Auswertung {
 					else 											{ageOver50All++;}
 				}
 			} else {
-				if(checkArbeitsbereichZeitraum(i, arbeitsbereichnummer, selectedDate)) {
+				if(checkArbeitsbereichZeitraum(zähler, arbeitsbereichnummer, selectedDate)) {
 					Gesamtalter = Gesamtalter + ma.getAlter();
 					aktiveMA++;
 					if(ma.getAlter()<30) 							{ageUnder30++;} 
@@ -224,12 +229,18 @@ public class Auswertung {
 	 * @description:Gibt die Geschlechterverteilung aus
 	 */
 	public void showGeschlechterverteilung(int arbeitsbereichnummer, Datum selectedDate) {
+		int zähler = 0;
 		
-		for(int i = 0;i<Personalverwaltung.getaMA().size();i++) {
-			char gender = Personalverwaltung.getaMA().get(i).getGeschlecht();
+		Personalverwaltung.getInstance().sortNumber();
+		if(100000 == Personalverwaltung.getaMA().get(0).getPersonalnummer()) {
+			zähler = 1;
+		}
+		
+		for(;zähler<Personalverwaltung.getaMA().size();zähler++) {
+			char gender = Personalverwaltung.getaMA().get(zähler).getGeschlecht();
 			
 			if(arbeitsbereichnummer == GesamtUnternehmen) {
-				if(checkArbeitsbereichZeitraum(i, arbeitsbereichnummer, selectedDate)) {
+				if(checkArbeitsbereichZeitraum(zähler, arbeitsbereichnummer, selectedDate)) {
 					aktiveMA++;
 					if(gender == 'm') 			{countGenderMAllp++;
 					} else if (gender == 'w') 	{countGenderWAllp++;
@@ -238,7 +249,7 @@ public class Auswertung {
 					}	
 				}
 			} else {
-				if(checkArbeitsbereichZeitraum(i, arbeitsbereichnummer, selectedDate)) {
+				if(checkArbeitsbereichZeitraum(zähler, arbeitsbereichnummer, selectedDate)) {
 					aktiveMA++;
 					if(gender == 'm') 			{countGenderM++;
 					} else if (gender == 'w')	{countGenderW++;
@@ -461,12 +472,17 @@ public class Auswertung {
 	 * @description:Ermittelt die Anzahl der MA im Unternehmen zu einem Zeitpunkt
 	 */
 	public String showAnzahlMitarbeiterImUnternehmen(Datum selectedDate) {
+		int zähler = 0;
 		
+		Personalverwaltung.getInstance().sortNumber();
+		if(100000 == Personalverwaltung.getaMA().get(0).getPersonalnummer()) {
+			zähler = 1;
+		}
 		int countAllMA = 0;
 		
-		for(int i = 0; i< Personalverwaltung.getaMA().size();i++) {
+		for(; zähler< Personalverwaltung.getaMA().size();zähler++) {
 			
-				if(checkArbeitsbereichZeitraum(i, -1, selectedDate)) {
+				if(checkArbeitsbereichZeitraum(zähler, -1, selectedDate)) {
 					countAllMA++;
 				}		
 		}
@@ -477,12 +493,17 @@ public class Auswertung {
 	 * @description:Ermittelt die Anzahl der MA in einem Arbeitsbereich zu einem Zeitpunkt
 	 */
 	public String showAnzahlMitarbeiterInArbeitsbereich(int arbeitsbereichnummer, Datum selectedDate) {
+		int zähler = 0;
 		
+		Personalverwaltung.getInstance().sortNumber();
+		if(100000 == Personalverwaltung.getaMA().get(0).getPersonalnummer()) {
+			zähler = 1;
+		}
 		int countAllMA = 0;
 		
-		for(int i = 0; i< Personalverwaltung.getaMA().size();i++) {
+		for(; zähler< Personalverwaltung.getaMA().size();zähler++) {
 			
-				if(checkArbeitsbereichZeitraum(i, arbeitsbereichnummer, selectedDate)) {
+				if(checkArbeitsbereichZeitraum(zähler, arbeitsbereichnummer, selectedDate)) {
 					countAllMA++;
 				}
 		}
