@@ -79,7 +79,7 @@ public class Mitarbeiter implements Serializable {
 	 */
 	public void display() {
 		
-		System.out.println(personalnummer+"\t"+name+" "+vorname+"\t"+geschlecht+"\t"+geburtsdatum);
+		System.out.println(personalnummer+"\t"+geschlecht+"\t"+geburtsdatum+"\t"+name+", "+vorname);
 	}
 
 //******************** GETTER & SETTER ********************

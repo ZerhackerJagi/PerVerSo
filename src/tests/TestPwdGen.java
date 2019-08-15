@@ -8,9 +8,9 @@ public class TestPwdGen {
 		String vorname = "Soeren";
 		int smonth = 7;
 		int bday = 15;
-		int personalnummer = 2;
+		int personalnummer = 100001;
 		
-		String username = name+personalnummer;
+		String username = name+(""+personalnummer).substring(3);
 		String password = vorname.substring(0,1).toLowerCase()+name.substring(0,1).toUpperCase()+"_"+smonth+bday+vorname.charAt(vorname.length()/2)+name.charAt(name.length()/3);
 		
 		System.out.println(username+"\t"+password);
