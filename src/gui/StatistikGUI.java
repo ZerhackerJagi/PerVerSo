@@ -137,7 +137,6 @@ public class StatistikGUI extends JFrame{
 		}
 	
 		String[] lastYears = new String[(yearActually-yearOldest+1)];
-		System.out.println("Länge Liste: "+(yearActually-yearOldest+1));
 		for(int i = 0;i<lastYears.length;i++) {
 			lastYears[i] = ""+(yearActually-i);
 		}
@@ -212,9 +211,7 @@ public class StatistikGUI extends JFrame{
 							selectedDate = new Datum(1, 1, Integer.parseInt((String) comboBoxYear.getSelectedItem()));
 						}
 					}
-				}
-				System.out.println(selectedDate);
-				
+				}			
 				// Alte Daten löschen
 				try{
 					panel.remove(table);
@@ -237,14 +234,12 @@ public class StatistikGUI extends JFrame{
 					// Barchart für Altersverteilung (Unternehmen)
 					
 					DefaultCategoryDataset dcd = new DefaultCategoryDataset();
-					System.out.println("Arbeitsbereich");
 					a.calcAlterPercent(gewaehlterAB.getArbeitsbereichnummer(), selectedDate);
 					dcd.setValue(a.getAgeUnder30p(), "Altersanteil Arbeitsbereich (%)", "unter 30");
 					dcd.setValue(a.getAge30to39p(), "Altersanteil Arbeitsbereich (%)", "30 - 39");
 					dcd.setValue(a.getAge40to50p(), "Altersanteil Arbeitsbereich (%)", "40 - 50");
 					dcd.setValue(a.getAgeOver50p(), "Altersanteil Arbeitsbereich (%)", "über 50");
 					
-					System.out.println("\n********************\nGesamtunternehmen");
 					a.calcAlterPercent(-1,selectedDate);
 					dcd.setValue(a.getAgeUnder30Allp(), "Altersanteil Unternehmen (%)", "unter 30");
 					dcd.setValue(a.getAge30to39Allp(), "Altersanteil Unternehmen (%)", "30 - 39");

@@ -344,7 +344,6 @@ public class Auswertung {
 			}
 		}
 		
-		System.out.println("aktuelle MA: "+ aktiveMA+"\nZugaenge: "+zugaenge+"\nAbgaenge: "+abgaenge);
 		double bestandBeginnPeriode = aktiveMA-zugaenge+abgaenge;
 		
 		// Berechnung nach Schlüter	
@@ -528,8 +527,6 @@ public class Auswertung {
 				return true;
 			}
 			
-		} else if (selectedDate.compareTo((new Datum()))==1){
-			System.out.println("Datum liegt in der Zukunft");
 		} else {
 			
 			// Datum liegt in der Vergangenheit
@@ -544,9 +541,7 @@ public class Auswertung {
 					
 					try {
 						if(ma.getAusscheidungsdatum().compareTo(selectedDate)==1||ma.getAusscheidungsdatum()==null) {
-						
-							System.out.println(ma.getVorname()+" "+ma.getName()+" - "+ma.getEinstellungsdatum().toString()+" - "+ma.getActualAB().getStart()+" - "+ma.getActualAB().getArbeitsbereichnummer());
-							
+								
 							// Suche das Startdatum, welches am Nächsten am gewählten Datum liegt.
 							while((zugListe.get(j).getStart().compareTo(selectedDate)==-1) && verbleibend>1) {
 								j++;
@@ -587,8 +582,7 @@ public class Auswertung {
 							
 						} else if (zugListe.get(j).getArbeitsbereichnummer()==arbeitsbereichnummer) {
 							
-							return true;
-							
+							return true;			
 						}
 					}
 					
