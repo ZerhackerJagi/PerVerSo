@@ -144,11 +144,4 @@ public class EditBereichGUI extends JFrame{
 		
 		setVisible(true);	
 	}		
-
-	public static void main(String[] args) throws Exception {
-		
-		Arbeitsbereichverwaltung.getInstance().laden();
-		new EditBereichGUI(0,Arbeitsbereichverwaltung.getBereiche().get(Arbeitsbereichverwaltung.getBereiche().size()-1).getArbeitsbereichnummer()+1,false);
-		new EditBereichGUI(0,Arbeitsbereichverwaltung.getBereiche().size()-1,true);
-	}
 }

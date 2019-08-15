@@ -130,10 +130,4 @@ public class ChangePasswortGUI extends JFrame{
 		
 		setVisible(true);	
 	}		
-
-	public static void main(String[] args) throws Exception {
-		
-		Personalverwaltung.getInstance().laden();
-		new ChangePasswortGUI(100001);
-	}
 }

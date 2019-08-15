@@ -294,12 +294,4 @@ public class EditMitarbeiterGUI extends JFrame{
 		
 		setVisible(true);	
 	}		
-
-	public static void main(String[] args) throws Exception {
-		
-		Arbeitsbereichverwaltung.getInstance().laden();
-		Personalverwaltung.getInstance().laden();
-		new EditMitarbeiterGUI(100000,Personalverwaltung.getaMA().get(Personalverwaltung.getaMA().size()-1).getPersonalnummer()+1,false);
-		new EditMitarbeiterGUI(100000,100001,true);
-	}
 }

@@ -143,11 +143,4 @@ public class LoginGUI extends JFrame{
 		JOptionPane.showMessageDialog(null, "Ungültiger Benutzername oder Passwort.", null, JOptionPane.INFORMATION_MESSAGE);
 		return false;
 	}
-	
-	public static void main(String[] args) throws Exception {
-		Personalverwaltung.getInstance().setModus("Normal");	
-		Personalverwaltung.getInstance().laden();
-		new LoginGUI();
-	}
-
 }

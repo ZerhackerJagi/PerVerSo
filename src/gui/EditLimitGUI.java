@@ -121,10 +121,4 @@ public class EditLimitGUI extends JFrame{
 		
 		setVisible(true);	
 	}		
-
-	public static void main(String[] args) throws Exception {
-		
-		Personalverwaltung.getInstance().laden();
-		new EditLimitGUI(100000,100001);
-	}
 }
