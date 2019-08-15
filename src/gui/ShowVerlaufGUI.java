@@ -151,11 +151,4 @@ public class ShowVerlaufGUI extends JFrame{
 		table.getColumnModel().getColumn(0).setPreferredWidth( 100 );
 		table.getColumnModel().getColumn(1).setPreferredWidth( 200 );
 	}
-	
-	public static void main(String[] args) throws Exception {
-			
-		Personalverwaltung.getInstance().laden();
-		Arbeitsbereichverwaltung.getInstance().laden();	
-		new ShowVerlaufGUI(100001);
-	}
 }

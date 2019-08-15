@@ -205,11 +205,4 @@ public class AdminGUI extends JFrame{
 			new ChangePasswortGUI(PID);
 		}
 	}
-
-	public static void main(String[] args) throws Exception {
-		
-		Arbeitsbereichverwaltung.getInstance().laden();
-		Personalverwaltung.getInstance().laden();
-		new AdminGUI(100000);
-	}
 }

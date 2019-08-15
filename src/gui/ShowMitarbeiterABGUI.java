@@ -138,11 +138,4 @@ public class ShowMitarbeiterABGUI extends JFrame{
 		table.getColumnModel().getColumn( 1 ).setPreferredWidth( 130 );
 		table.getColumnModel().getColumn( 2 ).setPreferredWidth( 160 );
 	}
-	
-	public static void main(String[] args) throws Exception {
-			
-		Personalverwaltung.getInstance().laden();
-		Arbeitsbereichverwaltung.getInstance().laden();	
-		new ShowMitarbeiterABGUI(0);
-	}
 }

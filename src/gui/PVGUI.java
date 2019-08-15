@@ -493,12 +493,4 @@ public class PVGUI extends JFrame{
 			lblData[5][1].setText(((Arbeitsbereich)Arbeitsbereichverwaltung.getInstance().suchen(ma.getActualAB().getArbeitsbereichnummer())).getName());
 		}
 	}
-		
-	public static void main(String[] args) throws Exception {
-		
-		Arbeitsbereichverwaltung.getInstance().laden();	
-		Personalverwaltung.getInstance().laden();
-		new PVGUI(100000);
-	}
-	
 }

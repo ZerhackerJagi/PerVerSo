@@ -65,25 +65,7 @@ public class LoginGUI extends JFrame{
 		btnAnmelden.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(tfPersonalnummer.getText().equals("Beispiel")) {
-					setVisible(false);
-					ladeneu();
-					new AdminGUI(100000);
-					dispose();
-				}
-				else if(checkAnmeldung(tfPersonalnummer.getText(), new String(passwordField.getPassword()))) {
-					setVisible(false);
-					if(user.getBerechtigung() instanceof Admin) {
-						new AdminGUI(user.getPersonalnummer());
-						dispose();
-					} else if(user.getBerechtigung() instanceof User){
-						new MitarbeiterGUI(user.getPersonalnummer());
-						dispose();
-					} else {
-						JOptionPane.showMessageDialog(null, "Keine Berechtigung!", null, JOptionPane.INFORMATION_MESSAGE);
-					}
-				}
-				
+				anmelden(tfPersonalnummer,passwordField);				
 			}
 		});
 		
@@ -91,25 +73,7 @@ public class LoginGUI extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(tfPersonalnummer.getText().equals("Beispiel")) {
-					setVisible(false);
-					ladeneu();
-					new AdminGUI(100000);
-					dispose();
-				}
-				else if(checkAnmeldung(tfPersonalnummer.getText(), new String(passwordField.getPassword()))) {
-					setVisible(false);
-					if(user.getBerechtigung() instanceof Admin) {
-						new AdminGUI(user.getPersonalnummer());
-						dispose();
-					} else if(user.getBerechtigung() instanceof User){
-						new MitarbeiterGUI(user.getPersonalnummer());
-						dispose();
-					} else {
-						JOptionPane.showMessageDialog(null, "Keine Berechtigung!", null, JOptionPane.INFORMATION_MESSAGE);
-					}
-				}
-				
+				anmelden(tfPersonalnummer,passwordField);			
 			}
 		});
 		btnAnmelden.setBounds(160, 158, 180, 24);
@@ -136,6 +100,31 @@ public class LoginGUI extends JFrame{
 	}
 	
 	/*
+	 * @author: Charly Spina(nicht die logik)
+	 */
+	private void anmelden(JTextField tfPersonalnummer, JPasswordField passwordField) {
+		
+		if(tfPersonalnummer.getText().equals("Beispiel")) {
+			setVisible(false);
+			ladeneu();
+			new AdminGUI(100000);
+			dispose();
+		}
+		else if(checkAnmeldung(tfPersonalnummer.getText(), new String(passwordField.getPassword()))) {
+			setVisible(false);
+			if(user.getBerechtigung() instanceof Admin) {
+				new AdminGUI(user.getPersonalnummer());
+				dispose();
+			} else if(user.getBerechtigung() instanceof User){
+				new MitarbeiterGUI(user.getPersonalnummer());
+				dispose();
+			} else {
+				JOptionPane.showMessageDialog(null, "Keine Berechtigung!", null, JOptionPane.INFORMATION_MESSAGE);
+			}
+		}
+	}
+	
+	/*
 	 *@description: Passwortkontrolle
 	 */
 	private boolean checkAnmeldung(String personalnummer, String password) {
@@ -154,11 +143,4 @@ public class LoginGUI extends JFrame{
 		JOptionPane.showMessageDialog(null, "Ungültiger Benutzername oder Passwort.", null, JOptionPane.INFORMATION_MESSAGE);
 		return false;
 	}
-	
-	public static void main(String[] args) throws Exception {
-				
-		Personalverwaltung.getInstance().laden();
-		new LoginGUI();
-	}
-
 }

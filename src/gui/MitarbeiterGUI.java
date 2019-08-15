@@ -154,12 +154,4 @@ public class MitarbeiterGUI extends JFrame{
 			new ChangePasswortGUI(PID);
 		}
 	}
-	
-	
-	public static void main(String[] args) throws Exception {
-		
-		Personalverwaltung.getInstance().laden();
-		Arbeitsbereichverwaltung.getInstance().laden();
-		new MitarbeiterGUI(100001);
-	}
 }

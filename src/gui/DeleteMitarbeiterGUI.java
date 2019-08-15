@@ -230,15 +230,4 @@ public class DeleteMitarbeiterGUI extends JFrame{
 		
 		setVisible(true);	
 	}		
-
-	public static void main(String[] args) throws Exception {
-		
-		Arbeitsbereichverwaltung.getInstance().laden();
-		Personalverwaltung pv = Personalverwaltung.getInstance();
-		pv.laden();
-		pv.add("Test", "Test", 'd', new Datum(), new Datum(), 0);
-		//Personalverwaltung.getaMA().get(Personalverwaltung.getaMA().size()-1).setBerechtigung(new Admin(Personalverwaltung.getaMA().size()-1));
-		new DeleteMitarbeiterGUI(100000,Personalverwaltung.getaMA().get((Personalverwaltung.getaMA().size()-1)).getPersonalnummer());
-	}
-	
 }

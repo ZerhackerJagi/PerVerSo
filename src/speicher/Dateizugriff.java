@@ -134,6 +134,10 @@ public class Dateizugriff implements DateizugriffIF{
 	 */
 	private boolean savePV(Object obj) throws Exception {
 		
+		if(NamePv == "BeispielPV") {
+			return true;
+		}
+		
 		backup(NamePv,"pvd");
 		try {
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(DateiNamePv));
@@ -149,6 +153,10 @@ public class Dateizugriff implements DateizugriffIF{
 	 *@description:	legt Backup an und speichert uebergebene Daten in der ABV-Datei 
 	 */
 	private boolean saveABV(Object obj) throws Exception {
+		
+		if(NameAbv == "BeispielABV") {
+			return true;
+		}
 		
 		backup(NameAbv,"avd");
 		try {

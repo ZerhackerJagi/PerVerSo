@@ -140,11 +140,4 @@ public class EditBerechtigungGUI extends JFrame{
 		
 		setVisible(true);	
 	}		
-
-	public static void main(String[] args) throws Exception {
-		
-		Arbeitsbereichverwaltung.getInstance().laden();
-		Personalverwaltung.getInstance().laden();
-		new EditBerechtigungGUI(100000,100001);
-	}
 }

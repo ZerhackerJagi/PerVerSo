@@ -346,12 +346,5 @@ public class ABVGUI extends JFrame{
 			lblData[2][1].setText("<html>"+ab.getBeschreibung()+"</html>");
 		}
 	}
-		
-	public static void main(String[] args) throws Exception {
-		
-		Arbeitsbereichverwaltung.getInstance().laden();		
-		Personalverwaltung.getInstance().laden();
-		new ABVGUI(100000);
-	}
 	
 }

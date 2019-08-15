@@ -63,6 +63,9 @@ public class Auswertung {
 	// Nummer des Arbeitsbereiches "Ausgeschieden"
 	private int abNrAusgeschieden = 1;
 	
+	//Nummer des GesamtUnternehmens als Arbeitsbereichnummer
+	private int GesamtUnternehmen = -1;
+	
 
 	public void resetAgeValues() {
 		ageUnder30All=0; 
@@ -99,7 +102,7 @@ public class Auswertung {
 		
 		// Anzahl Geschlechter gesamtes Unternehmen prozentual
 		countGenderMAllp=0;
-		 countGenderWAllp=0;
+		countGenderWAllp=0;
 		countGenderDAllp=0;
 		countGenderAllp=0;
 		
@@ -116,14 +119,19 @@ public class Auswertung {
 	 */
 	public String showDurchschnittsalter(int arbeitsbereichnummer, Datum selectedDate) {
 			
-		int Gesamtalter = 0;int aktiveMA = 0;
+		int Gesamtalter = 0;int aktiveMA = 0;int zähler = 0;
 		
 		resetAgeValues();
+		
+		Personalverwaltung.getInstance().sortNumber();
+		if(100000 == Personalverwaltung.getaMA().get(0).getPersonalnummer()) {
+			zähler = 1;
+		}
 			
-		for(int i = 0; i<Personalverwaltung.getaMA().size();i++) {
-			Mitarbeiter ma = Personalverwaltung.getaMA().get(i);
-			if(arbeitsbereichnummer == -1) {
-				if(checkArbeitsbereichZeitraum(i, -1, selectedDate)) {
+		for(; zähler<Personalverwaltung.getaMA().size();zähler++) {
+			Mitarbeiter ma = Personalverwaltung.getaMA().get(zähler);
+			if(arbeitsbereichnummer == GesamtUnternehmen) {
+				if(checkArbeitsbereichZeitraum(zähler, GesamtUnternehmen, selectedDate)) {
 					Gesamtalter = Gesamtalter + ma.getAlter();
 					aktiveMA++;
 					if(ma.getAlter()<30) 							{ageUnder30All++;} 
@@ -132,7 +140,7 @@ public class Auswertung {
 					else 											{ageOver50All++;}
 				}
 			} else {
-				if(checkArbeitsbereichZeitraum(i, arbeitsbereichnummer, selectedDate)) {
+				if(checkArbeitsbereichZeitraum(zähler, arbeitsbereichnummer, selectedDate)) {
 					Gesamtalter = Gesamtalter + ma.getAlter();
 					aktiveMA++;
 					if(ma.getAlter()<30) 							{ageUnder30++;} 
@@ -155,13 +163,13 @@ public class Auswertung {
 	 * @description:Berechnet die Altersverteilung in Prozent
 	 */
 	public void calcAlterPercent(int arbeitsbereichnummer, Datum selectedDate) {
-			
+	
 		// aktuelle Werte bekommen
 		showDurchschnittsalter(arbeitsbereichnummer, selectedDate);
 		
 		double anzahlMA=this.aktiveMA;
 			
-		if(arbeitsbereichnummer == -1) {
+		if(arbeitsbereichnummer == GesamtUnternehmen) {
 			// Arbeitsbereich -1 = gesamtes Unternehmen
 			double ageUnder30Alld = (double) ageUnder30All;
 			double age30to39Alld = (double) age30to39All;
@@ -193,7 +201,7 @@ public class Auswertung {
 	 * @description:Berechnet die Geschlechtsverteilung in Prozent
 	 */
 	public void calcGeschlechtPercent(int arbeitsbereichnummer, Datum selectedDate) {
-			
+	
 		resetGenderValues();
 		aktiveMA=0;
 		
@@ -204,7 +212,7 @@ public class Auswertung {
 		double countGenderDd = (double) countGenderD;
 		double countGenderd = (double) countGender;
 			
-		if(arbeitsbereichnummer==-1) {
+		if(arbeitsbereichnummer == GesamtUnternehmen) {
 			countGenderMAllp = countGenderMAllp/aktiveMA*100;
 			countGenderWAllp = countGenderWAllp/aktiveMA*100;
 			countGenderDAllp = countGenderDAllp/aktiveMA*100;
@@ -221,12 +229,18 @@ public class Auswertung {
 	 * @description:Gibt die Geschlechterverteilung aus
 	 */
 	public void showGeschlechterverteilung(int arbeitsbereichnummer, Datum selectedDate) {
-					
-		for(int i = 0;i<Personalverwaltung.getaMA().size();i++) {
-			char gender = Personalverwaltung.getaMA().get(i).getGeschlecht();
+		int zähler = 0;
+		
+		Personalverwaltung.getInstance().sortNumber();
+		if(100000 == Personalverwaltung.getaMA().get(0).getPersonalnummer()) {
+			zähler = 1;
+		}
+		
+		for(;zähler<Personalverwaltung.getaMA().size();zähler++) {
+			char gender = Personalverwaltung.getaMA().get(zähler).getGeschlecht();
 			
-			if(arbeitsbereichnummer==-1) {
-				if(checkArbeitsbereichZeitraum(i, arbeitsbereichnummer, selectedDate)) {
+			if(arbeitsbereichnummer == GesamtUnternehmen) {
+				if(checkArbeitsbereichZeitraum(zähler, arbeitsbereichnummer, selectedDate)) {
 					aktiveMA++;
 					if(gender == 'm') 			{countGenderMAllp++;
 					} else if (gender == 'w') 	{countGenderWAllp++;
@@ -235,7 +249,7 @@ public class Auswertung {
 					}	
 				}
 			} else {
-				if(checkArbeitsbereichZeitraum(i, arbeitsbereichnummer, selectedDate)) {
+				if(checkArbeitsbereichZeitraum(zähler, arbeitsbereichnummer, selectedDate)) {
 					aktiveMA++;
 					if(gender == 'm') 			{countGenderM++;
 					} else if (gender == 'w')	{countGenderW++;
@@ -347,14 +361,14 @@ public class Auswertung {
 	 * @description:Gibt die gesamten Überstunden im aktuellen Jahr aus 
 	 */
 	public String showUeberstunden(int arbeitsbereichnummer) {
-			
+	
 		double ueberminuten = 0;
 		NumberFormat n = NumberFormat.getInstance();
 		n.setMaximumFractionDigits(2); // max. 2 stellen hinter komma
 		for(int i = 0;i<Personalverwaltung.getaMA().size();i++) {
 			Mitarbeiter ma = Personalverwaltung.getaMA().get(i);
 			Zugehoerigkeit MaAb = ma.getActualAB();
-			if(arbeitsbereichnummer!=-1) {
+			if(arbeitsbereichnummer != GesamtUnternehmen) {
 				if(MaAb.getArbeitsbereichnummer() == arbeitsbereichnummer) {
 					ueberminuten = ueberminuten + ma.getAzk().getUeberminuten();
 					this.gesamtUeberstunden = (ueberminuten/60);
@@ -373,7 +387,7 @@ public class Auswertung {
 	 * @description:Gibt die gesamten Überstunden im aktuellen Jahr pro Person aus 
 	 */
 	public String showUeberstundenSchnitt(int arbeitsbereichnummer) {
-		
+
 		double MA = (double) aktiveMA;
 		NumberFormat n = NumberFormat.getInstance();
 		n.setMaximumFractionDigits(2); // max. 2 stellen hinter komma
@@ -381,7 +395,7 @@ public class Auswertung {
 		if(gesamtUeberstundenU == 0 || aktiveMA == 0) {
 			return ""+0+" Stunden";
 		}
-		if(arbeitsbereichnummer == -1) {
+		if(arbeitsbereichnummer == GesamtUnternehmen) {
 			return ""+n.format((gesamtUeberstundenU/MA))+" Stunden";
 		} 
 		if(gesamtUeberstunden == 0 || aktiveMA == 0) {
@@ -416,14 +430,14 @@ public class Auswertung {
 	 * @description:Gibt die maximalen Fehltage einer Person im aktuellen Jahr aus 
 	 */
 	public String showFehltageMaximal(int arbeitsbereichnummer) {
-			
+
 		int fehltageMax = 0;
 		int fehltagePerson = 0;
 		
 		for(int i = 0;i<Personalverwaltung.getaMA().size();i++) {
 			Mitarbeiter ma = Personalverwaltung.getaMA().get(i);
 			Zugehoerigkeit MaAb = ma.getActualAB();
-			if(arbeitsbereichnummer!=-1) {	
+			if(arbeitsbereichnummer != GesamtUnternehmen) {	
 				if(MaAb.getArbeitsbereichnummer() == arbeitsbereichnummer) {
 					ArrayList<Eintrag> listFehltage = Personalverwaltung.getaMA().get(i).getAzk().getListe();
 					fehltagePerson = 0;
@@ -458,12 +472,17 @@ public class Auswertung {
 	 * @description:Ermittelt die Anzahl der MA im Unternehmen zu einem Zeitpunkt
 	 */
 	public String showAnzahlMitarbeiterImUnternehmen(Datum selectedDate) {
+		int zähler = 0;
 		
+		Personalverwaltung.getInstance().sortNumber();
+		if(100000 == Personalverwaltung.getaMA().get(0).getPersonalnummer()) {
+			zähler = 1;
+		}
 		int countAllMA = 0;
 		
-		for(int i = 0; i< Personalverwaltung.getaMA().size();i++) {
+		for(; zähler< Personalverwaltung.getaMA().size();zähler++) {
 			
-				if(checkArbeitsbereichZeitraum(i, -1, selectedDate)) {
+				if(checkArbeitsbereichZeitraum(zähler, -1, selectedDate)) {
 					countAllMA++;
 				}		
 		}
@@ -474,12 +493,17 @@ public class Auswertung {
 	 * @description:Ermittelt die Anzahl der MA in einem Arbeitsbereich zu einem Zeitpunkt
 	 */
 	public String showAnzahlMitarbeiterInArbeitsbereich(int arbeitsbereichnummer, Datum selectedDate) {
+		int zähler = 0;
 		
+		Personalverwaltung.getInstance().sortNumber();
+		if(100000 == Personalverwaltung.getaMA().get(0).getPersonalnummer()) {
+			zähler = 1;
+		}
 		int countAllMA = 0;
 		
-		for(int i = 0; i< Personalverwaltung.getaMA().size();i++) {
+		for(; zähler< Personalverwaltung.getaMA().size();zähler++) {
 			
-				if(checkArbeitsbereichZeitraum(i, arbeitsbereichnummer, selectedDate)) {
+				if(checkArbeitsbereichZeitraum(zähler, arbeitsbereichnummer, selectedDate)) {
 					countAllMA++;
 				}
 		}
@@ -490,11 +514,11 @@ public class Auswertung {
 	 * @description:Ermittelt, ob ein Mitarbeiter zu einem bestimmten Zeitraum in einem bestimmten Arbeitsbereich war
 	 */
 	private boolean checkArbeitsbereichZeitraum(int i,int arbeitsbereichnummer, Datum selectedDate) {
-		
+	
 		Mitarbeiter ma = Personalverwaltung.getaMA().get(i);
 		ArrayList<Zugehoerigkeit> zugListe = ma.getZugehoerigkeit();	
 		if(selectedDate.compareTo((new Datum()))==0){
-			if(arbeitsbereichnummer == -1) {
+			if(arbeitsbereichnummer == GesamtUnternehmen) {
 				
 				if(ma.getActualAB().getArbeitsbereichnummer() != abNrAusgeschieden) {
 					return true;
@@ -534,7 +558,7 @@ public class Auswertung {
 								j--;
 							}
 							
-							if(arbeitsbereichnummer==-1) {
+							if(arbeitsbereichnummer == GesamtUnternehmen) {
 								if(zugListe.get(j).getArbeitsbereichnummer() != abNrAusgeschieden) {
 									return true;
 								}
@@ -556,7 +580,7 @@ public class Auswertung {
 							j--;
 						}
 						
-						if(arbeitsbereichnummer==-1) {
+						if(arbeitsbereichnummer == GesamtUnternehmen) {
 							if(zugListe.get(j).getArbeitsbereichnummer() != abNrAusgeschieden) {
 								return true;
 							}
@@ -572,7 +596,7 @@ public class Auswertung {
 				} else {
 					// MA nur in einem Arbeitsbereich
 					try {
-						if(arbeitsbereichnummer == -1) {
+						if(arbeitsbereichnummer == GesamtUnternehmen) {
 							
 							if(ma.getAusscheidungsdatum().compareTo(selectedDate)==1||ma.getAusscheidungsdatum()==null) {
 								return true;
@@ -584,7 +608,7 @@ public class Auswertung {
 							}
 						}
 					} catch(NullPointerException e) {
-						if(arbeitsbereichnummer == -1) {
+						if(arbeitsbereichnummer == GesamtUnternehmen) {
 								return true;
 						} else if (ma.getActualAB().getArbeitsbereichnummer() == arbeitsbereichnummer){
 								return true;

@@ -140,10 +140,4 @@ public class ShowAzkGUI extends JFrame{
 		
 		setVisible(true);
 	}
-	
-	public static void main(String[] args) throws Exception {
-				
-		Personalverwaltung.getInstance().laden();
-		new ShowAzkGUI(100001);
-	}
 }

@@ -200,10 +200,4 @@ public class AddEintragGUI extends JFrame{
 		
 		setVisible(true);	
 	}		
-
-	public static void main(String[] args) throws Exception {
-		
-		Personalverwaltung.getInstance().laden();
-		new AddEintragGUI(100000,100001);
-	}
 }

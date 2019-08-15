@@ -478,12 +478,4 @@ public class EditAzkGUI extends JFrame{
 			lblAnzahlData.setText(""+anzahl);
 		}
 	}
-		
-	public static void main(String[] args) throws Exception {
-		
-		Personalverwaltung.getInstance().laden();
-		new EditAzkGUI(100000,100000);
-		
-	}
-	
 }

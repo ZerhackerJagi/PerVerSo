@@ -442,11 +442,4 @@ public class StatistikGUI extends JFrame{
 		}
 		return gewaehlterAB;
 	}
-	
-	public static void main(String[] args) throws Exception {
-		
-		Arbeitsbereichverwaltung.getInstance().laden();	
-		Personalverwaltung.getInstance().laden();
-		new StatistikGUI(100000);
-	}
 }
