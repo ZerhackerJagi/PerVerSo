@@ -19,12 +19,7 @@ public class ArbeitsbereichComparatorTest {
 	   public void testNameGleich() {		  
 	      assertEquals(0,ArbCompC.compare(arb1,arb1));
 	   }
-	   
-//	   @Test
-//	   public void testNameUngleich() {		 
-//	      assertEquals(1,ArbCompC.compare(arb1,arb2));
-//	   }
-//	   
+	      
 	   @Test
 	   public void testNummerGleich() {
 	      assertEquals(0,ArbCompINT.compare(arb1,arb1));
