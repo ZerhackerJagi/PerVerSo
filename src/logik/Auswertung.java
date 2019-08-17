@@ -512,108 +512,98 @@ public class Auswertung {
 	/* 
 	 * @description:Ermittelt, ob ein Mitarbeiter zu einem bestimmten Zeitraum in einem bestimmten Arbeitsbereich war
 	 */
-	private boolean checkArbeitsbereichZeitraum(int i,int arbeitsbereichnummer, Datum selectedDate) {
 	
+	private boolean checkArbeitsbereichZeitraum(int i,int arbeitsbereichnummer, Datum selectedDate) {
 		Mitarbeiter ma = Personalverwaltung.getaMA().get(i);
-		ArrayList<Zugehoerigkeit> zugListe = ma.getZugehoerigkeit();	
-		if(selectedDate.compareTo((new Datum()))==0){
-			if(arbeitsbereichnummer == GesamtUnternehmen) {
+		ArrayList<Zugehoerigkeit> zugListe = ma.getZugehoerigkeit();
+		
+		if(selectedDate.compareTo((new Datum()))==0 || zugListe.size()==1){
+			// Gewähltes Datum = aktuelles Datum
+			try {
+				if(ma.getAusscheidungsdatum().compareTo(selectedDate)==1) {
+					if(arbeitsbereichnummer==GesamtUnternehmen) {
+						if(ma.getActualAB().getArbeitsbereichnummer()!=abNrAusgeschieden) {
+							System.out.println(ma.getPersonalnummer()+" - "+ma.getGeschlecht()+" - " + ma.getEinstellungsdatum().toString()+ " - "+arbeitsbereichnummer);
+							return true;
+						}
+					}
+					
+					if(ma.getActualAB().getArbeitsbereichnummer()==arbeitsbereichnummer) {
+						System.out.println(ma.getPersonalnummer()+" - "+ma.getGeschlecht()+" - " + ma.getEinstellungsdatum().toString()+ " - "+arbeitsbereichnummer);
+						return true;
+					}
+				}
+			} catch (NullPointerException e) {
+				if(arbeitsbereichnummer==GesamtUnternehmen) {
+					if(ma.getActualAB().getArbeitsbereichnummer()!=abNrAusgeschieden) {
+						System.out.println(ma.getPersonalnummer()+" - "+ma.getGeschlecht()+" - " + ma.getEinstellungsdatum().toString()+ " - "+arbeitsbereichnummer);
+						return true;
+					}
+				}
 				
-				if(ma.getActualAB().getArbeitsbereichnummer() != abNrAusgeschieden) {
+				if(ma.getActualAB().getArbeitsbereichnummer()==arbeitsbereichnummer) {
+					System.out.println(ma.getPersonalnummer()+" - "+ma.getGeschlecht()+" - " + ma.getEinstellungsdatum().toString()+ " - "+arbeitsbereichnummer);
 					return true;
 				}
-				
-			} else if (ma.getActualAB().getArbeitsbereichnummer() == arbeitsbereichnummer){
-				return true;
 			}
+			
 			
 		} else {
+			// Gewähltes Datum liegt in der Vergangenheit
 			
-			// Datum liegt in der Vergangenheit
-			if(Personalverwaltung.getaMA().get(i).getEinstellungsdatum().compareTo(selectedDate)==-1||Personalverwaltung.getaMA().get(i).getEinstellungsdatum().compareTo(selectedDate)==0) {
+			if(ma.getEinstellungsdatum().compareTo(selectedDate)==-1||ma.getEinstellungsdatum().compareTo(selectedDate)==0) {
+				// Mitarbeiter wurde früher oder am ausgewählten Tag eingestellt
 				
-				// Mitarbeiter wurde am ausgewählten Tag oder davor eingestellt
-				if(zugListe.size()>1) {
-					// War in mehr als einer Abteilung
-					int j = 0;
-					int verbleibend = zugListe.size();
-					int counter = 0;
+				Zugehoerigkeit nextToDate = null;
+				try {
 					
-					try {
-						if(ma.getAusscheidungsdatum().compareTo(selectedDate)==1||ma.getAusscheidungsdatum()==null) {
-								
-							// Suche das Startdatum, welches am Nächsten am gewählten Datum liegt.
-							while((zugListe.get(j).getStart().compareTo(selectedDate)==-1) && verbleibend>1) {
-								j++;
-								verbleibend = zugListe.size()-j;
-								counter++;
-								
-							}
-							if(counter==1) {
-								j--;
-							}
-							
-							if(arbeitsbereichnummer == GesamtUnternehmen) {
-								if(zugListe.get(j).getArbeitsbereichnummer() != abNrAusgeschieden) {
-									return true;
-								}
-								
-							} else if (zugListe.get(j).getArbeitsbereichnummer()==arbeitsbereichnummer) {
-								
-								return true;
-								
+					if(ma.getAusscheidungsdatum().compareTo(selectedDate)==1) {
+						for(int j=0;j<zugListe.size();j++) {
+							if(zugListe.get(j).getStart().compareTo(selectedDate)==-1||zugListe.get(j).getStart().compareTo(selectedDate)==0) {
+								nextToDate = zugListe.get(j);
 							}
 						}
-					} catch (NullPointerException e){
-						while((zugListe.get(j).getStart().compareTo(selectedDate)==-1 || zugListe.get(j).getStart().compareTo(selectedDate)==0) && verbleibend>1) {
-							j++;
-							verbleibend = zugListe.size()-j;
-							counter++;
+						if(nextToDate.getArbeitsbereichnummer()==arbeitsbereichnummer) {
+							System.out.println("try "+ma.getPersonalnummer()+" - "+ma.getGeschlecht()+" - " + ma.getEinstellungsdatum().toString()+ " - "+arbeitsbereichnummer);
+							return true;
 						}
-		
-						if(counter==1) {
-							j--;
-						}
-						
-						if(arbeitsbereichnummer == GesamtUnternehmen) {
-							if(zugListe.get(j).getArbeitsbereichnummer() != abNrAusgeschieden) {
+						if(arbeitsbereichnummer==GesamtUnternehmen) {
+							if(nextToDate.getArbeitsbereichnummer()!=abNrAusgeschieden) {
+								System.out.println("try "+ma.getPersonalnummer()+" - "+ma.getGeschlecht()+" - " + ma.getEinstellungsdatum().toString()+ " - "+arbeitsbereichnummer);
 								return true;
 							}
-							
-						} else if (zugListe.get(j).getArbeitsbereichnummer()==arbeitsbereichnummer) {
-							
-							return true;			
 						}
 					}
 					
+				} catch(NullPointerException e) {
+					// hat kein Ausscheidungsdatum
 					
-				} else {
-					// MA nur in einem Arbeitsbereich
-					try {
-						if(arbeitsbereichnummer == GesamtUnternehmen) {
-							
-							if(ma.getAusscheidungsdatum().compareTo(selectedDate)==1||ma.getAusscheidungsdatum()==null) {
-								return true;
-							}
-							
-						} else if (ma.getActualAB().getArbeitsbereichnummer() == arbeitsbereichnummer){
-							if(ma.getAusscheidungsdatum().compareTo(selectedDate)==1||ma.getAusscheidungsdatum()==null) {
-								return true;
-							}
-						}
-					} catch(NullPointerException e) {
-						if(arbeitsbereichnummer == GesamtUnternehmen) {
-								return true;
-						} else if (ma.getActualAB().getArbeitsbereichnummer() == arbeitsbereichnummer){
-								return true;
+					for(int j=0;j<zugListe.size();j++) {
+						if(zugListe.get(j).getStart().compareTo(selectedDate)==-1||zugListe.get(j).getStart().compareTo(selectedDate)==0) {
+							nextToDate = zugListe.get(j);
 						}
 					}
+					if(nextToDate.getArbeitsbereichnummer()==arbeitsbereichnummer) {
+						System.out.println("np "+ma.getPersonalnummer()+" - "+ma.getGeschlecht()+" - " + ma.getEinstellungsdatum().toString()+ " - "+arbeitsbereichnummer);
+						return true;
+					}
+					if(arbeitsbereichnummer==GesamtUnternehmen) {
+						if(nextToDate.getArbeitsbereichnummer()!=abNrAusgeschieden) {
+							System.out.println("np "+ma.getPersonalnummer()+" - "+ma.getGeschlecht()+" - " + ma.getEinstellungsdatum().toString()+ " - "+arbeitsbereichnummer);
+							return true;
+						}
+					}
+					
 				}
+				
+				
 			}
+						
 		}
-		return false;		
+		return false;
 		
 	}
+
 	
 	public int getAgeUnder30() {
 		return ageUnder30;
