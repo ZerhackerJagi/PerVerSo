@@ -1,6 +1,10 @@
 package tests;
 
 import java.util.Random;
+/*@author: Soeren Hebestreit
+ * @date: 14.08.2019
+ * @description: zufaellige Mitarbeiterliste erstellen
+ */
 
 import extern.Datum;
 import logik.Arbeitsbereichverwaltung;
