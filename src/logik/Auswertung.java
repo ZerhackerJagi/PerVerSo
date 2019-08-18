@@ -517,7 +517,7 @@ public class Auswertung {
 		Mitarbeiter ma = Personalverwaltung.getaMA().get(i);
 		ArrayList<Zugehoerigkeit> zugListe = ma.getZugehoerigkeit();
 		
-		if(selectedDate.compareTo((new Datum()))==0 || zugListe.size()==1){
+		if(selectedDate.compareTo((new Datum()))==0){
 			// Gewähltes Datum = aktuelles Datum
 			try {
 				if(ma.getAusscheidungsdatum().compareTo(selectedDate)==1) {
@@ -544,7 +544,7 @@ public class Auswertung {
 			}
 			
 			
-		} else {
+		} else if(selectedDate.compareTo(new Datum())==-1){
 			// Gewähltes Datum liegt in der Vergangenheit
 			
 			if(ma.getEinstellungsdatum().compareTo(selectedDate)==-1||ma.getEinstellungsdatum().compareTo(selectedDate)==0) {
