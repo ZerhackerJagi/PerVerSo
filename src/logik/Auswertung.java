@@ -523,26 +523,22 @@ public class Auswertung {
 				if(ma.getAusscheidungsdatum().compareTo(selectedDate)==1) {
 					if(arbeitsbereichnummer==GesamtUnternehmen) {
 						if(ma.getActualAB().getArbeitsbereichnummer()!=abNrAusgeschieden) {
-							System.out.println(ma.getPersonalnummer()+" - "+ma.getGeschlecht()+" - " + ma.getEinstellungsdatum().toString()+ " - "+arbeitsbereichnummer);
 							return true;
 						}
 					}
 					
 					if(ma.getActualAB().getArbeitsbereichnummer()==arbeitsbereichnummer) {
-						System.out.println(ma.getPersonalnummer()+" - "+ma.getGeschlecht()+" - " + ma.getEinstellungsdatum().toString()+ " - "+arbeitsbereichnummer);
 						return true;
 					}
 				}
 			} catch (NullPointerException e) {
 				if(arbeitsbereichnummer==GesamtUnternehmen) {
 					if(ma.getActualAB().getArbeitsbereichnummer()!=abNrAusgeschieden) {
-						System.out.println(ma.getPersonalnummer()+" - "+ma.getGeschlecht()+" - " + ma.getEinstellungsdatum().toString()+ " - "+arbeitsbereichnummer);
 						return true;
 					}
 				}
 				
 				if(ma.getActualAB().getArbeitsbereichnummer()==arbeitsbereichnummer) {
-					System.out.println(ma.getPersonalnummer()+" - "+ma.getGeschlecht()+" - " + ma.getEinstellungsdatum().toString()+ " - "+arbeitsbereichnummer);
 					return true;
 				}
 			}
@@ -564,12 +560,10 @@ public class Auswertung {
 							}
 						}
 						if(nextToDate.getArbeitsbereichnummer()==arbeitsbereichnummer) {
-							System.out.println("try "+ma.getPersonalnummer()+" - "+ma.getGeschlecht()+" - " + ma.getEinstellungsdatum().toString()+ " - "+arbeitsbereichnummer);
 							return true;
 						}
 						if(arbeitsbereichnummer==GesamtUnternehmen) {
 							if(nextToDate.getArbeitsbereichnummer()!=abNrAusgeschieden) {
-								System.out.println("try "+ma.getPersonalnummer()+" - "+ma.getGeschlecht()+" - " + ma.getEinstellungsdatum().toString()+ " - "+arbeitsbereichnummer);
 								return true;
 							}
 						}
@@ -584,12 +578,10 @@ public class Auswertung {
 						}
 					}
 					if(nextToDate.getArbeitsbereichnummer()==arbeitsbereichnummer) {
-						System.out.println("np "+ma.getPersonalnummer()+" - "+ma.getGeschlecht()+" - " + ma.getEinstellungsdatum().toString()+ " - "+arbeitsbereichnummer);
 						return true;
 					}
 					if(arbeitsbereichnummer==GesamtUnternehmen) {
 						if(nextToDate.getArbeitsbereichnummer()!=abNrAusgeschieden) {
-							System.out.println("np "+ma.getPersonalnummer()+" - "+ma.getGeschlecht()+" - " + ma.getEinstellungsdatum().toString()+ " - "+arbeitsbereichnummer);
 							return true;
 						}
 					}
