@@ -352,6 +352,9 @@ public class Admin extends Berechtigung implements Serializable {
 		}
 
 		ArrayList<Zugehoerigkeit> zlist = ma.getZugehoerigkeit();
+		if((arbeitsbereichnummer != 1)&&(ma.getActualAB().getArbeitsbereichnummer()==1)) {
+			ma.setAusscheidungsdatum(null);
+		}
 		zlist.add(new Zugehoerigkeit(datum, arbeitsbereichnummer, bemerkung));
 		ma.setZugehoerigkeit(zlist);
 		return true;
