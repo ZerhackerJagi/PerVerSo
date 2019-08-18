@@ -27,37 +27,37 @@ public class AuswertungTest {
 	@Test
 	public void BtestshowDurchschnittsalter() {
 		ausw = new Auswertung();
-		assertEquals("34 Jahre",ausw.showDurchschnittsalter(-1,new Datum()));
-		assertEquals("0 Jahre",ausw.showDurchschnittsalter(0,new Datum()));
-		assertEquals("36 Jahre",ausw.showDurchschnittsalter(2,new Datum()));
-		assertEquals("42 Jahre",ausw.showDurchschnittsalter(3,new Datum()));
-		assertEquals("31 Jahre",ausw.showDurchschnittsalter(4,new Datum()));
-		assertEquals("0 Jahre",ausw.showDurchschnittsalter(5,new Datum()));
-		assertEquals("25 Jahre",ausw.showDurchschnittsalter(6,new Datum()));
+		assertEquals("34 Jahre",ausw.showDurchschnittsalter(-1,new Datum(14,8,2019)));
+		assertEquals("0 Jahre",ausw.showDurchschnittsalter(0,new Datum(14,8,2019)));
+		assertEquals("36 Jahre",ausw.showDurchschnittsalter(2,new Datum(14,8,2019)));
+		assertEquals("42 Jahre",ausw.showDurchschnittsalter(3,new Datum(14,8,2019)));
+		assertEquals("31 Jahre",ausw.showDurchschnittsalter(4,new Datum(14,8,2019)));
+		assertEquals("0 Jahre",ausw.showDurchschnittsalter(5,new Datum(14,8,2019)));
+		assertEquals("25 Jahre",ausw.showDurchschnittsalter(6,new Datum(14,8,2019)));
 	}
 	
 	@Test
 	public void CtestcalcAlterPercent() {
 		ausw = new Auswertung();
-		ausw.calcAlterPercent(-1,new Datum());
+		ausw.calcAlterPercent(-1,new Datum(14,8,2019));
 		assertEquals(47,(int) ausw.getAgeUnder30Allp());
 		assertEquals(26,(int) ausw.getAge30to39Allp());
 		assertEquals(5,(int) ausw.getAge40to50Allp());
 		assertEquals(21,(int) ausw.getAgeOver50Allp());
 		
-		ausw.calcAlterPercent(0,new Datum());
+		ausw.calcAlterPercent(0,new Datum(14,8,2019));
 		assertEquals(0,(int) ausw.getAgeUnder30p());
 		assertEquals(0,(int) ausw.getAge30to39p());
 		assertEquals(0,(int) ausw.getAge40to50p());
 		assertEquals(0,(int) ausw.getAgeOver50p());
 		
-		ausw.calcAlterPercent(2,new Datum());
+		ausw.calcAlterPercent(2,new Datum(14,8,2019));
 		assertEquals(33,(int) ausw.getAgeUnder30p());
 		assertEquals(33,(int) ausw.getAge30to39p());
 		assertEquals(0,(int) ausw.getAge40to50p());
 		assertEquals(33,(int) ausw.getAgeOver50p());
 		
-		ausw.calcAlterPercent(3,new Datum());
+		ausw.calcAlterPercent(3,new Datum(14,8,2019));
 		assertEquals(16,(int) ausw.getAgeUnder30p());
 		assertEquals(33,(int) ausw.getAge30to39p());
 		assertEquals(16,(int) ausw.getAge40to50p());
@@ -80,7 +80,7 @@ public class AuswertungTest {
 		assertEquals(0,(int) ausw.getCountGenderDp());
 		assertEquals(0,(int) ausw.getCountGenderp());
 		
-		ausw.calcGeschlechtPercent(2,new Datum());
+		ausw.calcGeschlechtPercent(2,new Datum(14,8,2019));
 		assertEquals(66,(int) ausw.getCountGenderMp());
 		assertEquals(33,(int) ausw.getCountGenderWp());
 		assertEquals(0,(int) ausw.getCountGenderDp()); 
